@@ -3,17 +3,17 @@
 #' Performs a t-test on each row of a matrix.
 #'
 #' Functions to perform one sample and two sample t-tests for rows of matrices.
-#' Main arguments and results were intentionally matched to the t.test()
+#' Main arguments and results were intentionally matched to the \code{t.test()}
 #' function from default stats package. Other arguments were split into separate
 #' functions:
 #'
-#' mat_ttest_single() - t-test for mean of a single group. Same as t.test(x)
+#' \code{mat_ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
 #'
-#' mat_ttest_equalvar() - groups have equal variance. Same as t.test(x, y, var.equal=TRUE)
+#' \code{mat_ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
 #'
-#' mat_ttest_welch() - Welch approximation. Same as t.test(x, y)
+#' \code{mat_ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
 #'
-#' mat_ttest_paired() - paired t-test. Same as t.test(x, y, paired=TRUE)
+#' \code{mat_ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
 #'
 #' @name ttest
 #'
@@ -32,7 +32,7 @@
 #' performed on the corresponding row of x. The columns will vary depending on
 #' the type of test performed.
 #'
-#' @seealso t.test()
+#' @seealso \code{t.test()}
 #'
 #' @examples
 #' X <- t(iris[iris$Species=="setosa",1:4])
@@ -51,7 +51,7 @@ mat_ttest_single <- function(x, alternative="two.sided", mu=0,
   if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x))
+  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
 
   assert_numeric_mat_or_vec(x)
@@ -82,7 +82,7 @@ mat_ttest_single <- function(x, alternative="two.sided", mu=0,
   dfs    <- ifelse(bad, NA, nxs-1)
   stders <- ifelse(bad, NA, sqrt(vxs/nxs))
 
-  bad <- stders < 10 * .Machine$double.eps * abs(mxs)
+  bad <- stders <= 10 * .Machine$double.eps * abs(mxs)
   if(any(bad, na.rm=TRUE))
     warning(paste0(sum(bad), " of the rows were essentially constant"))
 
@@ -90,13 +90,12 @@ mat_ttest_single <- function(x, alternative="two.sided", mu=0,
   stders[bad]   <- NA
 
 
-  tres <- do.ttest(mxs, mu, stders, alternative, dfs, conf.level)
+  tres <- do_ttest(mxs, mu, stders, alternative, dfs, conf.level)
 
   data.frame(x.mean=mxs, x.var=vxs, x.obs=nxs, t.statistic=tres$t.statistic,
              p.value=tres$p.value, ci.low=tres$ci.low, ci.high=tres$ci.high,
              stderr=stders, df=dfs, null.mean=mu, conf.level=conf.level,
-             alternative=alternative, stringsAsFactors=FALSE,
-             row.names=make.unique(rownames(x)), check.names=FALSE
+             alternative=alternative, stringsAsFactors=FALSE
              )
 }
 
@@ -113,10 +112,10 @@ mat_ttest_equalvar <- function(x, y, alternative="two.sided", mu=0,
   if(!is.null(y) && is.vector(y))
     y <- matrix(y, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x))
+  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
-  if(!is.null(y) && is.data.frame(y))
-    x <- data.matrix(y)
+  if(!is.null(y) && is.data.frame(y) && all(sapply(y, is.numeric)))
+    y <- data.matrix(y)
 
   assert_numeric_mat_or_vec(x)
   assert_numeric_mat_or_vec(y)
@@ -175,7 +174,7 @@ mat_ttest_equalvar <- function(x, y, alternative="two.sided", mu=0,
   stders <- sqrt(vs * (1/nxs + 1/nys))
 
 
-  bad <- stders < 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
+  bad <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
   if(any(bad, na.rm=TRUE)) {
     warning(paste0(sum(bad), " of the rows were essentially constant"))
   }
@@ -184,14 +183,14 @@ mat_ttest_equalvar <- function(x, y, alternative="two.sided", mu=0,
   stders[bad]   <- NA
 
 
-  tres <- do.ttest(mxys, mu, stders, alternative, dfs, conf.level)
+  tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
   data.frame(x.mean=mxs, y.mean=mys, diff.mean=mxys, x.var=vxs, y.var=vys,
              pool.var=vs, x.obs=nxs, y.obs=nys, tot.obs=nxys,
              t.statistic=tres$t.statistic, p.value=tres$p.value,
              ci.low=tres$ci.low, ci.high=tres$ci.high, stderr=stders, df=dfs,
              null.mean=mu, conf.level=conf.level, alternative=alternative,
-             stringsAsFactors=FALSE, row.names=make.unique(row.names(x))
+             stringsAsFactors=FALSE
              )
 }
 
@@ -207,10 +206,10 @@ mat_ttest_welch <- function(x, y, alternative="two.sided", mu=0,
   if(!is.null(y) && is.vector(y))
     y <- matrix(y, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x))
+  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
-  if(!is.null(y) && is.data.frame(y))
-    x <- data.matrix(y)
+  if(!is.null(y) && is.data.frame(y) && all(sapply(y, is.numeric)))
+    y <- data.matrix(y)
 
   assert_numeric_mat_or_vec(x)
   assert_numeric_mat_or_vec(y)
@@ -258,7 +257,7 @@ mat_ttest_welch <- function(x, y, alternative="two.sided", mu=0,
   dfs     <- stders^4/(stderxs^4/(nxs - 1) + stderys^4/(nys - 1))
 
 
-  bad <- stders < 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
+  bad <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
   if(any(bad, na.rm=TRUE))
     warning(paste0(sum(bad), " of the rows were essentially constant"))
 
@@ -266,14 +265,13 @@ mat_ttest_welch <- function(x, y, alternative="two.sided", mu=0,
   stders[bad] <- NA
 
 
-  tres <- do.ttest(mxys, mu, stders, alternative, dfs, conf.level)
+  tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
   data.frame(x.mean=mxs, y.mean=mys, diff.mean=mxys, x.var=vxs, y.var=vys,
              x.obs=nxs, y.obs=nys, tot.obs=nxys, t.statistic=tres$t.statistic,
              p.value=tres$p.value, ci.low=tres$ci.low, ci.high=tres$ci.high,
              stderr=stders, df=dfs, null.mean=mu, conf.level=conf.level,
-             alternative=alternative, stringsAsFactors=FALSE,
-             row.names=make.unique(row.names(x))
+             alternative=alternative, stringsAsFactors=FALSE
              )
 }
 
@@ -288,10 +286,10 @@ mat_ttest_paired <- function(x, y, alternative="two.sided", mu=0,
   if(!is.null(y) && is.vector(y))
     y <- matrix(y, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x))
+  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
-  if(!is.null(y) && is.data.frame(y))
-    x <- data.matrix(y)
+  if(!is.null(y) && is.data.frame(y) && all(sapply(y, is.numeric)))
+    y <- data.matrix(y)
 
   assert_numeric_mat_or_vec(x)
   assert_numeric_mat_or_vec(y)
@@ -349,7 +347,7 @@ mat_ttest_paired <- function(x, y, alternative="two.sided", mu=0,
 
   stders <- sqrt(vxys/nxys)
 
-  bad <- stders < 10 * .Machine$double.eps * abs(mxys)
+  bad <- stders <= 10 * .Machine$double.eps * abs(mxys)
   if(any(bad, na.rm=TRUE))
     warning(paste0(sum(bad), " of the rows were essentially constant"))
 
@@ -357,14 +355,14 @@ mat_ttest_paired <- function(x, y, alternative="two.sided", mu=0,
   stders[bad] <- NA
 
 
-  tres <- do.ttest(mxys, mu, stders, alternative, dfs, conf.level)
+  tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
   data.frame(x.mean=mxs, y.mean=mys, diff.mean=mxys, x.var=vxs, y.var=vys,
              diff.var=vxys, x.obs=nxs, y.obs=nys, pair.obs=nxys,
              t.statistic=tres$t.statistic, p.value=tres$p.value,
              ci.low=tres$ci.low, ci.high=tres$ci.high, stderr=stders, df=dfs,
              null.mean=mu, conf.level=conf.level, alternative=alternative,
-             stringsAsFactors=FALSE, row.names=make.unique(row.names(x))
+             stringsAsFactors=FALSE
              )
 }
 

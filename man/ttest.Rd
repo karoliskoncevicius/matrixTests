@@ -45,17 +45,17 @@ Performs a t-test on each row of a matrix.
 }
 \details{
 Functions to perform one sample and two sample t-tests for rows of matrices.
-Main arguments and results were intentionally matched to the t.test()
+Main arguments and results were intentionally matched to the \code{t.test()}
 function from default stats package. Other arguments were split into separate
 functions:
 
-mat_ttest_single() - t-test for mean of a single group. Same as t.test(x)
+\code{mat_ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
 
-mat_ttest_equalvar() - groups have equal variance. Same as t.test(x, y, var.equal=TRUE)
+\code{mat_ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
 
-mat_ttest_welch() - Welch approximation. Same as t.test(x, y)
+\code{mat_ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
 
-mat_ttest_paired() - paired t-test. Same as t.test(x, y, paired=TRUE)
+\code{mat_ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
 }
 \examples{
 X <- t(iris[iris$Species=="setosa",1:4])
@@ -67,7 +67,7 @@ mat_ttest_equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
 
 }
 \seealso{
-t.test()
+\code{t.test()}
 }
 \author{
 Karolis Koncevičius

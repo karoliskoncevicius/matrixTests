@@ -1,5 +1,5 @@
 # Function used to obtain p-values and confidence intervals for t-tests
-do.ttest <- function(mx, mu, stder, alt, df, conf) {
+do_ttest <- function(mx, mu, stder, alt, df, conf) {
   pvals <- numeric(length(mx))
   cints <- matrix(nrow=length(mx), ncol=2)
 
