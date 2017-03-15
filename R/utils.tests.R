@@ -7,11 +7,11 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
 
   inds <- alt=="less"
   pvals[inds]  <- pt(t[inds], df[inds])
-  cints[inds,] <- cbind(-Inf, t[inds] + qt(conf[inds], df[inds]))
+  cints[inds,] <- cbind(rep(-Inf, sum(inds)), t[inds] + qt(conf[inds], df[inds]))
 
   inds <- alt=="greater"
   pvals[inds]  <- pt(t[inds], df[inds], lower.tail=FALSE)
-  cints[inds,] <- cbind(t[inds] - qt(conf[inds], df[inds]), Inf)
+  cints[inds,] <- cbind(t[inds] - qt(conf[inds], df[inds]), rep(Inf, sum(inds)))
 
   inds <- alt=="two.sided"
   pvals[inds]  <- 2 * pt(-abs(t[inds]), df[inds])

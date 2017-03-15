@@ -56,6 +56,8 @@ mat_ttest_single <- function(x, alternative="two.sided", mu=0,
 
   assert_numeric_mat_or_vec(x)
 
+  if(length(alternative)==1)
+    alternative <- rep(alternative, length.out=nrow(x))
   choices <- c("two.sided", "less", "greater")
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_character_vec_length(alternative, 1, nrow(x))
@@ -121,6 +123,8 @@ mat_ttest_equalvar <- function(x, y, alternative="two.sided", mu=0,
   assert_numeric_mat_or_vec(y)
   assert_equal_nrow(x, y)
 
+  if(length(alternative)==1)
+    alternative <- rep(alternative, length.out=nrow(x))
   choices <- c("two.sided", "less", "greater")
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_character_vec_length(alternative, 1, nrow(x))
@@ -215,6 +219,8 @@ mat_ttest_welch <- function(x, y, alternative="two.sided", mu=0,
   assert_numeric_mat_or_vec(y)
   assert_equal_nrow(x, y)
 
+  if(length(alternative)==1)
+    alternative <- rep(alternative, length.out=nrow(x))
   choices <- c("two.sided", "less", "greater")
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_character_vec_length(alternative, 1, nrow(x))
@@ -296,6 +302,8 @@ mat_ttest_paired <- function(x, y, alternative="two.sided", mu=0,
   assert_equal_nrow(x, y)
   assert_equal_ncol(x, y)
 
+  if(length(alternative)==1)
+    alternative <- rep(alternative, length.out=nrow(x))
   choices <- c("two.sided", "less", "greater")
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_character_vec_length(alternative, 1, nrow(x))
