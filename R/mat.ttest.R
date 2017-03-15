@@ -333,21 +333,21 @@ mat_ttest_paired <- function(x, y, alternative="two.sided", mu=0,
 
   bad <- nxys < 2
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had less than 2 total observations"))
+    warning(paste0(sum(bad), " of the rows had less than 2 paired observations"))
 
   dfs  <- ifelse(bad, NA, nxys-1)
   vxys <- ifelse(bad, NA, rowSums((xy-mxys)^2, na.rm=TRUE) / (nxys-1))
 
   bad <- nys < 1
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had less than 1 'y' observation"))
+    warning(paste0(sum(bad), " of the rows had none 'y' observations"))
 
   vys      <- ifelse(bad, NA, rowSums((y-mys)^2, na.rm=TRUE) / (nys-1))
   dfs[bad] <- NA
 
   bad <- nxs < 1
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had less than 1 'x' observation"))
+    warning(paste0(sum(bad), " of the rows had none 'x' observations"))
 
   vxs      <- ifelse(bad, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
   dfs[bad] <- NA
