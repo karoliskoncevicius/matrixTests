@@ -7,13 +7,13 @@
 #' function from default stats package. Other arguments were split into separate
 #' functions:
 #'
-#' \code{mat_ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
+#' \code{ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
 #'
-#' \code{mat_ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
+#' \code{ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
 #'
-#' \code{mat_ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
+#' \code{ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
 #'
-#' \code{mat_ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
+#' \code{ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
 #'
 #' @name ttest
 #'
@@ -37,16 +37,14 @@
 #' @examples
 #' X <- t(iris[iris$Species=="setosa",1:4])
 #' Y <- t(iris[iris$Species=="virginica",1:4])
-#' mat_ttest_welch(X, Y)
+#' ttest_welch(X, Y)
 #'
 #' # same row using different confidence levels
-#' mat_ttest_equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
+#' ttest_equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
 #'
 #' @author Karolis Koncevičius
 #' @export
-mat_ttest_single <- function(x, alternative="two.sided", mu=0,
-                             conf.level=0.95
-                             ) {
+ttest_single <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
@@ -105,9 +103,7 @@ mat_ttest_single <- function(x, alternative="two.sided", mu=0,
 
 #' @export
 #' @rdname ttest
-mat_ttest_equalvar <- function(x, y, alternative="two.sided", mu=0,
-                               conf.level=0.95
-                               ) {
+ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
@@ -201,9 +197,7 @@ mat_ttest_equalvar <- function(x, y, alternative="two.sided", mu=0,
 
 #' @export
 #' @rdname ttest
-mat_ttest_welch <- function(x, y, alternative="two.sided", mu=0,
-                            conf.level=0.95
-                            ) {
+ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
@@ -283,9 +277,7 @@ mat_ttest_welch <- function(x, y, alternative="two.sided", mu=0,
 
 #' @export
 #' @rdname ttest
-mat_ttest_paired <- function(x, y, alternative="two.sided", mu=0,
-                             conf.level=0.95
-                             ) {
+ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
