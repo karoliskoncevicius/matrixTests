@@ -15,7 +15,7 @@
 #'
 #' \code{mat_ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
 #'
-#' @name ttest
+#' @name anova
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
