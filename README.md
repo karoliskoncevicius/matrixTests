@@ -16,7 +16,7 @@ for(i in 1:nrow(X)) {
 }
 
 # matrixTest way
-res2 <- mat_ttest_welch(X, Y)
+res2 <- ttest_welch(X, Y)
 
 ```
 
@@ -28,10 +28,10 @@ res2 <- mat_ttest_welch(X, Y)
 
 ## Available Tests ##
 
-* `mat_ttest_single`   - one sample t.test.
-* `mat_ttest_welch`    - t.test with Welch adjustment.
-* `mat_ttest_equalvar` - t.test for two groups with equal variance.
-* `mat_ttest_paired`   - paired t.test.
+* `ttest_single`   - one sample t.test.
+* `ttest_welch`    - t.test with Welch adjustment.
+* `ttest_equalvar` - t.test for two groups with equal variance.
+* `ttest_paired`   - paired t.test.
 
 ## Planned ##
 
