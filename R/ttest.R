@@ -1,6 +1,6 @@
 #' One Sample t-test
 #'
-#' Performs a t-test on each row of a matrix.
+#' Performs a t-test on each row of a the input matrix.
 #'
 #' Functions to perform one sample and two sample t-tests for rows of matrices.
 #' Main arguments and results were intentionally matched to the \code{t.test()}

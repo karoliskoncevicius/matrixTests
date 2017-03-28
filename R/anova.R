@@ -1,6 +1,6 @@
 #' ANOVA
 #'
-#' Performs an analysis of variance test on each row of a matrix.
+#' Performs an analysis of variance test on each row of the input matrix.
 #'
 #' Functions to perform ANOVA analysis for rows of matrices.
 #'
@@ -39,7 +39,7 @@ anova_oneway <- function(x, groups) {
   bad <- is.na(groups)
   if(any(bad)) {
     warning(sum(bad), " columns skipped due to missing group information")
-    x      <- x[,!is.na(groups)]
+    x      <- x[,!is.na(groups), drop=FALSE]
     groups <- groups[!is.na(groups)]
   }
 
