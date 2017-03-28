@@ -8,16 +8,16 @@ base_ttest_single <- function(mat, alt="two.sided", mu=0, conf=0.95) {
   if(is.vector(mat)) mat <- matrix(mat, nrow=1)
   res <- Map(t.test, split(mat, row(mat)), alternative=alt, mu=mu, conf=conf)
 
-  data.frame(x.mean=unname(sapply(res, "[[", "estimate")),
-             x.var=apply(mat, 1, var, na.rm=TRUE),
-             x.obs=rowSums(!is.na(mat)),
+  data.frame(mean.x=unname(sapply(res, "[[", "estimate")),
+             var.x=apply(mat, 1, var, na.rm=TRUE),
+             obs.x=rowSums(!is.na(mat)),
              t.statistic=unname(sapply(res, "[[", "statistic")),
              p.value=unname(sapply(res, "[[", "p.value")),
              ci.low=unname(sapply(res, "[[", "conf.int")[1,]),
              ci.high=unname(sapply(res, "[[", "conf.int")[2,]),
              stderr=unname((sapply(res, "[[", "estimate")-mu) / sapply(res, "[[", "statistic")),
              df=unname(sapply(res, "[[", "parameter")),
-             null.mean=unname(sapply(res, "[[", "null.value")),
+             mean.null=unname(sapply(res, "[[", "null.value")),
              conf.level=unname(sapply(res, function(x) attributes(x$conf.int)[[1]])),
              alternative=unname(sapply(res, "[[", "alternative")),
              stringsAsFactors=FALSE

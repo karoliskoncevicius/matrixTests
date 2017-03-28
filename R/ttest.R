@@ -92,9 +92,9 @@ ttest_single <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   tres <- do_ttest(mxs, mu, stders, alternative, dfs, conf.level)
 
-  data.frame(x.mean=mxs, x.var=vxs, x.obs=nxs, t.statistic=tres$t.statistic,
+  data.frame(mean.x=mxs, var.x=vxs, obs.x=nxs, t.statistic=tres$t.statistic,
              p.value=tres$p.value, ci.low=tres$ci.low, ci.high=tres$ci.high,
-             stderr=stders, df=dfs, null.mean=mu, conf.level=conf.level,
+             stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
              alternative=alternative, stringsAsFactors=FALSE
              )
 }
@@ -185,11 +185,11 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
   tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
-  data.frame(x.mean=mxs, y.mean=mys, diff.mean=mxys, x.var=vxs, y.var=vys,
-             pool.var=vs, x.obs=nxs, y.obs=nys, tot.obs=nxys,
+  data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
+             var.pooled=vs, obs.x=nxs, obs.y=nys, obs.tot=nxys,
              t.statistic=tres$t.statistic, p.value=tres$p.value,
              ci.low=tres$ci.low, ci.high=tres$ci.high, stderr=stders, df=dfs,
-             null.mean=mu, conf.level=conf.level, alternative=alternative,
+             mean.null=mu, conf.level=conf.level, alternative=alternative,
              stringsAsFactors=FALSE
              )
 }
@@ -267,10 +267,10 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
-  data.frame(x.mean=mxs, y.mean=mys, diff.mean=mxys, x.var=vxs, y.var=vys,
-             x.obs=nxs, y.obs=nys, tot.obs=nxys, t.statistic=tres$t.statistic,
+  data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
+             obs.x=nxs, obs.y=nys, obs.tot=nxys, t.statistic=tres$t.statistic,
              p.value=tres$p.value, ci.low=tres$ci.low, ci.high=tres$ci.high,
-             stderr=stders, df=dfs, null.mean=mu, conf.level=conf.level,
+             stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
              alternative=alternative, stringsAsFactors=FALSE
              )
 }
@@ -357,11 +357,11 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
-  data.frame(x.mean=mxs, y.mean=mys, diff.mean=mxys, x.var=vxs, y.var=vys,
-             diff.var=vxys, x.obs=nxs, y.obs=nys, pair.obs=nxys,
+  data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
+             var.diff=vxys, obs.x=nxs, obs.y=nys, obs.pair=nxys,
              t.statistic=tres$t.statistic, p.value=tres$p.value,
              ci.low=tres$ci.low, ci.high=tres$ci.high, stderr=stders, df=dfs,
-             null.mean=mu, conf.level=conf.level, alternative=alternative,
+             mean.null=mu, conf.level=conf.level, alternative=alternative,
              stringsAsFactors=FALSE
              )
 }
