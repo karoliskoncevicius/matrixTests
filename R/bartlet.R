@@ -1,46 +1,29 @@
-#' One Sample t-test
+#' Bartlett test
 #'
-#' Performs a t-test on each row of a matrix.
+#' Performs the Bartlett's test of homogeneity of variances on each row of the
+#' input matrix.
 #'
-#' Functions to perform one sample and two sample t-tests for rows of matrices.
-#' Main arguments and results were intentionally matched to the \code{t.test()}
-#' function from default stats package. Other arguments were split into separate
-#' functions:
+#' Function to perform Bartlett's tests for homogeneity of variances in each of
+#' the groups on the rows of a matrix.
 #'
-#' \code{mat_ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
+#' NA values are always ommited. If values are missing for a whole group - that
+#' group is discarded.
 #'
-#' \code{mat_ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
+#' \code{bartlett(x, groups)} - Bartlet's test.
+#' Same as \code{bartlett.test(x,  groups)}
 #'
-#' \code{mat_ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
-#'
-#' \code{mat_ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
-#'
-#' @name anova
+#' @name bartlett
 #'
 #' @param x numeric matrix.
-#' @param y numeric matrix for the second group of observations.
-#' @param mu true values of the means for the null hypothesis.
-#' A single number or numeric vector of length nrow(x).
-#' @param alternative alternative hypothesis to use for each row of x.
-#' A single string or a vector of length nrow(x).
-#' Must be one of "two.sided" (default), "greater" or "less".
-#' @param conf.level confidence levels used for the confidence intervals.
-#' A single number or a numeric vector of length nrow(x).
-#' All values must be in the range of [0;1].
+#' @param groups - a vector giving groups for each column of x.
+
+#' @return a data.frame where each row contains the results of the bartlett test
+#' performed on the corresponding row of x.
 #'
-#' @return a data.frame where each row contains the results of a t.test
-#' performed on the corresponding row of x. The columns will vary depending on
-#' the type of test performed.
-#'
-#' @seealso \code{t.test()}
+#' @seealso \code{bartlett.test()}
 #'
 #' @examples
-#' X <- t(iris[iris$Species=="setosa",1:4])
-#' Y <- t(iris[iris$Species=="virginica",1:4])
-#' mat_ttest_welch(X, Y)
-#'
-#' # same row using different confidence levels
-#' mat_ttest_equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
+#' bartlett(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
 #' @export
@@ -59,22 +42,23 @@ bartlett <- function(x, groups) {
 
   assert_character_vec_length(groups, ncol(x))
 
+
   bad <- is.na(groups)
   if(any(bad)) {
     warning(sum(bad), " columns skipped due to missing group information")
-    x      <- x[,!is.na(groups)]
+    x      <- x[,!is.na(groups), drop=FALSE]
     groups <- groups[!is.na(groups)]
   }
 
   nGroups  <- numeric(nrow(x))
-  nSamples <- numeric(nrow(x))
   tooSmall <- logical(nrow(x))
+  nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)),
+                      dimnames=list(character(), unique(groups))
+                      )
   for(g in unique(groups)) {
-    nGroupObs <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
-    tooSmall[nGroupObs < 2] <- TRUE
-    nSamples  <- nSamples + nGroupObs
-    nGroups   <- nGroups + ifelse(nGroupObs==0, 0, 1)
-    vtot      <- rVars(x[,groups==g, drop=FALSE]) * nGroupObs
+    nPerGroup[,g] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
+    tooSmall[nPerGroup[,g] < 2] <- TRUE
+    nGroups <- nGroups + ifelse(nPerGroup[,g]==0, 0, 1)
   }
 
   if(any(nGroups < 2))
@@ -83,38 +67,25 @@ bartlett <- function(x, groups) {
   if(any(tooSmall))
     warning(sum(tooSmall), " rows had groups with less than 2 observations")
 
-  vtot <- vtot/(nSamples - nGroups)
+
+  vPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
+  for(i in seq_along(unique(groups))) {
+    g <- unique(groups)[i]
+    vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
+  }
+
+  nSamples   <- rowSums(nPerGroup)
+  dfPerGroup <- nPerGroup-1
+  dfPerGroup[dfPerGroup<=0] <- NA
+  vtot <- rowSums(vPerGroup*dfPerGroup, na.rm=TRUE) / (nSamples - nGroups)
   df   <- nGroups-1
-  ksq  <- (n.total * log(v.total) - sum(n * log(v))) /
-           (1 + (sum(1/n) - 1/n.total)/(3 * (k - 1)))
+  ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums(dfPerGroup * log(vPerGroup), na.rm=TRUE)) /
+           (1 + (rowSums(1/dfPerGroup, na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
 
-  p <- pchisqksq, df, lower.tail=FALSE)
+  p <- pchisq(ksq, df, lower.tail=FALSE)
 
-  data.frame(sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
-             mean.sq.treatment=betweenScatter/(nGroups-1),
-             mean.sq.residuals=withinScatter/(nSamples-nGroups),
-             df.treatment=nGroups-1, df.residuals=nSamples-nGroups,
-             F.statistic=F, p.value=p
+  data.frame(var.tot=vtot, obs.tot=nSamples, obs.groups=nGroups,
+             ksq.statistics=ksq, p.value=p, df=df
              )
-}
-
-bartlett_real <- function(x, g, ...) {
-  g <- factor(g[OK])
-  k <- nlevels(g)
-  if (k < 2)
-    stop("all observations are in the same group")
-  x <- split(x, g)
-  n <- sapply(x, "length") - 1
-  if (any(n <= 0))
-    stop("there must be at least 2 observations in each group")
-  v <- sapply(x, "var")
-  n.total <- sum(n)
-  v.total <- sum(n * v)/n.total
-  STATISTIC <- ((n.total * log(v.total) - sum(n * log(v)))/(1 + (sum(1/n) - 1/n.total)/(3 * (k - 1))))
-  PARAMETER <- k - 1
-  PVAL <- pchisq(STATISTIC, PARAMETER, lower.tail = FALSE)
-  names(STATISTIC) <- "Bartlett's K-squared"
-  names(PARAMETER) <- "df"
-  RVAL <- list(statistic = STATISTIC, parameter = PARAMETER, p.value = PVAL, data.name = DNAME, method = "Bartlett test of homogeneity of variances")
 }
 
