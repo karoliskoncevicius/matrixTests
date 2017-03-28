@@ -1,50 +1,27 @@
-#' One Sample t-test
+#' ANOVA
 #'
-#' Performs a t-test on each row of a matrix.
+#' Performs an analysis of variance test on each row of a matrix.
 #'
-#' Functions to perform one sample and two sample t-tests for rows of matrices.
-#' Main arguments and results were intentionally matched to the \code{t.test()}
-#' function from default stats package. Other arguments were split into separate
-#' functions:
+#' Functions to perform ANOVA analysis for rows of matrices.
 #'
-#' \code{mat_ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
-#'
-#' \code{mat_ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
-#'
-#' \code{mat_ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
-#'
-#' \code{mat_ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
+#' \code{anova_oneway} - one-way anova. Same as \code{aov(x ~ groups)}
 #'
 #' @name anova
 #'
 #' @param x numeric matrix.
-#' @param y numeric matrix for the second group of observations.
-#' @param mu true values of the means for the null hypothesis.
-#' A single number or numeric vector of length nrow(x).
-#' @param alternative alternative hypothesis to use for each row of x.
-#' A single string or a vector of length nrow(x).
-#' Must be one of "two.sided" (default), "greater" or "less".
-#' @param conf.level confidence levels used for the confidence intervals.
-#' A single number or a numeric vector of length nrow(x).
-#' All values must be in the range of [0;1].
+#' @param groups - a vector giving groups for each column of x.
+
+#' @return a data.frame where each row contains the results of an anova test
+#' performed on the corresponding row of x.
 #'
-#' @return a data.frame where each row contains the results of a t.test
-#' performed on the corresponding row of x. The columns will vary depending on
-#' the type of test performed.
-#'
-#' @seealso \code{t.test()}
+#' @seealso \code{aov()}, \code{anova()}
 #'
 #' @examples
-#' X <- t(iris[iris$Species=="setosa",1:4])
-#' Y <- t(iris[iris$Species=="virginica",1:4])
-#' mat_ttest_welch(X, Y)
-#'
-#' # same row using different confidence levels
-#' mat_ttest_equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
+#' anova_oneway(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
 #' @export
-mat_anova_oneway <- function(x, groups) {
+anova_oneway <- function(x, groups) {
 
   if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
@@ -54,21 +31,41 @@ mat_anova_oneway <- function(x, groups) {
 
   assert_numeric_mat_or_vec(x)
 
+  if(!is.null(groups))
+    groups <- as.character(groups)
+
+  assert_character_vec_length(groups, ncol(x))
+
+  bad <- is.na(groups)
+  if(any(bad)) {
+    warning(sum(bad), " columns skipped due to missing group information")
+    x      <- x[,!is.na(groups)]
+    groups <- groups[!is.na(groups)]
+  }
+
   M <- rowMeans(x, na.rm=TRUE)
-  withinScatter <- 0
-  betweenScatter <- 0
+  withinScatter  <- numeric(nrow(x))
+  betweenScatter <- numeric(nrow(x))
+  nGroups        <- numeric(nrow(x))
+  nSamples       <- numeric(nrow(x))
   for(g in unique(groups)) {
     gMeans <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
     groupScatter   <- rowSums((x[,groups==g, drop=FALSE]-gMeans)^2, na.rm=TRUE)
     withinScatter  <- withinScatter + groupScatter
-    betweenScatter <- betweenScatter + rowSums(!is.na(x[,groups==g, drop=FALSE]))*(gMeans-M)^2
+    nGroupObs      <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
+    nSamples       <- nSamples + nGroupObs
+    nGroups        <- nGroups + ifelse(nGroupObs==0, 0, 1)
+    betweenScatter <- betweenScatter + nGroupObs*(gMeans-M)^2
   }
 
-  N <- length(unique(groups))
-  n <- rowSums(!is.na(x))
-  F <- (betweenScatter/(N-1)) / (withinScatter/(n-N))
-  p <- pf(F, N-1, n-N, lower.tail=FALSE)
+  F <- (betweenScatter/(nGroups-1)) / (withinScatter/(nSamples-nGroups))
+  p <- pf(F, nGroups-1, nSamples-nGroups, lower.tail=FALSE)
 
-  data.frame(p.value=p, df1=N-1, df2=n-N, F=F)
+  data.frame(sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
+             mean.sq.treatment=betweenScatter/(nGroups-1),
+             mean.sq.residuals=withinScatter/(nSamples-nGroups),
+             df.treatment=nGroups-1, df.residuals=nSamples-nGroups,
+             F.statistic=F, p.value=p
+             )
 }
 
