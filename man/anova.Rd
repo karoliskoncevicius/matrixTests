@@ -2,60 +2,34 @@
 % Please edit documentation in R/anova.R
 \name{anova}
 \alias{anova}
-\alias{mat_anova_oneway}
-\title{One Sample t-test}
+\alias{anova_oneway}
+\title{ANOVA}
 \usage{
-mat_anova_oneway(x, groups)
+anova_oneway(x, groups)
 }
 \arguments{
 \item{x}{numeric matrix.}
 
-\item{y}{numeric matrix for the second group of observations.}
-
-\item{mu}{true values of the means for the null hypothesis.
-A single number or numeric vector of length nrow(x).}
-
-\item{alternative}{alternative hypothesis to use for each row of x.
-A single string or a vector of length nrow(x).
-Must be one of "two.sided" (default), "greater" or "less".}
-
-\item{conf.level}{confidence levels used for the confidence intervals.
-A single number or a numeric vector of length nrow(x).
-All values must be in the range of [0;1].}
+\item{groups}{- a vector giving groups for each column of x.}
 }
 \value{
-a data.frame where each row contains the results of a t.test
-performed on the corresponding row of x. The columns will vary depending on
-the type of test performed.
+a data.frame where each row contains the results of an anova test
+performed on the corresponding row of x.
 }
 \description{
-Performs a t-test on each row of a matrix.
+Performs an analysis of variance test on each row of the input matrix.
 }
 \details{
-Functions to perform one sample and two sample t-tests for rows of matrices.
-Main arguments and results were intentionally matched to the \code{t.test()}
-function from default stats package. Other arguments were split into separate
-functions:
+Functions to perform ANOVA analysis for rows of matrices.
 
-\code{mat_ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
-
-\code{mat_ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
-
-\code{mat_ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
-
-\code{mat_ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
+\code{anova_oneway} - one-way anova. Same as \code{aov(x ~ groups)}
 }
 \examples{
-X <- t(iris[iris$Species=="setosa",1:4])
-Y <- t(iris[iris$Species=="virginica",1:4])
-mat_ttest_welch(X, Y)
-
-# same row using different confidence levels
-mat_ttest_equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
+anova_oneway(t(iris[,1:4]), iris$Species)
 
 }
 \seealso{
-\code{t.test()}
+\code{aov()}, \code{anova()}
 }
 \author{
 Karolis Koncevičius

@@ -7,7 +7,7 @@
 #' the groups on the rows of a matrix.
 #'
 #' NA values are always ommited. If values are missing for a whole group - that
-#' group is discarded.
+#' group is discarded. Groups with only one observation are also discarded.
 #'
 #' \code{bartlett(x, groups)} - Bartlet's test.
 #' Same as \code{bartlett.test(x,  groups)}
@@ -50,22 +50,23 @@ bartlett <- function(x, groups) {
     groups <- groups[!is.na(groups)]
   }
 
-  nGroups  <- numeric(nrow(x))
-  tooSmall <- logical(nrow(x))
   nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)),
-                      dimnames=list(character(), unique(groups))
+                      dimnames=list(rownames(x))
                       )
-  for(g in unique(groups)) {
-    nPerGroup[,g] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
-    tooSmall[nPerGroup[,g] < 2] <- TRUE
-    nGroups <- nGroups + ifelse(nPerGroup[,g]==0, 0, 1)
+  for(i in seq_along(unique(groups))) {
+    g <- unique(groups)[i]
+    nPerGroup[,i] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
   }
+  nPerGroup[nPerGroup < 2] <- NA
+  nGroups <- rowSums(!is.na(nPerGroup))
 
-  if(any(nGroups < 2))
-    warning(sum(nGroups < 2), " rows only had observations for one group")
+  bad <- nGroups < 2
+  if(any(bad))
+    warning(sum(bad), " rows had less than 2 groups with enough observations")
 
-  if(any(tooSmall))
-    warning(sum(tooSmall), " rows had groups with less than 2 observations")
+  bad <- nGroups < length(unique(groups))
+  if(any(bad))
+    warning(sum(bad), " rows had groups with less than 2 observations")
 
 
   vPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
@@ -74,18 +75,16 @@ bartlett <- function(x, groups) {
     vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
   }
 
-  nSamples   <- rowSums(nPerGroup)
-  dfPerGroup <- nPerGroup-1
-  dfPerGroup[dfPerGroup<=0] <- NA
-  vtot <- rowSums(vPerGroup*dfPerGroup, na.rm=TRUE) / (nSamples - nGroups)
+  nSamples <- rowSums(nPerGroup, na.rm=TRUE)
+  vtot <- rowSums(vPerGroup*(nPerGroup-1), na.rm=TRUE) / (nSamples - nGroups)
   df   <- nGroups-1
-  ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums(dfPerGroup * log(vPerGroup), na.rm=TRUE)) /
-           (1 + (rowSums(1/dfPerGroup, na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
+  ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
+           (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
 
   p <- pchisq(ksq, df, lower.tail=FALSE)
 
   data.frame(var.tot=vtot, obs.tot=nSamples, obs.groups=nGroups,
-             ksq.statistics=ksq, p.value=p, df=df
+             ksq.statistic=ksq, p.value=p, df=df
              )
 }
 

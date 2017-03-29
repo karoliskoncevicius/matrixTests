@@ -38,7 +38,7 @@ performed on the corresponding row of x. The columns will vary depending on
 the type of test performed.
 }
 \description{
-Performs a t-test on each row of a matrix.
+Performs a t-test on each row of a the input matrix.
 }
 \details{
 Functions to perform one sample and two sample t-tests for rows of matrices.
