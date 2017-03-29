@@ -12,7 +12,7 @@ Y <- matrix(rnorm(10000000), ncol=10)
 # The usual way
 res1 <- vector(nrow(X), mode="list")
 for(i in 1:nrow(X)) {
-  res[[i]] <- t.test(X[i,], Y[i,])
+  res1[[i]] <- t.test(X[i,], Y[i,])
 }
 
 # matrixTest way
