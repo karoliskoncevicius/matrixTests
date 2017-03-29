@@ -32,6 +32,7 @@ res2 <- ttest_welch(X, Y)
 * `ttest_welch`    - t.test with Welch adjustment.
 * `ttest_equalvar` - t.test for two groups with equal variance.
 * `ttest_paired`   - paired t.test.
+* `bartlett`       - Bartlett's test.
 
 ## Planned ##
 
