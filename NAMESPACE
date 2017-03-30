@@ -1,5 +1,5 @@
 export(ttest_equalvar)
 export(ttest_paired)
-export(ttest_single)
+export(ttest_onegroup)
 export(ttest_welch)
 export(bartlett)

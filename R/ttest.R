@@ -7,7 +7,7 @@
 #' function from default stats package. Other arguments were split into separate
 #' functions:
 #'
-#' \code{ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
+#' \code{ttest_onegroup()} - t-test for mean of a single group. Same as \code{t.test(x)}
 #'
 #' \code{ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
 #'
@@ -44,7 +44,7 @@
 #'
 #' @author Karolis Koncevičius
 #' @export
-ttest_single <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
+ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
