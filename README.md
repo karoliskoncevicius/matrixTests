@@ -28,15 +28,15 @@ res2 <- ttest_welch(X, Y)
 
 ## Available Tests ##
 
-* `ttest_onegroup` - t.test for a single group.
-* `ttest_welch`    - t.test with Welch adjustment.
-* `ttest_equalvar` - t.test for two groups with equal variance.
-* `ttest_paired`   - t.test for paired observations.
-* `bartlett`       - Bartlett's test.
+* `ttest_onegroup`  - t.test for a single group.
+* `ttest_welch`     - t.test with Welch adjustment.
+* `ttest_equalvar`  - t.test for two groups with equal variance.
+* `ttest_paired`    - t.test for paired observations.
+* `bartlett`        - Bartlett's test.
+* `oneway_equalvar` - oneway ANOVA for groups with equal variance.
 
 ## Planned ##
 
-* one-way ANOVA
 * test for Pearson's correlation coefficient
 * linear regression
 
