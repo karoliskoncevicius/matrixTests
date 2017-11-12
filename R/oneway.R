@@ -1,8 +1,8 @@
-#' ANOVA ONEWAY
+#' ONEWAY ANOVA
 #'
-#' Performs an analysis of variance test on each row of the input matrix.
+#' Performs an analysis of variance tests on each row of the input matrix.
 #'
-#' Functions to perform ANOVA analysis for rows of matrices.
+#' Functions to perform ONEWAY ANOVA analysis for rows of matrices.
 #'
 #' \code{oneway_equalvar} - one-way anova. Same as \code{aov(x ~ groups)}
 #' \code{oneway_welch} _ one-way anova with Welch correction for variances.
@@ -40,7 +40,7 @@ oneway_equalvar <- function(x, groups) {
 
   bad <- is.na(groups)
   if(any(bad)) {
-    warning(sum(bad), " columns skipped due to missing group information")
+    warning(sum(bad), " columns dropped due to missing group information")
     x      <- x[,!is.na(groups), drop=FALSE]
     groups <- groups[!is.na(groups)]
   }
@@ -51,21 +51,38 @@ oneway_equalvar <- function(x, groups) {
   nGroups        <- numeric(nrow(x))
   nSamples       <- numeric(nrow(x))
   for(g in unique(groups)) {
-    gMeans <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
-    groupScatter   <- rowSums((x[,groups==g, drop=FALSE]-gMeans)^2, na.rm=TRUE)
-    withinScatter  <- withinScatter + groupScatter
     nGroupObs      <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
     nSamples       <- nSamples + nGroupObs
     nGroups        <- nGroups + ifelse(nGroupObs==0, 0, 1)
+    gMeans <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
+    gMeans <- ifelse(nGroups==0, 0, gMeans)
+    groupScatter   <- rowSums((x[,groups==g, drop=FALSE]-gMeans)^2, na.rm=TRUE)
+    withinScatter  <- withinScatter + groupScatter
     betweenScatter <- betweenScatter + nGroupObs*(gMeans-M)^2
   }
 
   F <- (betweenScatter/(nGroups-1)) / (withinScatter/(nSamples-nGroups))
   p <- pf(F, nGroups-1, nSamples-nGroups, lower.tail=FALSE)
 
+  bad <- nGroups < 2
+  if(any(bad)) {
+    warning(sum(bad), " rows had less than 2 groups with enough observations")
+  }
+
+  bad <- nGroups==nSamples
+  if(any(bad)) {
+    warning(sum(bad), " rows had one observation per group")
+  }
+
+  bad <- withinScatter==0 & nGroups!=nSamples & nGroups > 1
+  if(any(bad)) {
+    warning(sum(bad), " rows had essentially perfect fit")
+  }
+
   data.frame(sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
              mean.sq.treatment=betweenScatter/(nGroups-1),
              mean.sq.residuals=withinScatter/(nSamples-nGroups),
+             obs.tot=nSamples, obs.groups=nGroups,
              df.treatment=nGroups-1, df.residuals=nSamples-nGroups,
              F.statistic=F, p.value=p
              )
