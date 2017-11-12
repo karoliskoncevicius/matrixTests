@@ -2,13 +2,13 @@
 % Please edit documentation in R/ttest.R
 \name{ttest}
 \alias{ttest}
-\alias{ttest_single}
+\alias{ttest_onegroup}
 \alias{ttest_equalvar}
 \alias{ttest_welch}
 \alias{ttest_paired}
-\title{One Sample t-test}
+\title{t-test}
 \usage{
-ttest_single(x, alternative = "two.sided", mu = 0, conf.level = 0.95)
+ttest_onegroup(x, alternative = "two.sided", mu = 0, conf.level = 0.95)
 
 ttest_equalvar(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
 
@@ -46,7 +46,7 @@ Main arguments and results were intentionally matched to the \code{t.test()}
 function from default stats package. Other arguments were split into separate
 functions:
 
-\code{ttest_single()} - t-test for mean of a single group. Same as \code{t.test(x)}
+\code{ttest_onegroup()} - t-test for mean of a single group. Same as \code{t.test(x)}
 
 \code{ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
 

@@ -1,4 +1,4 @@
-#' One Sample t-test
+#' t-test
 #'
 #' Performs a t-test on each row of a the input matrix.
 #'

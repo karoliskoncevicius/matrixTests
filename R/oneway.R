@@ -1,27 +1,29 @@
-#' ANOVA
+#' ANOVA ONEWAY
 #'
 #' Performs an analysis of variance test on each row of the input matrix.
 #'
 #' Functions to perform ANOVA analysis for rows of matrices.
 #'
-#' \code{anova_oneway} - one-way anova. Same as \code{aov(x ~ groups)}
+#' \code{oneway_equalvar} - one-way anova. Same as \code{aov(x ~ groups)}
+#' \code{oneway_welch} _ one-way anova with Welch correction for variances.
+#' Same as \code{oneway.test(var.equal=FALSE)}
 #'
-#' @name anova
+#' @name oneway
 #'
 #' @param x numeric matrix.
 #' @param groups - a vector giving groups for each column of x.
 
-#' @return a data.frame where each row contains the results of an anova test
-#' performed on the corresponding row of x.
+#' @return a data.frame where each row contains the results of an oneway anova
+#' test performed on the corresponding row of x.
 #'
-#' @seealso \code{aov()}, \code{anova()}
+#' @seealso \code{aov()}, \code{oneway.test()}
 #'
 #' @examples
-#' anova_oneway(t(iris[,1:4]), iris$Species)
+#' oneway_equalvar(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
 #' @export
-anova_oneway <- function(x, groups) {
+oneway_equalvar <- function(x, groups) {
 
   if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
