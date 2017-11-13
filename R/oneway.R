@@ -11,7 +11,7 @@
 #' @name oneway
 #'
 #' @param x numeric matrix.
-#' @param groups - a vector giving groups for each column of x.
+#' @param groups a vector specifying group membership for each column of x.
 
 #' @return a data.frame where each row contains the results of an oneway anova
 #' test performed on the corresponding row of x.
@@ -41,8 +41,8 @@ oneway_equalvar <- function(x, groups) {
   bad <- is.na(groups)
   if(any(bad)) {
     warning(sum(bad), " columns dropped due to missing group information")
-    x      <- x[,!is.na(groups), drop=FALSE]
-    groups <- groups[!is.na(groups)]
+    x      <- x[,!bad, drop=FALSE]
+    groups <- groups[!bad]
   }
 
   M <- rowMeans(x, na.rm=TRUE)

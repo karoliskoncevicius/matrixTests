@@ -101,9 +101,9 @@ test_that("unsolvable situations produce warnings", {
   expect_warning(bartlett(1:3, c("a", "a", "b")), er)
   expect_warning(bartlett(1:3, c("a", "b", "c")), er)
   expect_warning(bartlett(1:3, c("a", NA, NA)), er)
-  er <- "1 columns skipped due to missing group information"
+  er <- "1 columns dropped due to missing group information"
   expect_warning(bartlett(1:3, c("a", "b", NA)), er)
-  er <- "2 columns skipped due to missing group information"
+  er <- "2 columns dropped due to missing group information"
   expect_warning(bartlett(1:6, c("a", "a", "b", "b", NA, NA)), er)
   er <- "1 rows had groups with less than 2 observations"
   expect_warning(bartlett(1:5, c("a", "a", "b", "b", "c")), er)

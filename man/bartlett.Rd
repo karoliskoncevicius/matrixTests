@@ -9,7 +9,7 @@ bartlett(x, groups)
 \arguments{
 \item{x}{numeric matrix.}
 
-\item{groups}{- a vector giving groups for each column of x.}
+\item{groups}{a vector specifying group membership for each column of x.}
 }
 \value{
 a data.frame where each row contains the results of the bartlett test

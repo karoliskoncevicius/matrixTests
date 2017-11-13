@@ -1,4 +1,3 @@
-
 assert_numeric_mat_or_vec <- function(x) {
   name <- as.character(substitute(x))
   if(is.null(x) || !is.numeric(x) | !(is.matrix(x) | is.vector(x)))
@@ -50,3 +49,8 @@ assert_equal_ncol <- function(x, y) {
     stop(paste0("'", namex, "' and '", namey, "' must have the same number of columns"))
 }
 
+assert_number_of_levels <- function(x, nlevels) {
+  name <- as.character(substitute(x))
+  if(is.null(x) || length(unique(na.omit(x)))!=nlevels)
+    stop(paste0("'", name, "'", " must consist of ", nlevels, " unique elements"))
+}
