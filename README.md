@@ -47,6 +47,9 @@ res2 <- ttest_welch(X, Y)
 ## Installation ##
 
 Using the `devtools` library:
-    library(devtools)
-    install.packages("KKPMW/matrixTests")
+
+```r
+library(devtools)
+  install.packages("KKPMW/matrixTests")
+```
 
