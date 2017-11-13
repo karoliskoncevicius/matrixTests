@@ -35,6 +35,10 @@ res2 <- ttest_welch(X, Y)
 * `bartlett`        - Bartlett's test.
 * `oneway_equalvar` - oneway ANOVA for groups with equal variance.
 
+## Test-Based Algorithms ##
+
+* `ievora` - detect differential variability.
+
 ## Planned ##
 
 * test for Pearson's correlation coefficient

@@ -18,8 +18,9 @@
 #'
 #' @param x numeric matrix
 #' @param groups a vector specifying group membership for each column of x.
-#' Must contain two unique groups one labeled "1" and another "0". Otherwise
-#' the group appearing first is labeled "0" and the remaining one as "1".
+#' Must contain two unique groups one labeled "1" and another "0".
+#' If the vector is neither numeric nor logical the group appearing first is
+#' labeled "0" and the remaining one as "1".
 #' @param cutT cutoff threshold for the raw p-value of the t-test step.
 #' (default 0.05)
 #' @param cutBfdr cutoff threshold for the FDR-corrected p-value of the
@@ -43,7 +44,7 @@
 #' @seealso \code{bartlett}, \code{ttest_welch}
 #'
 #' @examples
-#' # perform ievora on iris dataset for setosa against all other groups
+#' # perform iEVORA on iris dataset for setosa against all other groups
 #' ievora(t(iris[,1:4]), iris$Species=="setosa")
 #'
 #' @references Andrew E Teschendorff et.al. DNA methylation outliers in normal
@@ -61,6 +62,9 @@ ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
     x <- data.matrix(x)
 
   assert_numeric_mat_or_vec(x)
+
+  assert_all_in_range(cutT, 0, 1)
+  assert_all_in_range(cutBfdr, 0, 1)
 
   assert_number_of_levels(groups, 2)
 
@@ -90,12 +94,13 @@ ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   rank  <- rep(NA, length(isSig))
   rank[isSig] <- rank(tres$p.value[isSig], ties.method="first")
 
-  var0 <- rowVars(x[,groups==0, drop=FALSE])
-  var1 <- rowVars(x[,groups==1, drop=FALSE])
+  var0 <- rowVars(x[,groups==0, drop=FALSE], na.rm=TRUE)
+  var1 <- rowVars(x[,groups==1, drop=FALSE], na.rm=TRUE)
   logR <- log2(var1/var0)
 
   data.frame(mean.0=tres$mean.x, mean.1=tres$mean.y, var.0=var0, var.1=var1,
-             logR=logR, t.statistic=-tres$t.statistic, tt.p.value=tres$p.value,
+             obs.0=tres$obs.x, obs.1=tres$obs.y, logR=logR,
+             t.statistic=-tres$t.statistic, tt.p.value=tres$p.value,
              bt.p.value=bres$p.value, bt.q.value=brq, significant=isSig,
              rank=rank, row.names=rownames(tres)
              )
