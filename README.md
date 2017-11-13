@@ -44,4 +44,9 @@ res2 <- ttest_welch(X, Y)
 * test for Pearson's correlation coefficient
 * linear regression
 
+## Installation ##
+
+Using the `devtools` library:
+    library(devtools)
+    install.packages("KKPMW/matrixTests")
 
