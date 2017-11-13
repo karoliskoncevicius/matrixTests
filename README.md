@@ -50,6 +50,6 @@ Using the `devtools` library:
 
 ```r
 library(devtools)
-  install.packages("KKPMW/matrixTests")
+install_github("KKPMW/matrixTests")
 ```
 
