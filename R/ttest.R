@@ -95,7 +95,8 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   data.frame(mean.x=mxs, var.x=vxs, obs.x=nxs, t.statistic=tres$t.statistic,
              p.value=tres$p.value, ci.low=tres$ci.low, ci.high=tres$ci.high,
              stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
-             alternative=alternative, stringsAsFactors=FALSE
+             alternative=alternative, stringsAsFactors=FALSE,
+             row.names=rownames(x)
              )
 }
 
@@ -190,7 +191,8 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
              t.statistic=tres$t.statistic, p.value=tres$p.value,
              ci.low=tres$ci.low, ci.high=tres$ci.high, stderr=stders, df=dfs,
              mean.null=mu, conf.level=conf.level, alternative=alternative,
-             stringsAsFactors=FALSE
+             stringsAsFactors=FALSE,
+             row.names=rownames(x)
              )
 }
 
@@ -271,7 +273,8 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
              obs.x=nxs, obs.y=nys, obs.tot=nxys, t.statistic=tres$t.statistic,
              p.value=tres$p.value, ci.low=tres$ci.low, ci.high=tres$ci.high,
              stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
-             alternative=alternative, stringsAsFactors=FALSE
+             alternative=alternative, stringsAsFactors=FALSE,
+             row.names=rownames(x)
              )
 }
 
@@ -362,7 +365,7 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
              t.statistic=tres$t.statistic, p.value=tres$p.value,
              ci.low=tres$ci.low, ci.high=tres$ci.high, stderr=stders, df=dfs,
              mean.null=mu, conf.level=conf.level, alternative=alternative,
-             stringsAsFactors=FALSE
+             stringsAsFactors=FALSE, row.names=rownames(x)
              )
 }
 

@@ -50,9 +50,7 @@ bartlett <- function(x, groups) {
     groups <- groups[!bad]
   }
 
-  nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)),
-                      dimnames=list(rownames(x))
-                      )
+  nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
     nPerGroup[,i] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
@@ -84,7 +82,8 @@ bartlett <- function(x, groups) {
   p <- pchisq(ksq, df, lower.tail=FALSE)
 
   data.frame(var.tot=vtot, obs.tot=nSamples, obs.groups=nGroups,
-             ksq.statistic=ksq, p.value=p, df=df
+             ksq.statistic=ksq, p.value=p, df=df,
+             row.names=rownames(x)
              )
 }
 
