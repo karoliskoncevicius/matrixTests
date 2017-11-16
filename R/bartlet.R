@@ -51,7 +51,7 @@ bartlett <- function(x, groups) {
 
   groups <- as.character(groups)
 
-  nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
     nPerGroup[,i] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
@@ -68,7 +68,7 @@ bartlett <- function(x, groups) {
     warning(sum(bad), ' of the rows had groups with less than 2 observations')
 
 
-  vPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
+  vPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
     vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)

@@ -54,7 +54,7 @@ oneway_equalvar <- function(x, groups) {
   PVAL <- pchisq(STATISTIC, PARAMETER, lower.tail = FALSE)
 
 
-  nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
@@ -121,7 +121,7 @@ oneway_welch <- function(x, groups) {
     groups <- groups[!bad]
   }
 
-  nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
