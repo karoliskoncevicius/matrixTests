@@ -74,16 +74,18 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   assert_all_in_range(conf.level, 0, 1)
 
   mxs <- rowMeans(x, na.rm=TRUE)
-
   nxs <- rowSums(!is.na(x))
+  vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
+  dfs <- nxs-1
+  stders <- sqrt(vxs/nxs)
 
   bad <- nxs < 2
   if(any(bad, na.rm=TRUE))
     warning(paste0(sum(bad), ' of the rows had less than 2 "x" observations'))
 
-  vxs    <- ifelse(bad, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
-  dfs    <- ifelse(bad, NA, nxs-1)
-  stders <- ifelse(bad, NA, sqrt(vxs/nxs))
+  vxs[bad] <- NA
+  dfs[bad] <- NA
+  stders[bad] <- NA
 
   bad <- stders <= 10 * .Machine$double.eps * abs(mxs)
   if(any(bad, na.rm=TRUE))
@@ -154,28 +156,32 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   nys  <- rowSums(!is.na(y))
   nxys <- nxs + nys
 
-  bad <- (nxs+nys) < 3
+  vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
+  vys <- rowSums((y-mys)^2, na.rm=TRUE) / (nys-1)
+
+  dfs <- nxs + nys - 2
+
+  bad <- nxys < 3
   if(any(bad, na.rm=TRUE))
     warning(paste0(sum(bad), ' of the rows had less than 3 total observations'))
 
-  dfs <- ifelse(bad, NA, nxs + nys - 2)
-
-  bad <- (nxs+nys) > 2 & nys < 1
-  if(any(bad, na.rm=TRUE)) {
-    warning(paste0(sum(bad), ' of the rows had zero "y" observations'))
-  }
-
-  vys <- ifelse(bad, NA, rowSums((y-mys)^2, na.rm=TRUE) / (nys-1))
   dfs[bad] <- NA
 
-  bad <- (nxs+nys) > 2 & nxs < 1
+  bad <- nxys > 2 & nxs < 1
   if(any(bad, na.rm=TRUE)) {
     warning(paste0(sum(bad), ' of the rows had zero "x" observations'))
   }
 
-  vxs <- ifelse(bad, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
+  vxs[bad] <- NA
   dfs[bad] <- NA
 
+  bad <- nxys > 2 & nys < 1
+  if(any(bad, na.rm=TRUE)) {
+    warning(paste0(sum(bad), ' of the rows had zero "y" observations'))
+  }
+
+  vys[bad] <- NA
+  dfs[bad] <- NA
 
   vs   <- rep(0, nrow(x))
   vs   <- ifelse(nxs > 1, vs + (nxs-1) * vxs, vs)
@@ -247,32 +253,38 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   assert_all_in_range(conf.level, 0, 1)
 
 
-  mxs <- rowMeans(x, na.rm=TRUE)
-  mys <- rowMeans(y, na.rm=TRUE)
-  mxys    <- mxs - mys
+  mxs  <- rowMeans(x, na.rm=TRUE)
+  mys  <- rowMeans(y, na.rm=TRUE)
+  mxys <- mxs - mys
 
-  nxs <- rowSums(!is.na(x))
-  nys <- rowSums(!is.na(y))
-  nxys    <- nxs + nys
+  nxs  <- rowSums(!is.na(x))
+  nys  <- rowSums(!is.na(y))
+  nxys <- nxs + nys
 
-  bad <- nys < 2
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows had less than 2 "y" observations'))
-
-  vys <- ifelse(bad, NA, rowSums((y-mys)^2, na.rm=TRUE) / (nys-1))
-
-  bad <- nxs < 2
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows had less than 2 "x" observations'))
-
-  vxs <- ifelse(bad, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
-
+  vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
+  vys <- rowSums((y-mys)^2, na.rm=TRUE) / (nys-1)
 
   stderxs <- sqrt(vxs/nxs)
   stderys <- sqrt(vys/nys)
   stders  <- sqrt(stderxs^2 + stderys^2)
   dfs     <- stders^4/(stderxs^4/(nxs - 1) + stderys^4/(nys - 1))
 
+
+  bad <- nxs < 2
+  if(any(bad, na.rm=TRUE))
+    warning(paste0(sum(bad), ' of the rows had less than 2 "x" observations'))
+
+  vxs[bad]    <- NA
+  stders[bad] <- NA
+  dfs[bad]    <- NA
+
+  bad <- nys < 2
+  if(any(bad, na.rm=TRUE))
+    warning(paste0(sum(bad), ' of the rows had less than 2 "y" observations'))
+
+  vys[bad]    <- NA
+  stders[bad] <- NA
+  dfs[bad]    <- NA
 
   bad <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
   if(any(bad, na.rm=TRUE))
@@ -345,19 +357,23 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   nys  <- rowSums(!is.na(y))
   nxys <- rowSums(!is.na(xy))
 
+  vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
+  vxs[nxs < 2] <- NA
+  vys <- rowSums((y-mys)^2, na.rm=TRUE) / (nys-1)
+  vys[nys < 2] <- NA
+
+  vxys <- rowSums((xy-mxys)^2, na.rm=TRUE) / (nxys-1)
+
+  stders <- sqrt(vxys/nxys)
   dfs <- nxys-1
 
   bad <- nxys < 2
   if(any(bad, na.rm=TRUE))
     warning(paste0(sum(bad), ' of the rows had less than 2 paired observations'))
 
-  dfs  <- ifelse(bad, NA, nxys-1)
-  vxys <- ifelse(bad, NA, rowSums((xy-mxys)^2, na.rm=TRUE) / (nxys-1))
-
-  vxs <- ifelse(nxs < 2, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
-  vys <- ifelse(nys < 2, NA, rowSums((y-mys)^2, na.rm=TRUE) / (nys-1))
-
-  stders <- sqrt(vxys/nxys)
+  dfs[bad]    <- NA
+  vxys[bad]   <- NA
+  stders[bad] <- NA
 
   bad <- stders <= 10 * .Machine$double.eps * abs(mxys)
   if(any(bad, na.rm=TRUE))

@@ -50,9 +50,9 @@ oneway_equalvar <- function(x, groups) {
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
-    vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
-    mPerGroup[,i] <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
     nPerGroup[,i] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
+    mPerGroup[,i] <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
+    vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
   }
 
   nSamples <- rowSums(nPerGroup)
