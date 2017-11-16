@@ -80,13 +80,15 @@ oneway_equalvar <- function(x, groups) {
     warning(sum(bad), ' of the rows had essentially perfect fit')
   }
 
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
              mean.sq.treatment=betweenScatter/(nGroups-1),
              mean.sq.residuals=withinScatter/(nSamples-nGroups),
              obs.tot=nSamples, obs.groups=nGroups,
              df.treatment=nGroups-1, df.residuals=nSamples-nGroups,
              F.statistic=F, p.value=p,
-             row.names=rownames(x)
+             row.names=rnames
              )
 }
 
@@ -149,12 +151,14 @@ oneway_welch <- function(x, groups) {
     warning(sum(bad), ' of the rows had essentially perfect fit')
   }
 
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
              mean.sq.treatment=betweenScatter/(nGroups-1),
              mean.sq.residuals=withinScatter/(nSamples-nGroups),
              obs.tot=nSamples, obs.groups=nGroups,
              df.treatment=nGroups-1, df.residuals=1/(3*tmp),
              F.statistic=F, p.value=p,
-             row.names=rownames(x)
+             row.names=rnames
              )
 }

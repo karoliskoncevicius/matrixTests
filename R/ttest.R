@@ -95,11 +95,13 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   tres <- do_ttest(mxs, mu, stders, alternative, dfs, conf.level)
 
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.x=mxs, var.x=vxs, obs.x=nxs, t.statistic=tres$t.statistic,
              p.value=tres$p.value, ci.low=tres$ci.low, ci.high=tres$ci.high,
              stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
              alternative=alternative, stringsAsFactors=FALSE,
-             row.names=rownames(x)
+             row.names=rnames
              )
 }
 
@@ -193,13 +195,15 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
   tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
              var.pooled=vs, obs.x=nxs, obs.y=nys, obs.tot=nxys,
              t.statistic=tres$t.statistic, p.value=tres$p.value,
              ci.low=tres$ci.low, ci.high=tres$ci.high, stderr=stders, df=dfs,
              mean.null=mu, conf.level=conf.level, alternative=alternative,
              stringsAsFactors=FALSE,
-             row.names=rownames(x)
+             row.names=rnames
              )
 }
 
@@ -280,12 +284,14 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
              obs.x=nxs, obs.y=nys, obs.tot=nxys, t.statistic=tres$t.statistic,
              p.value=tres$p.value, ci.low=tres$ci.low, ci.high=tres$ci.high,
              stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
              alternative=alternative, stringsAsFactors=FALSE,
-             row.names=rownames(x)
+             row.names=rnames
              )
 }
 
@@ -363,12 +369,14 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
              var.diff=vxys, obs.x=nxs, obs.y=nys, obs.pair=nxys,
              t.statistic=tres$t.statistic, p.value=tres$p.value,
              ci.low=tres$ci.low, ci.high=tres$ci.high, stderr=stders, df=dfs,
              mean.null=mu, conf.level=conf.level, alternative=alternative,
-             stringsAsFactors=FALSE, row.names=rownames(x)
+             stringsAsFactors=FALSE, row.names=rnames
              )
 }
 

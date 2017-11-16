@@ -90,9 +90,11 @@ bartlett <- function(x, groups) {
 
   p <- pchisq(ksq, df, lower.tail=FALSE)
 
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(var.tot=vtot, obs.tot=nSamples, obs.groups=nGroups,
              ksq.statistic=ksq, p.value=p, df=df,
-             row.names=rownames(x)
+             row.names=rnames
              )
 }
 

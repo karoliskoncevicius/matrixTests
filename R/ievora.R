@@ -101,11 +101,13 @@ ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   var1 <- rowVars(x[,groups==1, drop=FALSE], na.rm=TRUE)
   logR <- log2(var1/var0)
 
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.0=tres$mean.x, mean.1=tres$mean.y, var.0=var0, var.1=var1,
              obs.0=tres$obs.x, obs.1=tres$obs.y, var.log2.ratio=logR,
              t.statistic=-tres$t.statistic, tt.p.value=tres$p.value,
              bt.p.value=bres$p.value, bt.q.value=brq, significant=isSig,
-             rank=rank, row.names=rownames(x)
+             rank=rank, row.names=rnames
              )
 }
 
