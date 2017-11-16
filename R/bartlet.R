@@ -28,27 +28,28 @@
 #' @author Karolis Koncevičius
 #' @export
 bartlett <- function(x, groups) {
+  force(x)
+  force(groups)
 
-  if(!is.null(x) && is.vector(x))
+  if(is.vector(x))
     x <- matrix(x, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
+  if(is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
 
   assert_numeric_mat_or_vec(x)
 
-  if(!is.null(groups))
-    groups <- as.character(groups)
-
-  assert_character_vec_length(groups, ncol(x))
+  assert_vec_length(groups, ncol(x))
 
 
   bad <- is.na(groups)
   if(any(bad)) {
-    warning(sum(bad), " columns dropped due to missing group information")
+    warning(sum(bad), ' columns dropped due to missing group information')
     x      <- x[,!bad, drop=FALSE]
     groups <- groups[!bad]
   }
+
+  groups <- as.character(groups)
 
   nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
   for(i in seq_along(unique(groups))) {
@@ -60,11 +61,11 @@ bartlett <- function(x, groups) {
 
   bad <- nGroups < 2
   if(any(bad))
-    warning(sum(bad), " rows had less than 2 groups with enough observations")
+    warning(sum(bad), ' of the rows had less than 2 groups with enough observations')
 
-  bad <- nGroups < length(unique(groups))
+  bad <- nGroups > 1 & nGroups < length(unique(groups))
   if(any(bad))
-    warning(sum(bad), " rows had groups with less than 2 observations")
+    warning(sum(bad), ' of the rows had groups with less than 2 observations')
 
 
   vPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
@@ -78,6 +79,14 @@ bartlett <- function(x, groups) {
   df   <- nGroups-1
   ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
            (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
+
+  bad <- vtot==0 & nGroups!=0
+  if(any(bad))
+    warning(sum(bad), ' of the rows had zero variance in all of the groups')
+
+  bad <- rowSums(vPerGroup==0, na.rm=TRUE) > 0 & vtot!=0 & nGroups!=0
+  if(any(bad))
+    warning(sum(bad), ' of the rows had groups with zero variance')
 
   p <- pchisq(ksq, df, lower.tail=FALSE)
 

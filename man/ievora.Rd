@@ -10,8 +10,9 @@ ievora(x, groups, cutT = 0.05, cutBfdr = 0.001)
 \item{x}{numeric matrix}
 
 \item{groups}{a vector specifying group membership for each column of x.
-Must contain two unique groups one labeled "1" and another "0". Otherwise
-the group appearing first is labeled "0" and the remaining one as "1".}
+Must contain two unique groups one labeled "1" and another "0".
+If the vector is neither numeric nor logical the group appearing first is
+labeled "0" and the remaining one as "1".}
 
 \item{cutT}{cutoff threshold for the raw p-value of the t-test step.
 (default 0.05)}
@@ -54,7 +55,7 @@ phenotypes, but with one of these phenotypes representing cells which are at
 risk of neoplastic transformation.
 }
 \examples{
-# perform ievora on iris dataset for setosa against all other groups
+# perform iEVORA on iris dataset for setosa against all other groups
 ievora(t(iris[,1:4]), iris$Species=="setosa")
 
 }

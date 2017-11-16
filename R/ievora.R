@@ -54,43 +54,46 @@
 #' @author Karolis Koncevičius
 #' @export
 ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
+  force(x)
+  force(groups)
 
-  if(!is.null(x) && is.vector(x))
+  if(is.vector(x))
     x <- matrix(x, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
+  if(is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
 
   assert_numeric_mat_or_vec(x)
 
-  assert_all_in_range(cutT, 0, 1)
-  assert_all_in_range(cutBfdr, 0, 1)
-
-  assert_number_of_levels(groups, 2)
-
-  if(!is.null(groups) && is.logical(groups)) {
-    groups <- as.numeric(groups)
-  }
-
-  if(!is.numeric(groups) | !(all(groups %in% c(0,1)))) {
-    groups <- ifelse(groups==unique(na.omit(groups))[1], 0, 1)
-  }
-
-  assert_numeric_vec_length(groups, ncol(x))
+  assert_vec_length(groups, ncol(x))
+  assert_max_number_of_levels(groups, 2)
 
   bad <- is.na(groups)
   if(any(bad)) {
-    warning(sum(bad), " columns dropped due to missing group information")
+    warning(sum(bad), ' columns dropped due to missing group information')
     x      <- x[,!bad, drop=FALSE]
     groups <- groups[!bad]
   }
 
+  if(is.logical(groups)) {
+    groups <- as.numeric(groups)
+  }
+
+  if(!is.numeric(groups) | !(all(groups %in% c(0,1)))) {
+    groups <- match(groups, unique(groups))-1
+  }
+
+  assert_numeric_vec_length(cutT,  1)
+  assert_numeric_vec_length(cutBfdr,  1)
+  assert_all_in_range(cutT, 0, 1)
+  assert_all_in_range(cutBfdr, 0, 1)
 
   tres <- ttest_welch(x[,groups==0, drop=FALSE], x[,groups==1, drop=FALSE])
   bres <- bartlett(x, groups)
 
   brq <- p.adjust(bres$p.value, "fdr")
   isSig <- brq < cutBfdr & tres$p.value < cutT
+  isSig[is.na(isSig)] <- FALSE
   rank  <- rep(NA, length(isSig))
   rank[isSig] <- rank(tres$p.value[isSig], ties.method="first")
 
@@ -99,10 +102,10 @@ ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   logR <- log2(var1/var0)
 
   data.frame(mean.0=tres$mean.x, mean.1=tres$mean.y, var.0=var0, var.1=var1,
-             obs.0=tres$obs.x, obs.1=tres$obs.y, logR=logR,
+             obs.0=tres$obs.x, obs.1=tres$obs.y, var.log2.ratio=logR,
              t.statistic=-tres$t.statistic, tt.p.value=tres$p.value,
              bt.p.value=bres$p.value, bt.q.value=brq, significant=isSig,
-             rank=rank, row.names=rownames(tres)
+             rank=rank, row.names=rownames(x)
              )
 }
 

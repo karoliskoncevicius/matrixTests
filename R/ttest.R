@@ -45,25 +45,28 @@
 #' @author Karolis Koncevičius
 #' @export
 ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
+  force(x)
 
-  if(!is.null(x) && is.vector(x))
+  if(is.vector(x))
     x <- matrix(x, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
+  if(is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
 
   assert_numeric_mat_or_vec(x)
 
   if(length(alternative)==1)
     alternative <- rep(alternative, length.out=nrow(x))
+  assert_character_vec_length(alternative, 1, nrow(x))
+
   choices <- c("two.sided", "less", "greater")
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
-  assert_character_vec_length(alternative, 1, nrow(x))
   assert_all_in_set(alternative, choices)
 
   if(length(mu)==1)
     mu <- rep(mu, length.out=nrow(x))
   assert_numeric_vec_length(mu, 1, nrow(x))
+  assert_all_in_range(mu, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -76,7 +79,7 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   bad <- nxs < 2
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had less than 2 'x' observations"))
+    warning(paste0(sum(bad), ' of the rows had less than 2 "x" observations'))
 
   vxs    <- ifelse(bad, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
   dfs    <- ifelse(bad, NA, nxs-1)
@@ -84,7 +87,7 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   bad <- stders <= 10 * .Machine$double.eps * abs(mxs)
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows were essentially constant"))
+    warning(paste0(sum(bad), ' of the rows were essentially constant'))
 
   dfs[bad]      <- NA
   stders[bad]   <- NA
@@ -105,15 +108,17 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 #' @export
 #' @rdname ttest
 ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+  force(x)
+  force(y)
 
-  if(!is.null(x) && is.vector(x))
+  if(is.vector(x))
     x <- matrix(x, nrow=1)
-  if(!is.null(y) && is.vector(y))
+  if(is.vector(y))
     y <- matrix(y, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
+  if(is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
-  if(!is.null(y) && is.data.frame(y) && all(sapply(y, is.numeric)))
+  if(is.data.frame(y) && all(sapply(y, is.numeric)))
     y <- data.matrix(y)
 
   assert_numeric_mat_or_vec(x)
@@ -122,14 +127,16 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
   if(length(alternative)==1)
     alternative <- rep(alternative, length.out=nrow(x))
+  assert_character_vec_length(alternative, 1, nrow(x))
+
   choices <- c("two.sided", "less", "greater")
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
-  assert_character_vec_length(alternative, 1, nrow(x))
   assert_all_in_set(alternative, choices)
 
   if(length(mu)==1)
     mu <- rep(mu, length.out=nrow(x))
   assert_numeric_vec_length(mu, 1, nrow(x))
+  assert_all_in_range(mu, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -147,21 +154,21 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
   bad <- (nxs+nys) < 3
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had less than 3 total observations"))
+    warning(paste0(sum(bad), ' of the rows had less than 3 total observations'))
 
   dfs <- ifelse(bad, NA, nxs + nys - 2)
 
-  bad <- nys < 1
+  bad <- (nxs+nys) > 2 & nys < 1
   if(any(bad, na.rm=TRUE)) {
-    warning(paste0(sum(bad), " of the rows had zero 'y' observations"))
+    warning(paste0(sum(bad), ' of the rows had zero "y" observations'))
   }
 
   vys <- ifelse(bad, NA, rowSums((y-mys)^2, na.rm=TRUE) / (nys-1))
   dfs[bad] <- NA
 
-  bad <- nxs < 1
+  bad <- (nxs+nys) > 2 & nxs < 1
   if(any(bad, na.rm=TRUE)) {
-    warning(paste0(sum(bad), " of the rows had zero 'x' observations"))
+    warning(paste0(sum(bad), ' of the rows had zero "x" observations'))
   }
 
   vxs <- ifelse(bad, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
@@ -177,7 +184,7 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
   bad <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
   if(any(bad, na.rm=TRUE)) {
-    warning(paste0(sum(bad), " of the rows were essentially constant"))
+    warning(paste0(sum(bad), ' of the rows were essentially constant'))
   }
 
   dfs[bad]      <- NA
@@ -200,15 +207,17 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 #' @export
 #' @rdname ttest
 ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+  force(x)
+  force(y)
 
-  if(!is.null(x) && is.vector(x))
+  if(is.vector(x))
     x <- matrix(x, nrow=1)
-  if(!is.null(y) && is.vector(y))
+  if(is.vector(y))
     y <- matrix(y, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
+  if(is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
-  if(!is.null(y) && is.data.frame(y) && all(sapply(y, is.numeric)))
+  if(is.data.frame(y) && all(sapply(y, is.numeric)))
     y <- data.matrix(y)
 
   assert_numeric_mat_or_vec(x)
@@ -217,14 +226,16 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   if(length(alternative)==1)
     alternative <- rep(alternative, length.out=nrow(x))
+  assert_character_vec_length(alternative, 1, nrow(x))
+
   choices <- c("two.sided", "less", "greater")
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
-  assert_character_vec_length(alternative, 1, nrow(x))
   assert_all_in_set(alternative, choices)
 
   if(length(mu)==1)
     mu <- rep(mu, length.out=nrow(x))
   assert_numeric_vec_length(mu, 1, nrow(x))
+  assert_all_in_range(mu, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -242,13 +253,13 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   bad <- nys < 2
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had less than 2 'y' observations"))
+    warning(paste0(sum(bad), ' of the rows had less than 2 "y" observations'))
 
   vys <- ifelse(bad, NA, rowSums((y-mys)^2, na.rm=TRUE) / (nys-1))
 
   bad <- nxs < 2
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had less than 2 'x' observations"))
+    warning(paste0(sum(bad), ' of the rows had less than 2 "x" observations'))
 
   vxs <- ifelse(bad, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
 
@@ -261,7 +272,7 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   bad <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows were essentially constant"))
+    warning(paste0(sum(bad), ' of the rows were essentially constant'))
 
   dfs[bad]    <- NA
   stders[bad] <- NA
@@ -281,15 +292,17 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 #' @export
 #' @rdname ttest
 ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+  force(x)
+  force(y)
 
-  if(!is.null(x) && is.vector(x))
+  if(is.vector(x))
     x <- matrix(x, nrow=1)
-  if(!is.null(y) && is.vector(y))
+  if(is.vector(y))
     y <- matrix(y, nrow=1)
 
-  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
+  if(is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
-  if(!is.null(y) && is.data.frame(y) && all(sapply(y, is.numeric)))
+  if(is.data.frame(y) && all(sapply(y, is.numeric)))
     y <- data.matrix(y)
 
   assert_numeric_mat_or_vec(x)
@@ -299,14 +312,16 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   if(length(alternative)==1)
     alternative <- rep(alternative, length.out=nrow(x))
+  assert_character_vec_length(alternative, 1, nrow(x))
+
   choices <- c("two.sided", "less", "greater")
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
-  assert_character_vec_length(alternative, 1, nrow(x))
   assert_all_in_set(alternative, choices)
 
   if(length(mu)==1)
     mu <- rep(mu, length.out=nrow(x))
   assert_numeric_vec_length(mu, 1, nrow(x))
+  assert_all_in_range(mu, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -328,31 +343,19 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   bad <- nxys < 2
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had less than 2 paired observations"))
+    warning(paste0(sum(bad), ' of the rows had less than 2 paired observations'))
 
   dfs  <- ifelse(bad, NA, nxys-1)
   vxys <- ifelse(bad, NA, rowSums((xy-mxys)^2, na.rm=TRUE) / (nxys-1))
 
-  bad <- nys < 1
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had none 'y' observations"))
-
-  vys      <- ifelse(bad, NA, rowSums((y-mys)^2, na.rm=TRUE) / (nys-1))
-  dfs[bad] <- NA
-
-  bad <- nxs < 1
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows had none 'x' observations"))
-
-  vxs      <- ifelse(bad, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
-  dfs[bad] <- NA
-
+  vxs <- ifelse(nxs < 2, NA, rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1))
+  vys <- ifelse(nys < 2, NA, rowSums((y-mys)^2, na.rm=TRUE) / (nys-1))
 
   stders <- sqrt(vxys/nxys)
 
   bad <- stders <= 10 * .Machine$double.eps * abs(mxys)
   if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), " of the rows were essentially constant"))
+    warning(paste0(sum(bad), ' of the rows were essentially constant'))
 
   dfs[bad]    <- NA
   stders[bad] <- NA

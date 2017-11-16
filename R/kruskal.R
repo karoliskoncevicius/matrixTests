@@ -1,14 +1,8 @@
-#' ONEWAY ANOVA
+#' Kruskal-Wallis Rank Sum Test
 #'
-#' Performs an analysis of variance tests on each row of the input matrix.
+#' Performs a Kruskal-Wallis rank sum test on each row of the input matrix.
 #'
-#' Functions to perform ONEWAY ANOVA analysis for rows of matrices.
-#'
-#' \code{oneway_equalvar} - one-way anova. Same as \code{aov(x ~ groups)}
-#' \code{oneway_welch} _ one-way anova with Welch correction for variances.
-#' Same as \code{oneway.test(var.equal=FALSE)}
-#'
-#' @name oneway
+#' \code{kruskal} - sam as as \code{kruskal.test(0}
 #'
 #' @param x numeric matrix.
 #' @param groups a vector specifying group membership for each column of x.
@@ -24,27 +18,41 @@
 #' @author Karolis Koncevičius
 #' @export
 oneway_equalvar <- function(x, groups) {
-  force(x)
-  force(groups)
 
-  if(is.vector(x))
+  if(!is.null(x) && is.vector(x))
     x <- matrix(x, nrow=1)
 
-  if(is.data.frame(x) && all(sapply(x, is.numeric)))
+  if(!is.null(x) && is.data.frame(x) && all(sapply(x, is.numeric)))
     x <- data.matrix(x)
 
   assert_numeric_mat_or_vec(x)
 
-  assert_vec_length(groups, ncol(x))
+  if(!is.null(groups))
+    groups <- as.character(groups)
+
+  assert_character_vec_length(groups, ncol(x))
 
   bad <- is.na(groups)
   if(any(bad)) {
-    warning(sum(bad), ' columns dropped due to missing group information')
+    warning(sum(bad), " columns dropped due to missing group information")
     x      <- x[,!bad, drop=FALSE]
     groups <- groups[!bad]
   }
 
-  groups <- as.character(groups)
+  k <- length(x)
+  l <- sapply(x, "length")
+  if (any(l == 0L))
+    stop("all groups must contain data")
+  g <- factor(rep.int(seq_len(k), l))
+  n <- length(x)
+
+  r <- rank(x)
+  TIES <- table(x)
+  STATISTIC <- sum(tapply(r, g, "sum")^2/tapply(r, g, "length"))
+  STATISTIC <- ((12 * STATISTIC/(n * (n + 1)) - 3 * (n + 1))/(1 - sum(TIES^3 - TIES)/(n^3 - n)))
+  df <- k - 1L
+  PVAL <- pchisq(STATISTIC, PARAMETER, lower.tail = FALSE)
+
 
   nPerGroup <- matrix(nrow=nrow(x), ncol=length(unique(groups)))
   mPerGroup <- vPerGroup <- nPerGroup
@@ -67,17 +75,17 @@ oneway_equalvar <- function(x, groups) {
 
   bad <- nGroups < 2
   if(any(bad)) {
-    warning(sum(bad), ' of the rows had less than 2 groups with enough observations')
+    warning(sum(bad), " rows had less than 2 groups with enough observations")
   }
 
-  bad <- nGroups==nSamples & nGroups > 1
+  bad <- nGroups==nSamples
   if(any(bad)) {
-    warning(sum(bad), ' of the rows had one observation per group')
+    warning(sum(bad), " rows had one observation per group")
   }
 
   bad <- withinScatter==0 & nGroups!=nSamples & nGroups > 1
   if(any(bad)) {
-    warning(sum(bad), ' of the rows had essentially perfect fit')
+    warning(sum(bad), " rows had essentially perfect fit")
   }
 
   data.frame(sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
@@ -104,11 +112,11 @@ oneway_welch <- function(x, groups) {
   if(!is.null(groups))
     groups <- as.character(groups)
 
-  assert_vec_length(groups, ncol(x))
+  assert_character_vec_length(groups, ncol(x))
 
   bad <- is.na(groups)
   if(any(bad)) {
-    warning(sum(bad), ' columns dropped due to missing group information')
+    warning(sum(bad), " columns dropped due to missing group information")
     x      <- x[,!bad, drop=FALSE]
     groups <- groups[!bad]
   }
@@ -136,17 +144,17 @@ oneway_welch <- function(x, groups) {
 
   bad <- nGroups < 2
   if(any(bad)) {
-    warning(sum(bad), ' of the rows had less than 2 groups with enough observations')
+    warning(sum(bad), " rows had less than 2 groups with enough observations")
   }
 
   bad <- nGroups==nSamples
   if(any(bad)) {
-    warning(sum(bad), ' of the rows had one observation per group')
+    warning(sum(bad), " rows had one observation per group")
   }
 
   bad <- withinScatter==0 & nGroups!=nSamples & nGroups > 1
   if(any(bad)) {
-    warning(sum(bad), ' of the rows had essentially perfect fit')
+    warning(sum(bad), " rows had essentially perfect fit")
   }
 
   data.frame(sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
