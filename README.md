@@ -55,3 +55,11 @@ library(devtools)
 install_github("KKPMW/matrixTests")
 ```
 
+## See Also ##
+
+1. "Computing thousands of test statistics simultaneously in R",
+Holger Schwender, Tina Müller. University of Dortmund, Germany (2007).
+2. `rowttest()` in the "genefilter" package.
+3. `mt.teststat()` in the "multtest" package.
+
+
