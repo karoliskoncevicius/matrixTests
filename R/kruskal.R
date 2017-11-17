@@ -40,9 +40,7 @@ kruskalwallis <- function(x, groups) {
 
   groups <- as.character(groups)
 
-  ranks <- matrix(numeric(), nrow=nrow(x), ncol=ncol(x))
-  ranks[] <- t(apply(x, 1, rank))
-  ranks[is.na(x)] <- NA
+  ranks <- matrixStats::rowRanks(x, ties.method="average")
 
   ties <- rowTables(ranks)
 
@@ -50,12 +48,12 @@ kruskalwallis <- function(x, groups) {
   rPerGroup <- nPerGroup
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
-    nPerGroup[,i] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
     rPerGroup[,i] <- rowSums(ranks[,groups==g, drop=FALSE], na.rm=TRUE)
   }
 
   nSamples <- rowSums(nPerGroup)
-  nGroups  <- rowSums(nPerGroup!=0)
+  nGroups  <- matrixStats::rowCounts(nPerGroup!=0)
 
   st0 <- rowSums(rPerGroup^2/nPerGroup, na.rm=TRUE)
   st1 <- 12*st0 / (nSamples * (nSamples + 1)) - 3 * (nSamples + 1)

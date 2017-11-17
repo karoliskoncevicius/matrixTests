@@ -7,9 +7,10 @@ Description: This package provides a set of functions to perform parallel statis
   output readability and consistency with default hypothesis testing functions
   (like those from the package 'stats').
 Depends: R (>= 3.2.2)
+Imports: matrixStats
+Suggests: testthat
 License: GPL-2
 LazyData: true
-Suggests: testthat
 URL: https://github.com/KKPWM/matrixTests
 BugReports: https://github.com/KKPWM/matrixTests/issues
 RoxygenNote: 6.0.1

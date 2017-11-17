@@ -55,6 +55,10 @@ library(devtools)
 install_github("KKPMW/matrixTests")
 ```
 
+## Dependencies ##
+
+1. `matrixStats` package.
+
 ## See Also ##
 
 1. *Computing thousands of test statistics simultaneously in R*,

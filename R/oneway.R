@@ -50,13 +50,13 @@ oneway_equalvar <- function(x, groups) {
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
-    nPerGroup[,i] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
     mPerGroup[,i] <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
     vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
   }
 
   nSamples <- rowSums(nPerGroup)
-  nGroups  <- rowSums(nPerGroup!=0)
+  nGroups  <- matrixStats::rowCounts(nPerGroup!=0)
   M <- rowMeans(x, na.rm=TRUE)
 
   betweenScatter <- rowSums(nPerGroup * (mPerGroup-M)^2, na.rm=TRUE)
@@ -124,13 +124,13 @@ oneway_welch <- function(x, groups) {
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
-    nPerGroup[,i] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
     mPerGroup[,i] <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
     vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
   }
 
   nSamples  <- rowSums(nPerGroup)
-  nGroups   <- rowSums(nPerGroup!=0)
+  nGroups   <- matrixStats::rowCounts(nPerGroup!=0)
   wPerGroup <- nPerGroup/vPerGroup
   wTot      <- rowSums(wPerGroup, na.rm=TRUE)
   M         <- rowSums((wPerGroup * mPerGroup)/wTot, na.rm=TRUE)

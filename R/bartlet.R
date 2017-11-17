@@ -52,12 +52,14 @@ bartlett <- function(x, groups) {
   groups <- as.character(groups)
 
   nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
+  vPerGroup <- nPerGroup
   for(i in seq_along(unique(groups))) {
     g <- unique(groups)[i]
-    nPerGroup[,i] <- rowSums(!is.na(x[,groups==g, drop=FALSE]))
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
+    vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
   }
   nPerGroup[nPerGroup < 2] <- NA
-  nGroups <- rowSums(!is.na(nPerGroup))
+  nGroups <- matrixStats::rowCounts(!is.na(nPerGroup))
 
   bad <- nGroups < 2
   if(any(bad))
@@ -67,12 +69,6 @@ bartlett <- function(x, groups) {
   if(any(bad))
     warning(sum(bad), ' of the rows had groups with less than 2 observations')
 
-
-  vPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
-  for(i in seq_along(unique(groups))) {
-    g <- unique(groups)[i]
-    vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
-  }
 
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
   vtot <- rowSums(vPerGroup*(nPerGroup-1), na.rm=TRUE) / (nSamples - nGroups)

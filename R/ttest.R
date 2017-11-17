@@ -74,7 +74,7 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   assert_all_in_range(conf.level, 0, 1)
 
   mxs <- rowMeans(x, na.rm=TRUE)
-  nxs <- rowSums(!is.na(x))
+  nxs <- matrixStats::rowCounts(!is.na(x))
   vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
   dfs <- nxs-1
   stders <- sqrt(vxs/nxs)
@@ -152,8 +152,8 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   mys  <- rowMeans(y, na.rm=TRUE)
   mxys <- mxs - mys
 
-  nxs  <- rowSums(!is.na(x))
-  nys  <- rowSums(!is.na(y))
+  nxs  <- matrixStats::rowCounts(!is.na(x))
+  nys  <- matrixStats::rowCounts(!is.na(y))
   nxys <- nxs + nys
 
   vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
@@ -257,8 +257,8 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   mys  <- rowMeans(y, na.rm=TRUE)
   mxys <- mxs - mys
 
-  nxs  <- rowSums(!is.na(x))
-  nys  <- rowSums(!is.na(y))
+  nxs  <- matrixStats::rowCounts(!is.na(x))
+  nys  <- matrixStats::rowCounts(!is.na(y))
   nxys <- nxs + nys
 
   vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
@@ -353,9 +353,9 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   mys  <- rowMeans(y, na.rm=TRUE)
   mxys <- rowMeans(xy, na.rm=TRUE)
 
-  nxs  <- rowSums(!is.na(x))
-  nys  <- rowSums(!is.na(y))
-  nxys <- rowSums(!is.na(xy))
+  nxs  <- matrixStats::rowCounts(!is.na(x))
+  nys  <- matrixStats::rowCounts(!is.na(y))
+  nxys <- matrixStats::rowCounts(!is.na(xy))
 
   vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
   vxs[nxs < 2] <- NA
