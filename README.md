@@ -60,8 +60,9 @@ install_github("KKPMW/matrixTests")
 1. *Computing thousands of test statistics simultaneously in R*,
 Holger Schwender, Tina Müller. Statistical Computing & Graphics.
 Volume 18, No 1, June 2007.
-2. `rowttests()` in the **genefilter** package.
-3. `mt.teststat()` in the **multtest** package.
-3. `rowTtest` in the **viper** package.
+2. `lmFit` in the **limma** package.
+3. `rowttests()` in the **genefilter** package.
+4. `mt.teststat()` in the **multtest** package.
+5. `rowTtest` in the **viper** package.
 
 
