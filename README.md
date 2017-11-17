@@ -65,5 +65,6 @@ Volume 18, No 1, June 2007.
 4. `mt.teststat()` in the **multtest** package.
 5. `row.T.test()` in the **HybridMTest** package.
 6. `rowTtest()` in the **viper** package.
+7. `ttests()` in the **Rfast** package.
 
 
