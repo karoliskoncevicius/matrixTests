@@ -93,8 +93,7 @@ bartlett <- function(x, groups) {
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(var.tot=vtot, obs.tot=nSamples, obs.groups=nGroups,
-             ksq.statistic=ksq, p.value=p, df=df,
-             row.names=rnames
+             chsq.statistic=ksq, p.value=p, df=df, row.names=rnames
              )
 }
 

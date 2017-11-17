@@ -216,7 +216,7 @@ test_that("warning is shown when columns are removed because of NA groups", {
   expect_equal(obs, c(8,8))
 })
 
-test_that("rows should have more than 2 groups", {
+test_that("rows should have at least 2 groups", {
   wrn <- '1 of the rows had less than 2 groups with enough observations'
   expect_warning(fst <- oneway_equalvar(1:10, rep(1,10))$F.statistic, wrn)
   expect_true(is.na(fst))
@@ -263,6 +263,57 @@ test_that("all values within one group should not be constant", {
 })
 
 ################################################################################
+################################ KRUSKAL_WALLIS ################################
+################################################################################
+
+test_that("warning is shown when columns are removed because of NA groups", {
+  wrn <- '2 columns dropped due to missing group information'
+  expect_warning(obs <- kruskalwallis(1:10, c(1,1,1,1,NA,NA,2,2,2,2))$obs.tot, wrn)
+  expect_equal(obs, 8)
+  expect_warning(obs <- kruskalwallis(1:10, c(1,1,1,1,NaN,NaN,2,2,2,2))$obs.tot, wrn)
+  expect_equal(obs, 8)
+  expect_warning(obs <- kruskalwallis(matrix(1:20, nrow=2), c(1,1,1,1,NA,NaN,2,2,2,2))$obs.tot, wrn)
+  expect_equal(obs, c(8,8))
+})
+
+test_that("rows should have at least 2 observations", {
+  wrn <- '1 of the rows had less than 2 total observations'
+  expect_warning(kst <- kruskalwallis(1, "a")$chsq, wrn)
+  expect_true(is.na(kst))
+  expect_warning(kst <- kruskalwallis(c(1,NA,NA,NA), c(1,1,2,2))$chsq, wrn)
+  expect_true(is.na(kst))
+  expect_warning(kst <- kruskalwallis(c(1,2,3,NA), c(NA,NA,1,2))$chsq, wrn)
+  expect_true(is.na(kst))
+  expect_warning(kst <- kruskalwallis(1, 1)$chsq, wrn)
+  expect_true(is.na(kst))
+  wrn <- '4 of the rows had less than 2 total observations'
+  mat <- matrix(rnorm(100), ncol=10)
+  mat[1:2,c(2:4)] <- NA
+  mat[3:4,c(1:6)] <- NA
+  grp <- c(1,1,1,2,NA,NA,NA,NA,NA,NA)
+  expect_warning(kst <- kruskalwallis(mat, grp)$chsq, wrn)
+  expect_true(all(is.na(kst[1:4])))
+})
+
+test_that("rows should have at least 2 groups", {
+  wrn <- '1 of the rows had less than 2 groups with enough observations'
+  expect_warning(kst <- kruskalwallis(1:10, rep(1,10))$chsq, wrn)
+  expect_true(is.na(kst))
+  expect_warning(kst <- kruskalwallis(1:10, c(rep(1,9),NA))$chsq, wrn)
+  expect_true(is.na(kst))
+  expect_warning(kst <- kruskalwallis(c(1:8,NA,NA), c(rep(1,8),2,2))$chsq, wrn)
+  expect_true(is.na(kst))
+  wrn <- '6 of the rows had less than 2 groups with enough observations'
+  mat <- matrix(rnorm(100), ncol=10)
+  mat[1:2,c(4:8)] <- NA
+  mat[3:4,c(1:3,7:8)] <- NA
+  mat[5:6,c(1:6)] <- NA
+  grp <- c(1,1,1,2,2,2,3,3,NA,NA)
+  expect_warning(kst <- kruskalwallis(mat, grp)$chsq, wrn)
+  expect_true(all(is.na(kst[1:6])))
+})
+
+################################################################################
 ################################### BARTLETT ###################################
 ################################################################################
 
@@ -276,13 +327,13 @@ test_that("warning is shown when columns are removed because of NA groups", {
   expect_equal(obs, c(8,8))
 })
 
-test_that("rows should have more than 2 groups", {
+test_that("rows should have at least 2 groups", {
   wrn <- '1 of the rows had less than 2 groups with enough observations'
-  expect_warning(kst <- bartlett(1:10, rep(1,10))$ksq.statistic, wrn)
+  expect_warning(kst <- bartlett(1:10, rep(1,10))$chsq.statistic, wrn)
   expect_true(is.na(kst))
-  expect_warning(kst <- bartlett(1:10, c(rep(1,9),NA))$ksq.statistic, wrn)
+  expect_warning(kst <- bartlett(1:10, c(rep(1,9),NA))$chsq.statistic, wrn)
   expect_true(is.na(kst))
-  expect_warning(kst <- bartlett(c(1:8,NA,NA), c(rep(1,8),2,2))$ksq.statistic, wrn)
+  expect_warning(kst <- bartlett(c(1:8,NA,NA), c(rep(1,8),2,2))$chsq.statistic, wrn)
   expect_true(is.na(kst))
   wrn <- '6 of the rows had less than 2 groups with enough observations'
   mat <- matrix(rnorm(100), ncol=10)
@@ -290,7 +341,7 @@ test_that("rows should have more than 2 groups", {
   mat[3:4,c(1:6,7)] <- NA
   mat[5:6,c(3:6,7)] <- NA
   grp <- c(1,1,1,2,2,2,3,3,NA,NA)
-  expect_warning(kst <- bartlett(mat, grp)$ksq.statistic, wrn)
+  expect_warning(kst <- bartlett(mat, grp)$chsq.statistic, wrn)
   expect_true(all(is.na(kst[1:6])))
 })
 
@@ -313,14 +364,14 @@ test_that("all groups should have at least 2 observations", {
 
 test_that("all groups should have some variability", {
   wrn <- '1 of the rows had zero variance in all of the groups'
-  expect_warning(ksq <- bartlett(c(1,1,2,2), c(1,1,2,2))$ksq.statistic, wrn)
+  expect_warning(ksq <- bartlett(c(1,1,2,2), c(1,1,2,2))$chsq.statistic, wrn)
   expect_true(is.na(ksq))
-  expect_warning(ksq <- bartlett(c(1,1,2,2,3,3,4), c(1,1,2,2,3,3,NA))$ksq.statistic, wrn)
+  expect_warning(ksq <- bartlett(c(1,1,2,2,3,3,4), c(1,1,2,2,3,3,NA))$chsq.statistic, wrn)
   expect_true(is.na(ksq))
   wrn <- '1 of the rows had groups with zero variance'
-  expect_warning(ksq <- bartlett(c(1,1,2,3), c(1,1,2,2))$ksq.statistic, wrn)
+  expect_warning(ksq <- bartlett(c(1,1,2,3), c(1,1,2,2))$chsq.statistic, wrn)
   expect_true(is.infinite(ksq))
-  expect_warning(ksq <- bartlett(c(1,1,4,2,3), c(1,1,NA,2,2))$ksq.statistic, wrn)
+  expect_warning(ksq <- bartlett(c(1,1,4,2,3), c(1,1,NA,2,2))$chsq.statistic, wrn)
   expect_true(is.infinite(ksq))
 })
 

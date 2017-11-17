@@ -11,6 +11,7 @@ test_that("x cannot be missing", {
   expect_error(ttest_onegroup(), er)
   expect_error(ttest_paired(), er)
   expect_error(oneway_equalvar(), er)
+  expect_error(kruskalwallis(), er)
   expect_error(bartlett(), er)
   expect_error(ievora(), er)
 })
@@ -25,6 +26,7 @@ test_that("y cannot be missing", {
 test_that("groups cannot be missing", {
   er <- 'argument "groups" is missing, with no default'
   expect_error(oneway_equalvar(x=NA), er)
+  expect_error(kruskalwallis(x=NA), er)
   expect_error(bartlett(x=NA), er)
   expect_error(ievora(x=NA), er)
 })
@@ -41,6 +43,7 @@ test_that("x cannot be a character", {
   expect_error(ttest_welch(x=matX, y=0), er)
   expect_error(ttest_paired(x=matX, y=0), er)
   expect_error(oneway_equalvar(x=matX, groups="a"), er)
+  expect_error(kruskalwallis(x=matX, groups="a"), er)
   expect_error(bartlett(x=matX, groups="a"), er)
   expect_error(ievora(x=matX, groups="a"), er)
 })
@@ -61,6 +64,7 @@ test_that("x cannot be partially numeric", {
   expect_error(ttest_welch(x=iris, y=0), er)
   expect_error(ttest_paired(x=iris, y=0), er)
   expect_error(oneway_equalvar(x=iris, groups="a"), er)
+  expect_error(kruskalwallis(x=iris, groups="a"), er)
   expect_error(bartlett(x=iris, groups="a"), er)
   expect_error(ievora(x=iris, groups="a"), er)
 })
@@ -73,7 +77,6 @@ test_that("y cannot be partially numeric", {
 })
 
 
-
 test_that("x cannot be complex", {
   matX <- matrix(complex(c(1,2), c(3,4)), nrow=1)
   er <- '"x" must be a numeric matrix or vector'
@@ -82,6 +85,7 @@ test_that("x cannot be complex", {
   expect_error(ttest_welch(x=matX, y=0), er)
   expect_error(ttest_paired(x=matX, y=0), er)
   expect_error(oneway_equalvar(x=matX, groups="a"), er)
+  expect_error(kruskalwallis(x=matX, groups="a"), er)
   expect_error(bartlett(x=matX, groups="a"), er)
   expect_error(ievora(x=matX, groups="a"), er)
 })
@@ -103,6 +107,7 @@ test_that("x cannot be logical", {
   expect_error(ttest_welch(x=matX, y=0), er)
   expect_error(ttest_paired(x=matX, y=0), er)
   expect_error(oneway_equalvar(x=matX, groups="a"), er)
+  expect_error(kruskalwallis(x=matX, groups="a"), er)
   expect_error(bartlett(x=matX, groups="a"), er)
   expect_error(ievora(x=matX, groups="a"), er)
 })
@@ -123,6 +128,7 @@ test_that("x cannot be NULL", {
   expect_error(ttest_welch(x=NULL, y=0), er)
   expect_error(ttest_paired(x=NULL, y=0), er)
   expect_error(oneway_equalvar(x=NULL, groups="a"), er)
+  expect_error(kruskalwallis(x=NULL, groups="a"), er)
   expect_error(bartlett(x=NULL, groups="a"), er)
   expect_error(ievora(x=NULL, groups="a"), er)
 })
@@ -143,6 +149,7 @@ test_that("x cannot be in a list", {
   expect_error(ttest_welch(x=list(1:5), y=0), er)
   expect_error(ttest_paired(x=list(1:5), y=0), er)
   expect_error(oneway_equalvar(x=list(1:5), groups="a"), er)
+  expect_error(kruskalwallis(x=list(1:5), groups="a"), er)
   expect_error(bartlett(x=list(1:5), groups="a"), er)
   expect_error(ievora(x=list(1:5), groups="a"), er)
 })
@@ -162,6 +169,7 @@ test_that("x cannot be a list", {
   expect_error(ttest_welch(x=as.list(1:5), y=0), er)
   expect_error(ttest_paired(x=as.list(1:5), y=0), er)
   expect_error(oneway_equalvar(x=as.list(1:5), groups="a"), er)
+  expect_error(kruskalwallis(x=as.list(1:5), groups="a"), er)
   expect_error(bartlett(x=as.list(1:5), groups="a"), er)
   expect_error(ievora(x=as.list(1:5), groups="a"), er)
 })
@@ -182,6 +190,7 @@ test_that("groups cannot be NULL", {
   matX <- matrix(1:12, ncol=3)
   er <- '"groups" must be a vector with length ncol\\(x\\)'
   expect_error(oneway_equalvar(x=matX, groups=NULL), er)
+  expect_error(kruskalwallis(x=matX, groups=NULL), er)
   expect_error(bartlett(x=matX, groups=NULL), er)
   expect_error(ievora(x=matX, groups=NULL), er)
 })
@@ -190,6 +199,7 @@ test_that("groups cannot be a list", {
   matX <- matrix(1:12, ncol=3)
   er <- '"groups" must be a vector with length ncol\\(x\\)'
   expect_error(oneway_equalvar(x=matX, groups=list(1:3)), er)
+  expect_error(kruskalwallis(x=matX, groups=list(1:3)), er)
   expect_error(bartlett(x=matX, groups=list(1:3)), er)
   expect_error(ievora(x=matX, groups=list(1:3)), er)
 })
@@ -199,6 +209,7 @@ test_that("groups cannot be a matrix", {
   grp  <- cbind(c("A", "A"), c("B", "B"))
   er <- '"groups" must be a vector with length ncol\\(x\\)'
   expect_error(oneway_equalvar(x=matX, groups=grp), er)
+  expect_error(kruskalwallis(x=matX, groups=grp), er)
   expect_error(bartlett(x=matX, groups=grp), er)
   expect_error(ievora(x=matX, groups=grp), er)
 })
@@ -227,6 +238,7 @@ test_that("group length matches number of columns", {
   matX <- matrix(1:12, nrow=3)
   er <- '"groups" must be a vector with length ncol\\(x\\)'
   expect_error(oneway_equalvar(x=matX, groups=1:3), er)
+  expect_error(kruskalwallis(x=matX, groups=1:3), er)
   expect_error(bartlett(x=matX, groups=1:3), er)
   expect_error(ievora(x=matX, groups=1:3), er)
 })
