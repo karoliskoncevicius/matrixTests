@@ -63,6 +63,7 @@ Volume 18, No 1, June 2007.
 2. `lmFit` in the **limma** package.
 3. `rowttests()` in the **genefilter** package.
 4. `mt.teststat()` in the **multtest** package.
-5. `rowTtest` in the **viper** package.
+5. `row.T.test()` in the **HybridMTest** package.
+6. `rowTtest()` in the **viper** package.
 
 
