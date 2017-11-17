@@ -33,6 +33,7 @@ res2 <- ttest_welch(X, Y)
 * `ttest_equalvar`  - t.test for two groups with equal variance.
 * `ttest_paired`    - t.test for paired observations.
 * `oneway_equalvar` - oneway ANOVA for groups with equal variance.
+* `oneway_welch`    - oneway ANOVA with Welch adjustment.
 * `kruskalwallis`   - Kruskal-Wallis test.
 * `bartlett`        - Bartlett's test.
 
@@ -42,7 +43,6 @@ res2 <- ttest_welch(X, Y)
 
 ## Planned ##
 
-* oneway test with Welch correction
 * test for Pearson's correlation coefficient
 * linear regression
 
