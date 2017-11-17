@@ -3,9 +3,12 @@
 \name{oneway}
 \alias{oneway}
 \alias{oneway_equalvar}
+\alias{oneway_welch}
 \title{ONEWAY ANOVA}
 \usage{
 oneway_equalvar(x, groups)
+
+oneway_welch(x, groups)
 }
 \arguments{
 \item{x}{numeric matrix.}

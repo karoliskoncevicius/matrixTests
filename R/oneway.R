@@ -95,6 +95,8 @@ oneway_equalvar <- function(x, groups) {
              )
 }
 
+#' @export
+#' @rdname oneway
 oneway_welch <- function(x, groups) {
   force(x)
   force(groups)
