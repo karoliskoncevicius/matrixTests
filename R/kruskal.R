@@ -61,20 +61,18 @@ kruskalwallis <- function(x, groups) {
   stat <- st1/st2
   df <- nGroups - 1
 
-  bad <- nSamples < 2
-  showWarning(bad, 'had less than 2 total observations')
-
-  stat[bad] <- NA
-  df[bad]   <- NA
-
-
-  bad <- nGroups < 2 & nSamples > 1
-  showWarning(bad, 'had less than 2 groups with enough observations')
-
-  stat[bad] <- NA
-  df[bad]   <- NA
-
   p <- pchisq(stat, df, lower.tail=FALSE)
+
+
+  w1 <- nSamples < 2
+  showWarning(w1, 'had less than 2 total observations')
+
+  w2 <- !w1 & nGroups < 2
+  showWarning(w2, 'had less than 2 groups with enough observations')
+
+  stat[w1 | w2] <- NA
+  p[w1 | w2]    <- NA
+
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)

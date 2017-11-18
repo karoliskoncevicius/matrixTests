@@ -61,26 +61,27 @@ bartlett <- function(x, groups) {
   nPerGroup[nPerGroup < 2] <- NA
   nGroups <- matrixStats::rowCounts(!is.na(nPerGroup))
 
-  bad <- nGroups < 2
-  showWarning(bad, 'had less than 2 groups with enough observations')
-
-  bad <- nGroups > 1 & nGroups < length(unique(groups))
-  showWarning(bad, 'had groups with less than 2 observations')
-
-
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
   vtot <- rowSums(vPerGroup*(nPerGroup-1), na.rm=TRUE) / (nSamples - nGroups)
   df   <- nGroups-1
   ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
            (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
 
-  bad <- vtot==0 & nGroups!=0
-  showWarning(bad, 'had zero variance in all of the groups')
-
-  bad <- rowSums(vPerGroup==0, na.rm=TRUE) > 0 & vtot!=0 & nGroups!=0
-  showWarning(bad, 'had groups with zero variance')
-
   p <- pchisq(ksq, df, lower.tail=FALSE)
+
+
+  w1 <- nGroups < 2
+  showWarning(w1, 'had less than 2 groups with enough observations')
+
+  w2 <- !w1 & nGroups < length(unique(groups))
+  showWarning(w2, 'had groups with less than 2 observations')
+
+  w3 <- vtot==0 & nGroups!=0
+  showWarning(w3, 'had zero variance in all of the groups')
+
+  w4 <- !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0
+  showWarning(w4, 'had groups with zero variance')
+
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
