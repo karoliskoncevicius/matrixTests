@@ -62,17 +62,14 @@ kruskalwallis <- function(x, groups) {
   df <- nGroups - 1
 
   bad <- nSamples < 2
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows had less than 2 total observations'))
+  showWarning(bad, 'had less than 2 total observations')
 
   stat[bad] <- NA
   df[bad]   <- NA
 
 
   bad <- nGroups < 2 & nSamples > 1
-  if(any(bad)) {
-    warning(sum(bad), ' of the rows had less than 2 groups with enough observations')
-  }
+  showWarning(bad, 'had less than 2 groups with enough observations')
 
   stat[bad] <- NA
   df[bad]   <- NA

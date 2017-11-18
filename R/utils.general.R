@@ -14,3 +14,11 @@ rowTables <- function(x) {
   res
 }
 
+showWarning <- function(isWarning, err) {
+  if(any(isWarning, na.rm=TRUE)) {
+    n <- sum(isWarning, na.rm=TRUE)
+    i <- match(TRUE, isWarning)
+    err <- paste0(n, ' of the rows ', err, '. First occurrence at row ', i)
+    warning(err)
+  }
+}

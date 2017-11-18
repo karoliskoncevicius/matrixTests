@@ -66,19 +66,13 @@ oneway_equalvar <- function(x, groups) {
   dfr <- nSamples-nGroups
 
   bad <- nGroups < 2
-  if(any(bad)) {
-    warning(sum(bad), ' of the rows had less than 2 groups with enough observations')
-  }
+  showWarning(bad, 'had less than 2 groups with enough observations')
 
   bad <- nGroups==nSamples & nGroups > 1
-  if(any(bad)) {
-    warning(sum(bad), ' of the rows had one observation per group')
-  }
+  showWarning(bad, 'had one observation per group')
 
   bad <- withinScatter==0 & nGroups!=nSamples & nGroups > 1
-  if(any(bad)) {
-    warning(sum(bad), ' of the rows had essentially perfect fit')
-  }
+  showWarning(bad, 'had essentially perfect fit')
 
   F <- (betweenScatter/dft) / (withinScatter/dfr)
   p <- pf(F, dft, dfr, lower.tail=FALSE)
@@ -141,23 +135,20 @@ oneway_welch <- function(x, groups) {
   dft <- nGroups-1
 
   bad <- nGroups < 2
-  if(any(bad)) {
-    warning(sum(bad), ' of the rows had less than 2 groups with enough observations')
-  }
+  showWarning(bad, 'had less than 2 groups with enough observations')
+
   dfr[bad] <- NA
   tmp[bad] <- NA
 
   bad <- rowSums(nPerGroup > 1, na.rm=TRUE)!=nGroups & nGroups > 1
-  if(any(bad)) {
-    warning(sum(bad), ' of the rows had less than 2 observations per group')
-  }
+  showWarning(bad, 'had less than 2 observations per group')
+
   dfr[bad] <- NA
   tmp[bad] <- NA
 
   bad <- rowSums(vPerGroup!=0, na.rm=TRUE)==0 & rowSums(nPerGroup < 2, na.rm=TRUE)==0 & nGroups > 1
-  if(any(bad)) {
-    warning(sum(bad), ' of the rows had essentially perfect fit')
-  }
+  showWarning(bad, 'had essentially perfect fit')
+
   dfr[bad] <- NA
   tmp[bad] <- NA
 

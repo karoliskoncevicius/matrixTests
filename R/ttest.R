@@ -80,16 +80,14 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   stders <- sqrt(vxs/nxs)
 
   bad <- nxs < 2
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows had less than 2 "x" observations'))
+  showWarning(bad, 'had less than 2 "x" observations')
 
-  vxs[bad] <- NA
-  dfs[bad] <- NA
+  vxs[bad]    <- NA
+  dfs[bad]    <- NA
   stders[bad] <- NA
 
   bad <- stders <= 10 * .Machine$double.eps * abs(mxs)
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows were essentially constant'))
+  showWarning(bad, 'were essentially constant')
 
   dfs[bad]      <- NA
   stders[bad]   <- NA
@@ -162,23 +160,18 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   dfs <- nxs + nys - 2
 
   bad <- nxys < 3
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows had less than 3 total observations'))
+  showWarning(bad, 'had less than 3 total observations')
 
   dfs[bad] <- NA
 
   bad <- nxys > 2 & nxs < 1
-  if(any(bad, na.rm=TRUE)) {
-    warning(paste0(sum(bad), ' of the rows had zero "x" observations'))
-  }
+  showWarning(bad, 'had zero "x" observations')
 
   vxs[bad] <- NA
   dfs[bad] <- NA
 
   bad <- nxys > 2 & nys < 1
-  if(any(bad, na.rm=TRUE)) {
-    warning(paste0(sum(bad), ' of the rows had zero "y" observations'))
-  }
+  showWarning(bad, 'had zero "y" observations')
 
   vys[bad] <- NA
   dfs[bad] <- NA
@@ -191,9 +184,7 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
 
   bad <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
-  if(any(bad, na.rm=TRUE)) {
-    warning(paste0(sum(bad), ' of the rows were essentially constant'))
-  }
+  showWarning(bad, 'were essentially constant')
 
   dfs[bad]      <- NA
   stders[bad]   <- NA
@@ -271,24 +262,21 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
 
   bad <- nxs < 2
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows had less than 2 "x" observations'))
+  showWarning(bad, 'had less than 2 "x" observations')
 
   vxs[bad]    <- NA
   stders[bad] <- NA
   dfs[bad]    <- NA
 
   bad <- nys < 2
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows had less than 2 "y" observations'))
+  showWarning(bad, 'had less than 2 "y" observations')
 
   vys[bad]    <- NA
   stders[bad] <- NA
   dfs[bad]    <- NA
 
   bad <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows were essentially constant'))
+  showWarning(bad, 'were essentially constant')
 
   dfs[bad]    <- NA
   stders[bad] <- NA
@@ -368,16 +356,14 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   dfs <- nxys-1
 
   bad <- nxys < 2
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows had less than 2 paired observations'))
+  showWarning(bad, 'had less than 2 paired observations')
 
   dfs[bad]    <- NA
   vxys[bad]   <- NA
   stders[bad] <- NA
 
   bad <- stders <= 10 * .Machine$double.eps * abs(mxys)
-  if(any(bad, na.rm=TRUE))
-    warning(paste0(sum(bad), ' of the rows were essentially constant'))
+  showWarning(bad, 'were essentially constant')
 
   dfs[bad]    <- NA
   stders[bad] <- NA

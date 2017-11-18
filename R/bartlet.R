@@ -62,12 +62,10 @@ bartlett <- function(x, groups) {
   nGroups <- matrixStats::rowCounts(!is.na(nPerGroup))
 
   bad <- nGroups < 2
-  if(any(bad))
-    warning(sum(bad), ' of the rows had less than 2 groups with enough observations')
+  showWarning(bad, 'had less than 2 groups with enough observations')
 
   bad <- nGroups > 1 & nGroups < length(unique(groups))
-  if(any(bad))
-    warning(sum(bad), ' of the rows had groups with less than 2 observations')
+  showWarning(bad, 'had groups with less than 2 observations')
 
 
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
@@ -77,12 +75,10 @@ bartlett <- function(x, groups) {
            (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
 
   bad <- vtot==0 & nGroups!=0
-  if(any(bad))
-    warning(sum(bad), ' of the rows had zero variance in all of the groups')
+  showWarning(bad, 'had zero variance in all of the groups')
 
   bad <- rowSums(vPerGroup==0, na.rm=TRUE) > 0 & vtot!=0 & nGroups!=0
-  if(any(bad))
-    warning(sum(bad), ' of the rows had groups with zero variance')
+  showWarning(bad, 'had groups with zero variance')
 
   p <- pchisq(ksq, df, lower.tail=FALSE)
 
