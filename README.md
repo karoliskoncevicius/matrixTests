@@ -32,6 +32,7 @@ res2 <- ttest_welch(X, Y)
 * `ttest_welch`     - t.test with Welch adjustment.
 * `ttest_equalvar`  - t.test for two groups with equal variance.
 * `ttest_paired`    - t.test for paired observations.
+* `cor_pearson`     - Pearson correlation test.
 * `oneway_equalvar` - oneway ANOVA for groups with equal variance.
 * `oneway_welch`    - oneway ANOVA with Welch adjustment.
 * `kruskalwallis`   - Kruskal-Wallis test.
@@ -43,8 +44,8 @@ res2 <- ttest_welch(X, Y)
 
 ## Planned ##
 
-* test for Pearson's correlation coefficient
-* linear regression
+* test for Spearman and Kendall correlations
+* Fisher's exact test
 
 ## Installation ##
 
