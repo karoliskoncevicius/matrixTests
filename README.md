@@ -28,21 +28,23 @@ res2 <- ttest_welch(X, Y)
 
 ## Available Tests ##
 
-|             Description             | matrixTests       | R equivalent
-|-------------------------------------|-------------------|-------------------------------------
-| t.test for a single group.          | `ttest_onegroup`  | t.test(x)
-| t.test with Welch adjustment.       | `ttest_welch`     | t.test(x,y)
-| t.test with equal variance.         | `ttest_equalvar`  | t.test(x,y,var.equal=TRUE)
-| t.test for paired observations.     | `ttest_paired`    | t.test(x,y,paired=TRUE)
-| Pearson correlation test.           | `cor_pearson`     | cor.test(x,y)
-| oneway ANOVA with equal variance.   | `oneway_equalvar` | oneway.test(x,g,var.equal=TRUE)
-| oneway ANOVA with Welch adjustment. | `oneway_welch`    | oneway.test(x,g)
-| Kruskal-Wallis test.                | `kruskalwallis`   | kruskal.test(x,g)
-| Bartlett's test.                    | `bartlett`        | bartlett.test(x,g)
+|             Name                   |      matrixTests       |       R equivalent
+|------------------------------------|------------------------|-------------------------------------
+| Single gorup **t.test**            | `ttest_onegroup(x)`    | `t.test(x)`
+| Welch **t.test**                   | `ttest_welch(x,y)`     | `t.test(x,y)`
+| Equal variance **t.test**          | `ttest_equalvar(x,y)`  | `t.test(x,y,var.equal=TRUE)`
+| Paired **t.test**                  | `ttest_paired(x,y)`    | `t.test(x,y,paired=TRUE)`
+| **Pearson's correlation** test     | `cor_pearson(x,y)`     | `cor.test(x,y)`
+| Welch **oneway ANOVA**             | `oneway_welch(x,g)`    | `oneway.test(x,g)`
+| Equal variance **oneway ANOVA**    | `oneway_equalvar(x,g)` | `oneway.test(x,g,var.equal=TRUE)`
+| **Kruskal-Wallis** test            | `kruskalwallis(x,g)`   | `kruskal.test(x,g)`
+| **Bartlett's** test                | `bartlett(x,g)`        | `bartlett.test(x,g)`
 
 ## Test-Based Algorithms ##
 
-* `ievora` - detect differential variability.
+|             Description             |      matrixTests       |       R equivalent
+|-------------------------------------|------------------------|-------------------------------------
+| **EVORA**                           | `ievora(x, g)`         | ---
 
 ## Planned ##
 
