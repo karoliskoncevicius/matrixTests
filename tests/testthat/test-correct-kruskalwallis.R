@@ -16,7 +16,7 @@ base_kruskal <- function(mat, groups) {
     bad <- is.na(mat[i,])
     vec <- na.omit(mat[i,!bad])
     grp <- na.omit(groups[!bad])
-    res <- kruskal.test(vec, grp)
+    res <- kruskal.test(vec, factor(grp))
 
     ot[i]  <- length(vec)
     og[i]  <- length(unique(grp))
@@ -29,12 +29,12 @@ base_kruskal <- function(mat, groups) {
 }
 
 ################################################################################
-##################### TEST CONSISTENCY WITH aov() ##############################
+########################### TEST ON A RANDOM SAMPLE ############################
 ################################################################################
 
 test_that("monte-carlo random testing gives equal results", {
   set.seed(14)
-  X <- matrix(rnorm(10000), ncol=100)
+  X <- matrix(rnorm(100000), ncol=100)
   X[sample(length(X), 100)] <- NA
   groups <- sample(c("a","b","c","d"), 100, replace=TRUE)
   groups[sample(length(groups), 10)] <- NA
@@ -45,36 +45,158 @@ test_that("monte-carlo random testing gives equal results", {
   expect_equal(t1, t2)
 })
 
-################################## EDGE CASES ##################################
+################################################################################
+############################### TEST EDGE CASES ################################
+################################################################################
 
-test_that("weird numbers give equal results", {
-  x <- rnorm(12, sd=0.000001); g <- rep(c("a","b"),6)
-  expect_equal(base_kruskal(x, factor(g)), kruskalwallis(x, g))
+test_that("extreme numbers give equal results", {
+  # big numbers
+  x <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000,
+         100000000000003, 100000000000002, 100000000000003, 100000000000000
+         )
+  g <- c(rep("a", 4), rep("b", 4))
+  t1 <- base_kruskal(x, g)
+  t2 <- kruskalwallis(x, g)
+  expect_equal(t1, t2)
+
+  # small numbers
+  x <- c(1.00000000000004, 1.00000000000002, 1.00000000000003, 1.00000000000000,
+         1.00000000000003, 1.00000000000002, 1.00000000000003, 1.00000000000000
+         )
+  g <- c(rep("a", 4), rep("b", 4))
+  t1 <- base_kruskal(x, g)
+  t2 <- kruskalwallis(x, g)
+  expect_equal(t1, t2)
 })
 
-test_that("groups with one remaining member give equal results", {
-  x <- rnorm(12); g <- rep(letters[1:4], each=3)
-  gg <- factor(g); gg[1:2] <- NA
-  expect_equal(base_kruskal(x, gg), suppressWarnings(kruskalwallis(x, gg)))
-  gg <- factor(g); gg[c(1:2,4:5,7,10)] <- NA
-  expect_equal(base_kruskal(x, gg), suppressWarnings(kruskalwallis(x, gg)))
-  gg <- factor(g); gg[c(1:2,4:5,7:8,10)] <- NA
-  expect_equal(base_kruskal(x, gg), suppressWarnings(kruskalwallis(x, gg)))
-  gg <- factor(LETTERS[1:12])
-  expect_equal(base_kruskal(x, gg), suppressWarnings(kruskalwallis(x, gg)))
-})
-
-test_that("minimal allowed sample size gives equal results", {
-  x <- c(1,2); g <- factor(c("a","b"))
-  expect_equal(base_kruskal(x, g), suppressWarnings(kruskalwallis(x, g)))
-  x <- c(1,2,NA,3); g <- factor(c("a","b","a",NA))
-  expect_equal(base_kruskal(x, g), suppressWarnings(kruskalwallis(x, g)))
-})
 
 test_that("constant values give equal results", {
-  x <- c(1,1,1,1); g <- factor(c("a","b","a","b"))
-  expect_equal(base_kruskal(x, g), suppressWarnings(kruskalwallis(x, g)))
-  x <- c(1,1,2,2); g <- factor(c("a","a","b","b"))
-  expect_equal(base_kruskal(x, g), suppressWarnings(kruskalwallis(x, g)))
+  # all values are constant
+  x <- c(1,1,1,1); g <- c("a","a","b","b")
+  t1 <- base_kruskal(x, g)
+  t2 <- suppressWarnings(kruskalwallis(x, g))
+  expect_equal(t1, t2)
+
+  # within group values are constant
+  x <- c(1,1,2,2); g <- c("a","a","b","b")
+  t1 <- base_kruskal(x, g)
+  t2 <- suppressWarnings(kruskalwallis(x, g))
+  expect_equal(t1, t2)
+
+  # one group's values are constant
+  x <- c(1,1,2,3); g <- c("a","a","b","b")
+  t1 <- base_kruskal(x, g)
+  t2 <- suppressWarnings(kruskalwallis(x, g))
+  expect_equal(t1, t2)
+})
+
+
+test_that("minimal allowed sample size gives equal results", {
+  # two groups with one value per group
+  x <- c(1,2); g <- c("a","b")
+  t1 <- base_kruskal(x, g)
+  t2 <- kruskalwallis(x, g)
+  expect_equal(t1, t2)
+
+  # two groups with one value per group and NAs
+  x <- c(1,2,NA,3)
+  g <- c("a","b","a",NA)
+  t1 <- base_kruskal(x, g)
+  t2 <- suppressWarnings(kruskalwallis(x, g))
+  expect_equal(t1, t2)
+})
+
+
+test_that("groups with one remaining member give equal results", {
+  # one group has one remaining element
+  x <- rnorm(12)
+  g <- rep(letters[1:4], each=3); g[1:2] <- NA
+  t1 <- base_kruskal(x, g)
+  t2 <- suppressWarnings(kruskalwallis(x, g))
+  expect_equal(t1, t2)
+
+  # all groups have one remaining element
+  x <- rnorm(12)
+  g <- rep(letters[1:4], each=3); g[c(1:2,4:5,7:8,10:11)] <- NA
+  t1 <- base_kruskal(x, g)
+  t2 <- suppressWarnings(kruskalwallis(x, g))
+  expect_equal(t1, t2)
+})
+
+################################################################################
+################################ TEST WARNINGS #################################
+################################################################################
+
+test_that("warning is shown when columns are removed because of NA groups", {
+  wrn <- '2 columns dropped due to missing group information'
+
+  # 2 NAs
+  expect_warning(res <- kruskalwallis(1:10, c(1,1,1,1,NA,NA,2,2,2,2)), wrn, all=TRUE)
+  expect_equal(res$obs.tot, 8)
+  expect_equal(res$obs.groups, 2)
+
+  # 4 groups with one group dropped because of missing x values
+  x <- rnorm(10); x[c(1,2)] <- NA
+  g <- c(1,1,2,2,NA,NA,3,3,4,4)
+  expect_warning(res <- kruskalwallis(x, g), wrn)
+  expect_equal(res$obs.tot, 6)
+  expect_equal(res$obs.groups, 3)
+})
+
+
+test_that("warning when row has less than 2 complete observations", {
+  wrn <- '1 of the rows had less than 2 total observations\\. First occurrence at row 1'
+  nacolumns <- c("chsq.statistic", "p.value")
+
+  # one value one group
+  expect_warning(res <- kruskalwallis(1, "a"), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.groups, 1)
+  expect_equal(res$obs.tot, 1)
+
+  # one value one group with NAs
+  expect_warning(res <- kruskalwallis(c(1,NA,NA,NA), c(1,1,2,2)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.groups, 1)
+  expect_equal(res$obs.tot, 1)
+})
+
+
+test_that("warning when rows have less than 2 groups", {
+  wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
+  nacolumns <- c("chsq.statistic", "p.value")
+
+  # single group with 10 observations
+  expect_warning(res <- kruskalwallis(1:10, rep(1,10)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.groups, 1)
+  expect_equal(res$obs.tot, 10)
+
+  # 3 groups but others have only NA values
+  x <- rnorm(10); x[9:10] <- NA
+  g <- c(rep("a", 8), "b", "c")
+  expect_warning(res <- kruskalwallis(x, g), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.groups, 1)
+  expect_equal(res$obs.tot, 8)
+})
+
+test_that("warning when rows consist of single value", {
+  wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
+  nacolumns <- c("chsq.statistic", "p.value")
+
+  # two groups
+  expect_warning(res <- kruskalwallis(rep(1, 3), c("a","a","b")), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.groups, 2)
+  expect_equal(res$obs.tot, 3)
+
+  # two groups with NA values
+  x <- c(rep(1,8),2,NA,NA)
+  g <- c(rep("a", 4), rep("b", 4), NA, "c", "d")
+  expect_warning(res <- kruskalwallis(x, g), wrn)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.groups, 2)
+  expect_equal(res$obs.tot, 8)
 })
 

@@ -151,50 +151,43 @@ test_that("warning when rows have exactly 3 complete observations", {
 
 test_that("warning when rows have less than 3 complete observations", {
   wrn <- '1 of the rows had less than 3 complete observations\\. First occurrence at row 1'
-  nacolumns <- c("correlation", "t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
 
   # 1 observations
   expect_warning(res <- cor_pearson(1, 1), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 
   # 2 observations
   expect_warning(res <- cor_pearson(c(1,2), c(1,3)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 
   # with NAs present
   expect_warning(res <- cor_pearson(c(2,1,NA,4), c(1,2,1,NA)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 })
 
 test_that("warning when one of the variables has zero standard deviation", {
   wrnX <- '1 of the rows had zero standard deviation in x\\. First occurrence at row 1'
   wrnY <- '1 of the rows had zero standard deviation in y\\. First occurrence at row 1'
-  nacolumns <- c("correlation", "t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
 
   # only x
   expect_warning(res <- cor_pearson(c(1,1,1,1), c(1,2,3,4)), wrnX, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 
   # only y
   expect_warning(res <- cor_pearson(c(1,1,2,2), c(2,2,2,2)), wrnY, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 
   # both
   expect_warning(res <- cor_pearson(c(1,1,1), c(2,2,2)), wrnX)
   expect_warning(res <- cor_pearson(c(1,1,1), c(2,2,2)), wrnY)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 
   # with NAs present
   expect_warning(res <- cor_pearson(c(1,1,1,NA,4), c(2,2,2,4,NA)), wrnX)
   expect_warning(res <- cor_pearson(c(1,1,1,NA,4), c(2,2,2,4,NA)), wrnY)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 })
 
 test_that("warning when correlation is perfect", {

@@ -58,15 +58,15 @@ bartlett <- function(x, groups) {
     nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
     vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
   }
-  nPerGroup[nPerGroup < 2] <- NA
+  nPerGroup[nPerGroup < 2] <- NA # drop groups with less than 2 observations
   nGroups <- matrixStats::rowCounts(!is.na(nPerGroup))
 
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
   vtot <- rowSums(vPerGroup*(nPerGroup-1), na.rm=TRUE) / (nSamples - nGroups)
   df   <- nGroups-1
+
   ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
            (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
-
   p <- pchisq(ksq, df, lower.tail=FALSE)
 
 
@@ -74,13 +74,16 @@ bartlett <- function(x, groups) {
   showWarning(w1, 'had less than 2 groups with enough observations')
 
   w2 <- !w1 & nGroups < length(unique(groups))
-  showWarning(w2, 'had groups with less than 2 observations')
+  showWarning(w2, 'had groups with less than 2 observations: those groups were removed')
 
-  w3 <- vtot==0 & nGroups!=0
+  w3 <- !w1 & vtot==0 & nGroups!=0
   showWarning(w3, 'had zero variance in all of the groups')
 
-  w4 <- !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0
-  showWarning(w4, 'had groups with zero variance')
+  w4 <- !w1 & !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0
+  showWarning(w4, 'had groups with zero variance: result might be unreliable')
+
+  ksq[w1 | w3] <- NA
+  p[w1 | w3] <- NA
 
 
   rnames <- rownames(x)

@@ -70,8 +70,11 @@ kruskalwallis <- function(x, groups) {
   w2 <- !w1 & nGroups < 2
   showWarning(w2, 'had less than 2 groups with enough observations')
 
-  stat[w1 | w2] <- NA
-  p[w1 | w2]    <- NA
+  w3 <- !w1 & !w2 & matrixStats::rowCounts(ties!=0)==1
+  showWarning(w3, 'were essentially constant')
+
+  stat[w1 | w2 | w3] <- NA
+  p[w1 | w2 | w3]    <- NA
 
 
   rnames <- rownames(x)

@@ -256,7 +256,7 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   w1 <- nxs < 2
   showWarning(w1, 'had less than 2 "x" observations')
 
-  w2 <- nys < 2
+  w2 <- !w1 & nys < 2
   showWarning(w2, 'had less than 2 "y" observations')
 
   w3 <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))

@@ -46,13 +46,13 @@ base_ttest_welch <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
 }
 
 ################################################################################
-######################### TEST CONSISTENCY WITH T.TEST #########################
+########################### TEST ON A RANDOM SAMPLE ############################
 ################################################################################
 
 test_that("monte-carlo random testing gives equal results", {
   set.seed(14)
-  X <- matrix(rnorm(1000), ncol=10)
-  Y <- matrix(rnorm(1000), ncol=10)
+  X <- matrix(rnorm(10000), ncol=10)
+  Y <- matrix(rnorm(10000), ncol=10)
   X[sample(length(X), 100)] <- NA
   Y[sample(length(Y), 100)] <- NA
   alts <- rep(c("t", "g", "l"), length.out=nrow(X))
@@ -65,24 +65,49 @@ test_that("monte-carlo random testing gives equal results", {
   expect_equal(t1, t2)
 })
 
-################################## EDGE CASES ##################################
+################################################################################
+############################### TEST EDGE CASES ################################
+################################################################################
 
-test_that("weird numbers give equal results", {
-  vals1 <- c(1.00000000000001, 1.00000000000002, 1.00000000000003)
-  vals2 <- c(1.00000000000003, 1.00000000000002, 1.00000000000003)
-  expect_equal(base_ttest_welch(vals1, vals2), ttest_welch(vals1, vals2))
-  expect_equal(base_ttest_welch(1:10^5, vals1), ttest_welch(1:10^5, vals1))
+test_that("extreme numbers give equal results", {
+  # big numbers
+  vals1 <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
+  vals2 <- c(100000000000003, 100000000000002, 100000000000003, 100000000000000)
+  t1 <- base_ttest_welch(vals1, vals2)
+  t2 <- ttest_welch(vals1, vals2)
+  expect_equal(t1, t2)
+
+  # small numbers
+  vals1 <- c(0.00000000000004, 0.00000000000002, 0.00000000000003, 0)
+  vals2 <- c(0.00000000000003, 0.00000000000002, 0.00000000000003, 0)
+  t1 <- base_ttest_welch(vals1, vals2)
+  t2 <- ttest_welch(vals1, vals2)
+  expect_equal(t1, t2)
 })
+
 
 test_that("minumum allowed sample sizes give equal results", {
-  expect_equal(base_ttest_welch(1:2, 2:3), ttest_welch(1:2, 2:3))
-  expect_equal(base_ttest_welch(1:10, c(NA,1,2)), ttest_welch(1:10, c(NA,1,2)))
+  # two observations in both groups
+  x <- matrix(rnorm(6), ncol=2); y <- matrix(rnorm(6), ncol=2)
+  alt <- c("two.sided", "greater", "less")
+  t1 <- base_ttest_welch(x, y, alt)
+  t2 <- ttest_welch(x, y, alt)
+  expect_equal(t1, t2)
+
+  # three observations in both groups - one is NA
+  x <- matrix(rnorm(9), ncol=3); x[,1] <- NA
+  y <- matrix(rnorm(9), ncol=3); y[,2] <- NA
+  alt <- c("two.sided", "greater", "less")
+  t1 <- base_ttest_welch(x, y, alt)
+  t2 <- ttest_welch(x, y, alt)
+  expect_equal(t1, t2)
 })
+
 
 test_that("parameter edge cases give equal results", {
   set.seed(14)
   alt <- c("l", "t", "g")
-  mus <- c(-Inf, 0, Inf)
+  mus <- c(-Inf, -1, 0, 1, Inf)
   cfs <- c(0, 0.95, 1)
   pars <- expand.grid(alt, mus, cfs, stringsAsFactors=FALSE)
   X1 <- matrix(rnorm(10*nrow(pars)), ncol=10)
@@ -94,4 +119,61 @@ test_that("parameter edge cases give equal results", {
   t2 <- ttest_welch(X1, X2, pars[,1], pars[,2], pars[,3])
   expect_equal(t1, t2)
 })
+
+################################################################################
+################################ TEST WARNINGS #################################
+################################################################################
+
+test_that("warning when a row has less than 2 observations in one group", {
+  wrnX <- '1 of the rows had less than 2 "x" observations\\. First occurrence at row 1'
+  wrnY <- '1 of the rows had less than 2 "y" observations\\. First occurrence at row 1'
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+
+  # 0 observations in both
+  expect_warning(res <- ttest_welch(NA_integer_, NA_integer_), wrnX, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 0)
+  expect_equal(res$obs.x, 0)
+  expect_equal(res$obs.y, 0)
+
+  # 0 observations in X
+  expect_warning(res <- ttest_welch(NA_integer_, 1), wrnX, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 1)
+  expect_equal(res$obs.x, 0)
+  expect_equal(res$obs.y, 1)
+
+  # 0 observations in Y
+  expect_warning(res <- ttest_welch(1, NA_integer_), wrnX, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 1)
+  expect_equal(res$obs.x, 1)
+  expect_equal(res$obs.y, 0)
+
+  # 2 observations in X but one is NA
+  expect_warning(res <- ttest_welch(c(2,NA), c(1,1)), wrnX, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 3)
+  expect_equal(res$obs.x, 1)
+  expect_equal(res$obs.y, 2)
+})
+
+
+test_that("warning when row has constant values", {
+  wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+
+  # all values are equal
+  expect_warning(res <- ttest_welch(c(1,1,1), c(1,1,1)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+
+  # values equal in their group
+  expect_warning(res <- ttest_welch(c(1,1), c(2,2)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+
+  # equal values in each group + some NAs
+  expect_warning(res <- ttest_welch(c(1,1,1,NA), c(NA,2,2,2)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+})
+
 

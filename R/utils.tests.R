@@ -3,6 +3,8 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   res <- matrix(numeric(), nrow=length(mx), ncol=4)
   colnames(res) <- c("t", "p", "cl", "ch")
 
+  df[df<=0] <- NA
+
   res[,1] <- (mx-mu)/stder
 
   inds <- alt=="less"
@@ -37,7 +39,7 @@ do_pearson <- function(r, df, alt, conf) {
   res <- matrix(numeric(), nrow=length(r), ncol=4)
   colnames(res) <- c("stat", "p", "cl", "ch")
 
-  df <- ifelse(df > 0, df, NA)
+  df[df<=0] <- NA
 
   res[,1] <- sqrt(df)*r / sqrt(1 - r^2)
   z <- atanh(r)

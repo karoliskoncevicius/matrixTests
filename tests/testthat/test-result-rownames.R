@@ -13,8 +13,10 @@ test_that("when no row-names in the input - numbers are added", {
   expect_equal(rownames(oneway_welch(x=X, groups=grp)), rnames)
   expect_equal(rownames(kruskalwallis(x=X, groups=grp)), rnames)
   expect_equal(rownames(bartlett(x=X, groups=grp)), rnames)
+  expect_equal(rownames(cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(ievora(x=X, groups=grp)), rnames)
 })
+
 
 test_that("when X doesn't have rownames - names from Y or groups are not used", {
   X <- matrix(rnorm(100), nrow=10)
@@ -31,8 +33,10 @@ test_that("when X doesn't have rownames - names from Y or groups are not used", 
   expect_equal(rownames(oneway_welch(x=X, groups=grp)), rnames)
   expect_equal(rownames(kruskalwallis(x=X, groups=grp)), rnames)
   expect_equal(rownames(bartlett(x=X, groups=grp)), rnames)
+  expect_equal(rownames(cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(ievora(x=X, groups=grp)), rnames)
 })
+
 
 test_that("when row-names are specified - they are preserved", {
   # matrix case
@@ -49,6 +53,7 @@ test_that("when row-names are specified - they are preserved", {
   expect_equal(rownames(oneway_welch(x=X, groups=grp)), rnames)
   expect_equal(rownames(kruskalwallis(x=X, groups=grp)), rnames)
   expect_equal(rownames(bartlett(x=X, groups=grp)), rnames)
+  expect_equal(rownames(cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(ievora(x=X, groups=grp)), rnames)
   # data.frame case
   X <- as.data.frame(X)
@@ -62,8 +67,10 @@ test_that("when row-names are specified - they are preserved", {
   expect_equal(rownames(oneway_welch(x=X, groups=grp)), rnames)
   expect_equal(rownames(kruskalwallis(x=X, groups=grp)), rnames)
   expect_equal(rownames(bartlett(x=X, groups=grp)), rnames)
+  expect_equal(rownames(cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(ievora(x=X, groups=grp)), rnames)
 })
+
 
 test_that("when row-names are duplicated - they are modified to be unique", {
   X <- matrix(rnorm(100), nrow=10)
@@ -79,6 +86,7 @@ test_that("when row-names are duplicated - they are modified to be unique", {
   expect_equal(rownames(oneway_welch(x=X, groups=grp)), rnames)
   expect_equal(rownames(kruskalwallis(x=X, groups=grp)), rnames)
   expect_equal(rownames(bartlett(x=X, groups=grp)), rnames)
+  expect_equal(rownames(cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(ievora(x=X, groups=grp)), rnames)
 })
 

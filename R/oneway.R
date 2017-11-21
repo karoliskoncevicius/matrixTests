@@ -75,8 +75,14 @@ oneway_equalvar <- function(x, groups) {
   w2 <- !w1 & nGroups==nSamples
   showWarning(w2, 'had one observation per group')
 
-  w3 <- !w1 & !w2 & withinScatter==0
-  showWarning(w3, 'had essentially perfect fit')
+  w3 <- !w1 & !w2 & withinScatter==0 & betweenScatter==0
+  showWarning(w3, 'had essentially constant values')
+
+  w4 <- !w1 & !w2 & withinScatter==0 & betweenScatter!=0
+  showWarning(w4, 'had zero within group variance: result might be unreliable')
+
+  F[w1 | w2 | w3] <- NA
+  p[w1 | w2 | w3] <- NA
 
 
   rnames <- rownames(x)
@@ -124,9 +130,12 @@ oneway_welch <- function(x, groups) {
     mPerGroup[,i] <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
     vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
   }
+  mPerGroup[nPerGroup<2] <- NA
+  vPerGroup[nPerGroup<2] <- NA
+  nPerGroup[nPerGroup<2] <- NA
 
-  nSamples  <- rowSums(nPerGroup)
-  nGroups   <- matrixStats::rowCounts(nPerGroup!=0)
+  nSamples  <- rowSums(nPerGroup, na.rm=TRUE)
+  nGroups   <- matrixStats::rowCounts(nPerGroup!=0, na.rm=TRUE)
   wPerGroup <- nPerGroup/vPerGroup
   wTot      <- rowSums(wPerGroup, na.rm=TRUE)
   M         <- rowSums((wPerGroup * mPerGroup)/wTot, na.rm=TRUE)
@@ -143,13 +152,18 @@ oneway_welch <- function(x, groups) {
   w1 <- nGroups < 2
   showWarning(w1, 'had less than 2 groups with enough observations')
 
-  w2 <- !w1 & rowSums(nPerGroup > 1, na.rm=TRUE)!=nGroups
-  showWarning(w2, 'had less than 2 observations per group')
+  w2 <- !w1 & nGroups < length(unique(groups))
+  showWarning(w2, 'had groups with less than 2 observations: those groups were removed')
 
-  w3 <- !w1 & !w2 & rowSums(vPerGroup!=0, na.rm=TRUE)==0
-  showWarning(w3, 'had essentially perfect fit')
+  w3 <- !w1 & rowSums(vPerGroup!=0, na.rm=TRUE)==0
+  showWarning(w3, 'had zero variance in all of the groups')
 
-  F[w1 | w2 | w3] <- NA
+  w4 <- !w1 & !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0
+  showWarning(w4, 'had groups with zero variance: result might be unreliable')
+
+
+  F[w1 | w3] <- NA
+  p[w1 | w3] <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)

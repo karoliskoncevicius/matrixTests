@@ -12,31 +12,36 @@ test_that("alternative must be a character", {
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=NULL), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=NULL), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=NULL), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=NULL), er)
   # NA
   expect_error(ttest_onegroup(x=mat, alternative=NA), er)
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=NA), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=NA), er)
-  expect_error(ttest_paired(x=mat, y=mat, alternative=NA), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=NA), er)
   # numeric
   expect_error(ttest_onegroup(x=mat, alternative=1), er)
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=1), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=1), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=1), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=1), er)
   # complex
   expect_error(ttest_onegroup(x=mat, alternative=complex(1)), er)
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=complex(1)), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=complex(1)), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=complex(1)), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=complex(1)), er)
   # in list
   expect_error(ttest_onegroup(x=mat, alternative=list("less")), er)
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=list("less")), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=list("less")), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=list("less")), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=list("less")), er)
   # data frame
   expect_error(ttest_onegroup(x=mat, alternative=data.frame("less")), er)
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=data.frame("less")), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=data.frame("less")), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=data.frame("less")), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=data.frame("less")), er)
 })
 
 test_that("mu must be numeric", {
@@ -83,31 +88,37 @@ test_that("conf.level must be numeric", {
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=NULL), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=NULL), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=NULL), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=NULL), er)
   # NA
   expect_error(ttest_onegroup(x=mat, conf.level=NA), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=NA), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=NA), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=NA), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=NA), er)
   # character
   expect_error(ttest_onegroup(x=mat, conf.level="1"), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level="1"), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level="1"), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level="1"), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level="1"), er)
   # complex
   expect_error(ttest_onegroup(x=mat, conf.level=complex(1)), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=complex(1)), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=complex(1)), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=complex(1)), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=complex(1)), er)
   # in list
   expect_error(ttest_onegroup(x=mat, conf.level=list(1)), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=list(1)), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=list(1)), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=list(1)), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=list(1)), er)
   # data frame
   expect_error(ttest_onegroup(x=mat, conf.level=data.frame(1)), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=data.frame(1)), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=data.frame(1)), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=data.frame(1)), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=data.frame(1)), er)
 })
 
 
@@ -148,17 +159,20 @@ test_that("alternative has correct dimensions", {
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=c("less", "greater")), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=c("less", "greater")), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=c("less", "greater")), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=c("less", "greater")), er)
   # too long
   expect_error(ttest_onegroup(x=mat, alternative=rep("less", 5)), er)
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=rep("less", 5)), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=rep("less", 5)), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=rep("less", 5)), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=rep("less", 5)), er)
   # matrix format
   alt <- matrix(rep("less", 4), ncol=2)
   expect_error(ttest_onegroup(x=mat, alternative=alt), er)
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=alt), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=alt), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=alt), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=alt), er)
 })
 
 test_that("mu has correct dimensions", {
@@ -190,17 +204,20 @@ test_that("conf.level has correct dimensions", {
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=c(1,2)), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=c(1,2)), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=c(1,2)), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=c(1,2)), er)
   # too long
   expect_error(ttest_onegroup(x=mat, conf.level=rep(0, 5)), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=rep(0, 5)), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=rep(0, 5)), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=rep(0, 5)), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=rep(0, 5)), er)
   # matrix format
   cfs <- matrix(rep(1, 4), ncol=2)
   expect_error(ttest_onegroup(x=mat, conf.level=cfs), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=cfs), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=cfs), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=cfs), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=cfs), er)
 })
 
 test_that("p-value cutoffs have the right dimensions", {
@@ -229,11 +246,13 @@ test_that("alternative is in: less, greater, two-sided)", {
   expect_error(ttest_equalvar(x=mat, y=mat, alternative="ga"), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative="ga"), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative="ga"), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative="ga"), er)
   # for each row and one incorrect
   expect_error(ttest_onegroup(x=mat, alternative=c("t","l","c")), er)
   expect_error(ttest_equalvar(x=mat, y=mat, alternative=c("t","l","c")), er)
   expect_error(ttest_welch(x=mat, y=mat, alternative=c("t","l","c")), er)
   expect_error(ttest_paired(x=mat, y=mat, alternative=c("t","l","c")), er)
+  expect_error(cor_pearson(x=mat, y=mat, alternative=c("t","l","c")), er)
 })
 
 test_that("conf.level is in: 0-1)", {
@@ -244,16 +263,19 @@ test_that("conf.level is in: 0-1)", {
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=-0.001), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=-0.001), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=-0.001), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=-0.001), er)
   # slightly above
   expect_error(ttest_onegroup(x=mat, conf.level=1.001), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=1.001), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=1.001), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=1.001), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=1.001), er)
   # special values
   expect_error(ttest_onegroup(x=mat, conf.level=NA_integer_), er)
   expect_error(ttest_equalvar(x=mat, y=mat, conf.level=NaN), er)
   expect_error(ttest_welch(x=mat, y=mat, conf.level=Inf), er)
   expect_error(ttest_paired(x=mat, y=mat, conf.level=-Inf), er)
+  expect_error(cor_pearson(x=mat, y=mat, conf.level=-Inf), er)
 })
 
 test_that("mu is in: -Inf:Inf)", {

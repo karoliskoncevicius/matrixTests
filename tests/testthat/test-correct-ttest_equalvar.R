@@ -53,15 +53,15 @@ base_ttest_equalvar <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
 }
 
 ################################################################################
-######################### TEST CONSISTENCY WITH T.TEST #########################
+########################### TEST ON A RANDOM SAMPLE ############################
 ################################################################################
 
 test_that("monte-carlo random testing gives equal results", {
   set.seed(14)
-  X <- matrix(rnorm(1000), ncol=10)
-  Y <- matrix(rnorm(1000), ncol=10)
-  X[sample(length(X), 100)] <- NA
-  Y[sample(length(Y), 100)] <- NA
+  X <- matrix(rnorm(10000), ncol=10)
+  Y <- matrix(rnorm(10000), ncol=10)
+  X[sample(length(X), nrow(X))] <- NA
+  Y[sample(length(Y), nrow(X))] <- NA
   alts <- rep(c("t", "g", "l"), length.out=nrow(X))
   mus  <- seq(-1, 1, length.out=nrow(X))
   cfs  <- seq(0, 1, length.out=nrow(X))
@@ -72,26 +72,49 @@ test_that("monte-carlo random testing gives equal results", {
   expect_equal(t1, t2)
 })
 
-################################## EDGE CASES ##################################
+################################################################################
+############################### TEST EDGE CASES ################################
+################################################################################
 
-test_that("weird numbers give equal results", {
-  vals1 <- c(1.00000000000001, 1.00000000000002, 1.00000000000003)
-  vals2 <- c(1.00000000000003, 1.00000000000002, 1.00000000000003)
-  expect_equal(base_ttest_equalvar(vals1, vals2), ttest_equalvar(vals1, vals2))
-  expect_equal(base_ttest_equalvar(1:10^5, vals1), ttest_equalvar(1:10^5, vals1))
+test_that("extreme numbers give equal results", {
+  # big numbers
+  vals1 <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
+  vals2 <- c(100000000000003, 100000000000002, 100000000000003, 100000000000000)
+  t1 <- base_ttest_equalvar(vals1, vals2)
+  t2 <- ttest_equalvar(vals1, vals2)
+  expect_equal(t1, t2)
+
+  # small numbers
+  vals1 <- c(0.00000000000004, 0.00000000000002, 0.00000000000003, 0)
+  vals2 <- c(0.00000000000003, 0.00000000000002, 0.00000000000003, 0)
+  t1 <- base_ttest_equalvar(vals1, vals2)
+  t2 <- ttest_equalvar(vals1, vals2)
+  expect_equal(t1, t2)
 })
+
 
 test_that("minumum allowed sample sizes give equal results", {
-  expect_equal(base_ttest_equalvar(1:2, 0.5), ttest_equalvar(1:2, 0.5))
-  expect_equal(base_ttest_equalvar(1, 2:3), ttest_equalvar(1, 2:3))
-  expect_equal(base_ttest_equalvar(1:10, c(NA, 1)), ttest_equalvar(1:10, c(NA, 1)))
+  # two numbers in one group and 1 in other group
+  x <- matrix(rnorm(6), ncol=2); y <- matrix(rnorm(3), ncol=1)
+  alt <- c("two.sided", "greater", "less")
+  t1 <- base_ttest_equalvar(x, y, alt)
+  t2 <- ttest_equalvar(x, y, alt)
+  expect_equal(t1, t2)
+
+  # two numbers in one group and 1 in other group with NAs
+  x <- matrix(rnorm(6), ncol=2); y <- matrix(rnorm(6), ncol=2); x[,2] <- NA
+  alt <- c("two.sided", "greater", "less")
+  t1 <- base_ttest_equalvar(x, y, alt)
+  t2 <- ttest_equalvar(x, y, alt)
+  expect_equal(t1, t2)
 })
+
 
 test_that("parameter edge cases give equal results", {
   set.seed(14)
   alt <- c("l", "t", "g")
-  mus <- c(-Inf, 0, Inf)
-  cfs <- c(0, 0.95, 1)
+  mus <- c(-Inf, -1, 0, 1, Inf)
+  cfs <- c(0, 0.5, 1)
   pars <- expand.grid(alt, mus, cfs, stringsAsFactors=FALSE)
   X1 <- matrix(rnorm(10*nrow(pars)), ncol=10)
   X2 <- matrix(rnorm(10*nrow(pars)), ncol=10)
@@ -102,4 +125,73 @@ test_that("parameter edge cases give equal results", {
   t2 <- ttest_equalvar(X1, X2, pars[,1], pars[,2], pars[,3])
   expect_equal(t1, t2)
 })
+
+################################################################################
+################################ TEST WARNINGS #################################
+################################################################################
+
+test_that("warnign when a row has less than 3 observations", {
+  wrn <- '1 of the rows had less than 3 total observations\\. First occurrence at row 1'
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+
+  # no observations
+  expect_warning(res <- ttest_equalvar(NA_integer_, NA_integer_), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 0)
+
+  # one observation in each group
+  expect_warning(res <- ttest_equalvar(1, 1), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 2)
+
+  # one group has 2 observations and another 0
+  expect_warning(res <- ttest_equalvar(c(1,2), NA_integer_), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 2)
+  expect_equal(res$obs.x, 2)
+  expect_equal(res$obs.y, 0)
+
+  # both have 2 observations but one is NA in each
+  expect_warning(res <- ttest_equalvar(c(1,NA), c(3,NA)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 2)
+})
+
+
+test_that("warning when one group has no observations", {
+  wrnX <- '1 of the rows had zero "x" observations\\. First occurrence at row 1'
+  wrnY <- '1 of the rows had zero "y" observations\\. First occurrence at row 1'
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+
+  # no observations in X
+  expect_warning(res <- ttest_equalvar(NA_integer_, c(1,1,1)), wrnX, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 3)
+  expect_equal(res$obs.y, 3)
+
+  # no observations in Y
+  expect_warning(res <- ttest_equalvar(c(1,1,1), NA_integer_), wrnY, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.tot, 3)
+  expect_equal(res$obs.x, 3)
+})
+
+
+test_that("warning when row has constant values", {
+  wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+
+  # all values are equal
+  expect_warning(res <- ttest_equalvar(c(1,1,1), c(1,1,1)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+
+  # values equal in their group
+  expect_warning(res <- ttest_equalvar(c(1), c(2,2)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+
+  # equal values in each group + some NAs
+  expect_warning(res <- ttest_equalvar(c(1,1,1,NA), c(NA,2,2,2)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+})
+
 

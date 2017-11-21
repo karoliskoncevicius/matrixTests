@@ -14,6 +14,7 @@ test_that("x cannot be missing", {
   expect_error(oneway_welch(), er)
   expect_error(kruskalwallis(), er)
   expect_error(bartlett(), er)
+  expect_error(cor_pearson(), er)
   expect_error(ievora(), er)
 })
 
@@ -22,6 +23,7 @@ test_that("y cannot be missing", {
   expect_error(ttest_equalvar(x=NA), er)
   expect_error(ttest_welch(x=NA), er)
   expect_error(ttest_paired(x=NA), er)
+  expect_error(cor_pearson(x=NA), er)
 })
 
 test_that("groups cannot be missing", {
@@ -48,6 +50,7 @@ test_that("x cannot be a character", {
   expect_error(oneway_welch(x=matX, groups="a"), er)
   expect_error(kruskalwallis(x=matX, groups="a"), er)
   expect_error(bartlett(x=matX, groups="a"), er)
+  expect_error(cor_pearson(x=matX, y=0), er)
   expect_error(ievora(x=matX, groups="a"), er)
 })
 
@@ -57,6 +60,7 @@ test_that("y cannot be a character", {
   expect_error(ttest_equalvar(x=0, y=matX), er)
   expect_error(ttest_welch(x=0, y=matX), er)
   expect_error(ttest_paired(x=0, y=matX), er)
+  expect_error(cor_pearson(x=0, y=matX), er)
 })
 
 
@@ -70,6 +74,7 @@ test_that("x cannot be partially numeric", {
   expect_error(oneway_welch(x=iris, groups="a"), er)
   expect_error(kruskalwallis(x=iris, groups="a"), er)
   expect_error(bartlett(x=iris, groups="a"), er)
+  expect_error(cor_pearson(x=iris, y=0), er)
   expect_error(ievora(x=iris, groups="a"), er)
 })
 
@@ -78,6 +83,7 @@ test_that("y cannot be partially numeric", {
   expect_error(ttest_equalvar(x=0, y=iris), er)
   expect_error(ttest_welch(x=0, y=iris), er)
   expect_error(ttest_paired(x=0, y=iris), er)
+  expect_error(cor_pearson(x=0, y=iris), er)
 })
 
 
@@ -92,6 +98,7 @@ test_that("x cannot be complex", {
   expect_error(oneway_welch(x=matX, groups="a"), er)
   expect_error(kruskalwallis(x=matX, groups="a"), er)
   expect_error(bartlett(x=matX, groups="a"), er)
+  expect_error(cor_pearson(x=matX, y=0), er)
   expect_error(ievora(x=matX, groups="a"), er)
 })
 
@@ -101,6 +108,7 @@ test_that("y cannot be complex", {
   expect_error(ttest_equalvar(x=0, y=matX), er)
   expect_error(ttest_welch(x=0, y=matX), er)
   expect_error(ttest_paired(x=0, y=matX), er)
+  expect_error(cor_pearson(x=0, y=matX), er)
 })
 
 
@@ -115,6 +123,7 @@ test_that("x cannot be logical", {
   expect_error(oneway_welch(x=matX, groups="a"), er)
   expect_error(kruskalwallis(x=matX, groups="a"), er)
   expect_error(bartlett(x=matX, groups="a"), er)
+  expect_error(cor_pearson(x=matX, y=0), er)
   expect_error(ievora(x=matX, groups="a"), er)
 })
 
@@ -124,6 +133,7 @@ test_that("y cannot be logical", {
   expect_error(ttest_equalvar(x=0, y=matX), er)
   expect_error(ttest_welch(x=0, y=matX), er)
   expect_error(ttest_paired(x=0, y=matX), er)
+  expect_error(cor_pearson(x=0, y=matX), er)
 })
 
 
@@ -137,6 +147,7 @@ test_that("x cannot be NULL", {
   expect_error(oneway_welch(x=NULL, groups="a"), er)
   expect_error(kruskalwallis(x=NULL, groups="a"), er)
   expect_error(bartlett(x=NULL, groups="a"), er)
+  expect_error(cor_pearson(x=NULL, y=0), er)
   expect_error(ievora(x=NULL, groups="a"), er)
 })
 
@@ -146,6 +157,7 @@ test_that("y cannot be NULL", {
   expect_error(ttest_equalvar(x=0, y=NULL), er)
   expect_error(ttest_welch(x=0, y=NULL), er)
   expect_error(ttest_paired(x=0, y=NULL), er)
+  expect_error(cor_pearson(x=0, y=NULL), er)
 })
 
 
@@ -159,6 +171,7 @@ test_that("x cannot be in a list", {
   expect_error(oneway_welch(x=list(1:5), groups="a"), er)
   expect_error(kruskalwallis(x=list(1:5), groups="a"), er)
   expect_error(bartlett(x=list(1:5), groups="a"), er)
+  expect_error(cor_pearson(x=list(1:5), y=0), er)
   expect_error(ievora(x=list(1:5), groups="a"), er)
 })
 
@@ -168,6 +181,7 @@ test_that("y cannot be in a list", {
   expect_error(ttest_equalvar(x=0, y=list(1:5)), er)
   expect_error(ttest_welch(x=0, y=list(1:5)), er)
   expect_error(ttest_paired(x=0, y=list(1:5)), er)
+  expect_error(cor_pearson(x=0, y=list(1:5)), er)
 })
 
 test_that("x cannot be a list", {
@@ -180,6 +194,7 @@ test_that("x cannot be a list", {
   expect_error(oneway_welch(x=as.list(1:5), groups="a"), er)
   expect_error(kruskalwallis(x=as.list(1:5), groups="a"), er)
   expect_error(bartlett(x=as.list(1:5), groups="a"), er)
+  expect_error(cor_pearson(x=as.list(1:5), y=0), er)
   expect_error(ievora(x=as.list(1:5), groups="a"), er)
 })
 
@@ -189,6 +204,7 @@ test_that("y cannot be a list", {
   expect_error(ttest_equalvar(x=0, y=as.list(1:5)), er)
   expect_error(ttest_welch(x=0, y=as.list(1:5)), er)
   expect_error(ttest_paired(x=0, y=as.list(1:5)), er)
+  expect_error(cor_pearson(x=0, y=as.list(1:5)), er)
 })
 
 ################################################################################
@@ -237,6 +253,7 @@ test_that("x and y has same number of rows", {
   expect_error(ttest_equalvar(x=matX, y=matY), er)
   expect_error(ttest_welch(x=matX, y=matY), er)
   expect_error(ttest_paired(x=matX, y=matY), er)
+  expect_error(cor_pearson(x=matX, y=matY), er)
 })
 
 test_that("x and y has same number of columns", {
@@ -244,6 +261,7 @@ test_that("x and y has same number of columns", {
   matY <- matrix(1:12, nrow=3)
   er <- '"x" and "y" must have the same number of columns'
   expect_error(ttest_paired(x=matX, y=matY), er)
+  expect_error(cor_pearson(x=matX, y=matY), er)
 })
 
 test_that("group length matches number of columns", {

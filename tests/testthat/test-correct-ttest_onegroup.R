@@ -38,13 +38,13 @@ base_ttest_onegroup <- function(mat, alt="two.sided", mu=0, conf=0.95) {
 }
 
 ################################################################################
-######################### TEST CONSISTENCY WITH T.TEST #########################
+########################### TEST ON A RANDOM SAMPLE ############################
 ################################################################################
 
 test_that("monte-carlo random testing gives equal results", {
   set.seed(14)
-  X <- matrix(rnorm(1000), ncol=10)
-  X[sample(length(X), 100)] <- NA
+  X <- matrix(rnorm(10000), ncol=10)
+  X[sample(length(X), nrow(X))] <- NA
   alts <- rep(c("t", "g", "l"), length.out=nrow(X))
   mus  <- runif(nrow(X), -1,1)
   cfs  <- seq(0, 1, length.out=nrow(X))
@@ -55,24 +55,47 @@ test_that("monte-carlo random testing gives equal results", {
   expect_equal(t1, t2)
 })
 
-################################## EDGE CASES ##################################
+################################################################################
+############################### TEST EDGE CASES ################################
+################################################################################
 
-test_that("weird numbers give equal results", {
-  vals <- c(1.00000000000001, 1.00000000000002, 1.00000000000003)
-  expect_equal(base_ttest_onegroup(vals), ttest_onegroup(vals))
-  expect_equal(base_ttest_onegroup(1:10^5), ttest_onegroup(1:10^5))
+test_that("extreme numbers give equal results", {
+  # big numbers
+  vals <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
+  t1 <- base_ttest_onegroup(vals)
+  t2 <- ttest_onegroup(vals)
+  expect_equal(t1, t2)
+
+  # small numbers
+  vals <- c(0.00000000000004, 0.00000000000002, 0.00000000000003, 0)
+  t1 <- base_ttest_onegroup(vals)
+  t2 <- ttest_onegroup(vals)
+  expect_equal(t1, t2)
 })
+
 
 test_that("minumum allowed sample sizes give equal results", {
-  expect_equal(base_ttest_onegroup(1:2), ttest_onegroup(1:2))
-  expect_equal(base_ttest_onegroup(c(1,2,NA,NA,NA)), ttest_onegroup(c(1,2,NA,NA,NA)))
+  # two numbers
+  x <- matrix(rnorm(6), ncol=2)
+  alt <- c("two.sided", "greater", "less")
+  t1 <- base_ttest_onegroup(x, alt)
+  t2 <- suppressWarnings(ttest_onegroup(x, alt))
+  expect_equal(t1, t2)
+
+  # three numbers with NAs
+  x <- matrix(rnorm(9), ncol=3); x[,3] <- NA
+  alt <- c("two.sided", "greater", "less")
+  t1 <- base_ttest_onegroup(x, alt)
+  t2 <- suppressWarnings(ttest_onegroup(x, alt))
+  expect_equal(t1, t2)
 })
+
 
 test_that("parameter edge cases give equal results", {
   set.seed(14)
   alt <- c("l", "t", "g")
-  mus <- c(-Inf, 0, Inf)
-  cfs <- c(0, 0.95, 1)
+  mus <- c(-Inf, -1, 0, 1, Inf)
+  cfs <- c(0, 0.5, 1)
   pars <- expand.grid(alt, mus, cfs, stringsAsFactors=FALSE)
   X <- matrix(rnorm(10*nrow(pars)), ncol=10)
   X[sample(length(X), nrow(pars)*2)] <- NA
@@ -80,5 +103,47 @@ test_that("parameter edge cases give equal results", {
   t1 <- base_ttest_onegroup(X, pars[,1], pars[,2], pars[,3])
   t2 <- ttest_onegroup(X, pars[,1], pars[,2], pars[,3])
   expect_equal(t1, t2)
+})
+
+################################################################################
+################################ TEST WARNINGS #################################
+################################################################################
+
+test_that("warnign when row has less than 2 available observations", {
+  wrn <- '1 of the rows had less than 2 "x" observations\\. First occurrence at row 1'
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+
+  # single observation
+  expect_warning(res <- ttest_onegroup(1), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.x, 1)
+
+  # single observation with some NA values
+  expect_warning(res <- ttest_onegroup(c(0,NA,NA)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.x, 1)
+
+  # zero observations
+  expect_warning(res <- ttest_onegroup(NA_integer_), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.x, 0)
+})
+
+
+test_that("warning when a row has all constant values", {
+  wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
+  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+
+  # two equal observations
+  expect_warning(res <- ttest_onegroup(c(1,1)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.x, 2)
+  expect_equal(res$var.x, 0)
+
+  # three observations with some NA values
+  expect_warning(res <- ttest_onegroup(c(0,0,0,NA,NA)), wrn, all=TRUE)
+  expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
+  expect_equal(res$obs.x, 3)
+  expect_equal(res$var.x, 0)
 })
 
