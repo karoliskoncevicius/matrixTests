@@ -34,7 +34,7 @@
 #' 3. variance of the 0 group. \cr
 #' 4. variance of the 1 group. \cr
 #' 5. log ratio of variances log(var1/var0). \cr
-#' 6. statistic.t. \cr
+#' 6. t.statistic. \cr
 #' 7. raw p-value of the t-test step. \cr
 #' 8. raw p-value of the Bartlett's test step. \cr
 #' 9. fdr-adjusted p-value of the Bartlett's test step. \cr

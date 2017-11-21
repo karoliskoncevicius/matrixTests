@@ -28,15 +28,17 @@ res2 <- ttest_welch(X, Y)
 
 ## Available Tests ##
 
-* `ttest_onegroup`  - t.test for a single group.
-* `ttest_welch`     - t.test with Welch adjustment.
-* `ttest_equalvar`  - t.test for two groups with equal variance.
-* `ttest_paired`    - t.test for paired observations.
-* `cor_pearson`     - Pearson correlation test.
-* `oneway_equalvar` - oneway ANOVA for groups with equal variance.
-* `oneway_welch`    - oneway ANOVA with Welch adjustment.
-* `kruskalwallis`   - Kruskal-Wallis test.
-* `bartlett`        - Bartlett's test.
+|             Description             | matrixTests       | R equivalent
+------------------------------------------------------------------------------------------------
+| t.test for a single group.          | `ttest_onegroup`  | t.test(x)
+| t.test with Welch adjustment.       | `ttest_welch`     | t.test(x,y)
+| t.test with equal variance.         | `ttest_equalvar`  | t.test(x,y,var.equal=TRUE)
+| t.test for paired observations.     | `ttest_paired`    | t.test(x,y,paired=TRUE)
+| Pearson correlation test.           | `cor_pearson`     | cor.test(x,y)
+| oneway ANOVA with equal variance.   | `oneway_equalvar` | oneway.test(x,g,var.equal=TRUE)
+| oneway ANOVA with Welch adjustment. | `oneway_welch`    | oneway.test(x,g)
+| Kruskal-Wallis test.                | `kruskalwallis`   | kruskal.test(x,g)
+| Bartlett's test.                    | `bartlett`        | bartlett.test(x,g)
 
 ## Test-Based Algorithms ##
 
