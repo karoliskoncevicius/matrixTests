@@ -60,6 +60,6 @@ assert_equal_ncol <- function(x, y) {
 
 assert_max_number_of_levels <- function(x, mlevels) {
   name <- as.character(substitute(x))
-  if(is.null(x) || length(unique(na.omit(x))) > mlevels)
+  if(is.null(x) || length(unique(x[!is.na(x)])) > mlevels)
     stop(paste0('"', name, '"', ' must have no more than ', mlevels, ' unique elements'))
 }
