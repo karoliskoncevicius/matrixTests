@@ -61,7 +61,7 @@ kruskalwallis <- function(x, groups) {
   stat <- st1/st2
   df <- nGroups - 1
 
-  p <- pchisq(stat, df, lower.tail=FALSE)
+  p <- stats::pchisq(stat, df, lower.tail=FALSE)
 
 
   w1 <- nSamples < 2

@@ -9,22 +9,22 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
 
   inds <- alt=="less"
   if(any(inds)) {
-    res[inds,2] <- pt(res[inds,1], df[inds])
+    res[inds,2] <- stats::pt(res[inds,1], df[inds])
     res[inds,3] <- rep(-Inf, sum(inds))
-    res[inds,4] <- res[inds,1] + qt(conf[inds], df[inds])
+    res[inds,4] <- res[inds,1] + stats::qt(conf[inds], df[inds])
   }
 
   inds <- alt=="greater"
   if(any(inds)) {
-    res[inds,2] <- pt(res[inds,1], df[inds], lower.tail=FALSE)
-    res[inds,3] <- res[inds,1] - qt(conf[inds], df[inds])
+    res[inds,2] <- stats::pt(res[inds,1], df[inds], lower.tail=FALSE)
+    res[inds,3] <- res[inds,1] - stats::qt(conf[inds], df[inds])
     res[inds,4] <- rep(Inf, sum(inds))
   }
 
   inds <- alt=="two.sided"
   if(any(inds)) {
-    res[inds,2] <- 2 * pt(-abs(res[inds,1]), df[inds])
-    intrange    <- qt(1 - (1-conf[inds])/2, df[inds])
+    res[inds,2] <- 2 * stats::pt(-abs(res[inds,1]), df[inds])
+    intrange    <- stats::qt(1 - (1-conf[inds])/2, df[inds])
     res[inds,3] <- res[inds,1] - intrange
     res[inds,4] <- res[inds,1] + intrange
   }
@@ -47,23 +47,23 @@ do_pearson <- function(r, df, alt, conf) {
 
   inds <- alt=="less"
   if(any(inds)) {
-    res[inds,2] <- pt(res[inds,1], df[inds])
+    res[inds,2] <- stats::pt(res[inds,1], df[inds])
     res[inds,3] <- rep(-Inf, sum(inds))
-    res[inds,4] <- z[inds] + sigma[inds] * qnorm(conf[inds])
+    res[inds,4] <- z[inds] + sigma[inds] * stats::qnorm(conf[inds])
   }
 
   inds <- alt=="greater"
   if(any(inds)) {
-    res[inds,2] <- pt(res[inds,1], df[inds], lower.tail=FALSE)
-    res[inds,3] <- z[inds] - sigma[inds] * qnorm(conf[inds])
+    res[inds,2] <- stats::pt(res[inds,1], df[inds], lower.tail=FALSE)
+    res[inds,3] <- z[inds] - sigma[inds] * stats::qnorm(conf[inds])
     res[inds,4] <- rep(Inf, sum(inds))
   }
 
   inds <- alt=="two.sided"
   if(any(inds)) {
-    res[inds,2] <- 2 * pmin(pt(res[inds,1], df[inds]), pt(res[inds,1], df[inds], lower.tail=FALSE))
-    res[inds,3] <- z[inds] + -sigma[inds] * qnorm((1 + conf[inds])/2)
-    res[inds,4] <- z[inds] + sigma[inds] * qnorm((1 + conf[inds])/2)
+    res[inds,2] <- 2 * pmin(stats::pt(res[inds,1], df[inds]), stats::pt(res[inds,1], df[inds], lower.tail=FALSE))
+    res[inds,3] <- z[inds] + -sigma[inds] * stats::qnorm((1 + conf[inds])/2)
+    res[inds,4] <- z[inds] + sigma[inds] * stats::qnorm((1 + conf[inds])/2)
   }
 
   res[,3] <- tanh(res[,3])

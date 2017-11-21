@@ -91,7 +91,7 @@ ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   tres <- ttest_welch(x[,groups==0, drop=FALSE], x[,groups==1, drop=FALSE])
   bres <- bartlett(x, groups)
 
-  brq <- p.adjust(bres$p.value, "fdr")
+  brq <- stats::p.adjust(bres$p.value, "fdr")
   isSig <- brq < cutBfdr & tres$p.value < cutT
   isSig[is.na(isSig)] <- FALSE
   rank  <- rep(NA, length(isSig))

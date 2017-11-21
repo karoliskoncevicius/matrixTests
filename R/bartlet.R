@@ -67,7 +67,7 @@ bartlett <- function(x, groups) {
 
   ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
            (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
-  p <- pchisq(ksq, df, lower.tail=FALSE)
+  p <- stats::pchisq(ksq, df, lower.tail=FALSE)
 
 
   w1 <- nGroups < 2

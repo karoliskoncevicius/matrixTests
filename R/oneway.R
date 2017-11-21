@@ -66,7 +66,7 @@ oneway_equalvar <- function(x, groups) {
   dfr <- nSamples-nGroups
 
   F <- (betweenScatter/dft) / (withinScatter/dfr)
-  p <- pf(F, dft, dfr, lower.tail=FALSE)
+  p <- stats::pf(F, dft, dfr, lower.tail=FALSE)
 
 
   w1 <- nGroups < 2
@@ -146,7 +146,7 @@ oneway_welch <- function(x, groups) {
   dft <- nGroups-1
 
   F <- betweenScatter / (dft * (1 + 2 * (nGroups-2) * tmp))
-  p <- pf(F, dft, dfr, lower.tail=FALSE)
+  p <- stats::pf(F, dft, dfr, lower.tail=FALSE)
 
 
   w1 <- nGroups < 2
