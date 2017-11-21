@@ -29,7 +29,7 @@ res2 <- ttest_welch(X, Y)
 ## Available Tests ##
 
 |             Description             | matrixTests       | R equivalent
-------------------------------------------------------------------------------------------------
+|-------------------------------------|-------------------|-------------------------------------
 | t.test for a single group.          | `ttest_onegroup`  | t.test(x)
 | t.test with Welch adjustment.       | `ttest_welch`     | t.test(x,y)
 | t.test with equal variance.         | `ttest_equalvar`  | t.test(x,y,var.equal=TRUE)
