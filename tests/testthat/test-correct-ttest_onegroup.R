@@ -30,7 +30,7 @@ base_ttest_onegroup <- function(mat, alt="two.sided", mu=0, conf=0.95) {
     cnf[i] <- attr(res$conf.int, "conf.level")
   }
 
-  data.frame(mean.x=mx, var.x=vx, obs.x=nx, t.statistic=tst, p.value=p,
+  data.frame(mean.x=mx, var.x=vx, obs.x=nx, statistic.t=tst, p.value=p,
              ci.low=cl, ci.high=ch, stderr=se, df=df,
              mean.null=m0, conf.level=cnf, alternative=al,
              stringsAsFactors=FALSE
@@ -111,7 +111,7 @@ test_that("parameter edge cases give equal results", {
 
 test_that("warnign when row has less than 2 available observations", {
   wrn <- '1 of the rows had less than 2 "x" observations\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # single observation
   expect_warning(res <- ttest_onegroup(1), wrn, all=TRUE)
@@ -132,7 +132,7 @@ test_that("warnign when row has less than 2 available observations", {
 
 test_that("warning when a row has all constant values", {
   wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # two equal observations
   expect_warning(res <- ttest_onegroup(c(1,1)), wrn, all=TRUE)

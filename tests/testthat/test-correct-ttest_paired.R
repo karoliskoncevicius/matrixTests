@@ -43,7 +43,7 @@ base_ttest_paired <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
   }
 
   data.frame(mean.x=mx, mean.y=my, mean.diff=md, var.x=vx, var.y=vy,
-             var.diff=vd, obs.x=nx, obs.y=ny, obs.pair=nt, t.statistic=tst,
+             var.diff=vd, obs.x=nx, obs.y=ny, obs.pair=nt, statistic.t=tst,
              p.value=p, ci.low=cl, ci.high=ch, stderr=se, df=df, mean.null=m0,
              conf.level=cnf, alternative=al, stringsAsFactors=FALSE
              )
@@ -130,7 +130,7 @@ test_that("parameter edge cases give equal results", {
 
 test_that("warning when a row has less than 2 paired observations", {
   wrn <- '1 of the rows had less than 2 paired observations\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # no observations in both groups
   expect_warning(res <- ttest_paired(NA_integer_, NA_integer_), wrn, all=TRUE)
@@ -157,7 +157,7 @@ test_that("warning when a row has less than 2 paired observations", {
 
 test_that("warning when row has constant values", {
   wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # all values are equal
   expect_warning(res <- ttest_paired(c(1,1,1), c(1,1,1)), wrn, all=TRUE)

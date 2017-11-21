@@ -97,7 +97,7 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(mean.x=mxs, var.x=vxs, obs.x=nxs, t.statistic=tres[,1],
+  data.frame(mean.x=mxs, var.x=vxs, obs.x=nxs, statistic.t=tres[,1],
              p.value=tres[,2], ci.low=tres[,3], ci.high=tres[,4],
              stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
              alternative=alternative, stringsAsFactors=FALSE,
@@ -186,7 +186,7 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
              var.pooled=vs, obs.x=nxs, obs.y=nys, obs.tot=nxys,
-             t.statistic=tres[,1], p.value=tres[,2],
+             statistic.t=tres[,1], p.value=tres[,2],
              ci.low=tres[,3], ci.high=tres[,4], stderr=stders, df=dfs,
              mean.null=mu, conf.level=conf.level, alternative=alternative,
              stringsAsFactors=FALSE,
@@ -267,7 +267,7 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
-             obs.x=nxs, obs.y=nys, obs.tot=nxys, t.statistic=tres[,1],
+             obs.x=nxs, obs.y=nys, obs.tot=nxys, statistic.t=tres[,1],
              p.value=tres[,2], ci.low=tres[,3], ci.high=tres[,4],
              stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
              alternative=alternative, stringsAsFactors=FALSE,
@@ -350,7 +350,7 @@ ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
              var.diff=vxys, obs.x=nxs, obs.y=nys, obs.pair=nxys,
-             t.statistic=tres[,1], p.value=tres[,2],
+             statistic.t=tres[,1], p.value=tres[,2],
              ci.low=tres[,3], ci.high=tres[,4], stderr=stders, df=dfs,
              mean.null=mu, conf.level=conf.level, alternative=alternative,
              stringsAsFactors=FALSE, row.names=rnames

@@ -32,7 +32,7 @@ base_oneway_equalvar <- function(mat, groups) {
 
   data.frame(sum.sq.treatment=st, sum.sq.residuals=sr, mean.sq.treatment=mt,
              mean.sq.residuals=mr, obs.tot=ot, obs.groups=og, df.treatment=dft,
-             df.residuals=dfr, F.statistic=fst, p.value=p
+             df.residuals=dfr, statistic.F=fst, p.value=p
              )
 }
 
@@ -65,7 +65,7 @@ base_oneway_equalvar2 <- function(mat, groups) {
 
   data.frame(sum.sq.treatment=st, sum.sq.residuals=sr, mean.sq.treatment=mt,
              mean.sq.residuals=mr, obs.tot=ot, obs.groups=og, df.treatment=dft,
-             df.residuals=dfr, F.statistic=fst, p.value=p
+             df.residuals=dfr, statistic.F=fst, p.value=p
              )
 }
 
@@ -190,7 +190,7 @@ test_that("warning is shown when columns are removed because of NA groups", {
 
 test_that("warning when a rows has less than 2 groups", {
   wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
-  nacolumns <- c("F.statistic", "p.value")
+  nacolumns <- c("statistic.F", "p.value")
 
   # one group
   x <- 1:10; g <- rep(1, 10)
@@ -211,7 +211,7 @@ test_that("warning when a rows has less than 2 groups", {
 
 test_that("warning when a row has 1 observation per group", {
   wrn <- '1 of the rows had one observation per group\\. First occurrence at row 1'
-  nacolumns <- c("F.statistic", "p.value")
+  nacolumns <- c("statistic.F", "p.value")
 
   # 10 groups 10 observations
   x <- 1:10; g <- 1:10
@@ -231,7 +231,7 @@ test_that("warning when a row has 1 observation per group", {
 
 test_that("warning when all values are constant", {
   wrn <- '1 of the rows had essentially constant values\\. First occurrence at row 1'
-  nacolumns <- c("F.statistic", "p.value")
+  nacolumns <- c("statistic.F", "p.value")
 
   # two groups - all constant values
   x <- c(0,0,0,0); g <- c(1,1,2,2)

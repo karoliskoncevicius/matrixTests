@@ -33,7 +33,7 @@ base_cor_pearson <- function(mat1, mat2, alt="two.sided", conf=0.95) {
     al[i]  <- res$alternative
   }
 
-  data.frame(obs.complete=np, correlation=cor, t.statistic=tst,
+  data.frame(obs.complete=np, correlation=cor, statistic.t=tst,
              p.value=p, ci.low=cl, ci.high=ch, df=df, mean.null=mu,
              conf.level=cnf, alternative=al, stringsAsFactors=FALSE
              )
@@ -151,7 +151,7 @@ test_that("warning when rows have exactly 3 complete observations", {
 
 test_that("warning when rows have less than 3 complete observations", {
   wrn <- '1 of the rows had less than 3 complete observations\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # 1 observations
   expect_warning(res <- cor_pearson(1, 1), wrn, all=TRUE)
@@ -169,7 +169,7 @@ test_that("warning when rows have less than 3 complete observations", {
 test_that("warning when one of the variables has zero standard deviation", {
   wrnX <- '1 of the rows had zero standard deviation in x\\. First occurrence at row 1'
   wrnY <- '1 of the rows had zero standard deviation in y\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # only x
   expect_warning(res <- cor_pearson(c(1,1,1,1), c(1,2,3,4)), wrnX, all=TRUE)
@@ -195,15 +195,15 @@ test_that("warning when correlation is perfect", {
 
   # positive case
   expect_warning(res <- cor_pearson(c(1:4), c(1:4)), wrn, all=TRUE)
-  expect_true(is.infinite(res$t.statistic))
+  expect_true(is.infinite(res$statistic.t))
 
   # negative case
   expect_warning(res <- cor_pearson(c(1:4), c(4:1)), wrn, all=TRUE)
-  expect_true(is.infinite(res$t.statistic))
+  expect_true(is.infinite(res$statistic.t))
 
   # with NAs present
   expect_warning(res <- cor_pearson(c(1,2,3,4,NA,1), c(1,2,3,4,1,NA)), wrn, all=TRUE)
-  expect_true(is.infinite(res$t.statistic))
+  expect_true(is.infinite(res$statistic.t))
 })
 
 

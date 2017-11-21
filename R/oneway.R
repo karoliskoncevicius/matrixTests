@@ -92,7 +92,7 @@ oneway_equalvar <- function(x, groups) {
              mean.sq.residuals=withinScatter/dfr,
              obs.tot=nSamples, obs.groups=nGroups,
              df.treatment=dft, df.residuals=dfr,
-             F.statistic=F, p.value=p,
+             statistic.F=F, p.value=p,
              row.names=rnames
              )
 }
@@ -168,7 +168,7 @@ oneway_welch <- function(x, groups) {
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.tot=nSamples, obs.groups=nGroups, df.treatment=dft,
-             df.residuals=dfr, F.statistic=F, p.value=p,
+             df.residuals=dfr, statistic.F=F, p.value=p,
              row.names=rnames
              )
 }

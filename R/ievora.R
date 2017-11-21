@@ -34,7 +34,7 @@
 #' 3. variance of the 0 group. \cr
 #' 4. variance of the 1 group. \cr
 #' 5. log ratio of variances log(var1/var0). \cr
-#' 6. t.statistic. \cr
+#' 6. statistic.t. \cr
 #' 7. raw p-value of the t-test step. \cr
 #' 8. raw p-value of the Bartlett's test step. \cr
 #' 9. fdr-adjusted p-value of the Bartlett's test step. \cr
@@ -105,7 +105,7 @@ ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(mean.0=tres$mean.x, mean.1=tres$mean.y, var.0=var0, var.1=var1,
              obs.0=tres$obs.x, obs.1=tres$obs.y, var.log2.ratio=logR,
-             t.statistic=-tres$t.statistic, tt.p.value=tres$p.value,
+             statistic.t=-tres$statistic.t, tt.p.value=tres$p.value,
              bt.p.value=bres$p.value, bt.q.value=brq, significant=isSig,
              rank=rank, row.names=rnames
              )

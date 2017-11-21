@@ -79,7 +79,7 @@ kruskalwallis <- function(x, groups) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.tot=nSamples, obs.groups=nGroups, df=df, chsq.statistic=stat,
+  data.frame(obs.tot=nSamples, obs.groups=nGroups, df=df, statistic.chsq=stat,
              p.value=p, row.names=rnames
              )
 }

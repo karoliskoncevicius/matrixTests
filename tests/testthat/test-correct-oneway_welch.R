@@ -34,7 +34,7 @@ base_oneway_welch <- function(mat, groups) {
   }
 
   data.frame(obs.tot=ot, obs.groups=og, df.treatment=dft, df.residuals=dfr,
-             F.statistic=fst, p.value=p
+             statistic.F=fst, p.value=p
              )
 }
 
@@ -96,7 +96,7 @@ test_that("constant values give equal results", {
   # one group's values are constant
   x <- c(1,1,2,3); g <- c("a","a","b","b")
   t1 <- base_oneway_welch(x, g)
-  t1$df.residuals <- 1; t1$F.statistic <- Inf; t1$p.value <- 0 # NOTE: fix to match
+  t1$df.residuals <- 1; t1$statistic.F <- Inf; t1$p.value <- 0 # NOTE: fix to match
   t2 <- suppressWarnings(oneway_welch(x, g))
   expect_equal(t1, t2)
 })
@@ -157,7 +157,7 @@ test_that("warning is shown when columns are removed because of NA groups", {
 
 test_that("warning when a rows has less than 2 groups", {
   wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
-  nacolumns <- c("F.statistic", "p.value")
+  nacolumns <- c("statistic.F", "p.value")
 
   # one group
   x <- 1:10; g <- rep(1, 10)
@@ -197,7 +197,7 @@ test_that("warning when a row has groups with less than 2 observations", {
 
 test_that("warning when all values within each group are constant", {
   wrn <- '1 of the rows had zero variance in all of the groups\\. First occurrence at row 1'
-  nacolumns <- c("F.statistic", "p.value")
+  nacolumns <- c("statistic.F", "p.value")
 
   # two groups - all values are constant
   x <- c(1,1,1,1); g <- c(1,1,2,2)
@@ -221,12 +221,12 @@ test_that("warning when one of the groups has constant values", {
   # two groups - one with constant values
   x <- c(1,2,1,1); g <- c(1,1,2,2)
   expect_warning(res <- oneway_welch(x, g), wrn, all=TRUE)
-  expect_true(is.infinite(res$F.statistic))
+  expect_true(is.infinite(res$statistic.F))
 
   # three groups - constant values within each group + NAs
   x <- c(1,2,3,4,5,5,NA); g <- c("a","a","b","b","c","c","c")
   expect_warning(res <- oneway_welch(x, g), wrn, all=TRUE)
-  expect_true(is.infinite(res$F.statistic))
+  expect_true(is.infinite(res$statistic.F))
 })
 
 

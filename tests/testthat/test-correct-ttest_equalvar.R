@@ -46,7 +46,7 @@ base_ttest_equalvar <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
   }
 
   data.frame(mean.x=mx, mean.y=my, mean.diff=md, var.x=vx, var.y=vy, var.pooled=vp,
-             obs.x=nx, obs.y=ny, obs.tot=nt, t.statistic=tst, p.value=p,
+             obs.x=nx, obs.y=ny, obs.tot=nt, statistic.t=tst, p.value=p,
              ci.low=cl, ci.high=ch, stderr=se, df=df, mean.null=m0,
              conf.level=cnf, alternative=al, stringsAsFactors=FALSE
              )
@@ -132,7 +132,7 @@ test_that("parameter edge cases give equal results", {
 
 test_that("warnign when a row has less than 3 observations", {
   wrn <- '1 of the rows had less than 3 total observations\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # no observations
   expect_warning(res <- ttest_equalvar(NA_integer_, NA_integer_), wrn, all=TRUE)
@@ -161,7 +161,7 @@ test_that("warnign when a row has less than 3 observations", {
 test_that("warning when one group has no observations", {
   wrnX <- '1 of the rows had zero "x" observations\\. First occurrence at row 1'
   wrnY <- '1 of the rows had zero "y" observations\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # no observations in X
   expect_warning(res <- ttest_equalvar(NA_integer_, c(1,1,1)), wrnX, all=TRUE)
@@ -179,7 +179,7 @@ test_that("warning when one group has no observations", {
 
 test_that("warning when row has constant values", {
   wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
-  nacolumns <- c("t.statistic", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # all values are equal
   expect_warning(res <- ttest_equalvar(c(1,1,1), c(1,1,1)), wrn, all=TRUE)
