@@ -18,11 +18,12 @@ res1 <- vector(nrow(X), mode="list")
 for(i in 1:nrow(X)) {
   res1[[i]] <- t.test(X[i,], Y[i,])
 }
+# RUN TIME: 2 minutes 13 seconds
 ```
 
+Output for first 2 rows:
+
 ```
-# RUN TIME: 2 minutes 13 seconds
-# OUTPUT:
   res1[1:2]
 [[1]]
 
@@ -54,13 +55,13 @@ sample estimates:
 #### matrixTest way ####
 
 ```r
-# matrixTest way
 res2 <- row.t.welch(X, Y)
+# RUN TIME: 2.3 seconds
 ```
 
+Output for first 2 rows:
+
 ```
-# RUN TIME: 2.3 seconds
-# OUTPUT:
 > res2[1:2,]
        mean.x     mean.y   mean.diff     var.x    var.y obs.x obs.y obs.tot statistic.t   p.value     ci.low   ci.high    stderr       df mean.null conf.level alternative
 1  0.06435162  0.2702536 -0.20590200 1.2207363 1.160574    10    10      20  -0.4219418 0.6780672 -1.2311709 0.8193669 0.4879867 17.98852         0       0.95   two.sided
