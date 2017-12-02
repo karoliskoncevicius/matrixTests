@@ -271,7 +271,7 @@ Other parameters might allow or not allow `NA` values depending on context. For
 example you cannot specify `NA` as wanted confidence level when doing a test
 because not knowing your confidence level makes little sense.
 
-#### Notes ####
+## Notes ##
 
 All the tests are implemented in R. So when running a test on a single row there
 should be no increase in execution speed compared with the base R versions. In
