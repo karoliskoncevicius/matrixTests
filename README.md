@@ -19,7 +19,9 @@ res1 <- vector(nrow(X), mode="list")
 for(i in 1:nrow(X)) {  # RUN TIME: 2 minutes 16 seconds
   res1[[i]] <- t.test(X[i,], Y[i,])
 }
+```
 
+```
 > res1[1:2]
 [[1]]
 
@@ -54,7 +56,9 @@ sample estimates:
 
 ```r
 res2 <- row.t.welch(X, Y) # RUN TIME: 2.4 seconds
+```
 
+```
 > res2[1:2,]
   obs.x obs.y obs.tot      mean.x      mean.y  mean.diff    var.x     var.y    stderr       df statistic.t   p.value     ci.low   ci.high alternative mean.null conf.level
 1    10    10      20 -0.14392442 -0.03044108 -0.1134833 0.519993 0.9316212 0.3810005 16.66035  -0.2978561 0.7694954 -0.9185744 0.6916077   two.sided         0       0.95
