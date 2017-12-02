@@ -203,6 +203,8 @@ correction fails because it has not enough observations:
 
 ```r
 t.test(c(1,2), 3)
+```
+```
 Error in t.test.default(c(1, 2), 3) : not enough 'y' observations
 ```
 
@@ -211,7 +213,9 @@ the failed outputs to NA:
 
 ```r
 row.t.welch(c(1,2), 3)
-mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t p.value ci.low ci.high stderr  df mean.null conf.level alternative
+```
+```
+  mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t p.value ci.low ci.high stderr  df mean.null conf.level alternative
 1    1.5      3      -1.5   0.5   NaN     2     1       3          NA      NA     NA      NA    NaN NaN         0       0.95   two.sided
 Warning message:
 In showWarning(w2, "had less than 2 \"y\" observations") :
@@ -225,7 +229,9 @@ observations per group but some rows might not have enough due to NA values.
 mat1 <- rbind(c(1,2), c(3,NA))
 mat2 <- rbind(c(2,3), c(0,4))
 row.t.welch(mat1, mat2)
-mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t   p.value    ci.low  ci.high    stderr  df mean.null conf.level alternative
+```
+```
+  mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t   p.value    ci.low  ci.high    stderr  df mean.null conf.level alternative
 1    1.5    2.5        -1   0.5   0.5     2     2       4   -1.414214 0.2928932 -4.042435 2.042435 0.7071068   2         0       0.95   two.sided
 2    3.0    2.0         1   NaN   8.0     1     2       3          NA        NA        NA       NA       NaN NaN         0       0.95   two.sided
 Warning message:
@@ -247,12 +253,20 @@ x <- rnorm(5)
 g <- c(NA,"a", "a", "b", "b")
 row.oneway.welch(x=x, g=g)
 ```
+```
+  obs.tot obs.groups df.treatment df.residuals statistic.F   p.value
+1       4          2            1     1.488032    5.461371 0.1863233
+```
 
 then the entire first column from the input matrix x corresponding to that group
 will be removed. And the result will be equivalent to:
 
 ```r
 row.oneway.welch(x=x[-1], g=g[-1])
+```
+```
+  obs.tot obs.groups df.treatment df.residuals statistic.F   p.value
+1       4          2            1     1.488032    5.461371 0.1863233
 ```
 
 Other parameters might allow or not allow `NA` values depending on context. For
