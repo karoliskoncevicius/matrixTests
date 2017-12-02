@@ -68,7 +68,7 @@ install_github("KKPMW/matrixTests")
 
 The following design decision were taken (in no particular order):
 
-#### Function Names ####
+### Function Names ###
 
 Function names are composed of 3 elements separated by dots where needed:
 
@@ -79,7 +79,83 @@ variant for that test is implemented so far.
 
 A few examples: `row.oneway.equalvar`, `row.bartlett`
 
-#### Compatibility with R ####
+### Single Test Per Function ###
+
+Functions should provide a single type of test.
+
+This means that some of the tests that in base R are implemented under a single
+function will be split into different functions. For example in base R function
+`t.test()` has parameters that can specify the type of t.test to use:
+equal variance or Welch adjusted, paired or non paired.
+
+In this package those types of choices are separated into separate functions
+for the following reasons:
+
+1. Output structure returned by a function is not dependant on the input values.
+2. Users is made to choose the test explicitly with no hidden defaults.
+3. This convention makes it easier to add more test types later.
+
+### Input Values ###
+
+The functions try to make sense of the provided inputs when possible.
+All the cases when the inputs are incorrectly specified should throw an error.
+
+Edge cases should be handled gracefully. For example when input is a numeric
+`matrix` with 0 rows - the result is a 0 row `data.frame`.
+
+Below is a short list of implemented input rules:
+
+1. Main parameters are numeric matrices.
+2. Vectors are transformed into a 1-row matrix.
+3. Data frames are automatically transformed into matrices if all of their
+   columns are numeric.
+4. When two matrices are required - number of their rows should match.
+5. Group specifications and additional parameters typically can have only one
+   value that will be applied to all the rows.
+6. In some cases additional parameters can have a separate value for each row.
+   Those cases are specified in the help documentation.
+
+
+### Outputs ###
+
+Outputs are contained in a `data.frame` with each row providing the result of
+the test performed on the corresponding row of the input matrix.
+
+#### Output categories ####
+
+Columns hold the relevant results that can be divided into 3 main categories:
+
+1. Descriptive statistics related to the test. Typically ordered by increasing
+complexity. For example: 1) number of observations, 2) means, 3) variances.
+
+2. Outputs related to the test itself. Typically ordered by increasing complexity.
+For example: 1) degrees of freedom, 2) test statistic, 3) p-value,
+4) confidence interval.
+
+3. Input parameters that were chosen for the row. Ordered by their appearance in
+the function call. For example: 1) alternative hypothesis type,
+2) mean of null hypothesis, 3) confidence level.
+
+#### Column names ####
+
+Column names of the output are written in consistent fashion and typically have
+two parts: type of result and specification, separated by a dot. Some examples:
+
+* obs.x - number of x observations
+* obs.tot - total number of observations
+* mean.x - mean of x
+* mean.diff - mean of x and y difference
+* ci.low - lower confidence interval
+* statistic.t - t statistic of the test
+
+#### Row names ####
+
+Row names are transfered from the main input matrix. If the row names of the
+matrix were not unique - the are made unique using `make.unique()`. In case
+input matrix had no row names the numbers `1:nrow(x)` are used.
+
+
+### Compatibility with R ###
 
 Results of tests should be as compatible as possible with the ones implemented
 in base R. Allowed exceptions are cases where R's implementation is incorrect
@@ -104,7 +180,7 @@ Functions in this package try to be consistent with each other and be as
 informative as possible. Therefore in such cases `row.bartlett()` will throw a
 warning even if base R function does not.
 
-#### Warnings and Errors ####
+### Warnings and Errors ###
 
 Errors are produced only when the input parameters are not correctly specified.
 
@@ -116,7 +192,7 @@ multiple tests (one for each row). The function cannot fail when one or few
 of those tests cannot be completed. So even when R base tests throw an error
 the functions in this package will instead produce an informative warning for
 the row that failed and if needed will set all it's return values related to the
-test to NA so that the user will not be able to use them by mistake.
+test to `NA` so that the user will not be able to use them by mistake.
 
 Note that in these cases only test-related values like test statistic, p-value
 and confidence interval are set to NA. Other returned values: number of
@@ -126,11 +202,17 @@ As an example of such behaviour consider the case when base t-test with Welch
 correction fails because it has not enough observations:
 
 `t.test(c(1,2), 3)`
+> Error in t.test.default(c(1, 2), 3) : not enough 'y' observations
 
 Function in this package proceeds, but throws a warning and takes care to set
 the failed outputs to NA:
 
 `row.t.welch(c(1,2), 3)`
+> mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t p.value ci.low ci.high stderr  df mean.null conf.level alternative
+1    1.5      3      -1.5   0.5   NaN     2     1       3          NA      NA     NA      NA    NaN NaN         0       0.95   two.sided
+Warning message:
+In showWarning(w2, "had less than 2 \"y\" observations") :
+  1 of the rows had less than 2 "y" observations. First occurrence at row 1
 
 This allows us to continue working in cases where typically we have enough
 observations per group but some rows might not have enough due to NA values.
@@ -138,23 +220,40 @@ observations per group but some rows might not have enough due to NA values.
 ```r
 mat1 <- rbind(c(1,2), c(3,NA))
 mat2 <- rbind(c(2,3), c(0,4))
-`row.t.welch(mat1, mat2)`
+row.t.welch(mat1, mat2)
+```
+> mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t   p.value    ci.low  ci.high    stderr  df mean.null conf.level alternative
+1    1.5    2.5        -1   0.5   0.5     2     2       4   -1.414214 0.2928932 -4.042435 2.042435 0.7071068   2         0       0.95   two.sided
+2    3.0    2.0         1   NaN   8.0     1     2       3          NA        NA        NA       NA       NaN NaN         0       0.95   two.sided
+Warning message:
+In showWarning(w1, "had less than 2 \"x\" observations") :
+  1 of the rows had less than 2 "x" observations. First occurrence at row 2
+
+### NA and NaN values ###
+
+`NA` and `NaN` values from the input matrices are silently removed and each
+row is treated like a vector that has no `NA`/`NaN` values.
+
+When `NA` or `NaN` values are present in the parameter specifying the groups
+the corresponding values from the input matrices are dropped before doing the
+tests. For example if the specified group variable has a `NA`:
+
+```r
+x <- rnorm(5)
+g <- c(NA,"a", "a", "b", "b")
+row.oneway.welch(x=x, g=g)
 ```
 
-#### NA and NaN values ####
+then the entire first column from the input matrix x corresponding to that group
+will be removed. And the result will be equivalent to:
 
-**NA** and **NaN** values from the input matrices are silently removed and each
-row is treated like a vector that has no NA/NaN values.
+```r
+row.oneway.welch(x=x[-1], g=g[-1])
+```
 
-When **NA** or **NaN** values are present in the parameter specifying the groups
-the corresponding values from the input matrices are dropped before doing the
-tests. For example if the specified group variable is `c(NA,"a", "a", "b", "b")`
-then the entire first column from the input matrix corresponding to that group
-will be removed.
-
-Other parameters might allow or not allow NA values depending on context. For
-example you cannot specify **NA** as wanted confidence level when doing a test
-because not knowing your confidence level makes no sense.
+Other parameters might allow or not allow `NA` values depending on context. For
+example you cannot specify `NA` as wanted confidence level when doing a test
+because not knowing your confidence level makes little sense.
 
 ## See Also ##
 
