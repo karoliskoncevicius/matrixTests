@@ -3,7 +3,7 @@ Title: Fast Statistical Hypothesis Tests On Rows Of Matrices
 Version: 0.0.0.9000
 Authors@R: person("Karolis", "Koncevicius", email = "Karolis@Koncevicius.lt", role = c("aut", "cre"))
 Description: This package provides a set of functions to perform parallel statistical
-  hypothesis tests on rows of the matrices. The functions are optimized for speed,
+  hypothesis tests on rows/columns of matrices. The functions are optimized for speed,
   output readability and consistency with default hypothesis testing functions
   (like those from the package 'stats').
 Depends: R (>= 3.2.2)

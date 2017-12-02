@@ -4,20 +4,67 @@ A package dedicated to running statistical hypothesis tests on rows of matrices.
 
 ## Example ##
 
-```r
+T-test on each row of 2 matrices each with a million rows.
 
+```r
 X <- matrix(rnorm(10000000), ncol=10)
 Y <- matrix(rnorm(10000000), ncol=10)
+```
 
-# The usual way
+#### The usual way ####
+
+```r
 res1 <- vector(nrow(X), mode="list")
 for(i in 1:nrow(X)) {
   res1[[i]] <- t.test(X[i,], Y[i,])
 }
+```
 
+```
+# RUN TIME: 2 minutes 13 seconds
+# OUTPUT:
+  res1[1:2]
+[[1]]
+
+        Welch Two Sample t-test
+
+data:  X[i, ] and Y[i, ]
+t = -0.42194, df = 17.989, p-value = 0.6781
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -1.2311709  0.8193669
+sample estimates:
+ mean of x  mean of y
+0.06435162 0.27025362
+
+[[2]]
+
+        Welch Two Sample t-test
+
+data:  X[i, ] and Y[i, ]
+t = 0.18962, df = 15.213, p-value = 0.8521
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.9089581  1.0867183
+sample estimates:
+ mean of x  mean of y
+-0.1360916 -0.2249717
+```
+
+#### matrixTest way ####
+
+```r
 # matrixTest way
 res2 <- row.t.welch(X, Y)
+```
 
+```
+# RUN TIME: 2.3 seconds
+# OUTPUT:
+> res2[1:2,]
+       mean.x     mean.y   mean.diff     var.x    var.y obs.x obs.y obs.tot statistic.t   p.value     ci.low   ci.high    stderr       df mean.null conf.level alternative
+1  0.06435162  0.2702536 -0.20590200 1.2207363 1.160574    10    10      20  -0.4219418 0.6780672 -1.2311709 0.8193669 0.4879867 17.98852         0       0.95   two.sided
+2 -0.13609158 -0.2249717  0.08888009 0.6282957 1.568692    10    10      20   0.1896228 0.8521116 -0.9089581 1.0867183 0.4687204 15.21276         0       0.95   two.sided
 ```
 
 ## Goals ##
