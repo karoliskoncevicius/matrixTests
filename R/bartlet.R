@@ -9,10 +9,8 @@
 #' NA values are always ommited. If values are missing for a whole group - that
 #' group is discarded. Groups with only one observation are also discarded.
 #'
-#' \code{bartlett(x, groups)} - Bartlet's test.
+#' \code{row.bartlett(x, groups)} - Bartlet's test.
 #' Same as \code{bartlett.test(x,  groups)}
-#'
-#' @name bartlett
 #'
 #' @param x numeric matrix.
 #' @param groups a vector specifying group membership for each column of x.
@@ -23,11 +21,12 @@
 #' @seealso \code{bartlett.test()}
 #'
 #' @examples
-#' bartlett(t(iris[,1:4]), iris$Species)
+#' row.bartlett(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
+#' @name bartlett
 #' @export
-bartlett <- function(x, groups) {
+row.bartlett <- function(x, groups) {
   force(x)
   force(groups)
 

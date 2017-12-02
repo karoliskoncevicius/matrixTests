@@ -7,15 +7,13 @@
 #' function from default stats package. Other arguments were split into separate
 #' functions:
 #'
-#' \code{ttest_onegroup()} - t-test for mean of a single group. Same as \code{t.test(x)}
+#' \code{row.t.onesample()} - t-test for mean of a single group. Same as \code{t.test(x)}
 #'
-#' \code{ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
+#' \code{row.t.equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
 #'
-#' \code{ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
+#' \code{row.t.welch()} - Welch approximation. Same as \code{t.test(x, y)}
 #'
-#' \code{ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
-#'
-#' @name ttest
+#' \code{row.t.paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
@@ -37,14 +35,15 @@
 #' @examples
 #' X <- t(iris[iris$Species=="setosa",1:4])
 #' Y <- t(iris[iris$Species=="virginica",1:4])
-#' ttest_welch(X, Y)
+#' row.t.welch(X, Y)
 #'
 #' # same row using different confidence levels
-#' ttest_equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
+#' row.t.equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
 #'
 #' @author Karolis Koncevičius
+#' @name ttest
 #' @export
-ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
+row.t.onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   force(x)
 
   if(is.vector(x))
@@ -108,7 +107,7 @@ ttest_onegroup <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
 #' @export
 #' @rdname ttest
-ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+row.t.equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   force(x)
   force(y)
 
@@ -197,7 +196,7 @@ ttest_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
 #' @export
 #' @rdname ttest
-ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+row.t.welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   force(x)
   force(y)
 
@@ -277,7 +276,7 @@ ttest_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
 #' @export
 #' @rdname ttest
-ttest_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+row.t.paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   force(x)
   force(y)
 

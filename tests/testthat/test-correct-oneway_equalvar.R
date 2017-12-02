@@ -81,7 +81,7 @@ test_that("monte-carlo random testing gives equal results", {
   groups[sample(length(groups), 10)] <- NA
 
   t1 <- base_oneway_equalvar(X, groups)
-  t2 <- suppressWarnings(oneway_equalvar(X, groups))
+  t2 <- suppressWarnings(row.oneway.equalvar(X, groups))
 
   expect_equal(t1, t2)
 })
@@ -98,7 +98,7 @@ test_that("extreme numbers give equal results", {
          )
   g <- c(rep("a", 4), rep("b", 4))
   t1 <- base_oneway_equalvar2(x, g)
-  t2 <- oneway_equalvar(x, g)
+  t2 <- row.oneway.equalvar(x, g)
   expect_equal(t1, t2)
 
   # small numbers
@@ -107,7 +107,7 @@ test_that("extreme numbers give equal results", {
          )
   g <- c(rep("a", 4), rep("b", 4))
   t1 <- base_oneway_equalvar2(x, g)
-  t2 <- oneway_equalvar(x, g)
+  t2 <- row.oneway.equalvar(x, g)
   expect_equal(t1, t2)
 })
 
@@ -116,20 +116,20 @@ test_that("constant values give equal results", {
   # all values are constant
   x <- c(1,1,1,1); g <- c("a","a","b","b")
   t1 <- base_oneway_equalvar(x, g)
-  t2 <- suppressWarnings(oneway_equalvar(x, g))
+  t2 <- suppressWarnings(row.oneway.equalvar(x, g))
   expect_equal(t1, t2)
 
   # within group values are constant
   # NOTE: using fall-back version
   x <- c(1,1,2,2); g <- c("a","a","b","b")
   t1 <- base_oneway_equalvar2(x, g)
-  t2 <- suppressWarnings(oneway_equalvar(x, g))
+  t2 <- suppressWarnings(row.oneway.equalvar(x, g))
   expect_equal(t1, t2)
 
   # one group's values are constant
   x <- c(1,1,2,3); g <- c("a","a","b","b")
   t1 <- base_oneway_equalvar(x, g)
-  t2 <- suppressWarnings(oneway_equalvar(x, g))
+  t2 <- suppressWarnings(row.oneway.equalvar(x, g))
   expect_equal(t1, t2)
 })
 
@@ -139,14 +139,14 @@ test_that("minimal allowed sample size gives equal results", {
   x <- c(1,2,3)
   g <- c("a","a","b")
   t1 <- base_oneway_equalvar(x, g)
-  t2 <- suppressWarnings(oneway_equalvar(x, g))
+  t2 <- suppressWarnings(row.oneway.equalvar(x, g))
   expect_equal(t1, t2)
 
   # with NAs
   x <- c(1,2,3,NA,4)
   g <- c("a","a","b","b",NA)
   t1 <- base_oneway_equalvar(x, g)
-  t2 <- suppressWarnings(oneway_equalvar(x, g))
+  t2 <- suppressWarnings(row.oneway.equalvar(x, g))
   expect_equal(t1, t2)
 })
 
@@ -156,14 +156,14 @@ test_that("groups with one remaining member give equal results", {
   x <- rnorm(12)
   g <- rep(letters[1:4], each=3); g[1:2] <- NA
   t1 <- base_oneway_equalvar(x, g)
-  t2 <- suppressWarnings(oneway_equalvar(x, g))
+  t2 <- suppressWarnings(row.oneway.equalvar(x, g))
   expect_equal(t1, t2)
 
   # many groups - all groups except one have one remaining element
   x <- rnorm(12)
   g <- rep(letters[1:4], each=3); g[c(1,4:5,7:8,10:11)] <- NA
   t1 <- base_oneway_equalvar(x, g)
-  t2 <- suppressWarnings(oneway_equalvar(x, g))
+  t2 <- suppressWarnings(row.oneway.equalvar(x, g))
   expect_equal(t1, t2)
 })
 
@@ -175,14 +175,14 @@ test_that("warning is shown when columns are removed because of NA groups", {
   wrn <- '2 columns dropped due to missing group information'
 
   # 2 NAs
-  expect_warning(res <- oneway_equalvar(1:10, c(1,1,1,1,NA,NA,2,2,2,2)), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(1:10, c(1,1,1,1,NA,NA,2,2,2,2)), wrn, all=TRUE)
   expect_equal(res$obs.tot, 8)
   expect_equal(res$obs.groups, 2)
 
   # 4 groups with one group dropped because of missing x values
   x <- rnorm(10); x[c(1,2)] <- NA
   g <- c(1,1,2,2,NA,NA,3,3,4,4)
-  expect_warning(res <- oneway_equalvar(x, g), wrn)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn)
   expect_equal(res$obs.tot, 6)
   expect_equal(res$obs.groups, 3)
 })
@@ -194,7 +194,7 @@ test_that("warning when a rows has less than 2 groups", {
 
   # one group
   x <- 1:10; g <- rep(1, 10)
-  expect_warning(res <- oneway_equalvar(x, g), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.tot, 10)
   expect_equal(res$obs.groups, 1)
@@ -202,7 +202,7 @@ test_that("warning when a rows has less than 2 groups", {
   # two groups but one only has NAs
   x <- 1:10; x[6:10] <- NA
   g <- c(rep(1,5), rep(2,5))
-  expect_warning(res <- oneway_equalvar(x, g), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.tot, 5)
   expect_equal(res$obs.groups, 1)
@@ -215,7 +215,7 @@ test_that("warning when a row has 1 observation per group", {
 
   # 10 groups 10 observations
   x <- 1:10; g <- 1:10
-  expect_warning(res <- oneway_equalvar(x, g), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.tot, 10)
   expect_equal(res$obs.groups, 10)
@@ -223,7 +223,7 @@ test_that("warning when a row has 1 observation per group", {
   # two groups 3 observations but one is NA
   x <- rnorm(3); x[3] <- NA
   g <- c("a", "b", "b")
-  expect_warning(res <- oneway_equalvar(x, g), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.tot, 2)
   expect_equal(res$obs.groups, 2)
@@ -235,13 +235,13 @@ test_that("warning when all values are constant", {
 
   # two groups - all constant values
   x <- c(0,0,0,0); g <- c(1,1,2,2)
-  expect_warning(res <- oneway_equalvar(x, g), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn, all=TRUE)
   expect_equal(res$obs.tot, 4)
   expect_equal(res$obs.groups, 2)
 
   # three groups - constant values + NAs
   x <- c(3,3,NA,3,3,NA,3,3,NA); g <- c(1,1,1,2,2,2,3,3,3)
-  expect_warning(res <- oneway_equalvar(x, g), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn, all=TRUE)
   expect_equal(res$obs.tot, 6)
   expect_equal(res$obs.groups, 3)
 })
@@ -253,13 +253,13 @@ test_that("warning when all values within each group are constant", {
 
   # two groups - constant values within group
   x <- c(1,1,0,0); g <- c(1,1,2,2)
-  expect_warning(res <- oneway_equalvar(x, g), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn, all=TRUE)
   expect_equal(res$obs.tot, 4)
   expect_equal(res$obs.groups, 2)
 
   # three groups - constant values within each group + NAs
   x <- c(3,3,NA,0,0,NA,-1,-1,NA); g <- c(1,1,1,2,2,2,3,3,3)
-  expect_warning(res <- oneway_equalvar(x, g), wrn, all=TRUE)
+  expect_warning(res <- row.oneway.equalvar(x, g), wrn, all=TRUE)
   expect_equal(res$obs.tot, 6)
   expect_equal(res$obs.groups, 3)
 })

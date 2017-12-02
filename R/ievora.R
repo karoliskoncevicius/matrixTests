@@ -41,19 +41,20 @@
 #' 10. indicator showing whether or not the result was significant. \cr
 #' 11. rank of the significant results (ordered by t.test p-value)
 #'
-#' @seealso \code{bartlett}, \code{ttest_welch}
+#' @seealso \code{row.bartlett}, \code{row.t.welch}
 #'
 #' @examples
 #' # perform iEVORA on iris dataset for setosa against all other groups
-#' ievora(t(iris[,1:4]), iris$Species=="setosa")
+#' row.ievora(t(iris[,1:4]), iris$Species=="setosa")
 #'
 #' @references Andrew E Teschendorff et.al. DNA methylation outliers in normal
 #' breast tissue identify field defects that are enriched in cancer.
 #' Nature Communications 7, 10478 (2016) doi:10.1038/ncomms10478
 #'
 #' @author Karolis Koncevičius
+#' @name ievora
 #' @export
-ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
+row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   force(x)
   force(groups)
 
@@ -88,8 +89,8 @@ ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   assert_all_in_range(cutT, 0, 1)
   assert_all_in_range(cutBfdr, 0, 1)
 
-  tres <- ttest_welch(x[,groups==0, drop=FALSE], x[,groups==1, drop=FALSE])
-  bres <- bartlett(x, groups)
+  tres <- row.t.welch(x[,groups==0, drop=FALSE], x[,groups==1, drop=FALSE])
+  bres <- row.bartlett(x, groups)
 
   brq <- stats::p.adjust(bres$p.value, "fdr")
   isSig <- brq < cutBfdr & tres$p.value < cutT

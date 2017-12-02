@@ -64,7 +64,7 @@ test_that("monte-carlo random testing gives equal results", {
   cfs  <- seq(0, 1, length.out=nrow(X))
 
   t1 <- base_ttest_paired(X, Y, alts, mus, cfs)
-  t2 <- ttest_paired(X, Y, alts, mus, cfs)
+  t2 <- row.t.paired(X, Y, alts, mus, cfs)
 
   expect_equal(t1, t2)
 })
@@ -78,14 +78,14 @@ test_that("extreme numbers give equal results", {
   vals1 <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
   vals2 <- c(100000000000003, 100000000000002, 100000000000003, 100000000000000)
   t1 <- base_ttest_paired(vals1, vals2)
-  t2 <- ttest_paired(vals1, vals2)
+  t2 <- row.t.paired(vals1, vals2)
   expect_equal(t1, t2)
 
   # small numbers
   vals1 <- c(0.00000000000004, 0.00000000000002, 0.00000000000003, 0)
   vals2 <- c(0.00000000000003, 0.00000000000002, 0.00000000000003, 0)
   t1 <- base_ttest_paired(vals1, vals2)
-  t2 <- ttest_paired(vals1, vals2)
+  t2 <- row.t.paired(vals1, vals2)
   expect_equal(t1, t2)
 })
 
@@ -95,7 +95,7 @@ test_that("minumum allowed sample sizes give equal results", {
   x <- matrix(rnorm(6), ncol=2); y <- matrix(rnorm(6), ncol=2)
   alt <- c("two.sided", "greater", "less")
   t1 <- base_ttest_paired(x, y, alt)
-  t2 <- ttest_paired(x, y, alt)
+  t2 <- row.t.paired(x, y, alt)
   expect_equal(t1, t2)
 
   # three observations in both groups but one is NA
@@ -103,7 +103,7 @@ test_that("minumum allowed sample sizes give equal results", {
   y <- matrix(rnorm(9), ncol=3); y[,3] <- NA
   alt <- c("two.sided", "greater", "less")
   t1 <- base_ttest_paired(x, y, alt)
-  t2 <- ttest_paired(x, y, alt)
+  t2 <- row.t.paired(x, y, alt)
   expect_equal(t1, t2)
 })
 
@@ -120,7 +120,7 @@ test_that("parameter edge cases give equal results", {
   X2[sample(length(X2), nrow(pars)*2)] <- NA
 
   t1 <- base_ttest_paired(X1, X2, pars[,1], pars[,2], pars[,3])
-  t2 <- ttest_paired(X1, X2, pars[,1], pars[,2], pars[,3])
+  t2 <- row.t.paired(X1, X2, pars[,1], pars[,2], pars[,3])
   expect_equal(t1, t2)
 })
 
@@ -133,21 +133,21 @@ test_that("warning when a row has less than 2 paired observations", {
   nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # no observations in both groups
-  expect_warning(res <- ttest_paired(NA_integer_, NA_integer_), wrn, all=TRUE)
+  expect_warning(res <- row.t.paired(NA_integer_, NA_integer_), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.pair, 0)
   expect_equal(res$obs.x, 0)
   expect_equal(res$obs.y, 0)
 
   # no observations in X
-  expect_warning(res <- ttest_paired(rep(NA_integer_,3), c(1,2,3)), wrn, all=TRUE)
+  expect_warning(res <- row.t.paired(rep(NA_integer_,3), c(1,2,3)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.pair, 0)
   expect_equal(res$obs.x, 0)
   expect_equal(res$obs.y, 3)
 
   # two in X and two in Y but NAs overlap
-  expect_warning(res <- ttest_paired(c(1,2,NA), c(2,NA,3)), wrn, all=TRUE)
+  expect_warning(res <- row.t.paired(c(1,2,NA), c(2,NA,3)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.pair, 1)
   expect_equal(res$obs.x, 2)
@@ -160,19 +160,19 @@ test_that("warning when row has constant values", {
   nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
 
   # all values are equal
-  expect_warning(res <- ttest_paired(c(1,1,1), c(1,1,1)), wrn, all=TRUE)
+  expect_warning(res <- row.t.paired(c(1,1,1), c(1,1,1)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 
   # values equal in their group
-  expect_warning(res <- ttest_paired(c(1,1), c(2,2)), wrn, all=TRUE)
+  expect_warning(res <- row.t.paired(c(1,1), c(2,2)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 
   # equal values in each group + some NAs
-  expect_warning(res <- ttest_paired(c(1,1,1,NA), c(NA,2,2,2)), wrn, all=TRUE)
+  expect_warning(res <- row.t.paired(c(1,1,1,NA), c(NA,2,2,2)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 
   # differences are constant
-  expect_warning(res <- ttest_paired(c(3,2,0), c(2,1,-1)), wrn, all=TRUE)
+  expect_warning(res <- row.t.paired(c(3,2,0), c(2,1,-1)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 })
 

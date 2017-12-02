@@ -4,11 +4,9 @@
 #'
 #' Functions to perform ONEWAY ANOVA analysis for rows of matrices.
 #'
-#' \code{oneway_equalvar} - one-way anova. Same as \code{aov(x ~ groups)}
-#' \code{oneway_welch} _ one-way anova with Welch correction for variances.
+#' \code{row.oneway.equalvar} - one-way anova. Same as \code{aov(x ~ groups)}
+#' \code{row.oneway.welch} _ one-way anova with Welch correction for variances.
 #' Same as \code{oneway.test(var.equal=FALSE)}
-#'
-#' @name oneway
 #'
 #' @param x numeric matrix.
 #' @param groups a vector specifying group membership for each column of x.
@@ -19,11 +17,12 @@
 #' @seealso \code{aov()}, \code{oneway.test()}
 #'
 #' @examples
-#' oneway_equalvar(t(iris[,1:4]), iris$Species)
+#' row.oneway.equalvar(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
+#' @name oneway
 #' @export
-oneway_equalvar <- function(x, groups) {
+row.oneway.equalvar <- function(x, groups) {
   force(x)
   force(groups)
 
@@ -99,7 +98,7 @@ oneway_equalvar <- function(x, groups) {
 
 #' @export
 #' @rdname oneway
-oneway_welch <- function(x, groups) {
+row.oneway.welch <- function(x, groups) {
   force(x)
   force(groups)
 

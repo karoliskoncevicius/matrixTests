@@ -2,9 +2,10 @@
 % Please edit documentation in R/ievora.R
 \name{ievora}
 \alias{ievora}
+\alias{row.ievora}
 \title{iEVORA}
 \usage{
-ievora(x, groups, cutT = 0.05, cutBfdr = 0.001)
+row.ievora(x, groups, cutT = 0.05, cutBfdr = 0.001)
 }
 \arguments{
 \item{x}{numeric matrix}
@@ -56,7 +57,7 @@ risk of neoplastic transformation.
 }
 \examples{
 # perform iEVORA on iris dataset for setosa against all other groups
-ievora(t(iris[,1:4]), iris$Species=="setosa")
+row.ievora(t(iris[,1:4]), iris$Species=="setosa")
 
 }
 \references{
@@ -65,7 +66,7 @@ breast tissue identify field defects that are enriched in cancer.
 Nature Communications 7, 10478 (2016) doi:10.1038/ncomms10478
 }
 \seealso{
-\code{bartlett}, \code{ttest_welch}
+\code{row.bartlett}, \code{row.t.welch}
 }
 \author{
 Karolis Koncevičius

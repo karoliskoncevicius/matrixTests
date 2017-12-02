@@ -2,7 +2,7 @@
 #'
 #' Performs a Kruskal-Wallis rank sum test on each row of the input matrix.
 #'
-#' \code{kruskalwallis} - sam as as \code{kruskal.test()}
+#' \code{row.kruskalwallis} - sam as as \code{kruskal.test()}
 #'
 #' @param x numeric matrix.
 #' @param groups a vector specifying group membership for each column of x.
@@ -13,11 +13,12 @@
 #' @seealso \code{kruskal.test()}
 #'
 #' @examples
-#' kruskalwallis(t(iris[,1:4]), iris$Species)
+#' row.kruskalwallis(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
+#' @name kruskalwallis
 #' @export
-kruskalwallis <- function(x, groups) {
+row.kruskalwallis <- function(x, groups) {
   force(x)
   force(groups)
 

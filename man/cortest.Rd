@@ -2,10 +2,10 @@
 % Please edit documentation in R/cor.R
 \name{cortest}
 \alias{cortest}
-\alias{cor_pearson}
+\alias{row.cor.pearson}
 \title{correlation}
 \usage{
-cor_pearson(x, y, alternative = "two.sided", conf.level = 0.95)
+row.cor.pearson(x, y, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -33,13 +33,13 @@ Functions to perform various correlation tests for rows of matrices.
 Main arguments and results were intentionally matched to the \code{cor.test()}
 function from default stats package.
 
-\code{cor_pearson()} - test for Pearson correlation coefficient.
+\code{row.cor.pearson()} - test for Pearson correlation coefficient.
 Same as \code{cor.test(x,y,method="pearson")}
 }
 \examples{
 X <- t(iris[iris$Species=="setosa",1:4])
 Y <- t(iris[iris$Species=="virginica",1:4])
-cor_pearson(X, Y)
+row.cor.pearson(X, Y)
 
 }
 \seealso{

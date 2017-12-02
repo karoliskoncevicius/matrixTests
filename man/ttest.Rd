@@ -2,19 +2,19 @@
 % Please edit documentation in R/ttest.R
 \name{ttest}
 \alias{ttest}
-\alias{ttest_onegroup}
-\alias{ttest_equalvar}
-\alias{ttest_welch}
-\alias{ttest_paired}
+\alias{row.t.onesample}
+\alias{row.t.equalvar}
+\alias{row.t.welch}
+\alias{row.t.paired}
 \title{t-test}
 \usage{
-ttest_onegroup(x, alternative = "two.sided", mu = 0, conf.level = 0.95)
+row.t.onesample(x, alternative = "two.sided", mu = 0, conf.level = 0.95)
 
-ttest_equalvar(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+row.t.equalvar(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
 
-ttest_welch(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+row.t.welch(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
 
-ttest_paired(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+row.t.paired(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -46,21 +46,21 @@ Main arguments and results were intentionally matched to the \code{t.test()}
 function from default stats package. Other arguments were split into separate
 functions:
 
-\code{ttest_onegroup()} - t-test for mean of a single group. Same as \code{t.test(x)}
+\code{row.t.onesample()} - t-test for mean of a single group. Same as \code{t.test(x)}
 
-\code{ttest_equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
+\code{row.t.equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
 
-\code{ttest_welch()} - Welch approximation. Same as \code{t.test(x, y)}
+\code{row.t.welch()} - Welch approximation. Same as \code{t.test(x, y)}
 
-\code{ttest_paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
+\code{row.t.paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
 }
 \examples{
 X <- t(iris[iris$Species=="setosa",1:4])
 Y <- t(iris[iris$Species=="virginica",1:4])
-ttest_welch(X, Y)
+row.t.welch(X, Y)
 
 # same row using different confidence levels
-ttest_equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
+row.t.equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
 
 }
 \seealso{

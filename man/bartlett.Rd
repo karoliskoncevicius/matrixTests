@@ -2,9 +2,10 @@
 % Please edit documentation in R/bartlet.R
 \name{bartlett}
 \alias{bartlett}
+\alias{row.bartlett}
 \title{Bartlett test}
 \usage{
-bartlett(x, groups)
+row.bartlett(x, groups)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -26,11 +27,11 @@ the groups on the rows of a matrix.
 NA values are always ommited. If values are missing for a whole group - that
 group is discarded. Groups with only one observation are also discarded.
 
-\code{bartlett(x, groups)} - Bartlet's test.
+\code{row.bartlett(x, groups)} - Bartlet's test.
 Same as \code{bartlett.test(x,  groups)}
 }
 \examples{
-bartlett(t(iris[,1:4]), iris$Species)
+row.bartlett(t(iris[,1:4]), iris$Species)
 
 }
 \seealso{

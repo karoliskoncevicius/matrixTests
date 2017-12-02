@@ -6,10 +6,8 @@
 #' Main arguments and results were intentionally matched to the \code{cor.test()}
 #' function from default stats package.
 #'
-#' \code{cor_pearson()} - test for Pearson correlation coefficient.
+#' \code{row.cor.pearson()} - test for Pearson correlation coefficient.
 #' Same as \code{cor.test(x,y,method="pearson")}
-#'
-#' @name cortest
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
@@ -29,10 +27,12 @@
 #' @examples
 #' X <- t(iris[iris$Species=="setosa",1:4])
 #' Y <- t(iris[iris$Species=="virginica",1:4])
-#' cor_pearson(X, Y)
+#' row.cor.pearson(X, Y)
 #'
 #' @author Karolis Koncevičius
-cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
+#' @name cortest
+#' @export
+row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   force(x)
   force(y)
 

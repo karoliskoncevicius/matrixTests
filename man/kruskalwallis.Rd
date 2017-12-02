@@ -2,9 +2,10 @@
 % Please edit documentation in R/kruskal.R
 \name{kruskalwallis}
 \alias{kruskalwallis}
+\alias{row.kruskalwallis}
 \title{Kruskal-Wallis Rank Sum Test}
 \usage{
-kruskalwallis(x, groups)
+row.kruskalwallis(x, groups)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -19,10 +20,10 @@ test performed on the corresponding row of x.
 Performs a Kruskal-Wallis rank sum test on each row of the input matrix.
 }
 \details{
-\code{kruskalwallis} - sam as as \code{kruskal.test()}
+\code{row.kruskalwallis} - sam as as \code{kruskal.test()}
 }
 \examples{
-kruskalwallis(t(iris[,1:4]), iris$Species)
+row.kruskalwallis(t(iris[,1:4]), iris$Species)
 
 }
 \seealso{

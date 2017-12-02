@@ -2,13 +2,13 @@
 % Please edit documentation in R/oneway.R
 \name{oneway}
 \alias{oneway}
-\alias{oneway_equalvar}
-\alias{oneway_welch}
+\alias{row.oneway.equalvar}
+\alias{row.oneway.welch}
 \title{ONEWAY ANOVA}
 \usage{
-oneway_equalvar(x, groups)
+row.oneway.equalvar(x, groups)
 
-oneway_welch(x, groups)
+row.oneway.welch(x, groups)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -25,12 +25,12 @@ Performs an analysis of variance tests on each row of the input matrix.
 \details{
 Functions to perform ONEWAY ANOVA analysis for rows of matrices.
 
-\code{oneway_equalvar} - one-way anova. Same as \code{aov(x ~ groups)}
-\code{oneway_welch} _ one-way anova with Welch correction for variances.
+\code{row.oneway.equalvar} - one-way anova. Same as \code{aov(x ~ groups)}
+\code{row.oneway.welch} _ one-way anova with Welch correction for variances.
 Same as \code{oneway.test(var.equal=FALSE)}
 }
 \examples{
-oneway_equalvar(t(iris[,1:4]), iris$Species)
+row.oneway.equalvar(t(iris[,1:4]), iris$Species)
 
 }
 \seealso{
