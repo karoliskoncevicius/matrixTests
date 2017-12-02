@@ -3,43 +3,48 @@
 \name{cortest}
 \alias{cortest}
 \alias{row.cor.pearson}
+\alias{col.cor.pearson}
 \title{correlation}
 \usage{
 row.cor.pearson(x, y, alternative = "two.sided", conf.level = 0.95)
+
+col.cor.pearson(x, y, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}
 
 \item{y}{numeric matrix for the second group of observations.}
 
-\item{alternative}{alternative hypothesis to use for each row of x.
-A single string or a vector of length nrow(x).
+\item{alternative}{alternative hypothesis to use for each row/column of x.
+A single string or a vector of length nrow(x)/ncol(x).
 Must be one of "two.sided" (default), "greater" or "less".}
 
 \item{conf.level}{confidence levels used for the confidence intervals.
-A single number or a numeric vector of length nrow(x).
+A single number or a numeric vector of length nrow(x)/ncol(x).
 All values must be in the range of [0;1].}
 }
 \value{
 a data.frame where each row contains the results of a correlation
-test performed on the corresponding row of x. The columns will vary
+test performed on the corresponding row/column of x. The columns will vary
 depending on the type of test performed.
 }
 \description{
-Performs a correlation test on each row of a the input matrix.
+Performs a correlation test on each row/column of a the input matrix.
 }
 \details{
-Functions to perform various correlation tests for rows of matrices.
+Functions to perform various correlation tests for rows/columns of matrices.
 Main arguments and results were intentionally matched to the \code{cor.test()}
 function from default stats package.
 
-\code{row.cor.pearson()} - test for Pearson correlation coefficient.
+\code{row.cor.pearson()} - test for Pearson correlation on rows.
+\code{col.cor.pearson()} - test for Pearson correlation on columns.
 Same as \code{cor.test(x,y,method="pearson")}
 }
 \examples{
-X <- t(iris[iris$Species=="setosa",1:4])
-Y <- t(iris[iris$Species=="virginica",1:4])
-row.cor.pearson(X, Y)
+X <- iris[iris$Species=="setosa",1:4]
+Y <- iris[iris$Species=="virginica",1:4]
+col.cor.pearson(X, Y)
+row.cor.pearson(t(X), t(Y))
 
 }
 \seealso{

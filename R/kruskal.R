@@ -1,18 +1,21 @@
 #' Kruskal-Wallis Rank Sum Test
 #'
-#' Performs a Kruskal-Wallis rank sum test on each row of the input matrix.
+#' Performs a Kruskal-Wallis rank sum test on each row/column of the input matrix.
 #'
-#' \code{row.kruskalwallis} - sam as as \code{kruskal.test()}
+#' \code{row.kruskalwallis} - Kruskal Wallis test on rows.
+#' \code{col.kruskalwallis} - Kruskal Wallis test on columns.
+#' Same as as \code{kruskal.test()}
 #'
 #' @param x numeric matrix.
-#' @param groups a vector specifying group membership for each column of x.
+#' @param groups a vector specifying group membership for each observation of x.
 
 #' @return a data.frame where each row contains the results of a Kruskal-Wallis
-#' test performed on the corresponding row of x.
+#' test performed on the corresponding row/column of x.
 #'
 #' @seealso \code{kruskal.test()}
 #'
 #' @examples
+#' col.kruskalwallis(iris[,1:4], iris$Species)
 #' row.kruskalwallis(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
@@ -85,3 +88,8 @@ row.kruskalwallis <- function(x, groups) {
              )
 }
 
+#' @rdname kruskalwallis
+#' @export
+col.kruskalwallis <- function(x, groups) {
+  row.kruskalwallis(t(x), groups)
+}

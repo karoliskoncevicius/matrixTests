@@ -1,22 +1,25 @@
 #' ONEWAY ANOVA
 #'
-#' Performs an analysis of variance tests on each row of the input matrix.
+#' Performs an analysis of variance tests on each row/column of the input matrix.
 #'
-#' Functions to perform ONEWAY ANOVA analysis for rows of matrices.
+#' Functions to perform ONEWAY ANOVA analysis for rows/columns of matrices.
 #'
-#' \code{row.oneway.equalvar} - one-way anova. Same as \code{aov(x ~ groups)}
-#' \code{row.oneway.welch} _ one-way anova with Welch correction for variances.
-#' Same as \code{oneway.test(var.equal=FALSE)}
+#' \code{row.oneway.equalvar}, \code{col.oneway.equalvar}
+#' - one-way anova on columns. Same as \code{aov(x ~ groups)}
+#'
+#' \code{row.oneway.welch}, \code{col.oneway.welch}
+#' - one-way anova with Welch correction on columns. Same as \code{oneway.test(var.equal=FALSE)}
 #'
 #' @param x numeric matrix.
-#' @param groups a vector specifying group membership for each column of x.
+#' @param groups a vector specifying group membership for each observation of x.
 
 #' @return a data.frame where each row contains the results of an oneway anova
-#' test performed on the corresponding row of x.
+#' test performed on the corresponding row/column of x.
 #'
 #' @seealso \code{aov()}, \code{oneway.test()}
 #'
 #' @examples
+#' col.oneway.welch(iris[,1:4], iris$Species)
 #' row.oneway.equalvar(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
@@ -94,8 +97,14 @@ row.oneway.equalvar <- function(x, groups) {
              )
 }
 
-#' @export
 #' @rdname oneway
+#' @export
+col.oneway.equalvar <- function(x, groups) {
+  row.oneway.equalvar(t(x), groups)
+}
+
+#' @rdname oneway
+#' @export
 row.oneway.welch <- function(x, groups) {
   force(x)
   force(groups)
@@ -170,3 +179,8 @@ row.oneway.welch <- function(x, groups) {
              )
 }
 
+#' @rdname oneway
+#' @export
+col.oneway.welch <- function(x, groups) {
+  row.oneway.welch(t(x), groups)
+}

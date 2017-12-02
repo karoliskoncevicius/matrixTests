@@ -1,26 +1,25 @@
 #' Bartlett test
 #'
-#' Performs the Bartlett's test of homogeneity of variances on each row of the
-#' input matrix.
-#'
-#' Function to perform Bartlett's tests for homogeneity of variances in each of
-#' the groups on the rows of a matrix.
+#' Performs the Bartlett's test of homogeneity of variances on each row/column
+#' of the input matrix.
 #'
 #' NA values are always ommited. If values are missing for a whole group - that
 #' group is discarded. Groups with only one observation are also discarded.
 #'
-#' \code{row.bartlett(x, groups)} - Bartlet's test.
+#' \code{row.bartlett(x, groups)} - Bartlet's test on rows.
+#' \code{col.bartlett(x, groups)} - Bartlet's test on columns.
 #' Same as \code{bartlett.test(x,  groups)}
 #'
 #' @param x numeric matrix.
-#' @param groups a vector specifying group membership for each column of x.
+#' @param groups a vector specifying group membership for each observation of x.
 
 #' @return a data.frame where each row contains the results of the bartlett test
-#' performed on the corresponding row of x.
+#' performed on the corresponding row/column of x.
 #'
 #' @seealso \code{bartlett.test()}
 #'
 #' @examples
+#' col.bartlett(iris[,1:4], iris$Species)
 #' row.bartlett(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
@@ -90,5 +89,11 @@ row.bartlett <- function(x, groups) {
   data.frame(obs.tot=nSamples, obs.groups=nGroups, var.tot=vtot, df=df,
              statistic.chsq=ksq, p.value=p, row.names=rnames
              )
+}
+
+#' @rdname bartlett
+#' @export
+col.bartlett <- function(x, groups) {
+  row.bartlett(t(x), groups)
 }
 

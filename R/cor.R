@@ -1,33 +1,35 @@
 #' correlation
 #'
-#' Performs a correlation test on each row of a the input matrix.
+#' Performs a correlation test on each row/column of a the input matrix.
 #'
-#' Functions to perform various correlation tests for rows of matrices.
+#' Functions to perform various correlation tests for rows/columns of matrices.
 #' Main arguments and results were intentionally matched to the \code{cor.test()}
 #' function from default stats package.
 #'
-#' \code{row.cor.pearson()} - test for Pearson correlation coefficient.
+#' \code{row.cor.pearson()} - test for Pearson correlation on rows.
+#' \code{col.cor.pearson()} - test for Pearson correlation on columns.
 #' Same as \code{cor.test(x,y,method="pearson")}
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
-#' @param alternative alternative hypothesis to use for each row of x.
-#' A single string or a vector of length nrow(x).
+#' @param alternative alternative hypothesis to use for each row/column of x.
+#' A single string or a vector of length nrow(x)/ncol(x).
 #' Must be one of "two.sided" (default), "greater" or "less".
 #' @param conf.level confidence levels used for the confidence intervals.
-#' A single number or a numeric vector of length nrow(x).
+#' A single number or a numeric vector of length nrow(x)/ncol(x).
 #' All values must be in the range of [0;1].
 #'
 #' @return a data.frame where each row contains the results of a correlation
-#' test performed on the corresponding row of x. The columns will vary
+#' test performed on the corresponding row/column of x. The columns will vary
 #' depending on the type of test performed.
 #'
 #' @seealso \code{cor.test()}
 #'
 #' @examples
-#' X <- t(iris[iris$Species=="setosa",1:4])
-#' Y <- t(iris[iris$Species=="virginica",1:4])
-#' row.cor.pearson(X, Y)
+#' X <- iris[iris$Species=="setosa",1:4]
+#' Y <- iris[iris$Species=="virginica",1:4]
+#' col.cor.pearson(X, Y)
+#' row.cor.pearson(t(X), t(Y))
 #'
 #' @author Karolis Koncevičius
 #' @name cortest
@@ -64,7 +66,7 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   assert_numeric_vec_length(conf.level, 1, nrow(x))
   assert_all_in_range(conf.level, 0, 1)
 
-  mu <- 0 # can't be changed because different test should be used in that case.
+  mu <- rep(0, length.out=nrow(x)) # can't be changed because different test should be used in that case.
 
   x[is.na(y)] <- NA
   y[is.na(x)] <- NA
@@ -107,5 +109,11 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
              alternative=alternative, mean.null=mu, conf.level=conf.level,
              stringsAsFactors=FALSE, row.names=rnames
              )
+}
+
+#' @rdname cortest
+#' @export
+col.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
+  row.cor.pearson(t(x), t(y), alternative=alternative, conf.level=conf.level)
 }
 

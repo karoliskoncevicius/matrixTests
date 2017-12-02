@@ -3,26 +3,32 @@
 \name{kruskalwallis}
 \alias{kruskalwallis}
 \alias{row.kruskalwallis}
+\alias{col.kruskalwallis}
 \title{Kruskal-Wallis Rank Sum Test}
 \usage{
 row.kruskalwallis(x, groups)
+
+col.kruskalwallis(x, groups)
 }
 \arguments{
 \item{x}{numeric matrix.}
 
-\item{groups}{a vector specifying group membership for each column of x.}
+\item{groups}{a vector specifying group membership for each observation of x.}
 }
 \value{
 a data.frame where each row contains the results of a Kruskal-Wallis
-test performed on the corresponding row of x.
+test performed on the corresponding row/column of x.
 }
 \description{
-Performs a Kruskal-Wallis rank sum test on each row of the input matrix.
+Performs a Kruskal-Wallis rank sum test on each row/column of the input matrix.
 }
 \details{
-\code{row.kruskalwallis} - sam as as \code{kruskal.test()}
+\code{row.kruskalwallis} - Kruskal Wallis test on rows.
+\code{col.kruskalwallis} - Kruskal Wallis test on columns.
+Same as as \code{kruskal.test()}
 }
 \examples{
+col.kruskalwallis(iris[,1:4], iris$Species)
 row.kruskalwallis(t(iris[,1:4]), iris$Species)
 
 }

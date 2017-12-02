@@ -17,7 +17,7 @@
 #' risk of neoplastic transformation.
 #'
 #' @param x numeric matrix
-#' @param groups a vector specifying group membership for each column of x.
+#' @param groups a vector specifying group membership for each observation of x.
 #' Must contain two unique groups one labeled "1" and another "0".
 #' If the vector is neither numeric nor logical the group appearing first is
 #' labeled "0" and the remaining one as "1".
@@ -27,25 +27,30 @@
 #' Bartlett's test step. (default 0.001)
 #'
 #' @return a data.frame where each row contains result of the iEVORA algorithm
-#' for the corresponding row of x. \cr
+#' for the corresponding row/column of x. \cr
 #' Each row contains the following information (in order): \cr
-#' 1. mean of the 0 group. \cr
-#' 2. mean of the 1 group. \cr
-#' 3. variance of the 0 group. \cr
-#' 4. variance of the 1 group. \cr
-#' 5. log ratio of variances log(var1/var0). \cr
-#' 6. t.statistic. \cr
-#' 7. raw p-value of the t-test step. \cr
-#' 8. raw p-value of the Bartlett's test step. \cr
-#' 9. fdr-adjusted p-value of the Bartlett's test step. \cr
-#' 10. indicator showing whether or not the result was significant. \cr
-#' 11. rank of the significant results (ordered by t.test p-value)
+#' 1. number of observations in 0 group.
+#' 2. number of observations in 1 group.
+#' 3. number of total observations.
+#' 4. mean of the 0 group. \cr
+#' 5. mean of the 1 group. \cr
+#' 6. mean difference (group1 - group0)
+#' 7. variance of the 0 group. \cr
+#' 8. variance of the 1 group. \cr
+#' 9. log ratio of variances log(var1/var0). \cr
+#' 10. t.statistic of the t-test step. \cr
+#' 11. raw p-value of the t-test step. \cr
+#' 12. chsq.statistic of the bartlett test step. \cr
+#' 13. raw p-value of the Bartlett's test step. \cr
+#' 14. fdr-adjusted p-value of the Bartlett's test step. \cr
+#' 15. indicator showing whether or not the result was significant. \cr
+#' 16. rank of the significant results (ordered by t.test p-value)
 #'
 #' @seealso \code{row.bartlett}, \code{row.t.welch}
 #'
 #' @examples
 #' # perform iEVORA on iris dataset for setosa against all other groups
-#' row.ievora(t(iris[,1:4]), iris$Species=="setosa")
+#' col.ievora(iris[,1:4], iris$Species=="setosa")
 #'
 #' @references Andrew E Teschendorff et.al. DNA methylation outliers in normal
 #' breast tissue identify field defects that are enriched in cancer.
@@ -112,5 +117,11 @@ row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
              q.value.bt=brq, significant=isSig,
              rank=rank, row.names=rnames
              )
+}
+
+#' @rdname ievora
+#' @export
+col.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
+  row.ievora(t(x), groups, cutT=cutT, cutBfdr=cutBfdr)
 }
 

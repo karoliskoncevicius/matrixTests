@@ -3,64 +3,80 @@
 \name{ttest}
 \alias{ttest}
 \alias{row.t.onesample}
+\alias{col.t.onesample}
 \alias{row.t.equalvar}
+\alias{col.t.equalvar}
 \alias{row.t.welch}
+\alias{col.t.welch}
 \alias{row.t.paired}
+\alias{col.t.paired}
 \title{t-test}
 \usage{
 row.t.onesample(x, alternative = "two.sided", mu = 0, conf.level = 0.95)
 
+col.t.onesample(x, alternative = "two.sided", mu = 0, conf.level = 0.95)
+
 row.t.equalvar(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+
+col.t.equalvar(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
 
 row.t.welch(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
 
+col.t.welch(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+
 row.t.paired(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+
+col.t.paired(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}
 
-\item{alternative}{alternative hypothesis to use for each row of x.
-A single string or a vector of length nrow(x).
-Must be one of "two.sided" (default), "greater" or "less".}
+\item{alternative}{alternative hypothesis to use for each row/column of x.
+A single string or a vector of length nrow(x)/ncol(x).
+Values must be one of "two.sided" (default), "greater" or "less".}
 
 \item{mu}{true values of the means for the null hypothesis.
-A single number or numeric vector of length nrow(x).}
+A single number or numeric vector of length nrow(x)/ncol(x).}
 
 \item{conf.level}{confidence levels used for the confidence intervals.
-A single number or a numeric vector of length nrow(x).
+A single number or a numeric vector of length nrow(x)/ncol(x).
 All values must be in the range of [0;1].}
 
 \item{y}{numeric matrix for the second group of observations.}
 }
 \value{
 a data.frame where each row contains the results of a t.test
-performed on the corresponding row of x. The columns will vary depending on
-the type of test performed.
+performed on the corresponding row/column of x.
+The columns will vary depending on the type of test performed.
 }
 \description{
-Performs a t-test on each row of a the input matrix.
+Performs a t-test on each row/column of a the input matrix.
 }
 \details{
-Functions to perform one sample and two sample t-tests for rows of matrices.
+Functions to perform one sample and two sample t-tests for rows/columns of matrices.
 Main arguments and results were intentionally matched to the \code{t.test()}
 function from default stats package. Other arguments were split into separate
 functions:
 
-\code{row.t.onesample()} - t-test for mean of a single group. Same as \code{t.test(x)}
+\code{row.t.onesample()}, \code{col.t.onesample()}
+- t-test for mean of a single group. Same as \code{t.test(x)}
 
-\code{row.t.equalvar()} - groups have equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
+\code{row.t.equalvar()}, \code{col.t.equalvar()}
+- t-test for groups with equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
 
-\code{row.t.welch()} - Welch approximation. Same as \code{t.test(x, y)}
+\code{row.t.welch()}, \code{col.t.welch()}
+- t.test with Welch approximation. Same as \code{t.test(x, y)}
 
-\code{row.t.paired()} - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
+\code{row.t.paired()}, \code{col.t.paired()}
+- paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
 }
 \examples{
-X <- t(iris[iris$Species=="setosa",1:4])
-Y <- t(iris[iris$Species=="virginica",1:4])
-row.t.welch(X, Y)
+X <- iris[iris$Species=="setosa",1:4]
+Y <- iris[iris$Species=="virginica",1:4]
+col.t.welch(X, Y)
 
 # same row using different confidence levels
-row.t.equalvar(X[c(1,1,1),], Y[c(1,1,1),], conf.level=c(0.9, 0.95, 0.99))
+col.t.equalvar(X[,c(1,1,1)], Y[,c(1,1,1)], conf.level=c(0.9, 0.95, 0.99))
 
 }
 \seealso{
