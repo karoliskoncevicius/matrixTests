@@ -40,16 +40,11 @@ res2 <- row.t.welch(X, Y)
 | Kruskal-Wallis test                | `row.kruskalwallis(x, g)`   | `kruskal.test(x, g)`
 | Bartlett's test                    | `row.bartlett(x, g)`        | `bartlett.test(x, g)`
 
-## Test-Based Algorithms ##
+## Test-Based Procedures ##
 
 |             Description             |      matrixTests       |       R equivalent
 |-------------------------------------|------------------------|-------------------------------------
 | EVORA                               | `row.ievora(x, g)`     | ---
-
-## Planned ##
-
-* test for Spearman and Kendall correlations
-* Fisher's exact test
 
 ## Installation ##
 
@@ -145,6 +140,9 @@ two parts: type of result and specification, separated by a dot. Some examples:
 * mean.diff - mean of x and y difference
 * ci.low - lower confidence interval
 * statistic.t - t statistic of the test
+
+Exception from this rule are values that have a dot or dash in their name.
+Like *p.value*.
 
 #### Row names ####
 
@@ -270,6 +268,22 @@ row.oneway.welch(x=x[-1], g=g[-1])
 Other parameters might allow or not allow `NA` values depending on context. For
 example you cannot specify `NA` as wanted confidence level when doing a test
 because not knowing your confidence level makes little sense.
+
+#### Notes ####
+
+All the tests are implemented in R. So when running a test on a single row there
+should be no increase in execution speed compared with the base R versions. In
+most cases a slight decrease is expected due to the more detailed output.
+
+For now the column-wise versions of the tests simply transposes the input
+matrix and calls the equivalent row-wise test.
+
+Candidates of tests that will be implemented next:
+
+1. Shapiro-Wilks test for normality
+2. Spearman and Kendall correlation tests
+3. Test for proportions
+4. Fisher's exact test
 
 ## See Also ##
 
