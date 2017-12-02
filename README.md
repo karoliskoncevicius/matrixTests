@@ -15,57 +15,50 @@ Y <- matrix(rnorm(10000000), ncol=10)
 
 ```r
 res1 <- vector(nrow(X), mode="list")
-for(i in 1:nrow(X)) {
+
+for(i in 1:nrow(X)) {  # RUN TIME: 2 minutes 16 seconds
   res1[[i]] <- t.test(X[i,], Y[i,])
 }
-# RUN TIME: 2 minutes 13 seconds
-```
 
-Output for first 2 rows:
-
-```
 > res1[1:2]
 [[1]]
 
         Welch Two Sample t-test
 
 data:  X[i, ] and Y[i, ]
-t = -0.42194, df = 17.989, p-value = 0.6781
+t = -0.29786, df = 16.66, p-value = 0.7695
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.2311709  0.8193669
+ -0.9185744  0.6916077
 sample estimates:
- mean of x  mean of y
-0.06435162 0.27025362
+  mean of x   mean of y
+-0.14392442 -0.03044108
+
 
 [[2]]
 
         Welch Two Sample t-test
 
 data:  X[i, ] and Y[i, ]
-t = 0.18962, df = 15.213, p-value = 0.8521
+t = -0.25903, df = 17.278, p-value = 0.7987
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -0.9089581  1.0867183
+ -1.2391584  0.9678654
 sample estimates:
- mean of x  mean of y
--0.1360916 -0.2249717
+  mean of x   mean of y
+-0.07173673  0.06390979
+
 ```
 
 #### matrixTest way ####
 
 ```r
-res2 <- row.t.welch(X, Y)
-# RUN TIME: 2.3 seconds
-```
+res2 <- row.t.welch(X, Y) # RUN TIME: 2.4 seconds
 
-Output for first 2 rows:
-
-```
 > res2[1:2,]
-       mean.x     mean.y   mean.diff     var.x    var.y obs.x obs.y obs.tot statistic.t   p.value     ci.low   ci.high    stderr       df mean.null conf.level alternative
-1  0.06435162  0.2702536 -0.20590200 1.2207363 1.160574    10    10      20  -0.4219418 0.6780672 -1.2311709 0.8193669 0.4879867 17.98852         0       0.95   two.sided
-2 -0.13609158 -0.2249717  0.08888009 0.6282957 1.568692    10    10      20   0.1896228 0.8521116 -0.9089581 1.0867183 0.4687204 15.21276         0       0.95   two.sided
+  obs.x obs.y obs.tot      mean.x      mean.y  mean.diff    var.x     var.y    stderr       df statistic.t   p.value     ci.low   ci.high alternative mean.null conf.level
+1    10    10      20 -0.14392442 -0.03044108 -0.1134833 0.519993 0.9316212 0.3810005 16.66035  -0.2978561 0.7694954 -0.9185744 0.6916077   two.sided         0       0.95
+2    10    10      20 -0.07173673  0.06390979 -0.1356465 1.651582 1.0907963 0.5236772 17.27753  -0.2590270 0.7986753 -1.2391584 0.9678654   two.sided         0       0.95
 ```
 
 ## Goals ##
@@ -261,8 +254,8 @@ the failed outputs to NA:
 row.t.welch(c(1,2), 3)
 ```
 ```
-  mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t p.value ci.low ci.high stderr  df mean.null conf.level alternative
-1    1.5      3      -1.5   0.5   NaN     2     1       3          NA      NA     NA      NA    NaN NaN         0       0.95   two.sided
+  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y stderr  df statistic.t p.value ci.low ci.high alternative mean.null conf.level
+1     2     1       3    1.5      3      -1.5   0.5   NaN    NaN NaN          NA      NA     NA      NA   two.sided         0       0.95
 Warning message:
 In showWarning(w2, "had less than 2 \"y\" observations") :
   1 of the rows had less than 2 "y" observations. First occurrence at row 1
@@ -277,9 +270,9 @@ mat2 <- rbind(c(2,3), c(0,4))
 row.t.welch(mat1, mat2)
 ```
 ```
-  mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t   p.value    ci.low  ci.high    stderr  df mean.null conf.level alternative
-1    1.5    2.5        -1   0.5   0.5     2     2       4   -1.414214 0.2928932 -4.042435 2.042435 0.7071068   2         0       0.95   two.sided
-2    3.0    2.0         1   NaN   8.0     1     2       3          NA        NA        NA       NA       NaN NaN         0       0.95   two.sided
+  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y    stderr  df statistic.t   p.value    ci.low  ci.high alternative mean.null conf.level
+1     2     2       4    1.5    2.5        -1   0.5   0.5 0.7071068   2   -1.414214 0.2928932 -4.042435 2.042435   two.sided         0       0.95
+2     1     2       3    3.0    2.0         1   NaN   8.0       NaN NaN          NA        NA        NA       NA   two.sided         0       0.95
 Warning message:
 In showWarning(w1, "had less than 2 \"x\" observations") :
   1 of the rows had less than 2 "x" observations. First occurrence at row 2
@@ -301,7 +294,7 @@ row.oneway.welch(x=x, g=g)
 ```
 ```
   obs.tot obs.groups df.treatment df.residuals statistic.F   p.value
-1       4          2            1     1.488032    5.461371 0.1863233
+1       4          2            1     1.774011     2.37909 0.2779462
 ```
 
 then the entire first column from the input matrix x corresponding to that group
@@ -312,7 +305,7 @@ row.oneway.welch(x=x[-1], g=g[-1])
 ```
 ```
   obs.tot obs.groups df.treatment df.residuals statistic.F   p.value
-1       4          2            1     1.488032    5.461371 0.1863233
+1       4          2            1     1.774011     2.37909 0.2779462
 ```
 
 Other parameters might allow or not allow `NA` values depending on context. For
