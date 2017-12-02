@@ -44,7 +44,7 @@ res2 <- row.t.welch(X, Y)
 
 |             Description             |      matrixTests       |       R equivalent
 |-------------------------------------|------------------------|-------------------------------------
-| EVORA                               | `ievora(x, g)`         | ---
+| EVORA                               | `row.ievora(x, g)`     | ---
 
 ## Planned ##
 
