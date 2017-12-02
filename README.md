@@ -11,7 +11,7 @@ X <- matrix(rnorm(10000000), ncol=10)
 Y <- matrix(rnorm(10000000), ncol=10)
 ```
 
-#### The usual way ####
+**The usual way** &#9200; 2 minutes 16 seconds
 
 ```r
 res1 <- vector(nrow(X), mode="list")
@@ -20,7 +20,7 @@ for(i in 1:nrow(X)) {
   res1[[i]] <- t.test(X[i,], Y[i,])
 }
 ```
-&#9200; 2 minutes 16 seconds
+
 ```
 > res1[1:2]
 [[1]]
@@ -52,12 +52,11 @@ sample estimates:
 
 ```
 
-#### matrixTest way ####
+**matrixTest way** &#9200; 2.4 seconds
 
 ```r
 res2 <- row.t.welch(X, Y)
 ```
-&#9200; 2.4 seconds
 ```
 > res2[1:2,]
   obs.x obs.y obs.tot      mean.x      mean.y  mean.diff    var.x     var.y    stderr       df statistic.t   p.value     ci.low   ci.high alternative mean.null conf.level
