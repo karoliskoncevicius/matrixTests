@@ -20,7 +20,7 @@ for(i in 1:nrow(X)) {
   res1[[i]] <- t.test(X[i,], Y[i,])
 }
 ```
-&#8987 Run time: 2 minutes 16 seconds
+&#8987; Run time: 2 minutes 16 seconds
 ```
 > res1[1:2]
 [[1]]
