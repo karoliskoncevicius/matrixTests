@@ -129,12 +129,10 @@ Columns hold the relevant results that can be divided into 3 main categories:
 complexity. For example: 1) number of observations, 2) means, 3) variances.
 
 2. Outputs related to the test itself. Typically ordered by increasing complexity.
-For example: 1) degrees of freedom, 2) test statistic, 3) p-value,
-4) confidence interval.
+For example: 1) degrees of freedom, 2) test statistic, 3) p-value, 4) confidence interval.
 
 3. Input parameters that were chosen for the row. Ordered by their appearance in
-the function call. For example: 1) alternative hypothesis type,
-2) mean of null hypothesis, 3) confidence level.
+the function call. For example: 1) alternative hypothesis type, 2) mean of null hypothesis, 3) confidence level.
 
 #### Column names ####
 
