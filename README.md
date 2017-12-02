@@ -170,11 +170,11 @@ R version throws an error.
 For another such example consider `bartlett.test()`. This function works without
 any warnings when supplied with constant data and returns NA values:
 
-`bartlett.test(rep(1,4), c("a","a","b","b"))`.
+`bartlett.test(rep(1,4), c("a","a","b","b"))`
 
 The typical behaviour in such situations for base R tests is to throw an error:
 
-`t.test(rep(1,4) ~ c("a","a","b",b"))`.
+`t.test(rep(1,4) ~ c("a","a","b",b"))`
 
 Functions in this package try to be consistent with each other and be as
 informative as possible. Therefore in such cases `row.bartlett()` will throw a
@@ -201,33 +201,37 @@ observations, means, variances and similar will still be returned as usual.
 As an example of such behaviour consider the case when base t-test with Welch
 correction fails because it has not enough observations:
 
-`t.test(c(1,2), 3)`
-> Error in t.test.default(c(1, 2), 3) : not enough 'y' observations
+```r
+t.test(c(1,2), 3)
+Error in t.test.default(c(1, 2), 3) : not enough 'y' observations
+```
 
 Function in this package proceeds, but throws a warning and takes care to set
 the failed outputs to NA:
 
-`row.t.welch(c(1,2), 3)`
-> mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t p.value ci.low ci.high stderr  df mean.null conf.level alternative
+```r
+row.t.welch(c(1,2), 3)
+mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t p.value ci.low ci.high stderr  df mean.null conf.level alternative
 1    1.5      3      -1.5   0.5   NaN     2     1       3          NA      NA     NA      NA    NaN NaN         0       0.95   two.sided
 Warning message:
 In showWarning(w2, "had less than 2 \"y\" observations") :
   1 of the rows had less than 2 "y" observations. First occurrence at row 1
+```
 
-This allows us to continue working in cases where typically we have enough
+This allows the function continue working in cases where typically we have enough
 observations per group but some rows might not have enough due to NA values.
 
 ```r
 mat1 <- rbind(c(1,2), c(3,NA))
 mat2 <- rbind(c(2,3), c(0,4))
 row.t.welch(mat1, mat2)
-```
-> mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t   p.value    ci.low  ci.high    stderr  df mean.null conf.level alternative
+mean.x mean.y mean.diff var.x var.y obs.x obs.y obs.tot statistic.t   p.value    ci.low  ci.high    stderr  df mean.null conf.level alternative
 1    1.5    2.5        -1   0.5   0.5     2     2       4   -1.414214 0.2928932 -4.042435 2.042435 0.7071068   2         0       0.95   two.sided
 2    3.0    2.0         1   NaN   8.0     1     2       3          NA        NA        NA       NA       NaN NaN         0       0.95   two.sided
 Warning message:
 In showWarning(w1, "had less than 2 \"x\" observations") :
   1 of the rows had less than 2 "x" observations. First occurrence at row 2
+```
 
 ### NA and NaN values ###
 
