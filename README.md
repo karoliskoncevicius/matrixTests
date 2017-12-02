@@ -16,11 +16,11 @@ Y <- matrix(rnorm(10000000), ncol=10)
 ```r
 res1 <- vector(nrow(X), mode="list")
 
-for(i in 1:nrow(X)) {  # RUN TIME: 2 minutes 16 seconds
+for(i in 1:nrow(X)) {
   res1[[i]] <- t.test(X[i,], Y[i,])
 }
 ```
-
+Run time: 2 minutes 16 seconds
 ```
 > res1[1:2]
 [[1]]
@@ -55,9 +55,9 @@ sample estimates:
 #### matrixTest way ####
 
 ```r
-res2 <- row.t.welch(X, Y) # RUN TIME: 2.4 seconds
+res2 <- row.t.welch(X, Y)
 ```
-
+Run time: 2.4 seconds
 ```
 > res2[1:2,]
   obs.x obs.y obs.tot      mean.x      mean.y  mean.diff    var.x     var.y    stderr       df statistic.t   p.value     ci.low   ci.high alternative mean.null conf.level
