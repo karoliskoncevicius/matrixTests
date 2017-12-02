@@ -32,8 +32,8 @@ base_bartlett <- function(mat, groups) {
     df[i]  <- res$parameter
   }
 
-  data.frame(var.tot=vt, obs.tot=nt, obs.groups=ng, statistic.chsq=ks,
-             p.value=p, df=df, stringsAsFactors=FALSE
+  data.frame(obs.tot=nt, obs.groups=ng, var.tot=vt, df=df, statistic.chsq=ks,
+             p.value=p, stringsAsFactors=FALSE
              )
 }
 

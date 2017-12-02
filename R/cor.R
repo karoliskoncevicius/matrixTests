@@ -102,9 +102,9 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.complete=ns, correlation=rs, statistic.t=pres[,1],
-             p.value=pres[,2], ci.low=pres[,3], ci.high=pres[,4], df=df,
-             mean.null=mu, conf.level=conf.level, alternative=alternative,
+  data.frame(obs.paired=ns, correlation=rs, df=df, statistic.t=pres[,1],
+             p.value=pres[,2], ci.low=pres[,3], ci.high=pres[,4],
+             alternative=alternative, mean.null=mu, conf.level=conf.level,
              stringsAsFactors=FALSE, row.names=rnames
              )
 }

@@ -24,7 +24,7 @@ for(i in 1:nrow(X)) {
 Output for first 2 rows:
 
 ```
-  res1[1:2]
+> res1[1:2]
 [[1]]
 
         Welch Two Sample t-test

@@ -86,12 +86,10 @@ row.oneway.equalvar <- function(x, groups) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
-             mean.sq.treatment=betweenScatter/dft,
-             mean.sq.residuals=withinScatter/dfr,
-             obs.tot=nSamples, obs.groups=nGroups,
-             df.treatment=dft, df.residuals=dfr,
-             statistic.F=F, p.value=p,
+  data.frame(obs.tot=nSamples, obs.groups=nGroups,
+             sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
+             mean.sq.treatment=betweenScatter/dft, mean.sq.residuals=withinScatter/dfr,
+             df.treatment=dft, df.residuals=dfr, statistic.F=F, p.value=p,
              row.names=rnames
              )
 }

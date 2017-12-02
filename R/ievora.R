@@ -89,7 +89,7 @@ row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   assert_all_in_range(cutT, 0, 1)
   assert_all_in_range(cutBfdr, 0, 1)
 
-  tres <- row.t.welch(x[,groups==0, drop=FALSE], x[,groups==1, drop=FALSE])
+  tres <- row.t.welch(x[,groups==1, drop=FALSE], x[,groups==0, drop=FALSE])
   bres <- row.bartlett(x, groups)
 
   brq <- stats::p.adjust(bres$p.value, "fdr")
@@ -104,10 +104,12 @@ row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(mean.0=tres$mean.x, mean.1=tres$mean.y, var.0=var0, var.1=var1,
-             obs.0=tres$obs.x, obs.1=tres$obs.y, var.log2.ratio=logR,
-             statistic.t=-tres$statistic.t, tt.p.value=tres$p.value,
-             bt.p.value=bres$p.value, bt.q.value=brq, significant=isSig,
+  data.frame(obs.0=tres$obs.y, obs.1=tres$obs.x, obs.tot=tres$obs.tot,
+             mean.0=tres$mean.y, mean.1=tres$mean.x, mean.diff=tres$mean.diff,
+             var.0=var0, var.1=var1, var.log2.ratio=logR,
+             statistic.t=tres$statistic.t, p.value.t=tres$p.value,
+             statistic.bt=bres$statistic.chsq, p.value.bt=bres$p.value,
+             q.value.bt=brq, significant=isSig,
              rank=rank, row.names=rnames
              )
 }

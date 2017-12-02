@@ -30,10 +30,9 @@ base_ttest_onesample <- function(mat, alt="two.sided", mu=0, conf=0.95) {
     cnf[i] <- attr(res$conf.int, "conf.level")
   }
 
-  data.frame(mean.x=mx, var.x=vx, obs.x=nx, statistic.t=tst, p.value=p,
-             ci.low=cl, ci.high=ch, stderr=se, df=df,
-             mean.null=m0, conf.level=cnf, alternative=al,
-             stringsAsFactors=FALSE
+  data.frame(obs.x=nx, mean.x=mx, var.x=vx, stderr=se, df=df, statistic.t=tst,
+             p.value=p, ci.low=cl, ci.high=ch, alternative=al, mean.null=m0,
+             conf.level=cnf, stringsAsFactors=FALSE
              )
 }
 

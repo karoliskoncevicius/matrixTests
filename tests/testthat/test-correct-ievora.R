@@ -16,11 +16,12 @@ base_ievora <- function(mat, groups, tCut=0.05, bCut=0.001) {
     ca.idx <- which(pheno.v==1)
     bt.o <- bartlett.test(x=tmp.v,g=pheno.v)
     pv <- bt.o$p.value
+    st <- bt.o$statistic
     logR <- log2(var(tmp.v[ca.idx])/var(tmp.v[co.idx]))
     avCA <- mean(tmp.v[ca.idx])
     avCO <- mean(tmp.v[co.idx])
-    out.v <- c(logR,pv,avCA,avCO)
-    names(out.v) <- c("log(V1/V0)","P(BT)","Av1","Av0")
+    out.v <- c(logR,st,pv,avCA,avCO)
+    names(out.v) <- c("log(V1/V0)","Stat","P(BT)","Av1","Av0")
     return(out.v)
   }
 
@@ -31,23 +32,26 @@ base_ievora <- function(mat, groups, tCut=0.05, bCut=0.001) {
     return(out.v)
   }
 
-  m0 <- m1 <- v0 <- v1 <- n0 <- n1 <- vlr <- ts <- tp <- bp <- numeric(nrow(mat))
+  m0 <- m1 <- md <- v0 <- v1 <- n0 <- n1 <- nt <- vlr <- ts <- bs <- tp <- bp <- numeric(nrow(mat))
   for(i in 1:nrow(mat)) {
     naInds <- is.na(mat[i,])
     vec <- mat[i,!naInds]
     grp <- groups[!naInds]
     statDVC <- doDV(vec, grp)
     statDMC <- doTT(vec, grp)
-    m0[i] <- statDVC[4]
-    m1[i] <- statDVC[3]
+    m0[i] <- statDVC[5]
+    m1[i] <- statDVC[4]
+    md[i] <- m1[i]-m0[i]
     v0[i] <- var(vec[grp==0])
     v1[i] <- var(vec[grp==1])
     n0[i] <- sum(grp==0)
     n1[i] <- sum(grp==1)
+    nt[i] <- n0[i] + n1[i]
     vlr[i] <- statDVC[1]
     ts[i]  <- statDMC[1]
     tp[i]  <- statDMC[2]
-    bp[i]  <- statDVC[2]
+    bs[i]  <- statDVC[2]
+    bp[i]  <- statDVC[3]
   }
 
   bq  <- p.adjust(bp, "fdr")
@@ -56,10 +60,10 @@ base_ievora <- function(mat, groups, tCut=0.05, bCut=0.001) {
   rnk <- rep(NA, length(sig))
   rnk[sig] <- idx
 
-  data.frame(mean.0=m0, mean.1=m1, var.0=v0, var.1=v1, obs.0=n0, obs.1=n1,
-             var.log2.ratio=vlr, statistic.t=ts, tt.p.value=tp, bt.p.value=bp,
-             bt.q.value=bq, significant=sig, rank=rnk,
-             row.names=rownames(mat)
+  data.frame(obs.0=n0, obs.1=n1, obs.tot=nt, mean.0=m0, mean.1=m1, mean.diff=md,
+             var.0=v0, var.1=v1, var.log2.ratio=vlr, statistic.t=ts, p.value.t=tp,
+             statistic.bt=bs, p.value.bt=bp, q.value.bt=bq, significant=sig,
+             rank=rnk, row.names=rownames(mat)
              )
 }
 

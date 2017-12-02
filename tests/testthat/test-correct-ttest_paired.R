@@ -42,10 +42,11 @@ base_ttest_paired <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
     se[i]  <- sqrt(vd[i]/nt[i])
   }
 
-  data.frame(mean.x=mx, mean.y=my, mean.diff=md, var.x=vx, var.y=vy,
-             var.diff=vd, obs.x=nx, obs.y=ny, obs.pair=nt, statistic.t=tst,
-             p.value=p, ci.low=cl, ci.high=ch, stderr=se, df=df, mean.null=m0,
-             conf.level=cnf, alternative=al, stringsAsFactors=FALSE
+  data.frame(obs.x=nx, obs.y=ny, obs.paired=nt, mean.x=mx, mean.y=my,
+             mean.diff=md, var.x=vx, var.y=vy, var.diff=vd, stderr=se,
+             df=df, statistic.t=tst, p.value=p, ci.low=cl, ci.high=ch,
+             alternative=al, mean.null=m0, conf.level=cnf,
+             stringsAsFactors=FALSE
              )
 }
 

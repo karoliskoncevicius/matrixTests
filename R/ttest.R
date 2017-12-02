@@ -96,10 +96,10 @@ row.t.onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(mean.x=mxs, var.x=vxs, obs.x=nxs, statistic.t=tres[,1],
-             p.value=tres[,2], ci.low=tres[,3], ci.high=tres[,4],
-             stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
-             alternative=alternative, stringsAsFactors=FALSE,
+  data.frame(obs.x=nxs, mean.x=mxs, var.x=vxs, stderr=stders, df=dfs,
+             statistic.t=tres[,1], p.value=tres[,2], ci.low=tres[,3],
+             ci.high=tres[,4], alternative=alternative, mean.null=mu,
+             conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
 }
@@ -183,12 +183,11 @@ row.t.equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
-             var.pooled=vs, obs.x=nxs, obs.y=nys, obs.tot=nxys,
-             statistic.t=tres[,1], p.value=tres[,2],
-             ci.low=tres[,3], ci.high=tres[,4], stderr=stders, df=dfs,
-             mean.null=mu, conf.level=conf.level, alternative=alternative,
-             stringsAsFactors=FALSE,
+  data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
+             mean.diff=mxys, var.x=vxs, var.y=vys, var.pooled=vs,
+             stderr=stders, df=dfs, statistic.t=tres[,1], p.value=tres[,2],
+             ci.low=tres[,3], ci.high=tres[,4], alternative=alternative,
+             mean.null=mu, conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
 }
@@ -265,11 +264,11 @@ row.t.welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
-             obs.x=nxs, obs.y=nys, obs.tot=nxys, statistic.t=tres[,1],
-             p.value=tres[,2], ci.low=tres[,3], ci.high=tres[,4],
-             stderr=stders, df=dfs, mean.null=mu, conf.level=conf.level,
-             alternative=alternative, stringsAsFactors=FALSE,
+  data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
+             mean.diff=mxys, var.x=vxs, var.y=vys, stderr=stders, df=dfs,
+             statistic.t=tres[,1], p.value=tres[,2], ci.low=tres[,3],
+             ci.high=tres[,4], alternative=alternative, mean.null=mu,
+             conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
 }
@@ -347,12 +346,12 @@ row.t.paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(mean.x=mxs, mean.y=mys, mean.diff=mxys, var.x=vxs, var.y=vys,
-             var.diff=vxys, obs.x=nxs, obs.y=nys, obs.pair=nxys,
-             statistic.t=tres[,1], p.value=tres[,2],
-             ci.low=tres[,3], ci.high=tres[,4], stderr=stders, df=dfs,
-             mean.null=mu, conf.level=conf.level, alternative=alternative,
-             stringsAsFactors=FALSE, row.names=rnames
+  data.frame(obs.x=nxs, obs.y=nys, obs.paired=nxys, mean.x=mxs, mean.y=mys,
+             mean.diff=mxys, var.x=vxs, var.y=vys, var.diff=vxys,
+             stderr=stders, df=dfs, statistic.t=tres[,1], p.value=tres[,2],
+             ci.low=tres[,3], ci.high=tres[,4], alternative=alternative,
+             mean.null=mu, conf.level=conf.level, stringsAsFactors=FALSE,
+             row.names=rnames
              )
 }
 

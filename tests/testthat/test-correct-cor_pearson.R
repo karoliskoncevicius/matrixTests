@@ -33,9 +33,9 @@ base_cor_pearson <- function(mat1, mat2, alt="two.sided", conf=0.95) {
     al[i]  <- res$alternative
   }
 
-  data.frame(obs.complete=np, correlation=cor, statistic.t=tst,
-             p.value=p, ci.low=cl, ci.high=ch, df=df, mean.null=mu,
-             conf.level=cnf, alternative=al, stringsAsFactors=FALSE
+  data.frame(obs.paired=np, correlation=cor, df=df, statistic.t=tst,
+             p.value=p, ci.low=cl, ci.high=ch, alternative=al,
+             mean.null=mu, conf.level=cnf, stringsAsFactors=FALSE
              )
 }
 

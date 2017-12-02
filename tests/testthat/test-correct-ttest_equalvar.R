@@ -45,10 +45,10 @@ base_ttest_equalvar <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
     se[i]  <- sqrt(vp[i] * (1/nx[i] + 1/ny[i]))
   }
 
-  data.frame(mean.x=mx, mean.y=my, mean.diff=md, var.x=vx, var.y=vy, var.pooled=vp,
-             obs.x=nx, obs.y=ny, obs.tot=nt, statistic.t=tst, p.value=p,
-             ci.low=cl, ci.high=ch, stderr=se, df=df, mean.null=m0,
-             conf.level=cnf, alternative=al, stringsAsFactors=FALSE
+  data.frame(obs.x=nx, obs.y=ny, obs.tot=nt, mean.x=mx, mean.y=my, mean.diff=md,
+             var.x=vx, var.y=vy, var.pooled=vp, stderr=se, df=df, statistic.t=tst,
+             p.value=p, ci.low=cl, ci.high=ch, alternative=al, mean.null=m0,
+             conf.level=cnf, stringsAsFactors=FALSE
              )
 }
 
