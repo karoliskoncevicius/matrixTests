@@ -74,6 +74,8 @@ variant for that test is implemented so far.
 
 A few examples: `row.oneway.equalvar`, `row.bartlett`
 
+In order to make the function names shorter the word *test* is not included.
+
 ### Single Test Per Function ###
 
 Functions should provide a single type of test.
