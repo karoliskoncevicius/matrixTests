@@ -30,7 +30,7 @@
 #' 6. ci.low - lower confidence interval\cr
 #' 7. ci.high - higher confidence interval\cr
 #' 8. alternative - chosen alternative hypothesis\cr
-#' 9. correlation.null - correlation of the null hypothesis (always 0)\cr
+#' 9. correlation.null - correlation of the null hypothesis (=0)\cr
 #' 10. conf.level - chosen confidence level
 #'
 #' @seealso \code{cor.test()}
