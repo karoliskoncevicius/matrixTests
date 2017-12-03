@@ -46,7 +46,7 @@ base_ttest_equalvar <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
   }
 
   data.frame(obs.x=nx, obs.y=ny, obs.tot=nt, mean.x=mx, mean.y=my, mean.diff=md,
-             var.x=vx, var.y=vy, var.pooled=vp, stderr=se, df=df, statistic=tst,
+             var.x=vx, var.y=vy, var.pooled=vp, std.error=se, df=df, statistic=tst,
              pvalue=p, conf.low=cl, conf.high=ch, alternative=al, mean.null=m0,
              conf.level=cnf, stringsAsFactors=FALSE
              )

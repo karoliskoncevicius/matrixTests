@@ -45,7 +45,7 @@
 #' 9. var.y - variance estiamte of y\cr
 #' 10. var.diff - variance estiamte of x-y difference\cr
 #' 11. var.pooled - pooled variance estimate of x and y\cr
-#' 12. stderr - standard error\cr
+#' 12. std.error - standard error\cr
 #' 13. df - degrees of freedom\cr
 #' 14. statistic - t statistic\cr
 #' 15. pvalue - p-value\cr
@@ -121,7 +121,7 @@ row.t.onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.x=nxs, mean.x=mxs, var.x=vxs, stderr=stders, df=dfs,
+  data.frame(obs.x=nxs, mean.x=mxs, var.x=vxs, std.error=stders, df=dfs,
              statistic=tres[,1], pvalue=tres[,2], conf.low=tres[,3],
              conf.high=tres[,4], alternative=alternative, mean.null=mu,
              conf.level=conf.level, stringsAsFactors=FALSE,
@@ -220,7 +220,7 @@ row.t.equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, var.pooled=vs,
-             stderr=stders, df=dfs, statistic=tres[,1], pvalue=tres[,2],
+             std.error=stders, df=dfs, statistic=tres[,1], pvalue=tres[,2],
              conf.low=tres[,3], conf.high=tres[,4], alternative=alternative,
              mean.null=mu, conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
@@ -312,7 +312,7 @@ row.t.welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
-             mean.diff=mxys, var.x=vxs, var.y=vys, stderr=stders, df=dfs,
+             mean.diff=mxys, var.x=vxs, var.y=vys, std.error=stders, df=dfs,
              statistic=tres[,1], pvalue=tres[,2], conf.low=tres[,3],
              conf.high=tres[,4], alternative=alternative, mean.null=mu,
              conf.level=conf.level, stringsAsFactors=FALSE,
@@ -408,7 +408,7 @@ row.t.paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, obs.y=nys, obs.paired=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, var.diff=vxys,
-             stderr=stders, df=dfs, statistic=tres[,1], pvalue=tres[,2],
+             std.error=stders, df=dfs, statistic=tres[,1], pvalue=tres[,2],
              conf.low=tres[,3], conf.high=tres[,4], alternative=alternative,
              mean.null=mu, conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames

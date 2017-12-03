@@ -59,9 +59,9 @@ res2 <- row.t.welch(X, Y)
 ```
 ```
 > res2[1:2,]
-  obs.x obs.y obs.tot      mean.x      mean.y  mean.diff    var.x     var.y    stderr       df statistic.t   p.value     ci.low   ci.high alternative mean.null conf.level
-1    10    10      20 -0.14392442 -0.03044108 -0.1134833 0.519993 0.9316212 0.3810005 16.66035  -0.2978561 0.7694954 -0.9185744 0.6916077   two.sided         0       0.95
-2    10    10      20 -0.07173673  0.06390979 -0.1356465 1.651582 1.0907963 0.5236772 17.27753  -0.2590270 0.7986753 -1.2391584 0.9678654   two.sided         0       0.95
+  obs.x obs.y obs.tot      mean.x      mean.y    mean.diff     var.x     var.y std.error       df    statistic    pvalue  conf.low conf.high alternative mean.null conf.level
+1    10    10      20 -0.07590861 -0.07447165 -0.001436968 0.5459227 0.4843228 0.3209744 17.93588 -0.004476893 0.9964774 -0.675952  0.673078   two.sided         0       0.95
+2    10    10      20  0.42595380  0.03053101  0.395422789 0.8310503 0.7593487 0.3987981 17.96349  0.991536343 0.3345929 -0.442543  1.233389   two.sided         0       0.95
 ```
 
 ## Goals ##
@@ -186,11 +186,18 @@ two parts: type of result and specification, separated by a dot. Some examples:
 * obs.tot - total number of observations
 * mean.x - mean of x
 * mean.diff - mean of x and y difference
-* ci.low - lower confidence interval
-* statistic.t - t statistic of the test
+* conf.low - lower confidence interval
 
-Exception from this rule are values that have a dot or dash in their name.
-Like *p.value*.
+Values that are present in all of tests are typically written using a single word:
+
+* df
+* pvalue
+* statistic
+
+When multiple choices are possible the name is extended:
+
+* df.between
+* df.within
 
 #### Row names ####
 
@@ -259,8 +266,8 @@ the failed outputs to NA:
 row.t.welch(c(1,2), 3)
 ```
 ```
-  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y stderr  df statistic.t p.value ci.low ci.high alternative mean.null conf.level
-1     2     1       3    1.5      3      -1.5   0.5   NaN    NaN NaN          NA      NA     NA      NA   two.sided         0       0.95
+  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y std.error  df statistic pvalue conf.low conf.high alternative mean.null conf.level
+1     2     1       3    1.5      3      -1.5   0.5   NaN       NaN NaN        NA     NA       NA        NA   two.sided         0       0.95
 Warning message:
 In showWarning(w2, "had less than 2 \"y\" observations") :
   1 of the rows had less than 2 "y" observations. First occurrence at row 1
@@ -275,9 +282,9 @@ mat2 <- rbind(c(2,3), c(0,4))
 row.t.welch(mat1, mat2)
 ```
 ```
-  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y    stderr  df statistic.t   p.value    ci.low  ci.high alternative mean.null conf.level
-1     2     2       4    1.5    2.5        -1   0.5   0.5 0.7071068   2   -1.414214 0.2928932 -4.042435 2.042435   two.sided         0       0.95
-2     1     2       3    3.0    2.0         1   NaN   8.0       NaN NaN          NA        NA        NA       NA   two.sided         0       0.95
+  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y std.error  df statistic    pvalue  conf.low conf.high alternative mean.null conf.level
+1     2     2       4    1.5    2.5        -1   0.5   0.5 0.7071068   2 -1.414214 0.2928932 -4.042435  2.042435   two.sided         0       0.95
+2     1     2       3    3.0    2.0         1   NaN   8.0       NaN NaN        NA        NA        NA        NA   two.sided         0       0.95
 Warning message:
 In showWarning(w1, "had less than 2 \"x\" observations") :
   1 of the rows had less than 2 "x" observations. First occurrence at row 2
@@ -298,8 +305,8 @@ g <- c(NA,"a", "a", "b", "b")
 row.oneway.welch(x=x, g=g)
 ```
 ```
-  obs.tot obs.groups df.treatment df.residuals statistic.F   p.value
-1       4          2            1     1.774011     2.37909 0.2779462
+  obs.tot obs.groups df.between df.within  statistic    pvalue
+1       4          2          1  1.440393 0.02349341 0.8968457
 ```
 
 then the entire first column from the input matrix x corresponding to that group
@@ -309,8 +316,8 @@ will be removed. And the result will be equivalent to:
 row.oneway.welch(x=x[-1], g=g[-1])
 ```
 ```
-  obs.tot obs.groups df.treatment df.residuals statistic.F   p.value
-1       4          2            1     1.774011     2.37909 0.2779462
+  obs.tot obs.groups df.between df.within  statistic    pvalue
+1       4          2          1  1.440393 0.02349341 0.8968457
 ```
 
 Other parameters might allow or not allow `NA` values depending on context. For

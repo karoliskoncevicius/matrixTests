@@ -60,7 +60,7 @@ They will contain a subset of the following information:\cr
 9. var.y - variance estiamte of y\cr
 10. var.diff - variance estiamte of x-y difference\cr
 11. var.pooled - pooled variance estimate of x and y\cr
-12. stderr - standard error\cr
+12. std.error - standard error\cr
 13. df - degrees of freedom\cr
 14. statistic - t statistic\cr
 15. pvalue - p-value\cr

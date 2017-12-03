@@ -43,7 +43,7 @@ base_ttest_paired <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
   }
 
   data.frame(obs.x=nx, obs.y=ny, obs.paired=nt, mean.x=mx, mean.y=my,
-             mean.diff=md, var.x=vx, var.y=vy, var.diff=vd, stderr=se,
+             mean.diff=md, var.x=vx, var.y=vy, var.diff=vd, std.error=se,
              df=df, statistic=tst, pvalue=p, conf.low=cl, conf.high=ch,
              alternative=al, mean.null=m0, conf.level=cnf,
              stringsAsFactors=FALSE
