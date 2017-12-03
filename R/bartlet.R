@@ -6,18 +6,18 @@
 #' NA values are always ommited. If values are missing for a whole group - that
 #' group is discarded. Groups with only one observation are also discarded.
 #'
-#' \code{row.bartlett(x, groups)} - Bartlet's test on rows.
-#' \code{col.bartlett(x, groups)} - Bartlet's test on columns.
-#' Same as \code{bartlett.test(x,  groups)}
+#' \code{row.bartlett(x, group)} - Bartlet's test on rows.
+#' \code{col.bartlett(x, group)} - Bartlet's test on columns.
+#' Same as \code{bartlett.test(x,  group)}
 #'
 #' @param x numeric matrix.
-#' @param groups a vector specifying group membership for each observation of x.
+#' @param g a vector specifying group membership for each observation of x.
 
 #' @return a data.frame where each row contains the results of the bartlett test
 #' performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr
 #' 1. obs.tot - total number of observations\cr
-#' 2. obs.groups - number of groups\cr
+#' 2. obs.group - number of groups\cr
 #' 3. var.pooled - pooled variance estimate\cr
 #' 4. df - degrees of freedom\cr
 #' 5. statistic.chsq - chi-squared statistic\cr
@@ -32,9 +32,9 @@
 #' @author Karolis Koncevičius
 #' @name bartlett
 #' @export
-row.bartlett <- function(x, groups) {
+row.bartlett <- function(x, g) {
   force(x)
-  force(groups)
+  force(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -44,26 +44,26 @@ row.bartlett <- function(x, groups) {
 
   assert_numeric_mat_or_vec(x)
 
-  assert_vec_length(groups, ncol(x))
+  assert_vec_length(g, ncol(x))
 
 
-  bad <- is.na(groups)
+  bad <- is.na(g)
   if(any(bad)) {
     warning(sum(bad), ' columns dropped due to missing group information')
-    x      <- x[,!bad, drop=FALSE]
-    groups <- groups[!bad]
+    x <- x[,!bad, drop=FALSE]
+    g <- g[!bad]
   }
 
-  groups <- as.character(groups)
+  g <- as.character(g)
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   vPerGroup <- nPerGroup
-  for(i in seq_along(unique(groups))) {
-    g <- unique(groups)[i]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
-    vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
+  for(i in seq_along(unique(g))) {
+    group <- unique(g)[i]
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
+    vPerGroup[,i] <- rowVars(x[,g==group, drop=FALSE], na.rm=TRUE)
   }
-  nPerGroup[nPerGroup < 2] <- NA # drop groups with less than 2 observations
+  nPerGroup[nPerGroup < 2] <- NA # drop group with less than 2 observations
   nGroups <- matrixStats::rowCounts(!is.na(nPerGroup))
 
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
@@ -78,7 +78,7 @@ row.bartlett <- function(x, groups) {
   w1 <- nGroups < 2
   showWarning(w1, 'had less than 2 groups with enough observations')
 
-  w2 <- !w1 & nGroups < length(unique(groups))
+  w2 <- !w1 & nGroups < length(unique(g))
   showWarning(w2, 'had groups with less than 2 observations: those groups were removed')
 
   w3 <- !w1 & vtot==0 & nGroups!=0
@@ -100,7 +100,7 @@ row.bartlett <- function(x, groups) {
 
 #' @rdname bartlett
 #' @export
-col.bartlett <- function(x, groups) {
-  row.bartlett(t(x), groups)
+col.bartlett <- function(x, g) {
+  row.bartlett(t(x), g)
 }
 

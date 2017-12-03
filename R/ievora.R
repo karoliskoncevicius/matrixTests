@@ -17,7 +17,7 @@
 #' risk of neoplastic transformation.
 #'
 #' @param x numeric matrix
-#' @param groups a vector specifying group membership for each observation of x.
+#' @param g a vector specifying group membership for each observation of x.
 #' Must contain two unique groups one labeled "1" and another "0".
 #' If the vector is neither numeric nor logical the group appearing first is
 #' labeled "0" and the remaining one as "1".
@@ -59,9 +59,9 @@
 #' @author Karolis Koncevičius
 #' @name ievora
 #' @export
-row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
+row.ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
   force(x)
-  force(groups)
+  force(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -71,22 +71,22 @@ row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
 
   assert_numeric_mat_or_vec(x)
 
-  assert_vec_length(groups, ncol(x))
-  assert_max_number_of_levels(groups, 2)
+  assert_vec_length(g, ncol(x))
+  assert_max_number_of_levels(g, 2)
 
-  bad <- is.na(groups)
+  bad <- is.na(g)
   if(any(bad)) {
     warning(sum(bad), ' columns dropped due to missing group information')
-    x      <- x[,!bad, drop=FALSE]
-    groups <- groups[!bad]
+    x <- x[,!bad, drop=FALSE]
+    g <- g[!bad]
   }
 
-  if(is.logical(groups)) {
-    groups <- as.numeric(groups)
+  if(is.logical(g)) {
+    g <- as.numeric(g)
   }
 
-  if(!is.numeric(groups) | !(all(groups %in% c(0,1)))) {
-    groups <- match(groups, unique(groups))-1
+  if(!is.numeric(g) | !(all(g %in% c(0,1)))) {
+    g <- match(g, unique(g))-1
   }
 
   assert_numeric_vec_length(cutT,  1)
@@ -94,8 +94,8 @@ row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   assert_all_in_range(cutT, 0, 1)
   assert_all_in_range(cutBfdr, 0, 1)
 
-  tres <- row.t.welch(x[,groups==1, drop=FALSE], x[,groups==0, drop=FALSE])
-  bres <- row.bartlett(x, groups)
+  tres <- row.t.welch(x[,g==1, drop=FALSE], x[,g==0, drop=FALSE])
+  bres <- row.bartlett(x, g)
 
   brq <- stats::p.adjust(bres$p.value, "fdr")
   isSig <- brq < cutBfdr & tres$p.value < cutT
@@ -103,8 +103,8 @@ row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
   rank  <- rep(NA, length(isSig))
   rank[isSig] <- rank(tres$p.value[isSig], ties.method="first")
 
-  var0 <- rowVars(x[,groups==0, drop=FALSE], na.rm=TRUE)
-  var1 <- rowVars(x[,groups==1, drop=FALSE], na.rm=TRUE)
+  var0 <- rowVars(x[,g==0, drop=FALSE], na.rm=TRUE)
+  var1 <- rowVars(x[,g==1, drop=FALSE], na.rm=TRUE)
   logR <- log2(var1/var0)
 
   rnames <- rownames(x)
@@ -121,7 +121,7 @@ row.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
 
 #' @rdname ievora
 #' @export
-col.ievora <- function(x, groups, cutT=0.05, cutBfdr=0.001) {
-  row.ievora(t(x), groups, cutT=cutT, cutBfdr=cutBfdr)
+col.ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
+  row.ievora(t(x), g, cutT=cutT, cutBfdr=cutBfdr)
 }
 

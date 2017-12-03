@@ -8,18 +8,18 @@
 \alias{col.oneway.welch}
 \title{ONEWAY ANOVA}
 \usage{
-row.oneway.equalvar(x, groups)
+row.oneway.equalvar(x, g)
 
-col.oneway.equalvar(x, groups)
+col.oneway.equalvar(x, g)
 
-row.oneway.welch(x, groups)
+row.oneway.welch(x, g)
 
-col.oneway.welch(x, groups)
+col.oneway.welch(x, g)
 }
 \arguments{
 \item{x}{numeric matrix.}
 
-\item{groups}{a vector specifying group membership for each observation of x.}
+\item{g}{a vector specifying group membership for each observation of x.}
 }
 \value{
 a data.frame where each row contains the results of an oneway anova
@@ -27,7 +27,7 @@ test performed on the corresponding row/column of x.
 The columns will vary depending on the type of test performed.\cr\cr
 They will contain a subset of the following information:\cr
 1. obs.tot - total number of observations\cr
-2. obs.groups - number of groups\cr
+2. obs.group - number of groups\cr
 3. sum.sq.between - between group (treatment) sum of squares\cr
 4. sum.sq.within - within group (residual) sum of squares\cr
 5. mean.sq.between - between group mean squares\cr
@@ -44,7 +44,7 @@ Performs an analysis of variance tests on each row/column of the input matrix.
 Functions to perform ONEWAY ANOVA analysis for rows/columns of matrices.
 
 \code{row.oneway.equalvar}, \code{col.oneway.equalvar}
-- one-way anova on columns. Same as \code{aov(x ~ groups)}
+- one-way anova on columns. Same as \code{aov(x ~ group)}
 
 \code{row.oneway.welch}, \code{col.oneway.welch}
 - one-way anova with Welch correction on columns. Same as \code{oneway.test(var.equal=FALSE)}

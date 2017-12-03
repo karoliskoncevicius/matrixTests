@@ -128,23 +128,23 @@ test_that("p-value cutoffs must be numeric", {
   mat <- matrix(1:12, nrow=3)
   grp <- c(1,1,0,0)
   # NULL
-  expect_error(row.ievora(x=mat, groups=grp, cutT=NULL), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=NULL), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=NULL), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=NULL), er2)
   # NA
-  expect_error(row.ievora(x=mat, groups=grp, cutT=NA), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=NA), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=NA), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=NA), er2)
   # character
-  expect_error(row.ievora(x=mat, groups=grp, cutT="0.05"), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr="0.05"), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT="0.05"), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr="0.05"), er2)
   # complex
-  expect_error(row.ievora(x=mat, groups=grp, cutT=complex(1)), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=complex(1)), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=complex(1)), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=complex(1)), er2)
   # in list
-  expect_error(row.ievora(x=mat, groups=grp, cutT=list(1)), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=list(1)), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=list(1)), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=list(1)), er2)
   # data frame
-  expect_error(row.ievora(x=mat, groups=grp, cutT=data.frame(1)), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=data.frame(1)), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=data.frame(1)), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=data.frame(1)), er2)
 })
 
 ################################################################################
@@ -226,12 +226,12 @@ test_that("p-value cutoffs have the right dimensions", {
   mat <- matrix(1:12, ncol=3)
   grp <- c(0,0,1)
   # too long
-  expect_error(row.ievora(x=mat, groups=grp, cutT=c(1,2)), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=c(1,2)), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=c(1,2)), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=c(1,2)), er2)
   # matrix format
   cts <- matrix(rep(1, 4), ncol=2)
-  expect_error(row.ievora(x=mat, groups=grp, cutT=cts), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=cts), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=cts), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=cts), er2)
 })
 
 ################################################################################
@@ -299,16 +299,16 @@ test_that("p-value cut-offs must be in 0-1", {
   mat <- matrix(1:12, nrow=3)
   grp <- c(0,0,1,1)
   # slightly below
-  expect_error(row.ievora(x=mat, groups=grp, cutT=-0.001), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=-0.001), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=-0.001), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=-0.001), er2)
   # slightly above
-  expect_error(row.ievora(x=mat, groups=grp, cutT=1.001), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=1.001), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=1.001), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=1.001), er2)
   # special values
-  expect_error(row.ievora(x=mat, groups=grp, cutT=NA_integer_), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=NaN), er2)
-  expect_error(row.ievora(x=mat, groups=grp, cutT=Inf), er1)
-  expect_error(row.ievora(x=mat, groups=grp, cutBfdr=-Inf), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=NA_integer_), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=NaN), er2)
+  expect_error(row.ievora(x=mat, g=grp, cutT=Inf), er1)
+  expect_error(row.ievora(x=mat, g=grp, cutBfdr=-Inf), er2)
 })
 
 

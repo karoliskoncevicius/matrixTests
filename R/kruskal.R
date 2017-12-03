@@ -7,13 +7,13 @@
 #' Same as as \code{kruskal.test()}
 #'
 #' @param x numeric matrix.
-#' @param groups a vector specifying group membership for each observation of x.
+#' @param g a vector specifying group membership for each observation of x.
 
 #' @return a data.frame where each row contains the results of a Kruskal-Wallis
 #' test performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr
 #' 1. obs.tot - total number of observations\cr
-#' 2. obs.groups - number of groups\cr
+#' 2. obs.group - number of groups\cr
 #' 4. df - degrees of freedom\cr
 #' 5. statistic.chsq - chi-squared statistic\cr
 #' 6. p.value - p.value
@@ -27,9 +27,9 @@
 #' @author Karolis Koncevičius
 #' @name kruskalwallis
 #' @export
-row.kruskalwallis <- function(x, groups) {
+row.kruskalwallis <- function(x, g) {
   force(x)
-  force(groups)
+  force(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -39,27 +39,27 @@ row.kruskalwallis <- function(x, groups) {
 
   assert_numeric_mat_or_vec(x)
 
-  assert_vec_length(groups, ncol(x))
+  assert_vec_length(g, ncol(x))
 
-  bad <- is.na(groups)
+  bad <- is.na(g)
   if(any(bad)) {
     warning(sum(bad), ' columns dropped due to missing group information')
-    x      <- x[,!bad, drop=FALSE]
-    groups <- groups[!bad]
+    x <- x[,!bad, drop=FALSE]
+    g <- g[!bad]
   }
 
-  groups <- as.character(groups)
+  g <- as.character(g)
 
   ranks <- matrixStats::rowRanks(x, ties.method="average")
 
   ties <- rowTables(ranks)
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   rPerGroup <- nPerGroup
-  for(i in seq_along(unique(groups))) {
-    g <- unique(groups)[i]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
-    rPerGroup[,i] <- rowSums(ranks[,groups==g, drop=FALSE], na.rm=TRUE)
+  for(i in seq_along(unique(g))) {
+    group <- unique(g)[i]
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
+    rPerGroup[,i] <- rowSums(ranks[,g==group, drop=FALSE], na.rm=TRUE)
   }
 
   nSamples <- rowSums(nPerGroup)
@@ -96,6 +96,6 @@ row.kruskalwallis <- function(x, groups) {
 
 #' @rdname kruskalwallis
 #' @export
-col.kruskalwallis <- function(x, groups) {
-  row.kruskalwallis(t(x), groups)
+col.kruskalwallis <- function(x, g) {
+  row.kruskalwallis(t(x), g)
 }

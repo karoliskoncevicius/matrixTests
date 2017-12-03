@@ -6,21 +6,21 @@
 \alias{col.bartlett}
 \title{Bartlett test}
 \usage{
-row.bartlett(x, groups)
+row.bartlett(x, g)
 
-col.bartlett(x, groups)
+col.bartlett(x, g)
 }
 \arguments{
 \item{x}{numeric matrix.}
 
-\item{groups}{a vector specifying group membership for each observation of x.}
+\item{g}{a vector specifying group membership for each observation of x.}
 }
 \value{
 a data.frame where each row contains the results of the bartlett test
 performed on the corresponding row/column of x.\cr\cr
 Each row contains the following information (in order):\cr
 1. obs.tot - total number of observations\cr
-2. obs.groups - number of groups\cr
+2. obs.group - number of groups\cr
 3. var.pooled - pooled variance estimate\cr
 4. df - degrees of freedom\cr
 5. statistic.chsq - chi-squared statistic\cr
@@ -34,9 +34,9 @@ of the input matrix.
 NA values are always ommited. If values are missing for a whole group - that
 group is discarded. Groups with only one observation are also discarded.
 
-\code{row.bartlett(x, groups)} - Bartlet's test on rows.
-\code{col.bartlett(x, groups)} - Bartlet's test on columns.
-Same as \code{bartlett.test(x,  groups)}
+\code{row.bartlett(x, group)} - Bartlet's test on rows.
+\code{col.bartlett(x, group)} - Bartlet's test on columns.
+Same as \code{bartlett.test(x,  group)}
 }
 \examples{
 col.bartlett(iris[,1:4], iris$Species)

@@ -5,20 +5,20 @@
 #' Functions to perform ONEWAY ANOVA analysis for rows/columns of matrices.
 #'
 #' \code{row.oneway.equalvar}, \code{col.oneway.equalvar}
-#' - one-way anova on columns. Same as \code{aov(x ~ groups)}
+#' - one-way anova on columns. Same as \code{aov(x ~ group)}
 #'
 #' \code{row.oneway.welch}, \code{col.oneway.welch}
 #' - one-way anova with Welch correction on columns. Same as \code{oneway.test(var.equal=FALSE)}
 #'
 #' @param x numeric matrix.
-#' @param groups a vector specifying group membership for each observation of x.
+#' @param g a vector specifying group membership for each observation of x.
 
 #' @return a data.frame where each row contains the results of an oneway anova
 #' test performed on the corresponding row/column of x.
 #' The columns will vary depending on the type of test performed.\cr\cr
 #' They will contain a subset of the following information:\cr
 #' 1. obs.tot - total number of observations\cr
-#' 2. obs.groups - number of groups\cr
+#' 2. obs.group - number of groups\cr
 #' 3. sum.sq.between - between group (treatment) sum of squares\cr
 #' 4. sum.sq.within - within group (residual) sum of squares\cr
 #' 5. mean.sq.between - between group mean squares\cr
@@ -37,9 +37,9 @@
 #' @author Karolis Koncevičius
 #' @name oneway
 #' @export
-row.oneway.equalvar <- function(x, groups) {
+row.oneway.equalvar <- function(x, g) {
   force(x)
-  force(groups)
+  force(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -49,24 +49,24 @@ row.oneway.equalvar <- function(x, groups) {
 
   assert_numeric_mat_or_vec(x)
 
-  assert_vec_length(groups, ncol(x))
+  assert_vec_length(g, ncol(x))
 
-  bad <- is.na(groups)
+  bad <- is.na(g)
   if(any(bad)) {
     warning(sum(bad), ' columns dropped due to missing group information')
-    x      <- x[,!bad, drop=FALSE]
-    groups <- groups[!bad]
+    x <- x[,!bad, drop=FALSE]
+    g <- g[!bad]
   }
 
-  groups <- as.character(groups)
+  g <- as.character(g)
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   mPerGroup <- vPerGroup <- nPerGroup
-  for(i in seq_along(unique(groups))) {
-    g <- unique(groups)[i]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
-    mPerGroup[,i] <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
-    vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
+  for(i in seq_along(unique(g))) {
+    group <- unique(g)[i]
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
+    mPerGroup[,i] <- rowMeans(x[,g==group, drop=FALSE], na.rm=TRUE)
+    vPerGroup[,i] <- rowVars(x[,g==group, drop=FALSE], na.rm=TRUE)
   }
 
   nSamples <- rowSums(nPerGroup)
@@ -111,15 +111,15 @@ row.oneway.equalvar <- function(x, groups) {
 
 #' @rdname oneway
 #' @export
-col.oneway.equalvar <- function(x, groups) {
-  row.oneway.equalvar(t(x), groups)
+col.oneway.equalvar <- function(x, g) {
+  row.oneway.equalvar(t(x), g)
 }
 
 #' @rdname oneway
 #' @export
-row.oneway.welch <- function(x, groups) {
+row.oneway.welch <- function(x, g) {
   force(x)
-  force(groups)
+  force(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -129,24 +129,24 @@ row.oneway.welch <- function(x, groups) {
 
   assert_numeric_mat_or_vec(x)
 
-  assert_vec_length(groups, ncol(x))
+  assert_vec_length(g, ncol(x))
 
-  bad <- is.na(groups)
+  bad <- is.na(g)
   if(any(bad)) {
     warning(sum(bad), ' columns dropped due to missing group information')
-    x      <- x[,!bad, drop=FALSE]
-    groups <- groups[!bad]
+    x <- x[,!bad, drop=FALSE]
+    g <- g[!bad]
   }
 
-  groups <- as.character(groups)
+  g <- as.character(g)
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(groups)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   mPerGroup <- vPerGroup <- nPerGroup
-  for(i in seq_along(unique(groups))) {
-    g <- unique(groups)[i]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,groups==g, drop=FALSE]))
-    mPerGroup[,i] <- rowMeans(x[,groups==g, drop=FALSE], na.rm=TRUE)
-    vPerGroup[,i] <- rowVars(x[,groups==g, drop=FALSE], na.rm=TRUE)
+  for(i in seq_along(unique(g))) {
+    group <- unique(g)[i]
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
+    mPerGroup[,i] <- rowMeans(x[,g==group, drop=FALSE], na.rm=TRUE)
+    vPerGroup[,i] <- rowVars(x[,g==group, drop=FALSE], na.rm=TRUE)
   }
   mPerGroup[nPerGroup<2] <- NA
   vPerGroup[nPerGroup<2] <- NA
@@ -170,7 +170,7 @@ row.oneway.welch <- function(x, groups) {
   w1 <- nGroups < 2
   showWarning(w1, 'had less than 2 groups with enough observations')
 
-  w2 <- !w1 & nGroups < length(unique(groups))
+  w2 <- !w1 & nGroups < length(unique(g))
   showWarning(w2, 'had groups with less than 2 observations: those groups were removed')
 
   w3 <- !w1 & rowSums(vPerGroup!=0, na.rm=TRUE)==0
@@ -193,6 +193,6 @@ row.oneway.welch <- function(x, groups) {
 
 #' @rdname oneway
 #' @export
-col.oneway.welch <- function(x, groups) {
-  row.oneway.welch(t(x), groups)
+col.oneway.welch <- function(x, g) {
+  row.oneway.welch(t(x), g)
 }
