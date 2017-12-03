@@ -23,8 +23,8 @@ Each row contains the following information (in order):\cr
 2. obs.group - number of groups\cr
 3. var.pooled - pooled variance estimate\cr
 4. df - degrees of freedom\cr
-5. stat.chsq - chi-squared statistic\cr
-6. pval - p.value
+5. statistic - chi-squared statistic\cr
+6. pvalue - p.value
 }
 \description{
 Performs the Bartlett's test of homogeneity of variances on each row/column

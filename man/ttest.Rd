@@ -62,8 +62,8 @@ They will contain a subset of the following information:\cr
 11. var.pooled - pooled variance estimate of x and y\cr
 12. stderr - standard error\cr
 13. df - degrees of freedom\cr
-14. stat.t - t statistic\cr
-15. pval - p-value\cr
+14. statistic - t statistic\cr
+15. pvalue - p-value\cr
 16. conf.low - lower bound of the confidence interval\cr
 17. conf.high - higher bound of the confidence interval\cr
 18. alternative - chosen alternative hypothesis\cr

@@ -25,8 +25,8 @@
 #' 1. obs.paired - number of paired observations (present in x and y)\cr
 #' 2. cor - estimated correlation coefficient\cr
 #' 3. df - degrees of freedom\cr
-#' 4. stat.t - t statistic\cr
-#' 5. pval - p-value\cr
+#' 4. statistic - t statistic\cr
+#' 5. pvalue - p-value\cr
 #' 6. conf.low - lower confidence interval\cr
 #' 7. conf.high - higher confidence interval\cr
 #' 8. alternative - chosen alternative hypothesis\cr
@@ -121,8 +121,8 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.paired=ns, cor=rs, df=df, stat.t=pres[,1],
-             pval=pres[,2], conf.low=pres[,3], conf.high=pres[,4],
+  data.frame(obs.paired=ns, cor=rs, df=df, statistic=pres[,1],
+             pvalue=pres[,2], conf.low=pres[,3], conf.high=pres[,4],
              alternative=alternative, cor.null=mu, conf.level=conf.level,
              stringsAsFactors=FALSE, row.names=rnames
              )

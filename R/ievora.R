@@ -38,11 +38,11 @@
 #' 7. var.0 - variance of the 0 group \cr
 #' 8. var.1 - variance of the 1 group \cr
 #' 9. var.log2.ratio - log ratio of variances log(var1/var0) \cr
-#' 10. stat.t - t.statistic of the t-test step \cr
-#' 11. pval.t - raw p-value of the t-test step \cr
-#' 12. stat.bt - chsq.statistic of the bartlett test step \cr
-#' 13. pval.bt - raw p-value of the Bartlett's test step \cr
-#' 14. qval.bt - fdr-adjusted p-value of the Bartlett's test step \cr
+#' 10. statistic.t - t.statistic of the t-test step \cr
+#' 11. pvalue.t - raw p-value of the t-test step \cr
+#' 12. statistic.bt - chsq.statistic of the bartlett test step \cr
+#' 13. pvalue.bt - raw p-value of the Bartlett's test step \cr
+#' 14. qvalue.bt - fdr-adjusted p-value of the Bartlett's test step \cr
 #' 15. significant - indicator showing if the result was significant \cr
 #' 16. rank - rank of the significant results (ordered by t.test p-value)
 #'
@@ -97,11 +97,11 @@ row.ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
   tres <- row.t.welch(x[,g==1, drop=FALSE], x[,g==0, drop=FALSE])
   bres <- row.bartlett(x, g)
 
-  brq <- stats::p.adjust(bres$pval, "fdr")
-  isSig <- brq < cutBfdr & tres$pval < cutT
+  brq <- stats::p.adjust(bres$pvalue, "fdr")
+  isSig <- brq < cutBfdr & tres$pvalue < cutT
   isSig[is.na(isSig)] <- FALSE
   rank  <- rep(NA, length(isSig))
-  rank[isSig] <- rank(tres$pval[isSig], ties.method="first")
+  rank[isSig] <- rank(tres$pvalue[isSig], ties.method="first")
 
   var0 <- rowVars(x[,g==0, drop=FALSE], na.rm=TRUE)
   var1 <- rowVars(x[,g==1, drop=FALSE], na.rm=TRUE)
@@ -111,9 +111,9 @@ row.ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.0=tres$obs.y, obs.1=tres$obs.x, obs.tot=tres$obs.tot,
              mean.0=tres$mean.y, mean.1=tres$mean.x, mean.diff=tres$mean.diff,
-             var.0=var0, var.1=var1, var.log2.ratio=logR, stat.t=tres$stat.t,
-             pval.t=tres$pval, stat.bt=bres$stat.chsq,
-             pval.bt=bres$pval, qval.bt=brq, significant=isSig,
+             var.0=var0, var.1=var1, var.log2.ratio=logR, statistic.t=tres$statistic,
+             pvalue.t=tres$pvalue, statistic.bt=bres$statistic,
+             pvalue.bt=bres$pvalue, qvalue.bt=brq, significant=isSig,
              rank=rank, row.names=rnames
              )
 }

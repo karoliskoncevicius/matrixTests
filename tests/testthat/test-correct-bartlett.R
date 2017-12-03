@@ -32,8 +32,8 @@ base_bartlett <- function(mat, groups) {
     df[i]  <- res$parameter
   }
 
-  data.frame(obs.tot=nt, obs.groups=ng, var.pooled=vt, df=df, stat.chsq=ks,
-             pval=p, stringsAsFactors=FALSE
+  data.frame(obs.tot=nt, obs.groups=ng, var.pooled=vt, df=df, statistic=ks,
+             pvalue=p, stringsAsFactors=FALSE
              )
 }
 
@@ -137,7 +137,7 @@ test_that("groups with one element remaining are dropped correctly", {
 
 test_that("warning when rows have less than 2 groups", {
   wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
-  nacolumns <- c("stat.chsq", "pval")
+  nacolumns <- c("statistic", "pvalue")
 
   # one observation per group
   expect_warning(res <- row.bartlett(1:10, 1:10), wrn)
@@ -203,7 +203,7 @@ test_that("warning when some groups have less than 2 observations", {
 
 test_that("warning when none of the groups have variance", {
   wrn <- '1 of the rows had zero variance in all of the groups\\. First occurrence at row 1'
-  nacolumns <- c("stat.chsq", "pval")
+  nacolumns <- c("statistic", "pvalue")
 
   # all values are constant
   expect_warning(res <- row.bartlett(c(1,1,1,1,1,1), c(1,1,2,2,3,3)), wrn, all=TRUE)
@@ -228,18 +228,18 @@ test_that("warning when some of the groups have no variance", {
 
   # one group out of 3
   expect_warning(res <- row.bartlett(c(1,1,1,2,3,2), c(1,1,2,2,3,3)), wrn, all=TRUE)
-  expect_true(is.infinite(res$stat.chsq))
+  expect_true(is.infinite(res$statistic))
 
   # two groups out of 3
   expect_warning(res <- row.bartlett(c(1,1,2,2,3,4), c(1,1,2,2,3,3)), wrn, all=TRUE)
-  expect_true(is.infinite(res$stat.chsq))
+  expect_true(is.infinite(res$statistic))
 
   # all values within one group plus NA
   expect_warning(res <- row.bartlett(c(1,1,NA,2,3,4,0), c(1,1,1,2,2,3,3)), wrn, all=TRUE)
-  expect_true(is.infinite(res$stat.chsq))
+  expect_true(is.infinite(res$statistic))
 
   # when one group is dropped because of not enough observations
   expect_warning(res <- row.bartlett(c(1,1,2,3,4), c(1,1,2,2,3)), wrn)
-  expect_true(is.infinite(res$stat.chsq))
+  expect_true(is.infinite(res$statistic))
 })
 

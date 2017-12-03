@@ -34,8 +34,8 @@ They will contain a subset of the following information:\cr
 6. mean.sq.within - within group mean squares\cr
 7. df.between - between group (treatment) degrees of freedom\cr
 8. df.within - within group (residual) degrees of freedom\cr
-9. stat.F - F statistic\cr
-10. pval - p.value
+9. statistic - F statistic\cr
+10. pvalue - p.value
 }
 \description{
 Performs an analysis of variance tests on each row/column of the input matrix.

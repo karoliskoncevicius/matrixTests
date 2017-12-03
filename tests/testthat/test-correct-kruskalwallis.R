@@ -25,7 +25,7 @@ base_kruskal <- function(mat, groups) {
     p[i]   <- res$p.value
   }
 
-  data.frame(obs.tot=ot, obs.groups=og, df, stat.chsq=chs, pval=p)
+  data.frame(obs.tot=ot, obs.groups=og, df, statistic=chs, pvalue=p)
 }
 
 ################################################################################
@@ -146,7 +146,7 @@ test_that("warning is shown when columns are removed because of NA groups", {
 
 test_that("warning when row has less than 2 complete observations", {
   wrn <- '1 of the rows had less than 2 total observations\\. First occurrence at row 1'
-  nacolumns <- c("stat.chsq", "pval")
+  nacolumns <- c("statistic", "pvalue")
 
   # one value one group
   expect_warning(res <- row.kruskalwallis(1, "a"), wrn, all=TRUE)
@@ -164,7 +164,7 @@ test_that("warning when row has less than 2 complete observations", {
 
 test_that("warning when rows have less than 2 groups", {
   wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
-  nacolumns <- c("stat.chsq", "pval")
+  nacolumns <- c("statistic", "pvalue")
 
   # single group with 10 observations
   expect_warning(res <- row.kruskalwallis(1:10, rep(1,10)), wrn, all=TRUE)
@@ -183,7 +183,7 @@ test_that("warning when rows have less than 2 groups", {
 
 test_that("warning when rows consist of single value", {
   wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
-  nacolumns <- c("stat.chsq", "pval")
+  nacolumns <- c("statistic", "pvalue")
 
   # two groups
   expect_warning(res <- row.kruskalwallis(rep(1, 3), c("a","a","b")), wrn, all=TRUE)
