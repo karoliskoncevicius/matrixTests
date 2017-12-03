@@ -25,8 +25,18 @@ All values must be in the range of [0;1].}
 }
 \value{
 a data.frame where each row contains the results of a correlation
-test performed on the corresponding row/column of x. The columns will vary
-depending on the type of test performed.
+test performed on the corresponding row/column of x.\cr\cr
+Each row contains the following information (in order):\cr
+1. obs.paired - number of paired observations (present in x and y)\cr
+2. correlation - estimated correlation coefficient\cr
+3. df - degrees of freedom\cr
+4. statistic.t - t statistic\cr
+5. p.value - p-value\cr
+6. ci.low - lower confidence interval\cr
+7. ci.high - higher confidence interval\cr
+8. alternative - chosen alternative hypothesis\cr
+9. correlation.null - correlation of the null hypothesis (always 0)\cr
+10. conf.level - chosen confidence level
 }
 \description{
 Performs a correlation test on each row/column of a the input matrix.

@@ -30,9 +30,9 @@ base_oneway_equalvar <- function(mat, groups) {
     og[i]  <- length(unique(grp))
   }
 
-  data.frame(obs.tot=ot, obs.groups=og, sum.sq.treatment=st, sum.sq.residuals=sr,
-             mean.sq.treatment=mt, mean.sq.residuals=mr, df.treatment=dft,
-             df.residuals=dfr, statistic.F=fst, p.value=p
+  data.frame(obs.tot=ot, obs.groups=og, sum.sq.between=st, sum.sq.within=sr,
+             mean.sq.between=mt, mean.sq.within=mr, df.between=dft,
+             df.within=dfr, statistic.F=fst, p.value=p
              )
 }
 
@@ -63,9 +63,9 @@ base_oneway_equalvar2 <- function(mat, groups) {
     mr[i]  <- sr[i] / dfr[i]
   }
 
-  data.frame(obs.tot=ot, obs.groups=og, sum.sq.treatment=st, sum.sq.residuals=sr,
-             mean.sq.treatment=mt, mean.sq.residuals=mr, df.treatment=dft,
-             df.residuals=dfr, statistic.F=fst, p.value=p
+  data.frame(obs.tot=ot, obs.groups=og, sum.sq.between=st, sum.sq.within=sr,
+             mean.sq.between=mt, mean.sq.within=mr, df.between=dft,
+             df.within=dfr, statistic.F=fst, p.value=p
              )
 }
 

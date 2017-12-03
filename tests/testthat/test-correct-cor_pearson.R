@@ -35,7 +35,7 @@ base_cor_pearson <- function(mat1, mat2, alt="two.sided", conf=0.95) {
 
   data.frame(obs.paired=np, correlation=cor, df=df, statistic.t=tst,
              p.value=p, ci.low=cl, ci.high=ch, alternative=al,
-             mean.null=mu, conf.level=cnf, stringsAsFactors=FALSE
+             correlation.null=mu, conf.level=cnf, stringsAsFactors=FALSE
              )
 }
 

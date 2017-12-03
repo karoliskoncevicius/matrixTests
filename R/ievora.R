@@ -27,24 +27,24 @@
 #' Bartlett's test step. (default 0.001)
 #'
 #' @return a data.frame where each row contains result of the iEVORA algorithm
-#' for the corresponding row/column of x. \cr
-#' Each row contains the following information (in order): \cr
-#' 1. number of observations in 0 group.
-#' 2. number of observations in 1 group.
-#' 3. number of total observations.
-#' 4. mean of the 0 group. \cr
-#' 5. mean of the 1 group. \cr
-#' 6. mean difference (group1 - group0)
-#' 7. variance of the 0 group. \cr
-#' 8. variance of the 1 group. \cr
-#' 9. log ratio of variances log(var1/var0). \cr
-#' 10. t.statistic of the t-test step. \cr
-#' 11. raw p-value of the t-test step. \cr
-#' 12. chsq.statistic of the bartlett test step. \cr
-#' 13. raw p-value of the Bartlett's test step. \cr
-#' 14. fdr-adjusted p-value of the Bartlett's test step. \cr
-#' 15. indicator showing whether or not the result was significant. \cr
-#' 16. rank of the significant results (ordered by t.test p-value)
+#' for the corresponding row/column of x. \cr\cr
+#' Each row contains the following information (in order):\cr
+#' 1. obs.0 - number of observations in 0 group\cr
+#' 2. obs.1 - number of observations in 1 group\cr
+#' 3. obs.tot - number of total observations\cr
+#' 4. mean.0 - mean of the 0 group \cr
+#' 5. mean.1 - mean of the 1 group \cr
+#' 6. mean.diff - mean difference (group1 - group0)\cr
+#' 7. var.0 - variance of the 0 group \cr
+#' 8. var.1 - variance of the 1 group \cr
+#' 9. var.log2.ratio - log ratio of variances log(var1/var0) \cr
+#' 10. statistic.t - t.statistic of the t-test step \cr
+#' 11. p.value.t - raw p-value of the t-test step \cr
+#' 12. statistic.bt - chsq.statistic of the bartlett test step \cr
+#' 13. p.value.bt - raw p-value of the Bartlett's test step \cr
+#' 14. q.value.bt - fdr-adjusted p-value of the Bartlett's test step \cr
+#' 15. significant - indicator showing if the result was significant \cr
+#' 16. rank - rank of the significant results (ordered by t.test p-value)
 #'
 #' @seealso \code{row.bartlett}, \code{row.t.welch}
 #'

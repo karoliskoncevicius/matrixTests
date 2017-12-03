@@ -10,7 +10,13 @@
 #' @param groups a vector specifying group membership for each observation of x.
 
 #' @return a data.frame where each row contains the results of a Kruskal-Wallis
-#' test performed on the corresponding row/column of x.
+#' test performed on the corresponding row/column of x.\cr\cr
+#' Each row contains the following information (in order):\cr
+#' 1. obs.tot - total number of observations\cr
+#' 2. obs.groups - number of groups\cr
+#' 4. df - degrees of freedom\cr
+#' 5. statistic.chsq - chi-squared statistic\cr
+#' 6. p.value - p.value
 #'
 #' @seealso \code{kruskal.test()}
 #'

@@ -33,7 +33,7 @@ base_oneway_welch <- function(mat, groups) {
     og[i]  <- length(unique(grp))
   }
 
-  data.frame(obs.tot=ot, obs.groups=og, df.treatment=dft, df.residuals=dfr,
+  data.frame(obs.tot=ot, obs.groups=og, df.between=dft, df.within=dfr,
              statistic.F=fst, p.value=p
              )
 }
@@ -96,7 +96,7 @@ test_that("constant values give equal results", {
   # one group's values are constant
   x <- c(1,1,2,3); g <- c("a","a","b","b")
   t1 <- base_oneway_welch(x, g)
-  t1$df.residuals <- 1; t1$statistic.F <- Inf; t1$p.value <- 0 # NOTE: fix to match
+  t1$df.within <- 1; t1$statistic.F <- Inf; t1$p.value <- 0 # NOTE: fix to match
   t2 <- suppressWarnings(row.oneway.welch(x, g))
   expect_equal(t1, t2)
 })

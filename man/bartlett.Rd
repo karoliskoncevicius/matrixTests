@@ -17,7 +17,14 @@ col.bartlett(x, groups)
 }
 \value{
 a data.frame where each row contains the results of the bartlett test
-performed on the corresponding row/column of x.
+performed on the corresponding row/column of x.\cr\cr
+Each row contains the following information (in order):\cr
+1. obs.tot - total number of observations\cr
+2. obs.groups - number of groups\cr
+3. var.pooled - pooled variance estimate\cr
+4. df - degrees of freedom\cr
+5. statistic.chsq - chi-squared statistic\cr
+6. p.value - p.value
 }
 \description{
 Performs the Bartlett's test of homogeneity of variances on each row/column

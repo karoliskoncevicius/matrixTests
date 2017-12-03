@@ -14,7 +14,14 @@
 #' @param groups a vector specifying group membership for each observation of x.
 
 #' @return a data.frame where each row contains the results of the bartlett test
-#' performed on the corresponding row/column of x.
+#' performed on the corresponding row/column of x.\cr\cr
+#' Each row contains the following information (in order):\cr
+#' 1. obs.tot - total number of observations\cr
+#' 2. obs.groups - number of groups\cr
+#' 3. var.pooled - pooled variance estimate\cr
+#' 4. df - degrees of freedom\cr
+#' 5. statistic.chsq - chi-squared statistic\cr
+#' 6. p.value - p.value
 #'
 #' @seealso \code{bartlett.test()}
 #'
@@ -86,7 +93,7 @@ row.bartlett <- function(x, groups) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.tot=nSamples, obs.groups=nGroups, var.tot=vtot, df=df,
+  data.frame(obs.tot=nSamples, obs.groups=nGroups, var.pooled=vtot, df=df,
              statistic.chsq=ksq, p.value=p, row.names=rnames
              )
 }

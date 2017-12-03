@@ -15,6 +15,18 @@
 
 #' @return a data.frame where each row contains the results of an oneway anova
 #' test performed on the corresponding row/column of x.
+#' The columns will vary depending on the type of test performed.\cr\cr
+#' They will contain a subset of the following information:\cr
+#' 1. obs.tot - total number of observations\cr
+#' 2. obs.groups - number of groups\cr
+#' 3. sum.sq.between - between group (treatment) sum of squares\cr
+#' 4. sum.sq.within - within group (residual) sum of squares\cr
+#' 5. mean.sq.between - between group mean squares\cr
+#' 6. mean.sq.within - within group mean squares\cr
+#' 7. df.between - between group (treatment) degrees of freedom\cr
+#' 8. df.within - within group (residual) degrees of freedom\cr
+#' 9. statistic.F - F statistic\cr
+#' 10. p.value - p.value
 #'
 #' @seealso \code{aov()}, \code{oneway.test()}
 #'
@@ -90,9 +102,9 @@ row.oneway.equalvar <- function(x, groups) {
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.tot=nSamples, obs.groups=nGroups,
-             sum.sq.treatment=betweenScatter, sum.sq.residuals=withinScatter,
-             mean.sq.treatment=betweenScatter/dft, mean.sq.residuals=withinScatter/dfr,
-             df.treatment=dft, df.residuals=dfr, statistic.F=F, p.value=p,
+             sum.sq.between=betweenScatter, sum.sq.within=withinScatter,
+             mean.sq.between=betweenScatter/dft, mean.sq.within=withinScatter/dfr,
+             df.between=dft, df.within=dfr, statistic.F=F, p.value=p,
              row.names=rnames
              )
 }
@@ -173,8 +185,8 @@ row.oneway.welch <- function(x, groups) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.tot=nSamples, obs.groups=nGroups, df.treatment=dft,
-             df.residuals=dfr, statistic.F=F, p.value=p,
+  data.frame(obs.tot=nSamples, obs.groups=nGroups, df.between=dft,
+             df.within=dfr, statistic.F=F, p.value=p,
              row.names=rnames
              )
 }
