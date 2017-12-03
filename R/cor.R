@@ -61,7 +61,7 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   assert_numeric_mat_or_vec(x)
   assert_numeric_mat_or_vec(y)
 
-  if(nrow(y)==1 & nrow(x)!=1) {
+  if(nrow(y)==1 & nrow(x)>1) {
     y <- matrix(y, nrow=nrow(x), ncol=ncol(y), byrow=TRUE)
   }
 
