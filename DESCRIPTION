@@ -1,16 +1,17 @@
 Package: matrixTests
-Title: Fast Statistical Hypothesis Tests On Rows Of Matrices
-Version: 0.0.0.9000
+Title: Fast Statistical Hypothesis Tests on Rows of Matrices
+Version: 0.0.1
 Authors@R: person("Karolis", "Koncevicius", email = "Karolis@Koncevicius.lt", role = c("aut", "cre"))
-Description: This package provides a set of functions to perform parallel statistical
-  hypothesis tests on rows/columns of matrices. The functions are optimized for speed,
+Description: A set of functions to perform parallel statistical hypothesis tests
+  on rows/columns of matrices. The functions are optimized for speed,
   output readability and consistency with default hypothesis testing functions
   (like those from the package 'stats').
 Depends: R (>= 3.2.2)
 Imports: matrixStats
 Suggests: testthat
 License: GPL-2
+Encoding: UTF-8
 LazyData: true
-URL: https://github.com/KKPWM/matrixTests
-BugReports: https://github.com/KKPWM/matrixTests/issues
+URL: https://github.com/KKPMW/matrixTests
+BugReports: https://github.com/KKPMW/matrixTests/issues
 RoxygenNote: 6.0.1

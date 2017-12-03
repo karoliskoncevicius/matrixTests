@@ -23,14 +23,14 @@
 #' test performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr
 #' 1. obs.paired - number of paired observations (present in x and y)\cr
-#' 2. correlation - estimated correlation coefficient\cr
+#' 2. cor - estimated correlation coefficient\cr
 #' 3. df - degrees of freedom\cr
 #' 4. statistic.t - t statistic\cr
 #' 5. p.value - p-value\cr
 #' 6. ci.low - lower confidence interval\cr
 #' 7. ci.high - higher confidence interval\cr
 #' 8. alternative - chosen alternative hypothesis\cr
-#' 9. correlation.null - correlation of the null hypothesis (=0)\cr
+#' 9. cor.null - correlation of the null hypothesis (=0)\cr
 #' 10. conf.level - chosen confidence level
 #'
 #' @seealso \code{cor.test()}
@@ -121,9 +121,9 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.paired=ns, correlation=rs, df=df, statistic.t=pres[,1],
+  data.frame(obs.paired=ns, cor=rs, df=df, statistic.t=pres[,1],
              p.value=pres[,2], ci.low=pres[,3], ci.high=pres[,4],
-             alternative=alternative, correlation.null=mu, conf.level=conf.level,
+             alternative=alternative, cor.null=mu, conf.level=conf.level,
              stringsAsFactors=FALSE, row.names=rnames
              )
 }
