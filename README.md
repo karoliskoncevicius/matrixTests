@@ -150,7 +150,9 @@ Below is a short list of implemented input rules:
 2. Vectors are transformed into a 1-row matrix.
 3. Data frames are automatically transformed into matrices if all of their
    columns are numeric.
-4. When two matrices are required - number of their rows should match.
+4. When two matrices are required - either number of their rows should match or
+   the second matrix must have only single row/column. In which case the same
+   row/column will be repeated for all values of x.
 5. Group specifications and additional parameters typically can have only one
    value that will be applied to all the rows.
 6. In some cases additional parameters can have a separate value for each row.
