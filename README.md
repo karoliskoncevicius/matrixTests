@@ -1,6 +1,6 @@
 # Matrix Tests #
 
-A package dedicated to running statistical hypothesis tests on rows of matrices.
+A package dedicated to running statistical hypothesis tests on rows and columns of matrices.
 
 ## Example ##
 
