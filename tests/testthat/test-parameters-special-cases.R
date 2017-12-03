@@ -230,14 +230,14 @@ test_that("MU can be Infinite", {
   x <- t(iris[1:75,-5])
   y <- t(iris[76:150,-5])
   # Inf
-  expect_equal(row.t.onesample(x=x, mu=Inf)$statistic.t, rep(-Inf, nrow(x)))
-  expect_equal(row.t.equalvar(x=x, y=y, mu=Inf)$statistic.t, rep(-Inf, nrow(x)))
-  expect_equal(row.t.welch(x=x, y=y, mu=Inf)$statistic.t, rep(-Inf, nrow(x)))
-  expect_equal(row.t.paired(x=x, y=y, mu=Inf)$statistic.t, rep(-Inf, nrow(x)))
+  expect_equal(row.t.onesample(x=x, mu=Inf)$stat.t, rep(-Inf, nrow(x)))
+  expect_equal(row.t.equalvar(x=x, y=y, mu=Inf)$stat.t, rep(-Inf, nrow(x)))
+  expect_equal(row.t.welch(x=x, y=y, mu=Inf)$stat.t, rep(-Inf, nrow(x)))
+  expect_equal(row.t.paired(x=x, y=y, mu=Inf)$stat.t, rep(-Inf, nrow(x)))
   # -Inf
-  expect_equal(row.t.onesample(x=x, mu=-Inf)$statistic.t, rep(Inf, nrow(x)))
-  expect_equal(row.t.equalvar(x=x, y=y, mu=-Inf)$statistic.t, rep(Inf, nrow(x)))
-  expect_equal(row.t.welch(x=x, y=y, mu=-Inf)$statistic.t, rep(Inf, nrow(x)))
-  expect_equal(row.t.paired(x=x, y=y, mu=-Inf)$statistic.t, rep(Inf, nrow(x)))
+  expect_equal(row.t.onesample(x=x, mu=-Inf)$stat.t, rep(Inf, nrow(x)))
+  expect_equal(row.t.equalvar(x=x, y=y, mu=-Inf)$stat.t, rep(Inf, nrow(x)))
+  expect_equal(row.t.welch(x=x, y=y, mu=-Inf)$stat.t, rep(Inf, nrow(x)))
+  expect_equal(row.t.paired(x=x, y=y, mu=-Inf)$stat.t, rep(Inf, nrow(x)))
 })
 

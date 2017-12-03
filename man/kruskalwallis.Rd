@@ -22,8 +22,8 @@ Each row contains the following information (in order):\cr
 1. obs.tot - total number of observations\cr
 2. obs.group - number of groups\cr
 4. df - degrees of freedom\cr
-5. statistic.chsq - chi-squared statistic\cr
-6. p.value - p.value
+5. stat.chsq - chi-squared statistic\cr
+6. pval - p.value
 }
 \description{
 Performs a Kruskal-Wallis rank sum test on each row/column of the input matrix.

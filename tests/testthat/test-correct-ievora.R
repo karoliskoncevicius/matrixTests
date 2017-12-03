@@ -61,8 +61,8 @@ base_ievora <- function(mat, groups, tCut=0.05, bCut=0.001) {
   rnk[sig] <- idx
 
   data.frame(obs.0=n0, obs.1=n1, obs.tot=nt, mean.0=m0, mean.1=m1, mean.diff=md,
-             var.0=v0, var.1=v1, var.log2.ratio=vlr, statistic.t=ts, p.value.t=tp,
-             statistic.bt=bs, p.value.bt=bp, q.value.bt=bq, significant=sig,
+             var.0=v0, var.1=v1, var.log2.ratio=vlr, stat.t=ts, pval.t=tp,
+             stat.bt=bs, pval.bt=bp, qval.bt=bq, significant=sig,
              rank=rnk, row.names=rownames(mat)
              )
 }

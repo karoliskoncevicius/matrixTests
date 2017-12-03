@@ -15,8 +15,8 @@
 #' 1. obs.tot - total number of observations\cr
 #' 2. obs.group - number of groups\cr
 #' 4. df - degrees of freedom\cr
-#' 5. statistic.chsq - chi-squared statistic\cr
-#' 6. p.value - p.value
+#' 5. stat.chsq - chi-squared statistic\cr
+#' 6. pval - p.value
 #'
 #' @seealso \code{kruskal.test()}
 #'
@@ -89,8 +89,8 @@ row.kruskalwallis <- function(x, g) {
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.tot=nSamples, obs.groups=nGroups, df=df, statistic.chsq=stat,
-             p.value=p, row.names=rnames
+  data.frame(obs.tot=nSamples, obs.groups=nGroups, df=df, stat.chsq=stat,
+             pval=p, row.names=rnames
              )
 }
 

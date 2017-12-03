@@ -20,8 +20,8 @@
 #' 2. obs.group - number of groups\cr
 #' 3. var.pooled - pooled variance estimate\cr
 #' 4. df - degrees of freedom\cr
-#' 5. statistic.chsq - chi-squared statistic\cr
-#' 6. p.value - p.value
+#' 5. stat.chsq - chi-squared statistic\cr
+#' 6. pval - p.value
 #'
 #' @seealso \code{bartlett.test()}
 #'
@@ -94,7 +94,7 @@ row.bartlett <- function(x, g) {
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.tot=nSamples, obs.groups=nGroups, var.pooled=vtot, df=df,
-             statistic.chsq=ksq, p.value=p, row.names=rnames
+             stat.chsq=ksq, pval=p, row.names=rnames
              )
 }
 

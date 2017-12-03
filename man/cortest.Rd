@@ -30,8 +30,8 @@ Each row contains the following information (in order):\cr
 1. obs.paired - number of paired observations (present in x and y)\cr
 2. cor - estimated correlation coefficient\cr
 3. df - degrees of freedom\cr
-4. statistic.t - t statistic\cr
-5. p.value - p-value\cr
+4. stat.t - t statistic\cr
+5. pval - p-value\cr
 6. conf.low - lower confidence interval\cr
 7. conf.high - higher confidence interval\cr
 8. alternative - chosen alternative hypothesis\cr

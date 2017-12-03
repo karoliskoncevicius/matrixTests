@@ -37,11 +37,11 @@ Each row contains the following information (in order):\cr
 7. var.0 - variance of the 0 group \cr
 8. var.1 - variance of the 1 group \cr
 9. var.log2.ratio - log ratio of variances log(var1/var0) \cr
-10. statistic.t - t.statistic of the t-test step \cr
-11. p.value.t - raw p-value of the t-test step \cr
-12. statistic.bt - chsq.statistic of the bartlett test step \cr
-13. p.value.bt - raw p-value of the Bartlett's test step \cr
-14. q.value.bt - fdr-adjusted p-value of the Bartlett's test step \cr
+10. stat.t - t.statistic of the t-test step \cr
+11. pval.t - raw p-value of the t-test step \cr
+12. stat.bt - chsq.statistic of the bartlett test step \cr
+13. pval.bt - raw p-value of the Bartlett's test step \cr
+14. qval.bt - fdr-adjusted p-value of the Bartlett's test step \cr
 15. significant - indicator showing if the result was significant \cr
 16. rank - rank of the significant results (ordered by t.test p-value)
 }
