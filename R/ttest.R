@@ -22,12 +22,12 @@
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
 #' @param mu true values of the means for the null hypothesis.
-#' A single number or numeric vector of length nrow(x)/ncol(x).
+#' A single number or numeric vector with values for each observation.
 #' @param alternative alternative hypothesis to use for each row/column of x.
-#' A single string or a vector of length nrow(x)/ncol(x).
+#' A single string or a vector with values for each observation.
 #' Values must be one of "two.sided" (default), "greater" or "less".
 #' @param conf.level confidence levels used for the confidence intervals.
-#' A single number or a numeric vector of length nrow(x)/ncol(x).
+#' A single number or a numeric vector with values for each observation.
 #' All values must be in the range of [0;1].
 #'
 #' @return a data.frame where each row contains the results of a t.test
@@ -153,6 +153,11 @@ row.t.equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 
   assert_numeric_mat_or_vec(x)
   assert_numeric_mat_or_vec(y)
+
+  if(nrow(y)==1 & nrow(x)!=1) {
+    y <- matrix(y, nrow=nrow(x), ncol=ncol(y), byrow=TRUE)
+  }
+
   assert_equal_nrow(x, y)
 
   if(length(alternative)==1)
@@ -248,6 +253,11 @@ row.t.welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   assert_numeric_mat_or_vec(x)
   assert_numeric_mat_or_vec(y)
+
+  if(nrow(y)==1 & nrow(x)!=1) {
+    y <- matrix(y, nrow=nrow(x), ncol=ncol(y), byrow=TRUE)
+  }
+
   assert_equal_nrow(x, y)
 
   if(length(alternative)==1)
@@ -336,6 +346,11 @@ row.t.paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
   assert_numeric_mat_or_vec(x)
   assert_numeric_mat_or_vec(y)
+
+  if(nrow(y)==1 & nrow(x)!=1) {
+    y <- matrix(y, nrow=nrow(x), ncol=ncol(y), byrow=TRUE)
+  }
+
   assert_equal_nrow(x, y)
   assert_equal_ncol(x, y)
 

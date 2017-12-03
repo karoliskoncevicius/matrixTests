@@ -32,14 +32,14 @@ col.t.paired(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
 \item{x}{numeric matrix.}
 
 \item{alternative}{alternative hypothesis to use for each row/column of x.
-A single string or a vector of length nrow(x)/ncol(x).
+A single string or a vector with values for each observation.
 Values must be one of "two.sided" (default), "greater" or "less".}
 
 \item{mu}{true values of the means for the null hypothesis.
-A single number or numeric vector of length nrow(x)/ncol(x).}
+A single number or numeric vector with values for each observation.}
 
 \item{conf.level}{confidence levels used for the confidence intervals.
-A single number or a numeric vector of length nrow(x)/ncol(x).
+A single number or a numeric vector with values for each observation.
 All values must be in the range of [0;1].}
 
 \item{y}{numeric matrix for the second group of observations.}

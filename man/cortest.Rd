@@ -16,11 +16,11 @@ col.cor.pearson(x, y, alternative = "two.sided", conf.level = 0.95)
 \item{y}{numeric matrix for the second group of observations.}
 
 \item{alternative}{alternative hypothesis to use for each row/column of x.
-A single string or a vector of length nrow(x)/ncol(x).
+A single string or a vector with value for each observation.
 Must be one of "two.sided" (default), "greater" or "less".}
 
 \item{conf.level}{confidence levels used for the confidence intervals.
-A single number or a numeric vector of length nrow(x)/ncol(x).
+A single number or a numeric vector with value for each observation.
 All values must be in the range of [0;1].}
 }
 \value{

@@ -13,10 +13,10 @@
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
 #' @param alternative alternative hypothesis to use for each row/column of x.
-#' A single string or a vector of length nrow(x)/ncol(x).
+#' A single string or a vector with value for each observation.
 #' Must be one of "two.sided" (default), "greater" or "less".
 #' @param conf.level confidence levels used for the confidence intervals.
-#' A single number or a numeric vector of length nrow(x)/ncol(x).
+#' A single number or a numeric vector with value for each observation.
 #' All values must be in the range of [0;1].
 #'
 #' @return a data.frame where each row contains the results of a correlation
@@ -60,6 +60,11 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
 
   assert_numeric_mat_or_vec(x)
   assert_numeric_mat_or_vec(y)
+
+  if(nrow(y)==1 & nrow(x)!=1) {
+    y <- matrix(y, nrow=nrow(x), ncol=ncol(y), byrow=TRUE)
+  }
+
   assert_equal_nrow(x, y)
   assert_equal_ncol(x, y)
 
@@ -88,7 +93,8 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   sx <- sqrt(rowSums((x-mx)^2, na.rm=TRUE) / (ns-1))
   sy <- sqrt(rowSums((y-my)^2, na.rm=TRUE) / (ns-1))
 
-  rs  <- rowSums((x-mx)*(y-my), na.rm=TRUE) / (sx*sy*(ns-1))
+  rs <- rowSums((x-mx)*(y-my), na.rm=TRUE) / (sx*sy*(ns-1))
+  rs[abs(rs - 1) < .Machine$double.eps^0.5] <- 1 # if not different from 1 use 1
   df <- ns-2
 
   pres <- do_pearson(rs, df, alternative, conf.level)
