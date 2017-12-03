@@ -7,7 +7,9 @@ A package dedicated to running statistical hypothesis tests on rows and columns 
 **1) Running one way ANOVA on every column of iris data using Species as groups**
 
 ```r
-> col.oneway.equalvar(iris[,-5], iris$Species)
+col.oneway.equalvar(iris[,-5], iris$Species)
+```
+```
              obs.tot obs.groups sum.sq.between sum.sq.within mean.sq.between mean.sq.within df.between df.within  statistic       pvalue
 Sepal.Length     150          3       63.21213       38.9562       31.606067     0.26500816          2       147  119.26450 1.669669e-31
 Sepal.Width      150          3       11.34493       16.9620        5.672467     0.11538776          2       147   49.16004 4.492017e-17
