@@ -2,9 +2,20 @@
 
 A package dedicated to running statistical hypothesis tests on rows and columns of matrices.
 
-## Example ##
+## Examples ##
 
-T-test on each row of 2 matrices each with a million rows.
+**1) Running one way ANOVA on every column of iris data using Species as groups**
+
+```r
+> col.oneway.equalvar(iris[,-5], iris$Species)
+             obs.tot obs.groups sum.sq.between sum.sq.within mean.sq.between mean.sq.within df.between df.within  statistic       pvalue
+Sepal.Length     150          3       63.21213       38.9562       31.606067     0.26500816          2       147  119.26450 1.669669e-31
+Sepal.Width      150          3       11.34493       16.9620        5.672467     0.11538776          2       147   49.16004 4.492017e-17
+Petal.Length     150          3      437.10280       27.2226      218.551400     0.18518776          2       147 1180.16118 2.856777e-91
+Petal.Width      150          3       80.41333        6.1566       40.206667     0.04188163          2       147  960.00715 4.169446e-85
+```
+
+**2) t-test on each row of 2 matrices each with a million rows.**
 
 ```r
 X <- matrix(rnorm(10000000), ncol=10)
