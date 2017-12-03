@@ -40,7 +40,7 @@ base_ttest_welch <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
 
   data.frame(obs.x=nx, obs.y=ny, obs.tot=nt, mean.x=mx, mean.y=my, mean.diff=md,
              var.x=vx, var.y=vy, stderr=se, df=df, statistic.t=tst, p.value=p,
-             ci.low=cl, ci.high=ch, alternative=al, mean.null=m0,
+             conf.low=cl, conf.high=ch, alternative=al, mean.null=m0,
              conf.level=cnf, stringsAsFactors=FALSE
              )
 }
@@ -127,7 +127,7 @@ test_that("parameter edge cases give equal results", {
 test_that("warning when a row has less than 2 observations in one group", {
   wrnX <- '1 of the rows had less than 2 "x" observations\\. First occurrence at row 1'
   wrnY <- '1 of the rows had less than 2 "y" observations\\. First occurrence at row 1'
-  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "conf.low", "conf.high")
 
   # 0 observations in both
   expect_warning(res <- row.t.welch(NA_integer_, NA_integer_), wrnX, all=TRUE)
@@ -161,7 +161,7 @@ test_that("warning when a row has less than 2 observations in one group", {
 
 test_that("warning when row has constant values", {
   wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
-  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "conf.low", "conf.high")
 
   # all values are equal
   expect_warning(res <- row.t.welch(c(1,1,1), c(1,1,1)), wrn, all=TRUE)

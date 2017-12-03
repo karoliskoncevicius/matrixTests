@@ -31,7 +31,7 @@ base_ttest_onesample <- function(mat, alt="two.sided", mu=0, conf=0.95) {
   }
 
   data.frame(obs.x=nx, mean.x=mx, var.x=vx, stderr=se, df=df, statistic.t=tst,
-             p.value=p, ci.low=cl, ci.high=ch, alternative=al, mean.null=m0,
+             p.value=p, conf.low=cl, conf.high=ch, alternative=al, mean.null=m0,
              conf.level=cnf, stringsAsFactors=FALSE
              )
 }
@@ -110,7 +110,7 @@ test_that("parameter edge cases give equal results", {
 
 test_that("warnign when row has less than 2 available observations", {
   wrn <- '1 of the rows had less than 2 "x" observations\\. First occurrence at row 1'
-  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "conf.low", "conf.high")
 
   # single observation
   expect_warning(res <- row.t.onesample(1), wrn, all=TRUE)
@@ -131,7 +131,7 @@ test_that("warnign when row has less than 2 available observations", {
 
 test_that("warning when a row has all constant values", {
   wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
-  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "conf.low", "conf.high")
 
   # two equal observations
   expect_warning(res <- row.t.onesample(c(1,1)), wrn, all=TRUE)

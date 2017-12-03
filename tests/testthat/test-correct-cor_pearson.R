@@ -34,7 +34,7 @@ base_cor_pearson <- function(mat1, mat2, alt="two.sided", conf=0.95) {
   }
 
   data.frame(obs.paired=np, cor=cor, df=df, statistic.t=tst,
-             p.value=p, ci.low=cl, ci.high=ch, alternative=al,
+             p.value=p, conf.low=cl, conf.high=ch, alternative=al,
              cor.null=mu, conf.level=cnf, stringsAsFactors=FALSE
              )
 }
@@ -135,7 +135,7 @@ test_that("parameter edge cases give equal results", {
 
 test_that("warning when rows have exactly 3 complete observations", {
   wrn <- '1 of the rows had exactly 3 complete observations: no confidence intervals produced\\. First occurrence at row 1'
-  nacolumns <- c("ci.low", "ci.high")
+  nacolumns <- c("conf.low", "conf.high")
 
   # standard case
   expect_warning(res <- row.cor.pearson(c(1,1,2), c(1,2,3)), wrn, all=TRUE)
@@ -151,7 +151,7 @@ test_that("warning when rows have exactly 3 complete observations", {
 
 test_that("warning when rows have less than 3 complete observations", {
   wrn <- '1 of the rows had less than 3 complete observations\\. First occurrence at row 1'
-  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "conf.low", "conf.high")
 
   # 1 observations
   expect_warning(res <- row.cor.pearson(1, 1), wrn, all=TRUE)
@@ -169,7 +169,7 @@ test_that("warning when rows have less than 3 complete observations", {
 test_that("warning when one of the variables has zero standard deviation", {
   wrnX <- '1 of the rows had zero standard deviation in x\\. First occurrence at row 1'
   wrnY <- '1 of the rows had zero standard deviation in y\\. First occurrence at row 1'
-  nacolumns <- c("statistic.t", "p.value", "ci.low", "ci.high")
+  nacolumns <- c("statistic.t", "p.value", "conf.low", "conf.high")
 
   # only x
   expect_warning(res <- row.cor.pearson(c(1,1,1,1), c(1,2,3,4)), wrnX, all=TRUE)

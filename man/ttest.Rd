@@ -64,8 +64,8 @@ They will contain a subset of the following information:\cr
 13. df - degrees of freedom\cr
 14. statistic.t - t statistic\cr
 15. p.value - p-value\cr
-16. ci.low - lower bound of the confidence interval\cr
-17. ci.high - higher bound of the confidence interval\cr
+16. conf.low - lower bound of the confidence interval\cr
+17. conf.high - higher bound of the confidence interval\cr
 18. alternative - chosen alternative hypothesis\cr
 19. correlation.null - mean of the null hypothesis\cr
 20. conf.level - chosen confidence level

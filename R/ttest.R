@@ -49,8 +49,8 @@
 #' 13. df - degrees of freedom\cr
 #' 14. statistic.t - t statistic\cr
 #' 15. p.value - p-value\cr
-#' 16. ci.low - lower bound of the confidence interval\cr
-#' 17. ci.high - higher bound of the confidence interval\cr
+#' 16. conf.low - lower bound of the confidence interval\cr
+#' 17. conf.high - higher bound of the confidence interval\cr
 #' 18. alternative - chosen alternative hypothesis\cr
 #' 19. correlation.null - mean of the null hypothesis\cr
 #' 20. conf.level - chosen confidence level
@@ -122,8 +122,8 @@ row.t.onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, mean.x=mxs, var.x=vxs, stderr=stders, df=dfs,
-             statistic.t=tres[,1], p.value=tres[,2], ci.low=tres[,3],
-             ci.high=tres[,4], alternative=alternative, mean.null=mu,
+             statistic.t=tres[,1], p.value=tres[,2], conf.low=tres[,3],
+             conf.high=tres[,4], alternative=alternative, mean.null=mu,
              conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
@@ -221,7 +221,7 @@ row.t.equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, var.pooled=vs,
              stderr=stders, df=dfs, statistic.t=tres[,1], p.value=tres[,2],
-             ci.low=tres[,3], ci.high=tres[,4], alternative=alternative,
+             conf.low=tres[,3], conf.high=tres[,4], alternative=alternative,
              mean.null=mu, conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
@@ -313,8 +313,8 @@ row.t.welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, stderr=stders, df=dfs,
-             statistic.t=tres[,1], p.value=tres[,2], ci.low=tres[,3],
-             ci.high=tres[,4], alternative=alternative, mean.null=mu,
+             statistic.t=tres[,1], p.value=tres[,2], conf.low=tres[,3],
+             conf.high=tres[,4], alternative=alternative, mean.null=mu,
              conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
@@ -409,7 +409,7 @@ row.t.paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   data.frame(obs.x=nxs, obs.y=nys, obs.paired=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, var.diff=vxys,
              stderr=stders, df=dfs, statistic.t=tres[,1], p.value=tres[,2],
-             ci.low=tres[,3], ci.high=tres[,4], alternative=alternative,
+             conf.low=tres[,3], conf.high=tres[,4], alternative=alternative,
              mean.null=mu, conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
