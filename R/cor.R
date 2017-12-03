@@ -94,7 +94,8 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   sy <- sqrt(rowSums((y-my)^2, na.rm=TRUE) / (ns-1))
 
   rs <- rowSums((x-mx)*(y-my), na.rm=TRUE) / (sx*sy*(ns-1))
-  rs[abs(rs - 1) < .Machine$double.eps^0.5] <- 1 # if not different from 1 use 1
+  rs[abs(rs - 1) < .Machine$double.eps^0.5] <- 1  # if not different from 1 use 1
+  rs[abs(rs + 1) < .Machine$double.eps^0.5] <- -1 # if not different from -1 use -1
   df <- ns-2
 
   pres <- do_pearson(rs, df, alternative, conf.level)

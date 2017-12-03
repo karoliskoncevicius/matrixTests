@@ -5,8 +5,8 @@ context("Parameter special cases")
 ################################################################################
 
 test_that("x and y can be numeric vectors", {
-  x <- 1:10; X <- matrix(x, nrow=1)
-  y <- 10:1; Y <- matrix(y, nrow=1)
+  x <- rnorm(10); X <- matrix(x, nrow=1)
+  y <- rnorm(10); Y <- matrix(y, nrow=1)
   grp <- sample(c(1,0), 10, replace=TRUE)
   expect_equal(row.t.onesample(x=x), row.t.onesample(x=X))
   expect_equal(row.t.equalvar(x=x, y=y), row.t.equalvar(x=X, y=Y))
