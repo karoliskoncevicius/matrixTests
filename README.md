@@ -41,13 +41,13 @@ for(i in 1:nrow(X)) {
         Welch Two Sample t-test
 
 data:  X[i, ] and Y[i, ]
-t = -0.29786, df = 16.66, p-value = 0.7695
+t = 0.46049, df = 16.685, p-value = 0.6511
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -0.9185744  0.6916077
+ -0.8330197  1.2973259
 sample estimates:
   mean of x   mean of y
--0.14392442 -0.03044108
+-0.06643757 -0.29859071
 
 
 [[2]]
@@ -55,14 +55,13 @@ sample estimates:
         Welch Two Sample t-test
 
 data:  X[i, ] and Y[i, ]
-t = -0.25903, df = 17.278, p-value = 0.7987
+t = -0.96859, df = 17.958, p-value = 0.3456
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -1.2391584  0.9678654
+ -1.6005787  0.5905608
 sample estimates:
   mean of x   mean of y
--0.07173673  0.06390979
-
+-0.02447724  0.48053173
 ```
 
 **matrixTest way** &#9200; 2.4 seconds
@@ -72,9 +71,9 @@ res2 <- row.t.welch(X, Y)
 ```
 ```
 > res2[1:2,]
-  obs.x obs.y obs.tot      mean.x      mean.y    mean.diff     var.x     var.y std.error       df    statistic    pvalue  conf.low conf.high alternative mean.null conf.level
-1    10    10      20 -0.07590861 -0.07447165 -0.001436968 0.5459227 0.4843228 0.3209744 17.93588 -0.004476893 0.9964774 -0.675952  0.673078   two.sided         0       0.95
-2    10    10      20  0.42595380  0.03053101  0.395422789 0.8310503 0.7593487 0.3987981 17.96349  0.991536343 0.3345929 -0.442543  1.233389   two.sided         0       0.95
+  obs.x obs.y obs.tot      mean.x     mean.y  mean.diff    var.x     var.y std.error       df  statistic    pvalue   conf.low conf.high alternative mean.null conf.level
+1    10    10      20 -0.06643757 -0.2985907  0.2321531 1.627547 0.9140158 0.5041392 16.68493  0.4604941 0.6511065 -0.8330197 1.2973259   two.sided         0       0.95
+2    10    10      20 -0.02447724  0.4805317 -0.5050090 1.424720 1.2936936 0.5213841 17.95828 -0.9685930 0.3456133 -1.6005787 0.5905608   two.sided         0       0.95
 ```
 
 ## Goals ##
@@ -358,11 +357,11 @@ Candidates of tests that will be implemented next:
 1. *Computing thousands of test statistics simultaneously in R*,
 Holger Schwender, Tina Müller. Statistical Computing & Graphics.
 Volume 18, No 1, June 2007.
-2. `lmFit` in the **limma** package.
-3. `rowttests()` in the **genefilter** package.
-4. `mt.teststat()` in the **multtest** package.
-5. `row.T.test()` in the **HybridMTest** package.
-6. `rowTtest()` in the **viper** package.
-7. `ttests()` in the **Rfast** package.
+2. `lmFit` in the [**limma**](https://bioconductor.org/packages/release/bioc/html/limma.html) package.
+3. `rowttests()` in the [**genefilter**](https://bioconductor.org/packages/release/bioc/html/genefilter.html) package.
+4. `mt.teststat()` in the [**multtest**](https://www.bioconductor.org/packages/release/bioc/html/multtest.html) package.
+5. `row.T.test()` in the [**HybridMTest**](https://www.bioconductor.org/packages/release/bioc/html/HybridMTest.html) package.
+6. `rowTtest()` in the [**viper**](https://bioconductor.org/packages/release/bioc/html/viper.html) package.
+7. `ttests()` in the [**Rfast**](https://cran.r-project.org/web/packages/Rfast/index.html) package.
 
 
