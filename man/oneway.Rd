@@ -28,10 +28,10 @@ The columns will vary depending on the type of test performed.\cr\cr
 They will contain a subset of the following information:\cr
 1. obs.tot - total number of observations\cr
 2. obs.group - number of groups\cr
-3. sum.sq.between - between group (treatment) sum of squares\cr
-4. sum.sq.within - within group (residual) sum of squares\cr
-5. mean.sq.between - between group mean squares\cr
-6. mean.sq.within - within group mean squares\cr
+3. sumsq.between - between group (treatment) sum of squares\cr
+4. sumsq.within - within group (residual) sum of squares\cr
+5. meansq.between - between group mean squares\cr
+6. meansq.within - within group mean squares\cr
 7. df.between - between group (treatment) degrees of freedom\cr
 8. df.within - within group (residual) degrees of freedom\cr
 9. statistic - F statistic\cr
