@@ -354,9 +354,8 @@ Candidates of tests that will be implemented next:
 
 ## See Also ##
 
-1. *Computing thousands of test statistics simultaneously in R*,
-Holger Schwender, Tina Müller. Statistical Computing & Graphics.
-Volume 18, No 1, June 2007.
+1. **Computing thousands of test statistics simultaneously in R**,\cr
+Holger Schwender, Tina Müller. Statistical Computing & Graphics. Volume 18, No 1, June 2007.
 2. `lmFit` in the [**limma**](https://bioconductor.org/packages/release/bioc/html/limma.html) package.
 3. `rowttests()` in the [**genefilter**](https://bioconductor.org/packages/release/bioc/html/genefilter.html) package.
 4. `mt.teststat()` in the [**multtest**](https://www.bioconductor.org/packages/release/bioc/html/multtest.html) package.
