@@ -191,32 +191,33 @@ the function call. For example: 1) alternative hypothesis type, 2) mean of null 
 
 #### Column names ####
 
-Column names of the output are written in consistent fashion and typically have
-two parts: type of result and specification, separated by a dot. Some examples:
+Column names of the output are written in consistent fashion and typically have two parts:
+field and specification, separated by a dot.
 
-* obs.x - number of x observations
-* obs.tot - total number of observations
-* mean.x - mean of x
-* mean.diff - mean of x and y difference
-* conf.low - lower confidence interval
+All the fields are written as a single word and abbreviated if needed:
 
-Values that are present in all of tests are typically written using a single word:
+* **obs** - number of observations
+* **mean** - estimated mean
+* **var** - estimated variance
+* **df** - degrees of freedom
+* **statistic** - test statistic
+* **pvalue** - p-value
+* **cor** - estimated correlation
 
-* df
-* pvalue
-* statistic
+Specifications are included only when necessary (if field is used more than once):
 
-When multiple choices are possible the name is extended:
-
-* df.between
-* df.within
+* **obs.x** - number of x observations
+* **obs.tot** - total number of observations
+* **mean.x** - mean of x
+* **mean.diff** - mean of x and y difference
+* **conf.low** - lower confidence interval
+* **conf.high** - higher confidence interval
 
 #### Row names ####
 
 Row names are transfered from the main input matrix. If the row names of the
 matrix were not unique - they are made unique using `make.unique()`. In case
 input matrix had no row names the numbers `1:nrow(x)` are used.
-
 
 ### Compatibility with R ###
 
