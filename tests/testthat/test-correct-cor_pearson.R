@@ -53,7 +53,7 @@ test_that("monte-carlo random testing gives equal results", {
   cfs  <- seq(0, 1, length.out=nrow(X))
 
   t1 <- base_cor_pearson(X, Y, alts, cfs)
-  t2 <- row.cor.pearson(X, Y, alts, cfs)
+  t2 <- row_cor_pearson(X, Y, alts, cfs)
 
   expect_equal(t1, t2)
 })
@@ -67,26 +67,26 @@ test_that("extreme numbers give equal results", {
   vals1 <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
   vals2 <- c(100000000000003, 100000000000002, 100000000000003, 100000000000000)
   t1 <- base_cor_pearson(vals1, vals2)
-  t2 <- row.cor.pearson(vals1, vals2)
+  t2 <- row_cor_pearson(vals1, vals2)
   expect_equal(t1, t2)
 
   # small numbers
   vals1 <- c(1.00000000000004, 1.00000000000002, 1.00000000000003, 1)
   vals2 <- c(1.00000000000003, 1.00000000000002, 1.00000000000003, 1)
   t1 <- base_cor_pearson(vals1, vals2)
-  t2 <- row.cor.pearson(vals1, vals2)
+  t2 <- row_cor_pearson(vals1, vals2)
   expect_equal(t1, t2)
 })
 
 test_that("perfect correlations give equal results", {
   # positive case
   t1 <- base_cor_pearson(1:4, 1:4)
-  t2 <- suppressWarnings(row.cor.pearson(1:4, 1:4))
+  t2 <- suppressWarnings(row_cor_pearson(1:4, 1:4))
   expect_equal(t1, t2)
 
   # negative case
   t1 <- base_cor_pearson(1:4, 4:1)
-  t2 <- suppressWarnings(row.cor.pearson(1:4, 4:1))
+  t2 <- suppressWarnings(row_cor_pearson(1:4, 4:1))
   expect_equal(t1, t2)
 })
 
@@ -95,21 +95,21 @@ test_that("minumum allowed sample sizes give equal results", {
   x <- matrix(rnorm(9), ncol=3); y <- matrix(rnorm(9), ncol=3)
   alt <- c("two.sided", "greater", "less")
   t1 <- base_cor_pearson(x, y)
-  t2 <- suppressWarnings(row.cor.pearson(x, y))
+  t2 <- suppressWarnings(row_cor_pearson(x, y))
   expect_equal(t1, t2)
 
   # three numbers with NAs
   x <- matrix(rnorm(15), ncol=5); x[,4] <- NA
   y <- matrix(rnorm(15), ncol=5); y[,5] <- NA
   t1 <- base_cor_pearson(x, y)
-  t2 <- suppressWarnings(row.cor.pearson(x, y))
+  t2 <- suppressWarnings(row_cor_pearson(x, y))
   expect_equal(t1, t2)
 
   # four numbers (will produce confidence intervals)
   x <- matrix(rnorm(12), ncol=4); y <- matrix(rnorm(12), ncol=4)
   alt <- c("two.sided", "greater", "less")
   t1 <- base_cor_pearson(x, y)
-  t2 <- row.cor.pearson(x, y)
+  t2 <- row_cor_pearson(x, y)
   expect_equal(t1, t2)
 })
 
@@ -124,7 +124,7 @@ test_that("parameter edge cases give equal results", {
   X2[sample(length(X2), nrow(pars)*2)] <- NA
 
   t1 <- base_cor_pearson(X1, X2, pars[,1], pars[,2])
-  t2 <- suppressWarnings(row.cor.pearson(X1, X2, pars[,1], pars[,2]))
+  t2 <- suppressWarnings(row_cor_pearson(X1, X2, pars[,1], pars[,2]))
 
   expect_equal(t1, t2)
 })
@@ -138,12 +138,12 @@ test_that("warning when rows have exactly 3 complete observations", {
   nacolumns <- c("conf.low", "conf.high")
 
   # standard case
-  expect_warning(res <- row.cor.pearson(c(1,1,2), c(1,2,3)), wrn, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(1,1,2), c(1,2,3)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 
   # with NAs present
-  expect_warning(res <- row.cor.pearson(c(1,1,4,NA,4), c(1,2,1,3,NA)), wrn, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(1,1,4,NA,4), c(1,2,1,3,NA)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_true(all(!is.na(res[,!colnames(res) %in% nacolumns])))
 })
@@ -154,15 +154,15 @@ test_that("warning when rows have less than 3 complete observations", {
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # 1 observations
-  expect_warning(res <- row.cor.pearson(1, 1), wrn, all=TRUE)
+  expect_warning(res <- row_cor_pearson(1, 1), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 
   # 2 observations
-  expect_warning(res <- row.cor.pearson(c(1,2), c(1,3)), wrn, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(1,2), c(1,3)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 
   # with NAs present
-  expect_warning(res <- row.cor.pearson(c(2,1,NA,4), c(1,2,1,NA)), wrn, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(2,1,NA,4), c(1,2,1,NA)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 })
 
@@ -172,21 +172,21 @@ test_that("warning when one of the variables has zero standard deviation", {
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # only x
-  expect_warning(res <- row.cor.pearson(c(1,1,1,1), c(1,2,3,4)), wrnX, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(1,1,1,1), c(1,2,3,4)), wrnX, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 
   # only y
-  expect_warning(res <- row.cor.pearson(c(1,1,2,2), c(2,2,2,2)), wrnY, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(1,1,2,2), c(2,2,2,2)), wrnY, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 
   # both
-  expect_warning(res <- row.cor.pearson(c(1,1,1), c(2,2,2)), wrnX)
-  expect_warning(res <- row.cor.pearson(c(1,1,1), c(2,2,2)), wrnY)
+  expect_warning(res <- row_cor_pearson(c(1,1,1), c(2,2,2)), wrnX)
+  expect_warning(res <- row_cor_pearson(c(1,1,1), c(2,2,2)), wrnY)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 
   # with NAs present
-  expect_warning(res <- row.cor.pearson(c(1,1,1,NA,4), c(2,2,2,4,NA)), wrnX)
-  expect_warning(res <- row.cor.pearson(c(1,1,1,NA,4), c(2,2,2,4,NA)), wrnY)
+  expect_warning(res <- row_cor_pearson(c(1,1,1,NA,4), c(2,2,2,4,NA)), wrnX)
+  expect_warning(res <- row_cor_pearson(c(1,1,1,NA,4), c(2,2,2,4,NA)), wrnY)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
 })
 
@@ -194,15 +194,15 @@ test_that("warning when correlation is perfect", {
   wrn <- '1 of the rows had essentially perfect fit: results might be unreliable for small sample sizes\\. First occurrence at row 1'
 
   # positive case
-  expect_warning(res <- row.cor.pearson(c(1:4), c(1:4)), wrn, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(1:4), c(1:4)), wrn, all=TRUE)
   expect_true(is.infinite(res$statistic))
 
   # negative case
-  expect_warning(res <- row.cor.pearson(c(1:4), c(4:1)), wrn, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(1:4), c(4:1)), wrn, all=TRUE)
   expect_true(is.infinite(res$statistic))
 
   # with NAs present
-  expect_warning(res <- row.cor.pearson(c(1,2,3,4,NA,1), c(1,2,3,4,1,NA)), wrn, all=TRUE)
+  expect_warning(res <- row_cor_pearson(c(1,2,3,4,NA,1), c(1,2,3,4,1,NA)), wrn, all=TRUE)
   expect_true(is.infinite(res$statistic))
 })
 

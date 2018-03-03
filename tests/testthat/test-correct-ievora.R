@@ -81,7 +81,7 @@ test_that("monte-carlo random testing gives equal results", {
   groups <- rep(c(0,1), each=50)
 
   t1 <- base_ievora(X, groups, 0.05, 0.001)
-  t2 <- row.ievora(X, groups, 0.05, 0.001)
+  t2 <- row_ievora(X, groups, 0.05, 0.001)
 
   expect_equal(t1, t2)
 })
@@ -90,23 +90,23 @@ test_that("monte-carlo random testing gives equal results", {
 
 test_that("weird numbers give equal results", {
   x <- rnorm(12, sd=0.000001); g <- rep(c("a","b"), each=6)
-  expect_equal(base_ievora(x, g=="a"), row.ievora(x, g=="a"))
+  expect_equal(base_ievora(x, g=="a"), row_ievora(x, g=="a"))
 })
 
 test_that("minumum allowed sample sizes give equal results", {
   x <- rnorm(4); g <- c(0,1,0,1)
-  expect_equal(base_ievora(x, g), row.ievora(x, g))
-  expect_equal(base_ievora(c(x, NA), c(g, 0)), row.ievora(c(x, NA), c(g, 0)))
+  expect_equal(base_ievora(x, g), row_ievora(x, g))
+  expect_equal(base_ievora(c(x, NA), c(g, 0)), row_ievora(c(x, NA), c(g, 0)))
 })
 
 test_that("first group is treated as 0 group", {
   x <- rnorm(12); g <- rep(c("a","b"), each=6)
-  expect_equal(row.ievora(x, g), row.ievora(x, as.numeric(g=="b")))
-  expect_equal(row.ievora(x, g), row.ievora(x, g=="b"))
+  expect_equal(row_ievora(x, g), row_ievora(x, as.numeric(g=="b")))
+  expect_equal(row_ievora(x, g), row_ievora(x, g=="b"))
 })
 
 test_that("constant values give equal results", {
   x <- c(1,1,2,3); g <- c(0,0,1,1)
-  expect_equal(base_ievora(x, g), suppressWarnings(row.ievora(x, g)))
+  expect_equal(base_ievora(x, g), suppressWarnings(row_ievora(x, g)))
 })
 

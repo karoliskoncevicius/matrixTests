@@ -2,8 +2,8 @@
 #'
 #' Performs a Kruskal-Wallis rank sum test on each row/column of the input matrix.
 #'
-#' \code{row.kruskalwallis} - Kruskal Wallis test on rows.
-#' \code{col.kruskalwallis} - Kruskal Wallis test on columns.
+#' \code{row_kruskalwallis} - Kruskal Wallis test on rows.
+#' \code{col_kruskalwallis} - Kruskal Wallis test on columns.
 #' Same as as \code{kruskal.test()}
 #'
 #' @param x numeric matrix.
@@ -21,13 +21,13 @@
 #' @seealso \code{kruskal.test()}
 #'
 #' @examples
-#' col.kruskalwallis(iris[,1:4], iris$Species)
-#' row.kruskalwallis(t(iris[,1:4]), iris$Species)
+#' col_kruskalwallis(iris[,1:4], iris$Species)
+#' row_kruskalwallis(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
 #' @name kruskalwallis
 #' @export
-row.kruskalwallis <- function(x, g) {
+row_kruskalwallis <- function(x, g) {
   force(x)
   force(g)
 
@@ -96,6 +96,6 @@ row.kruskalwallis <- function(x, g) {
 
 #' @rdname kruskalwallis
 #' @export
-col.kruskalwallis <- function(x, g) {
-  row.kruskalwallis(t(x), g)
+col_kruskalwallis <- function(x, g) {
+  row_kruskalwallis(t(x), g)
 }

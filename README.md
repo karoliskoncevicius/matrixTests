@@ -7,7 +7,7 @@ A package dedicated to running statistical hypothesis tests on rows and columns 
 **1) Running one way ANOVA on every column of iris data using Species as groups**
 
 ```r
-col.oneway.equalvar(iris[,-5], iris$Species)
+col_oneway_equalvar(iris[,-5], iris$Species)
 ```
 ```
              obs.tot obs.groups sum.sq.between sum.sq.within mean.sq.between mean.sq.within df.between df.within  statistic       pvalue
@@ -67,7 +67,7 @@ sample estimates:
 **matrixTest way** &#9200; 2.4 seconds
 
 ```r
-res2 <- row.t.welch(X, Y)
+res2 <- row_t_welch(X, Y)
 ```
 ```
 > res2[1:2,]
@@ -86,21 +86,21 @@ res2 <- row.t.welch(X, Y)
 
 |             Name                   |      matrixTests            |       R equivalent
 |------------------------------------|-----------------------------|-------------------------------------
-| Single sample t.test               | `row.t.onesample(x)`        | `t.test(x)`
-| Welch t.test                       | `row.t.welch(x, y)`         | `t.test(x, y)`
-| Equal variance t.test              | `row.t.equalvar(x, y)`      | `t.test(x, y, var.equal=TRUE)`
-| Paired t.test                      | `row.t.paired(x, y)`        | `t.test(x, y, paired=TRUE)`
-| Pearson's correlation test         | `row.cor.pearson(x, y)`     | `cor.test(x, y)`
-| Welch oneway ANOVA                 | `row.oneway.welch(x, g)`    | `oneway.test(x, g)`
-| Equal variance oneway ANOVA        | `row.oneway.equalvar(x, g)` | `oneway.test(x, g, var.equal=TRUE)`
-| Kruskal-Wallis test                | `row.kruskalwallis(x, g)`   | `kruskal.test(x, g)`
-| Bartlett's test                    | `row.bartlett(x, g)`        | `bartlett.test(x, g)`
+| Single sample t.test               | `row_t_onesample(x)`        | `t.test(x)`
+| Welch t.test                       | `row_t_welch(x, y)`         | `t.test(x, y)`
+| Equal variance t.test              | `row_t_equalvar(x, y)`      | `t.test(x, y, var.equal=TRUE)`
+| Paired t.test                      | `row_t_paired(x, y)`        | `t.test(x, y, paired=TRUE)`
+| Pearson's correlation test         | `row_cor_pearson(x, y)`     | `cor.test(x, y)`
+| Welch oneway ANOVA                 | `row_oneway_welch(x, g)`    | `oneway.test(x, g)`
+| Equal variance oneway ANOVA        | `row_oneway_equalvar(x, g)` | `oneway.test(x, g, var.equal=TRUE)`
+| Kruskal-Wallis test                | `row_kruskalwallis(x, g)`   | `kruskal.test(x, g)`
+| Bartlett's test                    | `row_bartlett(x, g)`        | `bartlett.test(x, g)`
 
 ## Test-Based Procedures ##
 
 |             Description             |      matrixTests       |       R equivalent
 |-------------------------------------|------------------------|-------------------------------------
-| EVORA                               | `row.ievora(x, g)`     | ---
+| EVORA                               | `row_ievora(x, g)`     | ---
 
 ## Installation ##
 
@@ -128,7 +128,7 @@ Function names are composed of 3 elements separated by dots where needed:
 The variant part can be dropped when not applicable or when only a single
 variant for that test is implemented so far.
 
-A few examples: `row.oneway.equalvar`, `row.bartlett`
+A few examples: `row_oneway_equalvar`, `row_bartlett`
 
 In order to make the function names shorter the word *test* is not included.
 
@@ -227,7 +227,7 @@ or limiting.
 A good example is `oneway.test()` which works only if all groups have more than
 2 observations even when *var.equal* is set to *TRUE*. The strict requirement
 for the test to run technically is for at least one group to have more than 1
-observation. Therefore in such cases `row.oneway.equalvar()` works even if base
+observation. Therefore in such cases `row_oneway_equalvar()` works even if base
 R version throws an error.
 
 For another such example consider `bartlett.test()`. This function works without
@@ -240,7 +240,7 @@ The typical behaviour in such situations for base R tests is to throw an error:
 `t.test(rep(1,4) ~ c("a","a","b",b"))`
 
 Functions in this package try to be consistent with each other and be as
-informative as possible. Therefore in such cases `row.bartlett()` will throw a
+informative as possible. Therefore in such cases `row_bartlett()` will throw a
 warning even if base R function does not.
 
 ### Warnings and Errors ###
@@ -275,7 +275,7 @@ Function in this package proceeds, but throws a warning and takes care to set
 the failed outputs to NA:
 
 ```r
-row.t.welch(c(1,2), 3)
+row_t_welch(c(1,2), 3)
 ```
 ```
   obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y std.error  df statistic pvalue conf.low conf.high alternative mean.null conf.level
@@ -291,7 +291,7 @@ observations per group but some rows might not have enough due to NA values.
 ```r
 mat1 <- rbind(c(1,2), c(3,NA))
 mat2 <- rbind(c(2,3), c(0,4))
-row.t.welch(mat1, mat2)
+row_t_welch(mat1, mat2)
 ```
 ```
   obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y std.error  df statistic    pvalue  conf.low conf.high alternative mean.null conf.level
@@ -314,7 +314,7 @@ tests. For example if the specified group variable has a `NA`:
 ```r
 x <- rnorm(5)
 g <- c(NA,"a", "a", "b", "b")
-row.oneway.welch(x=x, g=g)
+row_oneway_welch(x=x, g=g)
 ```
 ```
   obs.tot obs.groups df.between df.within  statistic    pvalue
@@ -325,7 +325,7 @@ then the entire first column from the input matrix x corresponding to that group
 will be removed. And the result will be equivalent to:
 
 ```r
-row.oneway.welch(x=x[-1], g=g[-1])
+row_oneway_welch(x=x[-1], g=g[-1])
 ```
 ```
   obs.tot obs.groups df.between df.within  statistic    pvalue

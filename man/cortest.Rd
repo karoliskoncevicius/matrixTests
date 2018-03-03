@@ -2,13 +2,13 @@
 % Please edit documentation in R/cor.R
 \name{cortest}
 \alias{cortest}
-\alias{row.cor.pearson}
-\alias{col.cor.pearson}
+\alias{row_cor_pearson}
+\alias{col_cor_pearson}
 \title{correlation}
 \usage{
-row.cor.pearson(x, y, alternative = "two.sided", conf.level = 0.95)
+row_cor_pearson(x, y, alternative = "two.sided", conf.level = 0.95)
 
-col.cor.pearson(x, y, alternative = "two.sided", conf.level = 0.95)
+col_cor_pearson(x, y, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -46,15 +46,15 @@ Functions to perform various correlation tests for rows/columns of matrices.
 Main arguments and results were intentionally matched to the \code{cor.test()}
 function from default stats package.
 
-\code{row.cor.pearson()} - test for Pearson correlation on rows.
-\code{col.cor.pearson()} - test for Pearson correlation on columns.
+\code{row_cor_pearson()} - test for Pearson correlation on rows.
+\code{col_cor_pearson()} - test for Pearson correlation on columns.
 Same as \code{cor.test(x,y,method="pearson")}
 }
 \examples{
 X <- iris[iris$Species=="setosa",1:4]
 Y <- iris[iris$Species=="virginica",1:4]
-col.cor.pearson(X, Y)
-row.cor.pearson(t(X), t(Y))
+col_cor_pearson(X, Y)
+row_cor_pearson(t(X), t(Y))
 
 }
 \seealso{

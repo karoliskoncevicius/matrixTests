@@ -2,13 +2,13 @@
 % Please edit documentation in R/bartlet.R
 \name{bartlett}
 \alias{bartlett}
-\alias{row.bartlett}
-\alias{col.bartlett}
+\alias{row_bartlett}
+\alias{col_bartlett}
 \title{Bartlett test}
 \usage{
-row.bartlett(x, g)
+row_bartlett(x, g)
 
-col.bartlett(x, g)
+col_bartlett(x, g)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -34,13 +34,13 @@ of the input matrix.
 NA values are always ommited. If values are missing for a whole group - that
 group is discarded. Groups with only one observation are also discarded.
 
-\code{row.bartlett(x, group)} - Bartlet's test on rows.
-\code{col.bartlett(x, group)} - Bartlet's test on columns.
+\code{row_bartlett(x, group)} - Bartlet's test on rows.
+\code{col_bartlett(x, group)} - Bartlet's test on columns.
 Same as \code{bartlett.test(x,  group)}
 }
 \examples{
-col.bartlett(iris[,1:4], iris$Species)
-row.bartlett(t(iris[,1:4]), iris$Species)
+col_bartlett(iris[,1:4], iris$Species)
+row_bartlett(t(iris[,1:4]), iris$Species)
 
 }
 \seealso{

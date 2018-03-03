@@ -49,7 +49,7 @@ test_that("monte-carlo random testing gives equal results", {
   cfs  <- seq(0, 1, length.out=nrow(X))
 
   t1 <- base_ttest_onesample(X, alts, mus, cfs)
-  t2 <- row.t.onesample(X, alts, mus, cfs)
+  t2 <- row_t_onesample(X, alts, mus, cfs)
 
   expect_equal(t1, t2)
 })
@@ -62,13 +62,13 @@ test_that("extreme numbers give equal results", {
   # big numbers
   vals <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
   t1 <- base_ttest_onesample(vals)
-  t2 <- row.t.onesample(vals)
+  t2 <- row_t_onesample(vals)
   expect_equal(t1, t2)
 
   # small numbers
   vals <- c(0.00000000000004, 0.00000000000002, 0.00000000000003, 0)
   t1 <- base_ttest_onesample(vals)
-  t2 <- row.t.onesample(vals)
+  t2 <- row_t_onesample(vals)
   expect_equal(t1, t2)
 })
 
@@ -78,14 +78,14 @@ test_that("minumum allowed sample sizes give equal results", {
   x <- matrix(rnorm(6), ncol=2)
   alt <- c("two.sided", "greater", "less")
   t1 <- base_ttest_onesample(x, alt)
-  t2 <- suppressWarnings(row.t.onesample(x, alt))
+  t2 <- suppressWarnings(row_t_onesample(x, alt))
   expect_equal(t1, t2)
 
   # three numbers with NAs
   x <- matrix(rnorm(9), ncol=3); x[,3] <- NA
   alt <- c("two.sided", "greater", "less")
   t1 <- base_ttest_onesample(x, alt)
-  t2 <- suppressWarnings(row.t.onesample(x, alt))
+  t2 <- suppressWarnings(row_t_onesample(x, alt))
   expect_equal(t1, t2)
 })
 
@@ -100,7 +100,7 @@ test_that("parameter edge cases give equal results", {
   X[sample(length(X), nrow(pars)*2)] <- NA
 
   t1 <- base_ttest_onesample(X, pars[,1], pars[,2], pars[,3])
-  t2 <- row.t.onesample(X, pars[,1], pars[,2], pars[,3])
+  t2 <- row_t_onesample(X, pars[,1], pars[,2], pars[,3])
   expect_equal(t1, t2)
 })
 
@@ -113,17 +113,17 @@ test_that("warnign when row has less than 2 available observations", {
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # single observation
-  expect_warning(res <- row.t.onesample(1), wrn, all=TRUE)
+  expect_warning(res <- row_t_onesample(1), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 1)
 
   # single observation with some NA values
-  expect_warning(res <- row.t.onesample(c(0,NA,NA)), wrn, all=TRUE)
+  expect_warning(res <- row_t_onesample(c(0,NA,NA)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 1)
 
   # zero observations
-  expect_warning(res <- row.t.onesample(NA_integer_), wrn, all=TRUE)
+  expect_warning(res <- row_t_onesample(NA_integer_), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 0)
 })
@@ -134,13 +134,13 @@ test_that("warning when a row has all constant values", {
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # two equal observations
-  expect_warning(res <- row.t.onesample(c(1,1)), wrn, all=TRUE)
+  expect_warning(res <- row_t_onesample(c(1,1)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 2)
   expect_equal(res$var.x, 0)
 
   # three observations with some NA values
-  expect_warning(res <- row.t.onesample(c(0,0,0,NA,NA)), wrn, all=TRUE)
+  expect_warning(res <- row_t_onesample(c(0,0,0,NA,NA)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 3)
   expect_equal(res$var.x, 0)

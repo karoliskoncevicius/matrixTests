@@ -50,7 +50,7 @@ test_that("monte-carlo random testing gives equal results", {
   groups[sample(length(groups), 10)] <- NA
 
   t1 <- base_oneway_welch(X, groups)
-  t2 <- suppressWarnings(row.oneway.welch(X, groups))
+  t2 <- suppressWarnings(row_oneway_welch(X, groups))
 
   expect_equal(t1, t2)
 })
@@ -66,7 +66,7 @@ test_that("extreme numbers give equal results", {
          )
   g <- c(rep("a", 4), rep("b", 4))
   t1 <- base_oneway_welch(x, g)
-  t2 <- row.oneway.welch(x, g)
+  t2 <- row_oneway_welch(x, g)
   expect_equal(t1, t2)
 
   # small numbers
@@ -75,7 +75,7 @@ test_that("extreme numbers give equal results", {
          )
   g <- c(rep("a", 4), rep("b", 4))
   t1 <- base_oneway_welch(x, g)
-  t2 <- row.oneway.welch(x, g)
+  t2 <- row_oneway_welch(x, g)
   expect_equal(t1, t2)
 })
 
@@ -84,20 +84,20 @@ test_that("constant values give equal results", {
   # all values are constant
   x <- c(1,1,1,1); g <- c("a","a","b","b")
   t1 <- base_oneway_welch(x, g)
-  t2 <- suppressWarnings(row.oneway.welch(x, g))
+  t2 <- suppressWarnings(row_oneway_welch(x, g))
   expect_equal(t1, t2)
 
   # within group values are constant
   x <- c(1,1,2,2); g <- c("a","a","b","b")
   t1 <- base_oneway_welch(x, g)
-  t2 <- suppressWarnings(row.oneway.welch(x, g))
+  t2 <- suppressWarnings(row_oneway_welch(x, g))
   expect_equal(t1, t2)
 
   # one group's values are constant
   x <- c(1,1,2,3); g <- c("a","a","b","b")
   t1 <- base_oneway_welch(x, g)
   t1$df.within <- 1; t1$statistic <- Inf; t1$pvalue <- 0 # NOTE: fix to match
-  t2 <- suppressWarnings(row.oneway.welch(x, g))
+  t2 <- suppressWarnings(row_oneway_welch(x, g))
   expect_equal(t1, t2)
 })
 
@@ -106,14 +106,14 @@ test_that("minimal allowed sample size gives equal results", {
   # two groups with two values each
   x <- rnorm(4); g <- c("a","a","b","b")
   t1 <- base_oneway_welch(x, g)
-  t2 <- suppressWarnings(row.oneway.welch(x, g))
+  t2 <- suppressWarnings(row_oneway_welch(x, g))
   expect_equal(t1, t2)
 
   # with NAs
   x <- c(1,2,3,4,NA,5)
   g <- c("a","a","b","b","b",NA)
   t1 <- base_oneway_welch(x, g)
-  t2 <- suppressWarnings(row.oneway.welch(x, g))
+  t2 <- suppressWarnings(row_oneway_welch(x, g))
   expect_equal(t1, t2)
 })
 
@@ -123,14 +123,14 @@ test_that("groups with one element remaining are dropped correctly", {
   x <- rnorm(12)
   g <- rep(letters[1:4], each=3); g[1:2] <- NA
   t1 <- base_oneway_welch(x, g)
-  t2 <- suppressWarnings(row.oneway.welch(x, g))
+  t2 <- suppressWarnings(row_oneway_welch(x, g))
   expect_equal(t1, t2)
 
   # dropping two groups with NAs
   x <- rnorm(12); x[5] <- NA
   g <- rep(letters[1:4], each=3); g[c(1,2,4)] <- NA
   t1 <- base_oneway_welch(x, g)
-  t2 <- suppressWarnings(row.oneway.welch(x, g))
+  t2 <- suppressWarnings(row_oneway_welch(x, g))
   expect_equal(t1, t2)
 })
 
@@ -142,14 +142,14 @@ test_that("warning is shown when columns are removed because of NA groups", {
   wrn <- '2 columns dropped due to missing group information'
 
   # 2 NAs
-  expect_warning(res <- row.oneway.welch(1:10, c(1,1,1,1,NA,NA,2,2,2,2)), wrn, all=TRUE)
+  expect_warning(res <- row_oneway_welch(1:10, c(1,1,1,1,NA,NA,2,2,2,2)), wrn, all=TRUE)
   expect_equal(res$obs.tot, 8)
   expect_equal(res$obs.groups, 2)
 
   # 4 groups with NA values
   x <- rnorm(10); x[c(1,2)] <- NA
   g <- c(1,1,1,1,NA,NA,3,3,4,4)
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
   expect_equal(res$obs.tot, 6)
   expect_equal(res$obs.groups, 3)
 })
@@ -161,7 +161,7 @@ test_that("warning when a rows has less than 2 groups", {
 
   # one group
   x <- 1:10; g <- rep(1, 10)
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.tot, 10)
   expect_equal(res$obs.groups, 1)
@@ -169,7 +169,7 @@ test_that("warning when a rows has less than 2 groups", {
   # two groups but one only has NAs
   x <- 1:10; x[6:10] <- NA
   g <- c(rep(1,5), rep(2,5))
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.tot, 5)
   expect_equal(res$obs.groups, 1)
@@ -181,15 +181,15 @@ test_that("warning when a row has groups with less than 2 observations", {
 
   # 3 groups with one having only one observation
   x <- rnorm(5); g <- c(1,1,2,2,3)
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
-  expect_equal(suppressWarnings(row.oneway.welch(x, g)), row.oneway.welch(x[-5], g[-5]))
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
+  expect_equal(suppressWarnings(row_oneway_welch(x, g)), row_oneway_welch(x[-5], g[-5]))
   expect_equal(res$obs.tot, 4)
   expect_equal(res$obs.groups, 2)
 
   # 4 groups with 1 having no observations
   x <- rnorm(10); x[9:10] <- NA; g <- c(1,1,1,2,2,2,3,3,4,4)
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
-  expect_equal(suppressWarnings(row.oneway.welch(x, g)), row.oneway.welch(x[-(9:10)], g[-(9:10)]))
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
+  expect_equal(suppressWarnings(row_oneway_welch(x, g)), row_oneway_welch(x[-(9:10)], g[-(9:10)]))
   expect_equal(res$obs.tot, 8)
   expect_equal(res$obs.groups, 3)
 })
@@ -201,14 +201,14 @@ test_that("warning when all values within each group are constant", {
 
   # two groups - all values are constant
   x <- c(1,1,1,1); g <- c(1,1,2,2)
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.tot, 4)
   expect_equal(res$obs.groups, 2)
 
   # two groups - constant values within each group
   x <- c(3,3,0,0); g <- c(1,1,2,2)
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.tot, 4)
   expect_equal(res$obs.groups, 2)
@@ -220,12 +220,12 @@ test_that("warning when one of the groups has constant values", {
 
   # two groups - one with constant values
   x <- c(1,2,1,1); g <- c(1,1,2,2)
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
   expect_true(is.infinite(res$statistic))
 
   # three groups - constant values within each group + NAs
   x <- c(1,2,3,4,5,5,NA); g <- c("a","a","b","b","c","c","c")
-  expect_warning(res <- row.oneway.welch(x, g), wrn, all=TRUE)
+  expect_warning(res <- row_oneway_welch(x, g), wrn, all=TRUE)
   expect_true(is.infinite(res$statistic))
 })
 

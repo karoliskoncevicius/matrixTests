@@ -6,8 +6,8 @@
 #' NA values are always ommited. If values are missing for a whole group - that
 #' group is discarded. Groups with only one observation are also discarded.
 #'
-#' \code{row.bartlett(x, group)} - Bartlet's test on rows.
-#' \code{col.bartlett(x, group)} - Bartlet's test on columns.
+#' \code{row_bartlett(x, group)} - Bartlet's test on rows.
+#' \code{col_bartlett(x, group)} - Bartlet's test on columns.
 #' Same as \code{bartlett.test(x,  group)}
 #'
 #' @param x numeric matrix.
@@ -26,13 +26,13 @@
 #' @seealso \code{bartlett.test()}
 #'
 #' @examples
-#' col.bartlett(iris[,1:4], iris$Species)
-#' row.bartlett(t(iris[,1:4]), iris$Species)
+#' col_bartlett(iris[,1:4], iris$Species)
+#' row_bartlett(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
 #' @name bartlett
 #' @export
-row.bartlett <- function(x, g) {
+row_bartlett <- function(x, g) {
   force(x)
   force(g)
 
@@ -100,7 +100,7 @@ row.bartlett <- function(x, g) {
 
 #' @rdname bartlett
 #' @export
-col.bartlett <- function(x, g) {
-  row.bartlett(t(x), g)
+col_bartlett <- function(x, g) {
+  row_bartlett(t(x), g)
 }
 

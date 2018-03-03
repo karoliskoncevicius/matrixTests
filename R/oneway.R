@@ -4,10 +4,10 @@
 #'
 #' Functions to perform ONEWAY ANOVA analysis for rows/columns of matrices.
 #'
-#' \code{row.oneway.equalvar}, \code{col.oneway.equalvar}
+#' \code{row_oneway_equalvar}, \code{col_oneway_equalvar}
 #' - one-way anova on columns. Same as \code{aov(x ~ group)}
 #'
-#' \code{row.oneway.welch}, \code{col.oneway.welch}
+#' \code{row_oneway_welch}, \code{col_oneway_welch}
 #' - one-way anova with Welch correction on columns. Same as \code{oneway.test(var.equal=FALSE)}
 #'
 #' @param x numeric matrix.
@@ -31,13 +31,13 @@
 #' @seealso \code{aov()}, \code{oneway.test()}
 #'
 #' @examples
-#' col.oneway.welch(iris[,1:4], iris$Species)
-#' row.oneway.equalvar(t(iris[,1:4]), iris$Species)
+#' col_oneway_welch(iris[,1:4], iris$Species)
+#' row_oneway_equalvar(t(iris[,1:4]), iris$Species)
 #'
 #' @author Karolis Koncevičius
 #' @name oneway
 #' @export
-row.oneway.equalvar <- function(x, g) {
+row_oneway_equalvar <- function(x, g) {
   force(x)
   force(g)
 
@@ -111,13 +111,13 @@ row.oneway.equalvar <- function(x, g) {
 
 #' @rdname oneway
 #' @export
-col.oneway.equalvar <- function(x, g) {
-  row.oneway.equalvar(t(x), g)
+col_oneway_equalvar <- function(x, g) {
+  row_oneway_equalvar(t(x), g)
 }
 
 #' @rdname oneway
 #' @export
-row.oneway.welch <- function(x, g) {
+row_oneway_welch <- function(x, g) {
   force(x)
   force(g)
 
@@ -193,6 +193,6 @@ row.oneway.welch <- function(x, g) {
 
 #' @rdname oneway
 #' @export
-col.oneway.welch <- function(x, g) {
-  row.oneway.welch(t(x), g)
+col_oneway_welch <- function(x, g) {
+  row_oneway_welch(t(x), g)
 }

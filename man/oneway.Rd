@@ -2,19 +2,19 @@
 % Please edit documentation in R/oneway.R
 \name{oneway}
 \alias{oneway}
-\alias{row.oneway.equalvar}
-\alias{col.oneway.equalvar}
-\alias{row.oneway.welch}
-\alias{col.oneway.welch}
+\alias{row_oneway_equalvar}
+\alias{col_oneway_equalvar}
+\alias{row_oneway_welch}
+\alias{col_oneway_welch}
 \title{ONEWAY ANOVA}
 \usage{
-row.oneway.equalvar(x, g)
+row_oneway_equalvar(x, g)
 
-col.oneway.equalvar(x, g)
+col_oneway_equalvar(x, g)
 
-row.oneway.welch(x, g)
+row_oneway_welch(x, g)
 
-col.oneway.welch(x, g)
+col_oneway_welch(x, g)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -43,15 +43,15 @@ Performs an analysis of variance tests on each row/column of the input matrix.
 \details{
 Functions to perform ONEWAY ANOVA analysis for rows/columns of matrices.
 
-\code{row.oneway.equalvar}, \code{col.oneway.equalvar}
+\code{row_oneway_equalvar}, \code{col_oneway_equalvar}
 - one-way anova on columns. Same as \code{aov(x ~ group)}
 
-\code{row.oneway.welch}, \code{col.oneway.welch}
+\code{row_oneway_welch}, \code{col_oneway_welch}
 - one-way anova with Welch correction on columns. Same as \code{oneway.test(var.equal=FALSE)}
 }
 \examples{
-col.oneway.welch(iris[,1:4], iris$Species)
-row.oneway.equalvar(t(iris[,1:4]), iris$Species)
+col_oneway_welch(iris[,1:4], iris$Species)
+row_oneway_equalvar(t(iris[,1:4]), iris$Species)
 
 }
 \seealso{

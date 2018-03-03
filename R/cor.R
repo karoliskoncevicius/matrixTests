@@ -6,8 +6,8 @@
 #' Main arguments and results were intentionally matched to the \code{cor.test()}
 #' function from default stats package.
 #'
-#' \code{row.cor.pearson()} - test for Pearson correlation on rows.
-#' \code{col.cor.pearson()} - test for Pearson correlation on columns.
+#' \code{row_cor_pearson()} - test for Pearson correlation on rows.
+#' \code{col_cor_pearson()} - test for Pearson correlation on columns.
 #' Same as \code{cor.test(x,y,method="pearson")}
 #'
 #' @param x numeric matrix.
@@ -38,13 +38,13 @@
 #' @examples
 #' X <- iris[iris$Species=="setosa",1:4]
 #' Y <- iris[iris$Species=="virginica",1:4]
-#' col.cor.pearson(X, Y)
-#' row.cor.pearson(t(X), t(Y))
+#' col_cor_pearson(X, Y)
+#' row_cor_pearson(t(X), t(Y))
 #'
 #' @author Karolis Koncevičius
 #' @name cortest
 #' @export
-row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
+row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   force(x)
   force(y)
 
@@ -130,7 +130,7 @@ row.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
 
 #' @rdname cortest
 #' @export
-col.cor.pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
-  row.cor.pearson(t(x), t(y), alternative=alternative, conf.level=conf.level)
+col_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
+  row_cor_pearson(t(x), t(y), alternative=alternative, conf.level=conf.level)
 }
 

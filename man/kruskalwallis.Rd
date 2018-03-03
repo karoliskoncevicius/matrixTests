@@ -2,13 +2,13 @@
 % Please edit documentation in R/kruskal.R
 \name{kruskalwallis}
 \alias{kruskalwallis}
-\alias{row.kruskalwallis}
-\alias{col.kruskalwallis}
+\alias{row_kruskalwallis}
+\alias{col_kruskalwallis}
 \title{Kruskal-Wallis Rank Sum Test}
 \usage{
-row.kruskalwallis(x, g)
+row_kruskalwallis(x, g)
 
-col.kruskalwallis(x, g)
+col_kruskalwallis(x, g)
 }
 \arguments{
 \item{x}{numeric matrix.}
@@ -29,13 +29,13 @@ Each row contains the following information (in order):\cr
 Performs a Kruskal-Wallis rank sum test on each row/column of the input matrix.
 }
 \details{
-\code{row.kruskalwallis} - Kruskal Wallis test on rows.
-\code{col.kruskalwallis} - Kruskal Wallis test on columns.
+\code{row_kruskalwallis} - Kruskal Wallis test on rows.
+\code{col_kruskalwallis} - Kruskal Wallis test on columns.
 Same as as \code{kruskal.test()}
 }
 \examples{
-col.kruskalwallis(iris[,1:4], iris$Species)
-row.kruskalwallis(t(iris[,1:4]), iris$Species)
+col_kruskalwallis(iris[,1:4], iris$Species)
+row_kruskalwallis(t(iris[,1:4]), iris$Species)
 
 }
 \seealso{
