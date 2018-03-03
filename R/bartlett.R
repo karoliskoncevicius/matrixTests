@@ -21,7 +21,7 @@
 #' 3. var.pooled - pooled variance estimate\cr
 #' 4. df - degrees of freedom\cr
 #' 5. statistic - chi-squared statistic\cr
-#' 6. pvalue - p.value
+#' 6. pvalue - p-value
 #'
 #' @seealso \code{bartlett.test()}
 #'

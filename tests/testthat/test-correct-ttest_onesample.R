@@ -1,4 +1,4 @@
-context("corectness of ttest_onesample")
+context("correctness of ttest_onesample")
 
 ################################################################################
 ############################### HELPER FUNCTIONS ###############################
