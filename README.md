@@ -306,8 +306,8 @@ the failed outputs to NA:
 row_t_welch(c(1,2), 3)
 ```
 ```
-  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y    stderr  df statistic pvalue conf.low conf.high alternative mean.null conf.level
-1     2     1       3    1.5      3      -1.5   0.5   NaN       NaN NaN        NA     NA       NA        NA   two.sided         0       0.95
+  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y  stderr  df statistic pvalue conf.low conf.high alternative mean.null conf.level
+1     2     1       3    1.5      3      -1.5   0.5   NaN     NaN NaN        NA     NA       NA        NA   two.sided         0       0.95
 Warning message:
 row_t_welch: 1 of the rows had less than 2 "y" observations.
 First occurrence at row 1
@@ -388,6 +388,5 @@ Candidates of tests that will be implemented next:
 4. `mt.teststat()` in the [**multtest**](https://www.bioconductor.org/packages/release/bioc/html/multtest.html) package.
 5. `row.T.test()` in the [**HybridMTest**](https://www.bioconductor.org/packages/release/bioc/html/HybridMTest.html) package.
 6. `rowTtest()` in the [**viper**](https://bioconductor.org/packages/release/bioc/html/viper.html) package.
-7. `ttests()` in the [**Rfast**](https://cran.r-project.org/web/packages/Rfast/index.html) package.
-
+7. `ttests()` in the [**Rfast**](https://CRAN.R-project.org/package=Rfast) package.
 
