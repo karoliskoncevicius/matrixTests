@@ -24,7 +24,7 @@ Each row contains the following information (in order):\cr
 3. var.pooled - pooled variance estimate\cr
 4. df - degrees of freedom\cr
 5. statistic - chi-squared statistic\cr
-6. pvalue - p.value
+6. pvalue - p-value
 }
 \description{
 Performs the Bartlett's test of homogeneity of variances on each row/column
