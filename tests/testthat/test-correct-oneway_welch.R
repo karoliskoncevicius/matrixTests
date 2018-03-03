@@ -156,7 +156,7 @@ test_that("warning is shown when columns are removed because of NA groups", {
 
 
 test_that("warning when a rows has less than 2 groups", {
-  wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
+  wrn <- 'row_oneway_welch: 1 of the rows had less than 2 groups with enough observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # one group
@@ -177,7 +177,7 @@ test_that("warning when a rows has less than 2 groups", {
 
 
 test_that("warning when a row has groups with less than 2 observations", {
-  wrn <- '1 of the rows had groups with less than 2 observations: those groups were removed\\. First occurrence at row 1'
+  wrn <- 'row_oneway_welch: 1 of the rows had groups with less than 2 observations: those groups were removed\\.\nFirst occurrence at row 1'
 
   # 3 groups with one having only one observation
   x <- rnorm(5); g <- c(1,1,2,2,3)
@@ -196,7 +196,7 @@ test_that("warning when a row has groups with less than 2 observations", {
 
 
 test_that("warning when all values within each group are constant", {
-  wrn <- '1 of the rows had zero variance in all of the groups\\. First occurrence at row 1'
+  wrn <- 'row_oneway_welch: 1 of the rows had zero variance in all of the groups\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # two groups - all values are constant
@@ -216,7 +216,7 @@ test_that("warning when all values within each group are constant", {
 
 
 test_that("warning when one of the groups has constant values", {
-  wrn <- '1 of the rows had groups with zero variance: result might be unreliable\\. First occurrence at row 1'
+  wrn <- 'row_oneway_welch: 1 of the rows had groups with zero variance: result might be unreliable\\.\nFirst occurrence at row 1'
 
   # two groups - one with constant values
   x <- c(1,2,1,1); g <- c(1,1,2,2)

@@ -125,8 +125,8 @@ test_that("parameter edge cases give equal results", {
 ################################################################################
 
 test_that("warning when a row has less than 2 observations in one group", {
-  wrnX <- '1 of the rows had less than 2 "x" observations\\. First occurrence at row 1'
-  wrnY <- '1 of the rows had less than 2 "y" observations\\. First occurrence at row 1'
+  wrnX <- 'row_t_welch: 1 of the rows had less than 2 "x" observations\\.\nFirst occurrence at row 1'
+  wrnY <- 'row_t_welch: 1 of the rows had less than 2 "y" observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # 0 observations in both
@@ -160,7 +160,7 @@ test_that("warning when a row has less than 2 observations in one group", {
 
 
 test_that("warning when row has constant values", {
-  wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
+  wrn <- 'row_t_welch: 1 of the rows were essentially constant\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # all values are equal

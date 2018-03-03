@@ -16,9 +16,12 @@ rowTables <- function(x) {
 
 showWarning <- function(isWarning, err) {
   if(any(isWarning, na.rm=TRUE)) {
+    parentFun <- as.list(sys.call(-1))[[1]]
     n <- sum(isWarning, na.rm=TRUE)
     i <- match(TRUE, isWarning)
-    err <- paste0(n, ' of the rows ', err, '. First occurrence at row ', i)
-    warning(err)
+    err <- paste0(parentFun, ": ", n, ' of the rows ', err, ".",
+                  '\nFirst occurrence at row ', i
+                  )
+    warning(err, call.=FALSE)
   }
 }

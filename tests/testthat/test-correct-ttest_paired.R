@@ -130,7 +130,7 @@ test_that("parameter edge cases give equal results", {
 ################################################################################
 
 test_that("warning when a row has less than 2 paired observations", {
-  wrn <- '1 of the rows had less than 2 paired observations\\. First occurrence at row 1'
+  wrn <- 'row_t_paired: 1 of the rows had less than 2 paired observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # no observations in both groups
@@ -157,7 +157,7 @@ test_that("warning when a row has less than 2 paired observations", {
 
 
 test_that("warning when row has constant values", {
-  wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
+  wrn <- 'row_t_paired: 1 of the rows were essentially constant\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # all values are equal

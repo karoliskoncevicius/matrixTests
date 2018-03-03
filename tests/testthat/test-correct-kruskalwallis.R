@@ -145,7 +145,7 @@ test_that("warning is shown when columns are removed because of NA groups", {
 
 
 test_that("warning when row has less than 2 complete observations", {
-  wrn <- '1 of the rows had less than 2 total observations\\. First occurrence at row 1'
+  wrn <- 'row_kruskalwallis: 1 of the rows had less than 2 total observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # one value one group
@@ -163,7 +163,7 @@ test_that("warning when row has less than 2 complete observations", {
 
 
 test_that("warning when rows have less than 2 groups", {
-  wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
+  wrn <- 'row_kruskalwallis: 1 of the rows had less than 2 groups with enough observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # single group with 10 observations
@@ -182,7 +182,7 @@ test_that("warning when rows have less than 2 groups", {
 })
 
 test_that("warning when rows consist of single value", {
-  wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
+  wrn <- 'row_kruskalwallis: 1 of the rows were essentially constant\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # two groups

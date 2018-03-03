@@ -134,7 +134,7 @@ test_that("parameter edge cases give equal results", {
 ################################################################################
 
 test_that("warning when rows have exactly 3 complete observations", {
-  wrn <- '1 of the rows had exactly 3 complete observations: no confidence intervals produced\\. First occurrence at row 1'
+  wrn <- 'row_cor_pearson: 1 of the rows had exactly 3 complete observations: no confidence intervals produced\\.\nFirst occurrence at row 1'
   nacolumns <- c("conf.low", "conf.high")
 
   # standard case
@@ -150,7 +150,7 @@ test_that("warning when rows have exactly 3 complete observations", {
 
 
 test_that("warning when rows have less than 3 complete observations", {
-  wrn <- '1 of the rows had less than 3 complete observations\\. First occurrence at row 1'
+  wrn <- 'row_cor_pearson: 1 of the rows had less than 3 complete observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # 1 observations
@@ -167,8 +167,8 @@ test_that("warning when rows have less than 3 complete observations", {
 })
 
 test_that("warning when one of the variables has zero standard deviation", {
-  wrnX <- '1 of the rows had zero standard deviation in x\\. First occurrence at row 1'
-  wrnY <- '1 of the rows had zero standard deviation in y\\. First occurrence at row 1'
+  wrnX <- 'row_cor_pearson: 1 of the rows had zero standard deviation in x\\.\nFirst occurrence at row 1'
+  wrnY <- 'row_cor_pearson: 1 of the rows had zero standard deviation in y\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # only x
@@ -191,7 +191,7 @@ test_that("warning when one of the variables has zero standard deviation", {
 })
 
 test_that("warning when correlation is perfect", {
-  wrn <- '1 of the rows had essentially perfect fit: results might be unreliable for small sample sizes\\. First occurrence at row 1'
+  wrn <- 'row_cor_pearson: 1 of the rows had essentially perfect fit: results might be unreliable for small sample sizes\\.\nFirst occurrence at row 1'
 
   # positive case
   expect_warning(res <- row_cor_pearson(c(1:4), c(1:4)), wrn, all=TRUE)

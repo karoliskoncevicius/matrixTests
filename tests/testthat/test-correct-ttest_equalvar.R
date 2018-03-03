@@ -131,7 +131,7 @@ test_that("parameter edge cases give equal results", {
 ################################################################################
 
 test_that("warnign when a row has less than 3 observations", {
-  wrn <- '1 of the rows had less than 3 total observations\\. First occurrence at row 1'
+  wrn <- 'row_t_equalvar: 1 of the rows had less than 3 total observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # no observations
@@ -159,8 +159,8 @@ test_that("warnign when a row has less than 3 observations", {
 
 
 test_that("warning when one group has no observations", {
-  wrnX <- '1 of the rows had zero "x" observations\\. First occurrence at row 1'
-  wrnY <- '1 of the rows had zero "y" observations\\. First occurrence at row 1'
+  wrnX <- 'row_t_equalvar: 1 of the rows had zero "x" observations\\.\nFirst occurrence at row 1'
+  wrnY <- 'row_t_equalvar: 1 of the rows had zero "y" observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # no observations in X
@@ -178,7 +178,7 @@ test_that("warning when one group has no observations", {
 
 
 test_that("warning when row has constant values", {
-  wrn <- '1 of the rows were essentially constant\\. First occurrence at row 1'
+  wrn <- 'row_t_equalvar: 1 of the rows were essentially constant\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
   # all values are equal

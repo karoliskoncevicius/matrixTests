@@ -189,7 +189,7 @@ test_that("warning is shown when columns are removed because of NA groups", {
 
 
 test_that("warning when a rows has less than 2 groups", {
-  wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
+  wrn <- 'row_oneway_equalvar: 1 of the rows had less than 2 groups with enough observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # one group
@@ -210,7 +210,7 @@ test_that("warning when a rows has less than 2 groups", {
 
 
 test_that("warning when a row has 1 observation per group", {
-  wrn <- '1 of the rows had one observation per group\\. First occurrence at row 1'
+  wrn <- 'row_oneway_equalvar: 1 of the rows had one observation per group\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # 10 groups 10 observations
@@ -230,7 +230,7 @@ test_that("warning when a row has 1 observation per group", {
 })
 
 test_that("warning when all values are constant", {
-  wrn <- '1 of the rows had essentially constant values\\. First occurrence at row 1'
+  wrn <- 'row_oneway_equalvar: 1 of the rows had essentially constant values\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # two groups - all constant values
@@ -249,7 +249,7 @@ test_that("warning when all values are constant", {
 
 
 test_that("warning when all values within each group are constant", {
-  wrn <- '1 of the rows had zero within group variance: result might be unreliable\\. First occurrence at row 1'
+  wrn <- 'row_oneway_equalvar: 1 of the rows had zero within group variance: result might be unreliable\\.\nFirst occurrence at row 1'
 
   # two groups - constant values within group
   x <- c(1,1,0,0); g <- c(1,1,2,2)

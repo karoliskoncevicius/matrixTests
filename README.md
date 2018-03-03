@@ -35,7 +35,7 @@ for(i in 1:nrow(X)) {
 ```
 
 ```
-> res1[1:2]
+  res1[1:2]
 [[1]]
 
         Welch Two Sample t-test
@@ -123,7 +123,7 @@ The following design decision were taken (in no particular order):
 
 Function names are composed of 3 elements separated by dots where needed:
 
-`[row/col].testname.variant`
+`[row/col]_testname_variant`
 
 The variant part can be dropped when not applicable or when only a single
 variant for that test is implemented so far.
@@ -145,7 +145,7 @@ In this package those types of choices are separated into separate functions
 for the following reasons:
 
 1. Output structure returned by a function is not dependant on the input values.
-2. Users is made to choose the test explicitly with no hidden defaults.
+2. User is made to choose the test explicitly with no hidden defaults.
 3. This convention makes it easier to add more test types later.
 
 ### Input Values ###
@@ -214,7 +214,7 @@ When multiple choices are possible the name is extended:
 #### Row names ####
 
 Row names are transfered from the main input matrix. If the row names of the
-matrix were not unique - the are made unique using `make.unique()`. In case
+matrix were not unique - they are made unique using `make.unique()`. In case
 input matrix had no row names the numbers `1:nrow(x)` are used.
 
 
@@ -233,15 +233,40 @@ R version throws an error.
 For another such example consider `bartlett.test()`. This function works without
 any warnings when supplied with constant data and returns NA values:
 
-`bartlett.test(rep(1,4), c("a","a","b","b"))`
+```r
+bartlett.test(rep(1,4), c("a","a","b","b"))
+```
+```
+        Bartlett test of homogeneity of variances
+
+data:  rep(1, 4) and c("a", "a", "b", "b")
+Bartlett's K-squared = NaN, df = 1, p-value = NA
+```
 
 The typical behaviour in such situations for base R tests is to throw an error:
 
-`t.test(rep(1,4) ~ c("a","a","b",b"))`
+```r
+t.test(c(1,1,1,1) ~ c("a","a","b","b"))
+```
+```
+Error in t.test.default(x = c(1, 1), y = c(1, 1)) :
+  data are essentially constant
+```
 
 Functions in this package try to be consistent with each other and be as
 informative as possible. Therefore in such cases `row_bartlett()` will throw a
 warning even if base R function does not.
+
+```r
+row_bartlett(c(1,1,1,1), c("a","a","b","b"))
+```
+```
+  obs.tot obs.groups var.pooled df statistic pvalue
+1       4          2          0  1        NA     NA
+Warning message:
+row_bartlett: 1 of the rows had zero variance in all of the groups.
+First occurrence at row 1
+```
 
 ### Warnings and Errors ###
 
@@ -281,8 +306,8 @@ row_t_welch(c(1,2), 3)
   obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y std.error  df statistic pvalue conf.low conf.high alternative mean.null conf.level
 1     2     1       3    1.5      3      -1.5   0.5   NaN       NaN NaN        NA     NA       NA        NA   two.sided         0       0.95
 Warning message:
-In showWarning(w2, "had less than 2 \"y\" observations") :
-  1 of the rows had less than 2 "y" observations. First occurrence at row 1
+row_t_welch: 1 of the rows had less than 2 "y" observations.
+First occurrence at row 1
 ```
 
 This allows the function continue working in cases where typically we have enough
@@ -297,9 +322,8 @@ row_t_welch(mat1, mat2)
   obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y std.error  df statistic    pvalue  conf.low conf.high alternative mean.null conf.level
 1     2     2       4    1.5    2.5        -1   0.5   0.5 0.7071068   2 -1.414214 0.2928932 -4.042435  2.042435   two.sided         0       0.95
 2     1     2       3    3.0    2.0         1   NaN   8.0       NaN NaN        NA        NA        NA        NA   two.sided         0       0.95
-Warning message:
-In showWarning(w1, "had less than 2 \"x\" observations") :
-  1 of the rows had less than 2 "x" observations. First occurrence at row 2
+row_t_welch: 1 of the rows had less than 2 "x" observations.
+First occurrence at row 2
 ```
 
 ### NA and NaN values ###

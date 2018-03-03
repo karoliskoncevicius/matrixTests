@@ -136,7 +136,7 @@ test_that("groups with one element remaining are dropped correctly", {
 ################################################################################
 
 test_that("warning when rows have less than 2 groups", {
-  wrn <- '1 of the rows had less than 2 groups with enough observations\\. First occurrence at row 1'
+  wrn <- 'row_bartlett: 1 of the rows had less than 2 groups with enough observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # one observation per group
@@ -176,7 +176,7 @@ test_that("warning when rows have less than 2 groups", {
 
 
 test_that("warning when some groups have less than 2 observations", {
-  wrn <- '1 of the rows had groups with less than 2 observations: those groups were removed\\. First occurrence at row 1'
+  wrn <- 'row_bartlett: 1 of the rows had groups with less than 2 observations: those groups were removed\\.\nFirst occurrence at row 1'
 
   # one group is dropped because of one remaining value
   expect_warning(res <- row_bartlett(rnorm(5), c(1,1,2,2,3)), wrn, all=TRUE)
@@ -202,7 +202,7 @@ test_that("warning when some groups have less than 2 observations", {
 })
 
 test_that("warning when none of the groups have variance", {
-  wrn <- '1 of the rows had zero variance in all of the groups\\. First occurrence at row 1'
+  wrn <- 'row_bartlett: 1 of the rows had zero variance in all of the groups\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")
 
   # all values are constant
@@ -224,7 +224,7 @@ test_that("warning when none of the groups have variance", {
 
 
 test_that("warning when some of the groups have no variance", {
-  wrn <- '1 of the rows had groups with zero variance: result might be unreliable\\. First occurrence at row 1'
+  wrn <- 'row_bartlett: 1 of the rows had groups with zero variance: result might be unreliable\\.\nFirst occurrence at row 1'
 
   # one group out of 3
   expect_warning(res <- row_bartlett(c(1,1,1,2,3,2), c(1,1,2,2,3,3)), wrn, all=TRUE)
