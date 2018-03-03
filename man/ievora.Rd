@@ -51,17 +51,14 @@ Epigenetic Variable Outliers for cancer Risk prediction Analysis
 \details{
 Measures differential variability between two groups. The algorithm has
 2 steps: detecting difference in variance (Bartlett's test) and detecting
-difference in means(t-test). The second step is done to regularize the
+difference in means (t-test). The second step is done to regularize the
 variability test which is overly sensitive to single outliers.
 
 By default the result is considered significant if variability test produces
 a significant p-value (below selected threshold) after FDR correction and
 t-test returns a significant p-value without using the FDR correction.
 
-The algorithm is aimed at large DNA methylation data sets, where one may wish
-to find features (mostly CpGs) which differ between two normal cellular
-phenotypes, but with one of these phenotypes representing cells which are at
-risk of neoplastic transformation.
+The algorithm is mainly aimed at large DNA methylation data sets.
 }
 \examples{
 # perform iEVORA on iris dataset for setosa against all other groups
