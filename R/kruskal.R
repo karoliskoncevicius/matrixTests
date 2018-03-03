@@ -13,7 +13,7 @@
 #' test performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr
 #' 1. obs.tot - total number of observations\cr
-#' 2. obs.group - number of groups\cr
+#' 2. obs.groups - number of groups\cr
 #' 4. df - degrees of freedom\cr
 #' 5. statistic - chi-squared statistic\cr
 #' 6. pvalue - p.value

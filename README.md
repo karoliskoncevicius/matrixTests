@@ -10,7 +10,7 @@ A package dedicated to running statistical hypothesis tests on rows and columns 
 col_oneway_equalvar(iris[,-5], iris$Species)
 ```
 ```
-             obs.tot obs.groups sum.sq.between sum.sq.within mean.sq.between mean.sq.within df.between df.within  statistic       pvalue
+             obs.tot obs.groups  sumsq.between  sumsq.within  meansq.between  meansq.within df.between df.within  statistic       pvalue
 Sepal.Length     150          3       63.21213       38.9562       31.606067     0.26500816          2       147  119.26450 1.669669e-31
 Sepal.Width      150          3       11.34493       16.9620        5.672467     0.11538776          2       147   49.16004 4.492017e-17
 Petal.Length     150          3      437.10280       27.2226      218.551400     0.18518776          2       147 1180.16118 2.856777e-91
@@ -71,7 +71,7 @@ res2 <- row_t_welch(X, Y)
 ```
 ```
 > res2[1:2,]
-  obs.x obs.y obs.tot      mean.x     mean.y  mean.diff    var.x     var.y std.error       df  statistic    pvalue   conf.low conf.high alternative mean.null conf.level
+  obs.x obs.y obs.tot      mean.x     mean.y  mean.diff    var.x     var.y stderr          df  statistic    pvalue   conf.low conf.high alternative mean.null conf.level
 1    10    10      20 -0.06643757 -0.2985907  0.2321531 1.627547 0.9140158 0.5041392 16.68493  0.4604941 0.6511065 -0.8330197 1.2973259   two.sided         0       0.95
 2    10    10      20 -0.02447724  0.4805317 -0.5050090 1.424720 1.2936936 0.5213841 17.95828 -0.9685930 0.3456133 -1.6005787 0.5905608   two.sided         0       0.95
 ```
@@ -202,9 +202,11 @@ All the fields are written as a single word and abbreviated if needed:
 * **df** - degrees of freedom
 * **statistic** - test statistic
 * **pvalue** - p-value
+* **stderr** - standard error
 * **cor** - estimated correlation
 
-Specifications are included only when necessary (if field is used more than once):
+Specifications are included only when necessary - when field is used more than once
+or when clarification is necessary.
 
 * **obs.x** - number of x observations
 * **obs.tot** - total number of observations
@@ -304,7 +306,7 @@ the failed outputs to NA:
 row_t_welch(c(1,2), 3)
 ```
 ```
-  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y std.error  df statistic pvalue conf.low conf.high alternative mean.null conf.level
+  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y    stderr  df statistic pvalue conf.low conf.high alternative mean.null conf.level
 1     2     1       3    1.5      3      -1.5   0.5   NaN       NaN NaN        NA     NA       NA        NA   two.sided         0       0.95
 Warning message:
 row_t_welch: 1 of the rows had less than 2 "y" observations.
@@ -320,7 +322,7 @@ mat2 <- rbind(c(2,3), c(0,4))
 row_t_welch(mat1, mat2)
 ```
 ```
-  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y std.error  df statistic    pvalue  conf.low conf.high alternative mean.null conf.level
+  obs.x obs.y obs.tot mean.x mean.y mean.diff var.x var.y stderr     df statistic    pvalue  conf.low conf.high alternative mean.null conf.level
 1     2     2       4    1.5    2.5        -1   0.5   0.5 0.7071068   2 -1.414214 0.2928932 -4.042435  2.042435   two.sided         0       0.95
 2     1     2       3    3.0    2.0         1   NaN   8.0       NaN NaN        NA        NA        NA        NA   two.sided         0       0.95
 row_t_welch: 1 of the rows had less than 2 "x" observations.

@@ -30,7 +30,7 @@ base_ttest_onesample <- function(mat, alt="two.sided", mu=0, conf=0.95) {
     cnf[i] <- attr(res$conf.int, "conf.level")
   }
 
-  data.frame(obs.x=nx, mean.x=mx, var.x=vx, std.error=se, df=df, statistic=tst,
+  data.frame(obs=nx, mean=mx, var=vx, stderr=se, df=df, statistic=tst,
              pvalue=p, conf.low=cl, conf.high=ch, alternative=al, mean.null=m0,
              conf.level=cnf, stringsAsFactors=FALSE
              )
@@ -115,17 +115,17 @@ test_that("warnign when row has less than 2 available observations", {
   # single observation
   expect_warning(res <- row_t_onesample(1), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_equal(res$obs.x, 1)
+  expect_equal(res$obs, 1)
 
   # single observation with some NA values
   expect_warning(res <- row_t_onesample(c(0,NA,NA)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_equal(res$obs.x, 1)
+  expect_equal(res$obs, 1)
 
   # zero observations
   expect_warning(res <- row_t_onesample(NA_integer_), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_equal(res$obs.x, 0)
+  expect_equal(res$obs, 0)
 })
 
 
@@ -136,13 +136,13 @@ test_that("warning when a row has all constant values", {
   # two equal observations
   expect_warning(res <- row_t_onesample(c(1,1)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_equal(res$obs.x, 2)
-  expect_equal(res$var.x, 0)
+  expect_equal(res$obs, 2)
+  expect_equal(res$var, 0)
 
   # three observations with some NA values
   expect_warning(res <- row_t_onesample(c(0,0,0,NA,NA)), wrn, all=TRUE)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
-  expect_equal(res$obs.x, 3)
-  expect_equal(res$var.x, 0)
+  expect_equal(res$obs, 3)
+  expect_equal(res$var, 0)
 })
 

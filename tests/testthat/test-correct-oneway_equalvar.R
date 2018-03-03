@@ -30,8 +30,8 @@ base_oneway_equalvar <- function(mat, groups) {
     og[i]  <- length(unique(grp))
   }
 
-  data.frame(obs.tot=ot, obs.groups=og, sum.sq.between=st, sum.sq.within=sr,
-             mean.sq.between=mt, mean.sq.within=mr, df.between=dft,
+  data.frame(obs.tot=ot, obs.groups=og, sumsq.between=st, sumsq.within=sr,
+             meansq.between=mt, meansq.within=mr, df.between=dft,
              df.within=dfr, statistic=fst, pvalue=p
              )
 }
@@ -63,8 +63,8 @@ base_oneway_equalvar2 <- function(mat, groups) {
     mr[i]  <- sr[i] / dfr[i]
   }
 
-  data.frame(obs.tot=ot, obs.groups=og, sum.sq.between=st, sum.sq.within=sr,
-             mean.sq.between=mt, mean.sq.within=mr, df.between=dft,
+  data.frame(obs.tot=ot, obs.groups=og, sumsq.between=st, sumsq.within=sr,
+             meansq.between=mt, meansq.within=mr, df.between=dft,
              df.within=dfr, statistic=fst, pvalue=p
              )
 }

@@ -56,11 +56,11 @@ They will contain a subset of the following information:\cr
 5. mean.x - mean estiamte of x\cr
 6. mean.y - mean estiamte of y\cr
 7. mean.diff - mean estiamte of x-y difference\cr
-9. var.x - variance estiamte of x\cr
+8. var.x - variance estiamte of x\cr
 9. var.y - variance estiamte of y\cr
 10. var.diff - variance estiamte of x-y difference\cr
 11. var.pooled - pooled variance estimate of x and y\cr
-12. std.error - standard error\cr
+12. stderr - standard error\cr
 13. df - degrees of freedom\cr
 14. statistic - t statistic\cr
 15. pvalue - p-value\cr
