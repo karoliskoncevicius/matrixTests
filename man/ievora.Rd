@@ -36,7 +36,7 @@ Each row contains the following information (in order):\cr
 6. mean.diff - mean difference (group1 - group0)\cr
 7. var.0 - variance of the 0 group \cr
 8. var.1 - variance of the 1 group \cr
-9. var.log2.ratio - log ratio of variances log(var1/var0) \cr
+9. var.log2.ratio - log ratio of variances log2(var1/var0) \cr
 10. statistic.t - t.statistic of the t-test step \cr
 11. pvalue.t - raw p-value of the t-test step \cr
 12. statistic.bt - chsq.statistic of the bartlett test step \cr
@@ -71,7 +71,7 @@ breast tissue identify field defects that are enriched in cancer.
 Nature Communications 7, 10478 (2016) doi:10.1038/ncomms10478
 }
 \seealso{
-\code{row_bartlett}, \code{row_t.welch}
+\code{row_bartlett}, \code{row_t_welch}
 }
 \author{
 Karolis Koncevičius
