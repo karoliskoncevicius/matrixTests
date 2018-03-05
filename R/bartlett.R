@@ -8,7 +8,9 @@
 #'
 #' \code{row_bartlett(x, group)} - Bartlet's test on rows.
 #' \code{col_bartlett(x, group)} - Bartlet's test on columns.
-#' Same as \code{bartlett.test(x,  group)}
+#'
+#' Results should be the same as as running \code{bartlett.test(x,  group)}
+#' on every row (or column) of \code{x}.
 #'
 #' @param x numeric matrix.
 #' @param g a vector specifying group membership for each observation of x.
