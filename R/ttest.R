@@ -7,17 +7,29 @@
 #' function from default stats package. Other arguments were split into separate
 #' functions:
 #'
-#' \code{row_t_onesample()}, \code{col_t_onesample()}
-#' - t-test for mean of a single group. Same as \code{t.test(x)}
+#' \code{row_t_onesample(x)} - one sample t-test on rows.
+#' \code{col_t_onesample(x)} - one sample t-test on columns.
 #'
-#' \code{row_t_equalvar()}, \code{col_t_equalvar()}
-#' - t-test for groups with equal variance. Same as \code{t.test(x, y, var.equal=TRUE)}
+#' Results should be the same as running \code{t.test(x)}
+#' on every row (or column) of \code{x}.
 #'
-#' \code{row_t_welch()}, \code{col_t_welch()}
-#' - t.test with Welch approximation. Same as \code{t.test(x, y)}
+#' \code{row_t_equalvar(x, y)} - two sample equal variance t-test on rows.
+#' \code{col_t_equalvar(x, y)} - two sample equal variance t-test on columns.
 #'
-#' \code{row_t_paired()}, \code{col_t_paired()}
-#' - paired t-test. Same as \code{t.test(x, y, paired=TRUE)}
+#' Results should be the same as running \code{t.test(x, y, var.equal=TRUE)}
+#' on every row (or column) of \code{x} and \code{y}.
+#'
+#' \code{row_t_welch(x, y)} - two sample t-test with Welch correction on rows.
+#' \code{col_t_welch(x, y)} - two sample t-test with Welch correction on columns.
+#'
+#' Results should be the same as running \code{t.test(x, y)}
+#' on every row (or column) of \code{x} and \code{y}.
+#'
+#' \code{row_t_paired(x, y)} - two sample paired t-test on rows.
+#' \code{col_t_paired(x, y)} - two sample paired t-test on columns.
+#'
+#' Results should be the same as running \code{t.test(x, y, paired=TRUE)}
+#' on every row (or column) of \code{x} and \code{y}.
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.

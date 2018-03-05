@@ -43,11 +43,17 @@ Performs an analysis of variance tests on each row/column of the input matrix.
 \details{
 Functions to perform ONEWAY ANOVA analysis for rows/columns of matrices.
 
-\code{row_oneway_equalvar}, \code{col_oneway_equalvar}
-- one-way anova on columns. Same as \code{aov(x ~ group)}
+\code{row_oneway_equalvar(x, g)} - oneway ANOVA on rows.
+\code{col_oneway_equalvar(x, g)} - oneway ANOVA on columns.
 
-\code{row_oneway_welch}, \code{col_oneway_welch}
-- one-way anova with Welch correction on columns. Same as \code{oneway.test(var.equal=FALSE)}
+Results should be the same as running \code{aov(x ~ g)}
+on every row (or column) of \code{x}
+
+\code{row_oneway_welch(x, g)} - oneway ANOVA with Welch correction on rows.
+\code{col_oneway_welch(x, g)} - oneway ANOVA with Welch correction on columns.
+
+Results should be the same as running \code{oneway.test(x, g, var.equal=FALSE)}
+on every row (or column) of \code{x}
 }
 \examples{
 col_oneway_welch(iris[,1:4], iris$Species)
