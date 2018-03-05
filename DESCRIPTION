@@ -5,7 +5,7 @@ Authors@R: person("Karolis", "Koncevičius", email = "karolis.koncevicius@gmail.
 Maintainer: Karolis Koncevičius <karolis.koncevicius@gmail.com>
 Description: Functions to perform fast statistical hypothesis tests on rows/columns of matrices.
   The main goals are: 1) speed via vectorization, 2) output that is detailed and easy to use,
-  3) and compatibility with tests implemented in R (like those in stats package).
+  3) compatibility with tests implemented in R (like those available in the 'stats' package).
 Depends: R (>= 3.2.2)
 Imports: matrixStats
 Suggests: testthat
