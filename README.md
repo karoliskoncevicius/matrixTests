@@ -2,6 +2,13 @@
 
 A package dedicated to running multiple statistical hypothesis tests on rows and columns of matrices.
 
+## Goals ##
+
+1. Fast execution via vectorization.
+2. Handling of edge cases (NA values, 0 row inputs).
+3. Output that is detailed and easy to use.
+4. Result compatibility with tests that are implemented in R.
+
 ## Examples ##
 
 **1) Running one way ANOVA on every column of iris data using Species as groups**
@@ -75,12 +82,6 @@ sample estimates:
   mean of x   mean of y
 -0.02447724  0.48053173
 ```
-
-## Goals ##
-
-1. Fast execution via vectorization.
-2. Output that is detailed and easy to use.
-3. Result compatibility with tests that are implemented in R.
 
 ## Available Tests ##
 
