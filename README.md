@@ -118,10 +118,6 @@ library(devtools)
 install_github("KKPMW/matrixTests")
 ```
 
-## Dependencies ##
-
-1. `matrixStats` package.
-
 ## Notes ##
 
 All the tests are implemented in R. So when running a test on a single row there
