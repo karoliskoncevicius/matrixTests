@@ -143,6 +143,9 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 
 1. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
 
+[![Rstudio Download Statistics](https://cranlogs.r-pkg.org/badges/matrixTests)](https://cranlogs.r-pkg.org/badges/matrixTests)
+
+
 ## See Also ##
 
 1. **Computing thousands of test statistics simultaneously in R**,
