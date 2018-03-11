@@ -126,9 +126,9 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 2. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
 3. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
 
-### Download Statistics from R-Studio CRAN Mirror ###
+#### Package Statistics ####
 
-[![CRAN stats](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)
+* Number of CRAN R-Studio mirror downloads: [![total](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)
 
 ## See Also ##
 
