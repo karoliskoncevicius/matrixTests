@@ -126,10 +126,6 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 2. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
 3. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
 
-#### Downloads from R-Studio ####
-
-[![total](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)
-
 ## See Also ##
 
 1. **Computing thousands of test statistics simultaneously in R**,
@@ -140,4 +136,10 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 5. `row.T.test()` in the [**HybridMTest**](https://www.bioconductor.org/packages/release/bioc/html/HybridMTest.html) package.
 6. `rowTtest()` in the [**viper**](https://bioconductor.org/packages/release/bioc/html/viper.html) package.
 7. `ttests()` in the [**Rfast**](https://CRAN.R-project.org/package=Rfast) package.
+
+---
+
+#### Downloads from R-Studio ####
+
+[![total](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)
 
