@@ -118,27 +118,17 @@ library(devtools)
 install_github("KKPMW/matrixTests")
 ```
 
-## Notes ##
-
-All the tests are implemented in R. So when running a test on a single row there
-should be no increase in execution speed compared with the base R versions. In
-most cases a slight decrease is expected due to the more detailed output.
-
-For now the column-wise versions of the tests simply transposes the input
-matrix and calls the equivalent row-wise test.
-
-Candidates of tests that will be implemented next:
-
-1. Shapiro-Wilks test for normality
-2. Spearman and Kendall correlation tests
-3. Test for proportions
-4. Fisher's exact test
-
 ## Further Information ##
 
 For more information please refer to the [Wiki](https://github.com/KKPMW/matrixTests/wiki) page:
 
 1. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
+2. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
+3. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
+
+### Download Statistics from R-Studio CRAN Mirror ###
+
+[![CRAN stats](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)
 
 ## See Also ##
 
