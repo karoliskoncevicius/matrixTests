@@ -128,7 +128,9 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 
 #### Package Statistics ####
 
-* Number of CRAN R-Studio mirror downloads: [![total](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)
+Downloads from R-Studio:
+
+[![total](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)
 
 ## See Also ##
 
