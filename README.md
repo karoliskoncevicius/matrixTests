@@ -136,6 +136,7 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 5. `row.T.test()` in the [**HybridMTest**](https://www.bioconductor.org/packages/release/bioc/html/HybridMTest.html) package.
 6. `rowTtest()` in the [**viper**](https://bioconductor.org/packages/release/bioc/html/viper.html) package.
 7. `ttests()` in the [**Rfast**](https://CRAN.R-project.org/package=Rfast) package.
+8. `row.ttest.stat` in the [**metaMA**](https://CRAN.R-project.org/package=metaMA) package.
 
 ---
 
