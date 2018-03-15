@@ -130,13 +130,14 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 
 1. **Computing thousands of test statistics simultaneously in R**,
 *Holger Schwender, Tina Müller*. Statistical Computing & Graphics. Volume 18, No 1, June 2007.
-2. `lmFit` in the [**limma**](https://bioconductor.org/packages/release/bioc/html/limma.html) package.
+2. `lmFit()` in the [**limma**](https://bioconductor.org/packages/release/bioc/html/limma.html) package.
 3. `rowttests()` in the [**genefilter**](https://bioconductor.org/packages/release/bioc/html/genefilter.html) package.
 4. `mt.teststat()` in the [**multtest**](https://www.bioconductor.org/packages/release/bioc/html/multtest.html) package.
 5. `row.T.test()` in the [**HybridMTest**](https://www.bioconductor.org/packages/release/bioc/html/HybridMTest.html) package.
 6. `rowTtest()` in the [**viper**](https://bioconductor.org/packages/release/bioc/html/viper.html) package.
 7. `ttests()` in the [**Rfast**](https://CRAN.R-project.org/package=Rfast) package.
-8. `row.ttest.stat` in the [**metaMA**](https://CRAN.R-project.org/package=metaMA) package.
+8. `row.ttest.stat()` in the [**metaMA**](https://CRAN.R-project.org/package=metaMA) package.
+9. `lmPerGene()` in the [**GSEAlm**](https://www.bioconductor.org/packages/release/bioc/html/GSEAlm.html) package.
 
 ---
 
