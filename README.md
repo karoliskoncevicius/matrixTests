@@ -140,6 +140,7 @@ CRAN:
 1. `ttests()` in the [**Rfast**](https://CRAN.R-project.org/package=Rfast) package.
 2. `row.ttest.stat()` in the [**metaMA**](https://CRAN.R-project.org/package=metaMA) package.
 3. `MultiTtest()` in the [**ClassComparison**](https://CRAN.R-project.org/package=ClassComparison) package.
+4. `bartlettTests()` in the [**heplots**](https://CRAN.R-project.org/package=heplots) package.
 
 BioConductor:
 
