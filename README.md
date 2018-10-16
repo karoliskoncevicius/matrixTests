@@ -1,3 +1,8 @@
+[![CRAN version](http://www.r-pkg.org/badges/version/matrixTests)](https://cran.r-project.org/package=matrixTests)
+[![Build Status](https://travis-ci.com/KKPMW/matrixTests.svg?branch=master)](https://travis-ci.com/KKPMW/matrixTests)
+[![codecov](https://codecov.io/gh/KKPMW/matrixTests/branch/master/graph/badge.svg)](https://codecov.io/gh/KKPMW/matrixTests)
+[![Monthly Downloads](https://cranlogs.r-pkg.org/badges/matrixTests)](https://cranlogs.r-pkg.org/badges/matrixTests)
+
 # Matrix Tests #
 
 A package dedicated to running multiple statistical hypothesis tests on rows and columns of matrices.
@@ -150,10 +155,4 @@ BioConductor:
 4. `row.T.test()` in the [**HybridMTest**](https://www.bioconductor.org/packages/release/bioc/html/HybridMTest.html) package.
 5. `rowTtest()` in the [**viper**](https://bioconductor.org/packages/release/bioc/html/viper.html) package.
 6. `lmPerGene()` in the [**GSEAlm**](https://www.bioconductor.org/packages/release/bioc/html/GSEAlm.html) package.
-
----
-
-#### Downloads from R-Studio ####
-
-[![total](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)](https://cranlogs.r-pkg.org/badges/grand-total/matrixTests)
 
