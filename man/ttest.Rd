@@ -12,21 +12,29 @@
 \alias{col_t_paired}
 \title{t-test}
 \usage{
-row_t_onesample(x, alternative = "two.sided", mu = 0, conf.level = 0.95)
+row_t_onesample(x, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
 
-col_t_onesample(x, alternative = "two.sided", mu = 0, conf.level = 0.95)
+col_t_onesample(x, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
 
-row_t_equalvar(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+row_t_equalvar(x, y, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
 
-col_t_equalvar(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+col_t_equalvar(x, y, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
 
-row_t_welch(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+row_t_welch(x, y, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
 
-col_t_welch(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+col_t_welch(x, y, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
 
-row_t_paired(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+row_t_paired(x, y, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
 
-col_t_paired(x, y, alternative = "two.sided", mu = 0, conf.level = 0.95)
+col_t_paired(x, y, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}
