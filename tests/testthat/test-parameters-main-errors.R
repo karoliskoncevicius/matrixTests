@@ -32,6 +32,10 @@ test_that("groups cannot be missing", {
   expect_error(row_oneway_welch(x=NA), er)
   expect_error(row_kruskalwallis(x=NA), er)
   expect_error(row_bartlett(x=NA), er)
+})
+
+test_that("binary cannot be missing", {
+  er <- 'argument "b" is missing, with no default'
   expect_error(row_ievora(x=NA), er)
 })
 
@@ -51,7 +55,7 @@ test_that("x cannot be a character", {
   expect_error(row_kruskalwallis(x=matX, g="a"), er)
   expect_error(row_bartlett(x=matX, g="a"), er)
   expect_error(row_cor_pearson(x=matX, y=0), er)
-  expect_error(row_ievora(x=matX, g="a"), er)
+  expect_error(row_ievora(x=matX, b="a"), er)
 })
 
 test_that("y cannot be a character", {
@@ -75,7 +79,7 @@ test_that("x cannot be partially numeric", {
   expect_error(row_kruskalwallis(x=iris, g="a"), er)
   expect_error(row_bartlett(x=iris, g="a"), er)
   expect_error(row_cor_pearson(x=iris, y=0), er)
-  expect_error(row_ievora(x=iris, g="a"), er)
+  expect_error(row_ievora(x=iris, b="a"), er)
 })
 
 test_that("y cannot be partially numeric", {
@@ -99,7 +103,7 @@ test_that("x cannot be complex", {
   expect_error(row_kruskalwallis(x=matX, g="a"), er)
   expect_error(row_bartlett(x=matX, g="a"), er)
   expect_error(row_cor_pearson(x=matX, y=0), er)
-  expect_error(row_ievora(x=matX, g="a"), er)
+  expect_error(row_ievora(x=matX, b="a"), er)
 })
 
 test_that("y cannot be complex", {
@@ -124,7 +128,7 @@ test_that("x cannot be logical", {
   expect_error(row_kruskalwallis(x=matX, g="a"), er)
   expect_error(row_bartlett(x=matX, g="a"), er)
   expect_error(row_cor_pearson(x=matX, y=0), er)
-  expect_error(row_ievora(x=matX, g="a"), er)
+  expect_error(row_ievora(x=matX, b="a"), er)
 })
 
 test_that("y cannot be logical", {
@@ -148,7 +152,7 @@ test_that("x cannot be NULL", {
   expect_error(row_kruskalwallis(x=NULL, g="a"), er)
   expect_error(row_bartlett(x=NULL, g="a"), er)
   expect_error(row_cor_pearson(x=NULL, y=0), er)
-  expect_error(row_ievora(x=NULL, g="a"), er)
+  expect_error(row_ievora(x=NULL, b="a"), er)
 })
 
 test_that("y cannot be NULL", {
@@ -172,7 +176,7 @@ test_that("x cannot be in a list", {
   expect_error(row_kruskalwallis(x=list(1:5), g="a"), er)
   expect_error(row_bartlett(x=list(1:5), g="a"), er)
   expect_error(row_cor_pearson(x=list(1:5), y=0), er)
-  expect_error(row_ievora(x=list(1:5), g="a"), er)
+  expect_error(row_ievora(x=list(1:5), b="a"), er)
 })
 
 test_that("y cannot be in a list", {
@@ -195,7 +199,7 @@ test_that("x cannot be a list", {
   expect_error(row_kruskalwallis(x=as.list(1:5), g="a"), er)
   expect_error(row_bartlett(x=as.list(1:5), g="a"), er)
   expect_error(row_cor_pearson(x=as.list(1:5), y=0), er)
-  expect_error(row_ievora(x=as.list(1:5), g="a"), er)
+  expect_error(row_ievora(x=as.list(1:5), b="a"), er)
 })
 
 test_that("y cannot be a list", {
@@ -218,7 +222,6 @@ test_that("groups cannot be NULL", {
   expect_error(row_oneway_welch(x=matX, g=NULL), er)
   expect_error(row_kruskalwallis(x=matX, g=NULL), er)
   expect_error(row_bartlett(x=matX, g=NULL), er)
-  expect_error(row_ievora(x=matX, g=NULL), er)
 })
 
 test_that("groups cannot be a list", {
@@ -228,7 +231,6 @@ test_that("groups cannot be a list", {
   expect_error(row_oneway_welch(x=matX, g=list(1:3)), er)
   expect_error(row_kruskalwallis(x=matX, g=list(1:3)), er)
   expect_error(row_bartlett(x=matX, g=list(1:3)), er)
-  expect_error(row_ievora(x=matX, g=list(1:3)), er)
 })
 
 test_that("groups cannot be a matrix", {
@@ -239,7 +241,36 @@ test_that("groups cannot be a matrix", {
   expect_error(row_oneway_welch(x=matX, g=grp), er)
   expect_error(row_kruskalwallis(x=matX, g=grp), er)
   expect_error(row_bartlett(x=matX, g=grp), er)
-  expect_error(row_ievora(x=matX, g=grp), er)
+})
+
+################################################################################
+########################## WRONG BINARY SPECIFICATION ##########################
+################################################################################
+
+test_that("binary cannot be NULL", {
+  matX <- matrix(1:12, ncol=3)
+  er <- '"b" must be a vector with length ncol\\(x\\)'
+  expect_error(row_ievora(x=matX, b=NULL), er)
+})
+
+test_that("binary cannot be a list", {
+  matX <- matrix(1:12, ncol=3)
+  er <- '"b" must be a vector with length ncol\\(x\\)'
+  expect_error(row_ievora(x=matX, b=list(1:3)), er)
+})
+
+test_that("binary cannot be a matrix", {
+  matX <- matrix(1:12, ncol=4)
+  grp  <- cbind(c("A", "A"), c("B", "B"))
+  er <- '"b" must be a vector with length ncol\\(x\\)'
+  expect_error(row_ievora(x=matX, b=grp), er)
+})
+
+test_that("binary has required number of groups", {
+  matX <- matrix(1:12, nrow=3)
+  er <- '"b" must have no more than 2 unique elements'
+  expect_error(row_ievora(x=matX, b=c("A","B","C","C")), er)
+  expect_error(row_ievora(x=c(1,2,3,4,NA), b=c(0,0,1,1,2)), er)
 })
 
 ################################################################################
@@ -271,17 +302,11 @@ test_that("group length matches number of columns", {
   expect_error(row_oneway_welch(x=matX, g=1:3), er)
   expect_error(row_kruskalwallis(x=matX, g=1:3), er)
   expect_error(row_bartlett(x=matX, g=1:3), er)
-  expect_error(row_ievora(x=matX, g=1:3), er)
 })
 
-################################################################################
-########################### SPECIAL GROUP EXCEPTIONS ###########################
-################################################################################
-
-test_that("groups have required number of groups", {
+test_that("binary length matches number of columns", {
   matX <- matrix(1:12, nrow=3)
-  er <- '"g" must have no more than 2 unique elements'
-  expect_error(row_ievora(x=matX, g=c("A","B","C","C")), er)
-  expect_error(row_ievora(x=c(1,2,3,4,NA), g=c(0,0,1,1,2)), er)
+  er <- '"b" must be a vector with length ncol\\(x\\)'
+  expect_error(row_ievora(x=matX, b=1:3), er)
 })
 
