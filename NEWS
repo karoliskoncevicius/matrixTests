@@ -7,6 +7,10 @@ DOCUMENTATION:
 
 o Improved help documentation.
 
+INTERFACE:
+
+o row_ievora and col_ievora "g" (group) parameter was renamed to "b" (binary)
+
 Version: 0.1.0 [2018 Mar 5]
 
 NEW FEATURES:
