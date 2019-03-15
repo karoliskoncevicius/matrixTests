@@ -53,7 +53,7 @@ test_that("monte-carlo random testing gives equal results", {
   cfs  <- seq(0, 1, length.out=nrow(X))
 
   t1 <- base_cor_pearson(X, Y, alts, cfs)
-  t2 <- row_cor_pearson(X, Y, alts, cfs)
+  t2 <- suppressWarnings(row_cor_pearson(X, Y, alts, cfs))
 
   expect_equal(t1, t2)
 })
