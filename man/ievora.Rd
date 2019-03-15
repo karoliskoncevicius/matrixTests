@@ -6,15 +6,15 @@
 \alias{col_ievora}
 \title{iEVORA}
 \usage{
-row_ievora(x, g, cutT = 0.05, cutBfdr = 0.001)
+row_ievora(x, b, cutT = 0.05, cutBfdr = 0.001)
 
-col_ievora(x, g, cutT = 0.05, cutBfdr = 0.001)
+col_ievora(x, b, cutT = 0.05, cutBfdr = 0.001)
 }
 \arguments{
 \item{x}{numeric matrix}
 
-\item{g}{a vector specifying group membership for each observation of x.
-Must contain two unique groups one labeled "1" and another "0".
+\item{b}{a binory vector specifying groups for each observation of x.
+Must contain two unique entries: one labeled "1" and another "0".
 If the vector is neither numeric nor logical the group appearing first is
 labeled "0" and the remaining one as "1".}
 
