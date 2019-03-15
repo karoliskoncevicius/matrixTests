@@ -34,9 +34,11 @@ of the input matrix.
 NA values are always ommited. If values are missing for a whole group - that
 group is discarded. Groups with only one observation are also discarded.
 
-\code{row_bartlett(x, group)} - Bartlet's test on rows.
-\code{col_bartlett(x, group)} - Bartlet's test on columns.
-Same as \code{bartlett.test(x,  group)}
+\code{row_bartlett(x, g)} - Bartlet's test on rows.
+\code{col_bartlett(x, g)} - Bartlet's test on columns.
+
+Results should be the same as as running \code{bartlett.test(x, g)}
+on every row (or column) of \code{x}.
 }
 \examples{
 col_bartlett(iris[,1:4], iris$Species)

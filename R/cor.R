@@ -6,9 +6,11 @@
 #' Main arguments and results were intentionally matched to the \code{cor.test()}
 #' function from default stats package.
 #'
-#' \code{row_cor_pearson()} - test for Pearson correlation on rows.
-#' \code{col_cor_pearson()} - test for Pearson correlation on columns.
-#' Same as \code{cor.test(x,y,method="pearson")}
+#' \code{row_cor_pearson(x, y)} - test for Pearson correlation on rows.
+#' \code{col_cor_pearson(x, y)} - test for Pearson correlation on columns.
+#'
+#' Results should be the same as running \code{cor.test(x, y, method="pearson")}
+#' on every row (or column) of \code{x} and \code{y}.
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.

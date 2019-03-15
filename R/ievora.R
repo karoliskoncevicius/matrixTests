@@ -14,8 +14,8 @@
 #' The algorithm is mainly aimed at large DNA methylation data sets.
 #'
 #' @param x numeric matrix
-#' @param g a vector specifying group membership for each observation of x.
-#' Must contain two unique groups one labeled "1" and another "0".
+#' @param b a binory vector specifying groups for each observation of x.
+#' Must contain two unique entries: one labeled "1" and another "0".
 #' If the vector is neither numeric nor logical the group appearing first is
 #' labeled "0" and the remaining one as "1".
 #' @param cutT cutoff threshold for the raw p-value of the t-test step.
@@ -56,9 +56,9 @@
 #' @author Karolis Koncevičius
 #' @name ievora
 #' @export
-row_ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
+row_ievora <- function(x, b, cutT=0.05, cutBfdr=0.001) {
   force(x)
-  force(g)
+  force(b)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -68,22 +68,22 @@ row_ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
 
   assert_numeric_mat_or_vec(x)
 
-  assert_vec_length(g, ncol(x))
-  assert_max_number_of_levels(g, 2)
+  assert_vec_length(b, ncol(x))
+  assert_max_number_of_levels(b, 2)
 
-  bad <- is.na(g)
+  bad <- is.na(b)
   if(any(bad)) {
     warning(sum(bad), ' columns dropped due to missing group information')
     x <- x[,!bad, drop=FALSE]
-    g <- g[!bad]
+    b <- b[!bad]
   }
 
-  if(is.logical(g)) {
-    g <- as.numeric(g)
+  if(is.logical(b)) {
+    b <- as.numeric(b)
   }
 
-  if(!is.numeric(g) | !(all(g %in% c(0,1)))) {
-    g <- match(g, unique(g))-1
+  if(!is.numeric(b) | !(all(b %in% c(0,1)))) {
+    b <- match(b, unique(b))-1
   }
 
   assert_numeric_vec_length(cutT,  1)
@@ -91,8 +91,8 @@ row_ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
   assert_all_in_range(cutT, 0, 1)
   assert_all_in_range(cutBfdr, 0, 1)
 
-  tres <- row_t_welch(x[,g==1, drop=FALSE], x[,g==0, drop=FALSE])
-  bres <- row_bartlett(x, g)
+  tres <- row_t_welch(x[,b==1, drop=FALSE], x[,b==0, drop=FALSE])
+  bres <- row_bartlett(x, b)
 
   brq <- stats::p.adjust(bres$pvalue, "fdr")
   isSig <- brq < cutBfdr & tres$pvalue < cutT
@@ -100,8 +100,8 @@ row_ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
   rank  <- rep(NA, length(isSig))
   rank[isSig] <- rank(tres$pvalue[isSig], ties.method="first")
 
-  var0 <- rowVars(x[,g==0, drop=FALSE], na.rm=TRUE)
-  var1 <- rowVars(x[,g==1, drop=FALSE], na.rm=TRUE)
+  var0 <- rowVars(x[,b==0, drop=FALSE], na.rm=TRUE)
+  var1 <- rowVars(x[,b==1, drop=FALSE], na.rm=TRUE)
   logR <- log2(var1/var0)
 
   rnames <- rownames(x)
@@ -117,7 +117,7 @@ row_ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
 
 #' @rdname ievora
 #' @export
-col_ievora <- function(x, g, cutT=0.05, cutBfdr=0.001) {
-  row_ievora(t(x), g, cutT=cutT, cutBfdr=cutBfdr)
+col_ievora <- function(x, b, cutT=0.05, cutBfdr=0.001) {
+  row_ievora(t(x), b, cutT=cutT, cutBfdr=cutBfdr)
 }
 

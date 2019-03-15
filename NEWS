@@ -1,0 +1,23 @@
+Package: matrixTests
+====================
+
+Version: 0.1.1 [2019 Mar 15]
+
+DOCUMENTATION:
+
+o Improved help documentation.
+
+TESTS:
+
+o Fixed an indexing bug in `row_cor_pearson()` monte-carlo test.
+
+INTERFACE:
+
+o row_ievora and col_ievora "g" (group) parameter was renamed to "b" (binary)
+
+Version: 0.1.0 [2018 Mar 5]
+
+NEW FEATURES:
+
+o Created and submitted to CRAN
+

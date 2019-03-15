@@ -29,9 +29,11 @@ Each row contains the following information (in order):\cr
 Performs a Kruskal-Wallis rank sum test on each row/column of the input matrix.
 }
 \details{
-\code{row_kruskalwallis} - Kruskal Wallis test on rows.
-\code{col_kruskalwallis} - Kruskal Wallis test on columns.
-Same as as \code{kruskal.test()}
+\code{row_kruskalwallis(x, g)} - Kruskal Wallis test on rows.
+\code{col_kruskalwallis(x, g)} - Kruskal Wallis test on columns.
+
+Results should be the same as running \code{kruskal.test(x, g)}
+on every row (or column) of \code{x}
 }
 \examples{
 col_kruskalwallis(iris[,1:4], iris$Species)
