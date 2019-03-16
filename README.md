@@ -101,12 +101,13 @@ sample estimates:
 | Equal variance oneway ANOVA        | `row_oneway_equalvar(x, g)` | `oneway.test(x, g, var.equal=TRUE)`
 | Kruskal-Wallis test                | `row_kruskalwallis(x, g)`   | `kruskal.test(x, g)`
 | Bartlett's test                    | `row_bartlett(x, g)`        | `bartlett.test(x, g)`
+| Jarque-Beratest                    | `row_jarquebera(x)`         | `moments::jarque.test(x)`
 
 ## Test-Based Procedures ##
 
 |             Description            |      matrixTests            |       R equivalent
 |------------------------------------|-----------------------------|-----------------------------------------
-| EVORA                              | `row_ievora(x, g)`          | ---
+| EVORA                              | `row_ievora(x, b)`          | ---
 
 ## Installation ##
 
