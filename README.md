@@ -106,7 +106,7 @@ sample estimates:
 
 |             Description            |      matrixTests            |       R equivalent
 |------------------------------------|-----------------------------|-----------------------------------------
-| EVORA                              | `row_ievora(x, g)`          | ---
+| EVORA                              | `row_ievora(x, b)`          | ---
 
 ## Installation ##
 
