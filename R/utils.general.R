@@ -16,7 +16,7 @@ rowTables <- function(x) {
 
 showWarning <- function(isWarning, err) {
   if(any(isWarning, na.rm=TRUE)) {
-    parentFun <- as.list(sys.call(-1))[[1]]
+    parentFun <- deparse(as.list(sys.call(-1))[[1]])
     n <- sum(isWarning, na.rm=TRUE)
     i <- match(TRUE, isWarning)
     err <- paste0(parentFun, ": ", n, ' of the rows ', err, ".",

@@ -7,6 +7,10 @@ NEW FEATURES:
 
 o Added Jarque Bera test: `row_jarquebera` and `col_jarquebera`.
 
+BUG FIXES:
+
+o The warning messages are no longer repeated 3 times in cases when the call has a namespace (i.e. matrixTests::row_bartlett).
+
 Version: 0.1.1 [2019 Mar 15]
 
 DOCUMENTATION:
