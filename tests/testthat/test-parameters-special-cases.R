@@ -18,6 +18,7 @@ test_that("x and y can be numeric vectors", {
   expect_equal(row_kruskalwallis(x=x, g=grp), row_kruskalwallis(x=X, g=grp))
   expect_equal(row_bartlett(x=x, g=grp), row_bartlett(x=X, g=grp))
   expect_equal(row_ievora(x=x, b=grp), row_ievora(x=X, b=grp))
+  expect_equal(row_jarquebera(x=x), row_jarquebera(x=X))
 })
 
 test_that("x and y can be numeric data.frames", {
@@ -34,6 +35,7 @@ test_that("x and y can be numeric data.frames", {
   expect_equal(row_kruskalwallis(x=x, g=grp), row_kruskalwallis(x=X, g=grp))
   expect_equal(row_bartlett(x=x, g=grp), row_bartlett(x=X, g=grp))
   expect_equal(row_ievora(x=x, b=grp), row_ievora(x=X, b=grp))
+  expect_equal(row_jarquebera(x=x), row_jarquebera(x=X))
 })
 
 test_that("x and y can have 0 rows and 0 columns", {
@@ -50,6 +52,7 @@ test_that("x and y can have 0 rows and 0 columns", {
   expect_equal(nrow(row_kruskalwallis(x=x, g=grp)), 0)
   expect_equal(nrow(row_bartlett(x=x, g=grp)), 0)
   expect_equal(nrow(row_ievora(x=x, b=grp)), 0)
+  expect_equal(nrow(row_jarquebera(x=x)), 0)
 })
 
 test_that("NA and NaN are treated the same", {
@@ -70,6 +73,7 @@ test_that("NA and NaN are treated the same", {
   expect_equal(row_kruskalwallis(x=Xna, g=grp), row_kruskalwallis(x=Xnan, g=grp))
   expect_equal(row_bartlett(x=Xna, g=grp), row_bartlett(x=Xnan, g=grp))
   expect_equal(row_ievora(x=Xna, b=grp), row_ievora(x=Xnan, b=grp))
+  expect_equal(row_jarquebera(x=Xna), row_jarquebera(x=Xnan))
 })
 
 ################################################################################
