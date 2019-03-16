@@ -123,6 +123,14 @@ library(devtools)
 install_github("KKPMW/matrixTests")
 ```
 
+To install the **developement version** (stable updates not yet on **CRAN**):
+
+```r
+library(devtools)
+install_github("KKPMW/matrixTests", ref="dev")
+```
+
+
 ## Further Information ##
 
 For more information please refer to the [Wiki](https://github.com/KKPMW/matrixTests/wiki) page:
