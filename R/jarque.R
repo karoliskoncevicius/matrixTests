@@ -13,7 +13,7 @@
 #' @return a data.frame where each row contains the results of a Jarque-Bera
 #' test performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr
-#' 1. obs.tot - number of observations\cr
+#' 1. obs - number of observations\cr
 #' 2. skewness - skewness\cr
 #' 3. kurtosis - kurtosis\cr
 #' 4. df - degrees of freedom\cr
@@ -50,18 +50,22 @@ row_jarquebera <- function(x) {
   kurt <- (m4 / m2^2)
 
   ksq  <- n * skew^2/6 + n * (kurt-3)^2/24
-  df   <- 2
+  df   <- rep.int(2, length(n))
   p    <- 1 - stats::pchisq(ksq, df=df)
 
 
   w1 <- n < 2
   showWarning(w1, 'had less than 2 total observations')
 
-  p[w1] <- NA
+  w2 <- !w1 & matrixStats::rowAlls(m0, value=0, na.rm=TRUE)
+  showWarning(w2, 'were essentially constant')
+
+  p[w1 | w2] <- NA
+  ksq[w1 | w2] <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.tot=n, skewness=skew, kurtosis=kurt, df=df,
+  data.frame(obs=n, skewness=skew, kurtosis=kurt, df=df,
              statistic=ksq, pvalue=p, row.names=rnames
              )
 }
