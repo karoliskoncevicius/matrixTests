@@ -101,7 +101,7 @@ sample estimates:
 | Equal variance oneway ANOVA        | `row_oneway_equalvar(x, g)` | `oneway.test(x, g, var.equal=TRUE)`
 | Kruskal-Wallis test                | `row_kruskalwallis(x, g)`   | `kruskal.test(x, g)`
 | Bartlett's test                    | `row_bartlett(x, g)`        | `bartlett.test(x, g)`
-| Fligner-Killeen test               | `row_flignerkilleen(x)`     | `fligner.test(x)`
+| Fligner-Killeen test               | `row_flignerkilleen(x, g)`  | `fligner.test(x, g)`
 | Jarque-Bera test                   | `row_jarquebera(x)`         | `moments::jarque.test(x)`
 
 ## Test-Based Procedures ##
