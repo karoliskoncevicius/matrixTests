@@ -18,6 +18,8 @@ test_that("x and y can be numeric vectors", {
   expect_equal(row_kruskalwallis(x=x, g=grp), row_kruskalwallis(x=X, g=grp))
   expect_equal(row_bartlett(x=x, g=grp), row_bartlett(x=X, g=grp))
   expect_equal(row_ievora(x=x, b=grp), row_ievora(x=X, b=grp))
+  expect_equal(row_jarquebera(x=x), row_jarquebera(x=X))
+  expect_equal(row_flignerkilleen(x=x, g=grp), row_flignerkilleen(x=X, g=grp))
 })
 
 test_that("x and y can be numeric data.frames", {
@@ -34,6 +36,8 @@ test_that("x and y can be numeric data.frames", {
   expect_equal(row_kruskalwallis(x=x, g=grp), row_kruskalwallis(x=X, g=grp))
   expect_equal(row_bartlett(x=x, g=grp), row_bartlett(x=X, g=grp))
   expect_equal(row_ievora(x=x, b=grp), row_ievora(x=X, b=grp))
+  expect_equal(row_jarquebera(x=x), row_jarquebera(x=X))
+  expect_equal(row_flignerkilleen(x=x, g=grp), row_flignerkilleen(x=X, g=grp))
 })
 
 test_that("x and y can have 0 rows and 0 columns", {
@@ -50,6 +54,8 @@ test_that("x and y can have 0 rows and 0 columns", {
   expect_equal(nrow(row_kruskalwallis(x=x, g=grp)), 0)
   expect_equal(nrow(row_bartlett(x=x, g=grp)), 0)
   expect_equal(nrow(row_ievora(x=x, b=grp)), 0)
+  expect_equal(nrow(row_jarquebera(x=x)), 0)
+  expect_equal(nrow(row_flignerkilleen(x=x, g=grp)), 0)
 })
 
 test_that("NA and NaN are treated the same", {
@@ -70,6 +76,8 @@ test_that("NA and NaN are treated the same", {
   expect_equal(row_kruskalwallis(x=Xna, g=grp), row_kruskalwallis(x=Xnan, g=grp))
   expect_equal(row_bartlett(x=Xna, g=grp), row_bartlett(x=Xnan, g=grp))
   expect_equal(row_ievora(x=Xna, b=grp), row_ievora(x=Xnan, b=grp))
+  expect_equal(row_jarquebera(x=Xna), row_jarquebera(x=Xnan))
+  expect_equal(row_flignerkilleen(x=Xna, g=grp), row_flignerkilleen(x=Xnan, g=grp))
 })
 
 ################################################################################
@@ -95,6 +103,8 @@ test_that("NA and NaN produce the same result", {
   expect_equal(suppressWarnings(row_bartlett(x=x, g=grp1)), suppressWarnings(row_bartlett(x=x, g=grp3)))
   expect_equal(suppressWarnings(row_ievora(x=x, b=grp1)), suppressWarnings(row_ievora(x=x, b=grp2)))
   expect_equal(suppressWarnings(row_ievora(x=x, b=grp1)), suppressWarnings(row_ievora(x=x, b=grp3)))
+  expect_equal(suppressWarnings(row_flignerkilleen(x=x, g=grp1)), suppressWarnings(row_flignerkilleen(x=x, g=grp2)))
+  expect_equal(suppressWarnings(row_flignerkilleen(x=x, g=grp1)), suppressWarnings(row_flignerkilleen(x=x, g=grp3)))
 })
 
 test_that("groups can all be NA", {
@@ -105,6 +115,7 @@ test_that("groups can all be NA", {
   expect_equal(suppressWarnings(row_kruskalwallis(x=x, g=grp)$obs.tot), rep(0, nrow(x)))
   expect_equal(suppressWarnings(row_bartlett(x=x, g=grp)$obs.tot), rep(0, nrow(x)))
   expect_equal(suppressWarnings(row_ievora(x=x, b=grp)$obs.0), rep(0, nrow(x)))
+  expect_equal(suppressWarnings(row_flignerkilleen(x=x, g=grp)$obs.tot), rep(0, nrow(x)))
 })
 
 test_that("groups can all be NaN", {
@@ -115,6 +126,7 @@ test_that("groups can all be NaN", {
   expect_equal(suppressWarnings(row_kruskalwallis(x=x, g=grp)$obs.tot), rep(0, nrow(x)))
   expect_equal(suppressWarnings(row_bartlett(x=x, g=grp)$obs.tot), rep(0, nrow(x)))
   expect_equal(suppressWarnings(row_ievora(x=x, b=grp)$obs.0), rep(0, nrow(x)))
+  expect_equal(suppressWarnings(row_flignerkilleen(x=x, g=grp)$obs.tot), rep(0, nrow(x)))
 })
 
 test_that("all observations can be in the same group", {
@@ -125,6 +137,7 @@ test_that("all observations can be in the same group", {
   expect_equal(suppressWarnings(row_kruskalwallis(x=x, g=grp)$obs.groups), rep(1, nrow(x)))
   expect_equal(suppressWarnings(row_bartlett(x=x, g=grp)$obs.groups), rep(1, nrow(x)))
   expect_equal(suppressWarnings(row_ievora(x=x, b=grp)$obs.0), rep(ncol(x), nrow(x)))
+  expect_equal(suppressWarnings(row_flignerkilleen(x=x, g=grp)$obs.groups), rep(1, nrow(x)))
 })
 
 
@@ -137,6 +150,7 @@ test_that("groups can be character", {
   expect_equal(row_kruskalwallis(x=x, g=grp1), row_kruskalwallis(x=x, g=grp2))
   expect_equal(row_bartlett(x=x, g=grp1), row_bartlett(x=x, g=grp2))
   expect_equal(row_ievora(x=x, b=grp1), row_ievora(x=x, b=grp2))
+  expect_equal(row_flignerkilleen(x=x, g=grp1), row_flignerkilleen(x=x, g=grp2))
 })
 
 test_that("groups can be factor", {
@@ -148,6 +162,7 @@ test_that("groups can be factor", {
   expect_equal(row_kruskalwallis(x=x, g=grp1), row_kruskalwallis(x=x, g=grp2))
   expect_equal(row_bartlett(x=x, g=grp1), row_bartlett(x=x, g=grp2))
   expect_equal(row_ievora(x=x, b=grp1), row_ievora(x=x, b=grp2))
+  expect_equal(row_flignerkilleen(x=x, g=grp1), row_flignerkilleen(x=x, g=grp2))
 })
 
 test_that("groups can be logical", {
@@ -159,6 +174,7 @@ test_that("groups can be logical", {
   expect_equal(row_kruskalwallis(x=x, g=grp1), row_kruskalwallis(x=x, g=grp2))
   expect_equal(row_bartlett(x=x, g=grp1), row_bartlett(x=x, g=grp2))
   expect_equal(row_ievora(x=x, b=grp1), row_ievora(x=x, b=grp2))
+  expect_equal(row_flignerkilleen(x=x, g=grp1), row_flignerkilleen(x=x, g=grp2))
 })
 
 test_that("groups can be complex", {
@@ -170,6 +186,7 @@ test_that("groups can be complex", {
   expect_equal(row_kruskalwallis(x=x, g=grp1), row_kruskalwallis(x=x, g=grp2))
   expect_equal(row_bartlett(x=x, g=grp1), row_bartlett(x=x, g=grp2))
   expect_equal(row_ievora(x=x, b=grp1), row_ievora(x=x, b=grp2))
+  expect_equal(row_flignerkilleen(x=x, g=grp1), row_flignerkilleen(x=x, g=grp2))
 })
 
 test_that("groups can be a list", {
@@ -181,6 +198,7 @@ test_that("groups can be a list", {
   expect_equal(row_kruskalwallis(x=x, g=grp1), row_kruskalwallis(x=x, g=grp2))
   expect_equal(row_bartlett(x=x, g=grp1), row_bartlett(x=x, g=grp2))
   expect_equal(row_ievora(x=x, b=grp1), row_ievora(x=x, b=grp2))
+  expect_equal(row_flignerkilleen(x=x, g=grp1), row_flignerkilleen(x=x, g=grp2))
 })
 
 test_that("groups can be a matrix", {
@@ -192,6 +210,7 @@ test_that("groups can be a matrix", {
   expect_equal(row_kruskalwallis(x=x, g=grp1), row_kruskalwallis(x=x, g=grp2))
   expect_equal(row_bartlett(x=x, g=grp1), row_bartlett(x=x, g=grp2))
   expect_equal(row_ievora(x=x, b=grp1), row_ievora(x=x, b=grp2))
+  expect_equal(row_flignerkilleen(x=x, g=grp1), row_flignerkilleen(x=x, g=grp2))
 })
 
 test_that("groups can be infinite", {
@@ -203,6 +222,7 @@ test_that("groups can be infinite", {
   expect_equal(row_kruskalwallis(x=x, g=grp1), row_kruskalwallis(x=x, g=grp2))
   expect_equal(row_bartlett(x=x, g=grp1), row_bartlett(x=x, g=grp2))
   expect_equal(row_ievora(x=x, b=grp1), row_ievora(x=x, b=grp2))
+  expect_equal(row_flignerkilleen(x=x, g=grp1), row_flignerkilleen(x=x, g=grp2))
 })
 
 ################################################################################

@@ -16,6 +16,8 @@ test_that("x cannot be missing", {
   expect_error(row_bartlett(), er)
   expect_error(row_cor_pearson(), er)
   expect_error(row_ievora(), er)
+  expect_error(row_jarquebera(), er)
+  expect_error(row_flignerkilleen(), er)
 })
 
 test_that("y cannot be missing", {
@@ -32,6 +34,7 @@ test_that("groups cannot be missing", {
   expect_error(row_oneway_welch(x=NA), er)
   expect_error(row_kruskalwallis(x=NA), er)
   expect_error(row_bartlett(x=NA), er)
+  expect_error(row_flignerkilleen(x=NA), er)
 })
 
 test_that("binary cannot be missing", {
@@ -56,6 +59,8 @@ test_that("x cannot be a character", {
   expect_error(row_bartlett(x=matX, g="a"), er)
   expect_error(row_cor_pearson(x=matX, y=0), er)
   expect_error(row_ievora(x=matX, b="a"), er)
+  expect_error(row_jarquebera(x=matX), er)
+  expect_error(row_flignerkilleen(x=matX, g="a"), er)
 })
 
 test_that("y cannot be a character", {
@@ -80,6 +85,8 @@ test_that("x cannot be partially numeric", {
   expect_error(row_bartlett(x=iris, g="a"), er)
   expect_error(row_cor_pearson(x=iris, y=0), er)
   expect_error(row_ievora(x=iris, b="a"), er)
+  expect_error(row_jarquebera(x=iris), er)
+  expect_error(row_flignerkilleen(x=iris, g="a"), er)
 })
 
 test_that("y cannot be partially numeric", {
@@ -104,6 +111,8 @@ test_that("x cannot be complex", {
   expect_error(row_bartlett(x=matX, g="a"), er)
   expect_error(row_cor_pearson(x=matX, y=0), er)
   expect_error(row_ievora(x=matX, b="a"), er)
+  expect_error(row_jarquebera(x=matX), er)
+  expect_error(row_flignerkilleen(x=matX, g="a"), er)
 })
 
 test_that("y cannot be complex", {
@@ -129,6 +138,8 @@ test_that("x cannot be logical", {
   expect_error(row_bartlett(x=matX, g="a"), er)
   expect_error(row_cor_pearson(x=matX, y=0), er)
   expect_error(row_ievora(x=matX, b="a"), er)
+  expect_error(row_jarquebera(x=matX), er)
+  expect_error(row_flignerkilleen(x=matX, g="a"), er)
 })
 
 test_that("y cannot be logical", {
@@ -153,6 +164,8 @@ test_that("x cannot be NULL", {
   expect_error(row_bartlett(x=NULL, g="a"), er)
   expect_error(row_cor_pearson(x=NULL, y=0), er)
   expect_error(row_ievora(x=NULL, b="a"), er)
+  expect_error(row_jarquebera(x=NULL), er)
+  expect_error(row_flignerkilleen(x=NULL, g="a"), er)
 })
 
 test_that("y cannot be NULL", {
@@ -177,6 +190,8 @@ test_that("x cannot be in a list", {
   expect_error(row_bartlett(x=list(1:5), g="a"), er)
   expect_error(row_cor_pearson(x=list(1:5), y=0), er)
   expect_error(row_ievora(x=list(1:5), b="a"), er)
+  expect_error(row_jarquebera(x=list(1:5)), er)
+  expect_error(row_flignerkilleen(x=list(1:5), g="a"), er)
 })
 
 test_that("y cannot be in a list", {
@@ -200,6 +215,8 @@ test_that("x cannot be a list", {
   expect_error(row_bartlett(x=as.list(1:5), g="a"), er)
   expect_error(row_cor_pearson(x=as.list(1:5), y=0), er)
   expect_error(row_ievora(x=as.list(1:5), b="a"), er)
+  expect_error(row_jarquebera(x=as.list(1:5)), er)
+  expect_error(row_flignerkilleen(x=as.list(1:5), g="a"), er)
 })
 
 test_that("y cannot be a list", {
@@ -222,6 +239,7 @@ test_that("groups cannot be NULL", {
   expect_error(row_oneway_welch(x=matX, g=NULL), er)
   expect_error(row_kruskalwallis(x=matX, g=NULL), er)
   expect_error(row_bartlett(x=matX, g=NULL), er)
+  expect_error(row_flignerkilleen(x=matX, g=NULL), er)
 })
 
 test_that("groups cannot be a list", {
@@ -231,6 +249,7 @@ test_that("groups cannot be a list", {
   expect_error(row_oneway_welch(x=matX, g=list(1:3)), er)
   expect_error(row_kruskalwallis(x=matX, g=list(1:3)), er)
   expect_error(row_bartlett(x=matX, g=list(1:3)), er)
+  expect_error(row_flignerkilleen(x=matX, g=list(1:3)), er)
 })
 
 test_that("groups cannot be a matrix", {
@@ -241,6 +260,7 @@ test_that("groups cannot be a matrix", {
   expect_error(row_oneway_welch(x=matX, g=grp), er)
   expect_error(row_kruskalwallis(x=matX, g=grp), er)
   expect_error(row_bartlett(x=matX, g=grp), er)
+  expect_error(row_flignerkilleen(x=matX, g=grp), er)
 })
 
 ################################################################################
@@ -302,6 +322,7 @@ test_that("group length matches number of columns", {
   expect_error(row_oneway_welch(x=matX, g=1:3), er)
   expect_error(row_kruskalwallis(x=matX, g=1:3), er)
   expect_error(row_bartlett(x=matX, g=1:3), er)
+  expect_error(row_flignerkilleen(x=matX, g=1:3), er)
 })
 
 test_that("binary length matches number of columns", {

@@ -1,6 +1,17 @@
 Package: matrixTests
 ====================
 
+Version: 0.1.2 [TBD]
+
+NEW FEATURES:
+
+o Added Jarque Bera test: `row_jarquebera` and `col_jarquebera`.
+o Added Fligner-Killeen test: `row_flignerkilleen` and `col_flignerkilleen`.
+
+BUG FIXES:
+
+o The warning messages are no longer repeated 3 times in cases when the call has a namespace (i.e. matrixTests::row_bartlett).
+
 Version: 0.1.1 [2019 Mar 15]
 
 DOCUMENTATION:
@@ -13,11 +24,11 @@ o Fixed an indexing bug in `row_cor_pearson()` monte-carlo test.
 
 INTERFACE:
 
-o row_ievora and col_ievora "g" (group) parameter was renamed to "b" (binary)
+o row_ievora and col_ievora "g" (group) parameter was renamed to "b" (binary).
 
 Version: 0.1.0 [2018 Mar 5]
 
 NEW FEATURES:
 
-o Created and submitted to CRAN
+o Created and submitted to CRAN.
 
