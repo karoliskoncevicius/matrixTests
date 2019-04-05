@@ -54,7 +54,6 @@ row_flignerkilleen <- function(x, g) {
     x <- x[,!bad, drop=FALSE]
     g <- g[!bad]
   }
-
   g <- as.character(g)
 
 
