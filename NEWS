@@ -6,6 +6,7 @@ Version: 0.1.2 [TBD]
 NEW FEATURES:
 
 o Added Jarque Bera test: `row_jarquebera` and `col_jarquebera`.
+o Added Fligner-Killeen test: `row_flignerkilleen` and `col_flignerkilleen`.
 
 BUG FIXES:
 
