@@ -1,7 +1,7 @@
 #' Fligner-Killeen test
 #'
-#' Performs the Fligner-Killeen test of homogeneity of variances on each
-#' row/column of the input matrix.
+#' Performs the Fligner-Killeen test of homogeneity of variances (with median
+#' centering of the groups) on each row/column of the input matrix.
 #'
 #' NA values are always ommited. If values are missing for a whole group - that
 #' group is discarded. Groups with only one observation are also discarded.
@@ -15,15 +15,14 @@
 #' @param x numeric matrix.
 #' @param g a vector specifying group membership for each observation of x.
 
-#' @return a data.frame where each row contains the results of the bartlett test
-#' performed on the corresponding row/column of x.\cr\cr
+#' @return a data.frame where each row contains the results of the
+#' Fligner-Killeen test performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr
 #' 1. obs.tot - total number of observations\cr
 #' 2. obs.groups - number of groups\cr
-#' 3. var.pooled - pooled variance estimate\cr
-#' 4. df - degrees of freedom\cr
-#' 5. statistic - chi-squared statistic\cr
-#' 6. pvalue - p-value
+#' 3. df - degrees of freedom\cr
+#' 4. statistic - squared statistic\cr
+#' 5. pvalue - p-value
 #'
 #' @seealso \code{fligner.test()}
 #'
@@ -62,70 +61,45 @@ row_flignerkilleen <- function(x, g) {
   nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   for(i in seq_along(unique(g))) {
     group <- unique(g)[i]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
+    inds  <- g==group
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,inds, drop=FALSE]))
+    x[,inds] <- x[,inds] - matrixStats::rowMedians(x[,inds], na.rm=TRUE)
   }
-  nPerGroup[nPerGroup < 2] <- NA # drop group with less than 2 observations
-
-  # NOTE: below is fligner code distilled from R's fligner.test()
-  # k <- nlevels(g)
-  # if (k < 2) stop("all observations are in the same group")
-  # n <- length(x)
-  # if (n < 2) stop("not enough observations")
-
-  # x <- x - tapply(x, g, median)[g]
-  # a <- qnorm((1 + rank(abs(x))/(n + 1))/2)
-
-  # STATISTIC <- sum(tapply(a, g, "sum")^2/tapply(a, g, "length"))
-  # STATISTIC <- (STATISTIC - n * mean(a)^2)/var(a)
-
-  # PARAMETER <- k - 1
-
-  # PVAL <- pchisq(STATISTIC, PARAMETER, lower.tail = FALSE)
-
-  # names(STATISTIC) <- "Fligner-Killeen:med chi-squared"
-  # names(PARAMETER) <- "df"
-
-  # METHOD <- "Fligner-Killeen test of homogeneity of variances"
-  # RVAL <- list(statistic = STATISTIC, parameter = PARAMETER,
-  #              p.value = PVAL, method = METHOD, data.name = DNAME)
 
   nGroups  <- matrixStats::rowCounts(!is.na(nPerGroup))
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
 
-  vtot <- rowSums(vPerGroup*(nPerGroup-1), na.rm=TRUE) / (nSamples - nGroups)
-  df   <- nGroups-1
+  a <- qnorm((1 + matrixStats::rowRanks(abs(x), ties.method="average") / (nSamples+1)) / 2)
 
-  ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
-           (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
-  p <- stats::pchisq(ksq, df, lower.tail=FALSE)
+  stat <- rowSums(t(rowsum(t(a), g, na.rm=TRUE))^2 / nPerGroup)
+  stat <- (stat - nSamples * rowMeans(a, na.rm=TRUE)^2) / rowVars(a, na.rm=TRUE)
+  df   <- nGroups-1
+  p    <- stat::pchisq(stat, df, lower.tail=FALSE)
 
 
   w1 <- nGroups < 2
   showWarning(w1, 'had less than 2 groups with enough observations')
 
-  w2 <- !w1 & nGroups < length(unique(g))
-  showWarning(w2, 'had groups with less than 2 observations: those groups were removed')
+  w2 <- !w1 & matrixStats::rowAlls(nPerGroup < 2)
+  showWarning(w2, 'had one observation per group')
 
-  w3 <- !w1 & vtot==0 & nGroups!=0
+  w3 <- !w1 & !w2 & matrixStats::rowAlls(x==0)
   showWarning(w3, 'had zero variance in all of the groups')
 
-  w4 <- !w1 & !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0
-  showWarning(w4, 'had groups with zero variance: result might be unreliable')
-
-  ksq[w1 | w3] <- NA
-  p[w1 | w3] <- NA
+  stat[w1 | w2 | w3] <- NA
+  p[w1 | w2 | w3] <- NA
 
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.tot=nSamples, obs.groups=nGroups, var.pooled=vtot, df=df,
-             statistic=ksq, pvalue=p, row.names=rnames
+  data.frame(obs.tot=nSamples, obs.groups=nGroups, df=df, statistic=stat,
+             pvalue=p, row.names=rnames
              )
 }
 
-#' @rdname bartlett
+#' @rdname fligner
 #' @export
-col_bartlett <- function(x, g) {
-  row_bartlett(t(x), g)
+col_flignerkilleen <- function(x, g) {
+  row_flignerkilleen(t(x), g)
 }
 
