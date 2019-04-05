@@ -59,6 +59,13 @@ row_flignerkilleen <- function(x, g) {
   g <- as.character(g)
 
 
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
+  for(i in seq_along(unique(g))) {
+    group <- unique(g)[i]
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
+  }
+  nPerGroup[nPerGroup < 2] <- NA # drop group with less than 2 observations
+
   # NOTE: below is fligner code distilled from R's fligner.test()
   # k <- nlevels(g)
   # if (k < 2) stop("all observations are in the same group")
@@ -81,15 +88,6 @@ row_flignerkilleen <- function(x, g) {
   # METHOD <- "Fligner-Killeen test of homogeneity of variances"
   # RVAL <- list(statistic = STATISTIC, parameter = PARAMETER,
   #              p.value = PVAL, method = METHOD, data.name = DNAME)
-
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
-  sPerGroup <- nPerGroup
-  for(i in seq_along(unique(g))) {
-    group <- unique(g)[i]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
-    sPerGroup[,i] <- rowSums(x[,g==group, drop=FALSE], na.rm=TRUE)
-  }
-  nPerGroup[nPerGroup < 2] <- NA # drop group with less than 2 observations
 
   nGroups  <- matrixStats::rowCounts(!is.na(nPerGroup))
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
