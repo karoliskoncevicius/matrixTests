@@ -16,6 +16,7 @@ test_that("when no row-names in the input - numbers are added", {
   expect_equal(rownames(row_cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(row_ievora(x=X, b=grp)), rnames)
   expect_equal(rownames(row_jarquebera(x=X)), rnames)
+  expect_equal(rownames(row_flignerkilleen(x=X, g=grp)), rnames)
 })
 
 
@@ -37,6 +38,7 @@ test_that("when X doesn't have rownames - names from Y or groups are not used", 
   expect_equal(rownames(row_cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(row_ievora(x=X, b=grp)), rnames)
   expect_equal(rownames(row_jarquebera(x=X)), rnames)
+  expect_equal(rownames(row_flignerkilleen(x=X, g=grp)), rnames)
 })
 
 
@@ -58,6 +60,7 @@ test_that("when row-names are specified - they are preserved", {
   expect_equal(rownames(row_cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(row_ievora(x=X, b=grp)), rnames)
   expect_equal(rownames(row_jarquebera(x=X)), rnames)
+  expect_equal(rownames(row_flignerkilleen(x=X, g=grp)), rnames)
   # data.frame case
   X <- as.data.frame(X)
   Y <- as.data.frame(Y)
@@ -73,6 +76,7 @@ test_that("when row-names are specified - they are preserved", {
   expect_equal(rownames(row_cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(row_ievora(x=X, b=grp)), rnames)
   expect_equal(rownames(row_jarquebera(x=X)), rnames)
+  expect_equal(rownames(row_flignerkilleen(x=X, g=grp)), rnames)
 })
 
 
@@ -93,5 +97,6 @@ test_that("when row-names are duplicated - they are modified to be unique", {
   expect_equal(rownames(row_cor_pearson(x=X, y=Y)), rnames)
   expect_equal(rownames(row_ievora(x=X, b=grp)), rnames)
   expect_equal(rownames(row_jarquebera(x=X)), rnames)
+  expect_equal(rownames(row_flignerkilleen(x=X, g=grp)), rnames)
 })
 

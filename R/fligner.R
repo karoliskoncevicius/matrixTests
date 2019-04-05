@@ -63,18 +63,25 @@ row_flignerkilleen <- function(x, g) {
     group <- unique(g)[i]
     inds  <- g==group
     nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,inds, drop=FALSE]))
-    x[,inds] <- x[,inds] - matrixStats::rowMedians(x[,inds], na.rm=TRUE)
+    x[,inds] <- x[,inds] - matrixStats::rowMedians(x[,inds, drop=FALSE], na.rm=TRUE)
   }
 
-  nGroups  <- matrixStats::rowCounts(!is.na(nPerGroup))
+  nGroups  <- matrixStats::rowCounts(nPerGroup!=0)
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
 
-  a <- qnorm((1 + matrixStats::rowRanks(abs(x), ties.method="average") / (nSamples+1)) / 2)
+  a <- stats::qnorm((1 + matrixStats::rowRanks(abs(x), ties.method="average") / (nSamples+1)) / 2)
+  a <- matrix(a, nrow=nrow(x), ncol=ncol(x))
 
-  stat <- rowSums(t(rowsum(t(a), g, na.rm=TRUE))^2 / nPerGroup)
+  mPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
+  for(i in seq_along(unique(g))) {
+    group <- unique(g)[i]
+    mPerGroup[,i] <- rowSums(a[,g==group, drop=FALSE], na.rm=TRUE)
+  }
+
+  stat <- rowSums(mPerGroup^2 / nPerGroup)
   stat <- (stat - nSamples * rowMeans(a, na.rm=TRUE)^2) / rowVars(a, na.rm=TRUE)
   df   <- nGroups-1
-  p    <- stat::pchisq(stat, df, lower.tail=FALSE)
+  p    <- stats::pchisq(stat, df, lower.tail=FALSE)
 
 
   w1 <- nGroups < 2
@@ -83,7 +90,7 @@ row_flignerkilleen <- function(x, g) {
   w2 <- !w1 & matrixStats::rowAlls(nPerGroup < 2)
   showWarning(w2, 'had one observation per group')
 
-  w3 <- !w1 & !w2 & matrixStats::rowAlls(x==0)
+  w3 <- !w1 & !w2 & matrixStats::rowAlls(x==0 | is.na(x))
   showWarning(w3, 'had zero variance in all of the groups')
 
   stat[w1 | w2 | w3] <- NA
