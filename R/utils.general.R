@@ -17,10 +17,19 @@ rowTables <- function(x) {
 showWarning <- function(isWarning, err) {
   if(any(isWarning, na.rm=TRUE)) {
     parentFun <- deparse(as.list(sys.call(-1))[[1]])
+    grandFun  <- as.list(sys.call(-2))
+    if(length(grandFun) > 0) {
+      grandFun <- deparse(grandFun[[1]])
+      if(grandFun %in% getNamespaceExports("matrixTests")) {
+        parentFun <- grandFun
+      }
+    }
+    pref <- "row"
+    if(grepl("^col_", parentFun)) pref <- "column"
     n <- sum(isWarning, na.rm=TRUE)
     i <- match(TRUE, isWarning)
-    err <- paste0(parentFun, ": ", n, ' of the rows ', err, ".",
-                  '\nFirst occurrence at row ', i
+    err <- paste0(parentFun, ": ", n, ' of the ', pref, 's ', err, ".",
+                  '\nFirst occurrence at ', pref, ' ', i
                   )
     warning(err, call.=FALSE)
   }
