@@ -1,5 +1,6 @@
 [![CRAN version](http://www.r-pkg.org/badges/version/matrixTests)](https://cran.r-project.org/package=matrixTests)
 [![Build Status](https://travis-ci.com/KKPMW/matrixTests.svg?branch=master)](https://travis-ci.com/KKPMW/matrixTests)
+[![dependencies](https://tinyverse.netlify.com/badge/matrixTests)](https://CRAN.R-project.org/package=matrixTests)
 [![codecov](https://codecov.io/gh/KKPMW/matrixTests/branch/master/graph/badge.svg)](https://codecov.io/gh/KKPMW/matrixTests)
 [![Monthly Downloads](https://cranlogs.r-pkg.org/badges/matrixTests)](https://cranlogs.r-pkg.org/badges/matrixTests)
 
