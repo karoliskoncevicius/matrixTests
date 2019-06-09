@@ -1,6 +1,6 @@
 #' t-test
 #'
-#' Performs a t-test on each row/column of a the input matrix.
+#' Performs a t-test on each row/column of the input matrix.
 #'
 #' Functions to perform one sample and two sample t-tests for rows/columns of matrices.
 #' Main arguments and results were intentionally matched to the \code{t.test()}
@@ -33,11 +33,11 @@
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
-#' @param mu true values of the means for the null hypothesis.
-#' A single number or numeric vector with values for each observation.
 #' @param alternative alternative hypothesis to use for each row/column of x.
 #' A single string or a vector with values for each observation.
 #' Values must be one of "two.sided" (default), "greater" or "less".
+#' @param mu true values of the means for the null hypothesis.
+#' A single number or numeric vector with values for each observation.
 #' @param conf.level confidence levels used for the confidence intervals.
 #' A single number or a numeric vector with values for each observation.
 #' All values must be in the range of [0;1].
@@ -103,12 +103,12 @@ row_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   if(length(mu)==1)
     mu <- rep(mu, length.out=nrow(x))
   assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_range(mu, -Inf, Inf)
+  assert_all_in_closed_interval(mu, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
-  assert_all_in_range(conf.level, 0, 1)
+  assert_all_in_closed_interval(conf.level, 0, 1)
 
 
   mxs <- rowMeans(x, na.rm=TRUE)
@@ -183,12 +183,12 @@ row_t_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   if(length(mu)==1)
     mu <- rep(mu, length.out=nrow(x))
   assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_range(mu, -Inf, Inf)
+  assert_all_in_closed_interval(mu, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
-  assert_all_in_range(conf.level, 0, 1)
+  assert_all_in_closed_interval(conf.level, 0, 1)
 
 
   mxs  <- rowMeans(x, na.rm=TRUE)
@@ -283,12 +283,12 @@ row_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   if(length(mu)==1)
     mu <- rep(mu, length.out=nrow(x))
   assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_range(mu, -Inf, Inf)
+  assert_all_in_closed_interval(mu, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
-  assert_all_in_range(conf.level, 0, 1)
+  assert_all_in_closed_interval(conf.level, 0, 1)
 
 
   mxs  <- rowMeans(x, na.rm=TRUE)
@@ -377,12 +377,12 @@ row_t_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   if(length(mu)==1)
     mu <- rep(mu, length.out=nrow(x))
   assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_range(mu, -Inf, Inf)
+  assert_all_in_closed_interval(mu, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
-  assert_all_in_range(conf.level, 0, 1)
+  assert_all_in_closed_interval(conf.level, 0, 1)
 
 
   xy <- x-y

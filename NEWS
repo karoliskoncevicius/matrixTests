@@ -3,6 +3,11 @@ Package: matrixTests
 
 Version: 0.1.3 [TBD]
 
+NEW FEATURES:
+
+o Added Wilcoxon tests: `row_wilcox_onesample`, `row_wilcox_paired` and `row_wilcox_twosample` plus column version equivalents.
+o Small adjustments to some documentation files (spelling mistakes, ordering, etc).
+
 BUG FIXES:
 
 o Warning messages for column-wise functions no longer warn about rows and specifies columns instead.

@@ -81,7 +81,7 @@ row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
-  assert_all_in_range(conf.level, 0, 1)
+  assert_all_in_closed_interval(conf.level, 0, 1)
 
   mu <- rep(0, length.out=nrow(x)) # can't be changed because different test should be used in that case.
 

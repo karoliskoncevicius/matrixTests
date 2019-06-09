@@ -13,6 +13,15 @@ assert_vec_length <- function(x, ...) {
     stop(paste0('"', name, '"', ' must be a vector with length ', lnames))
 }
 
+assert_logical_vec_length <- function(x, ...) {
+  name   <- as.character(substitute(x))
+  lens   <- unlist(list(...))
+  lnames <- as.character(substitute(list(...)))[-1]
+  lnames <- paste(lnames, collapse=' or ')
+  if(!(length(x) %in% lens) | !is.logical(x) | (NCOL(x) > 1 & NROW(x) > 1))
+    stop(paste0('"', name, '"', ' must be a logical vector with length ', lnames))
+}
+
 assert_character_vec_length <- function(x, ...) {
   name   <- as.character(substitute(x))
   lens   <- unlist(list(...))
@@ -38,11 +47,18 @@ assert_all_in_set <- function(x, vals) {
     stop(paste0('all "', name, '" values must be in: ', vnames))
 }
 
-assert_all_in_range <- function(x, min, max) {
+assert_all_in_open_interval <- function(x, min, max) {
+  name <- as.character(substitute(x))
+  if(is.null(x) | any(is.na(x) | x<=min | x>=max))
+    stop(paste0('all "', name, '" values must be greater than ', min, ' and lower than ', max))
+}
+
+assert_all_in_closed_interval <- function(x, min, max) {
   name <- as.character(substitute(x))
   if(is.null(x) | any(is.na(x) | x<min | x>max))
     stop(paste0('all "', name, '" values must be between: ', min, ' and ', max))
 }
+
 
 assert_equal_nrow <- function(x, y) {
   namex <- as.character(substitute(x))

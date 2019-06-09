@@ -79,7 +79,7 @@ They will contain a subset of the following information:\cr
 20. conf.level - chosen confidence level
 }
 \description{
-Performs a t-test on each row/column of a the input matrix.
+Performs a t-test on each row/column of the input matrix.
 }
 \details{
 Functions to perform one sample and two sample t-tests for rows/columns of matrices.

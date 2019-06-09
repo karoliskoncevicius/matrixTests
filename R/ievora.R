@@ -88,8 +88,8 @@ row_ievora <- function(x, b, cutT=0.05, cutBfdr=0.001) {
 
   assert_numeric_vec_length(cutT,  1)
   assert_numeric_vec_length(cutBfdr,  1)
-  assert_all_in_range(cutT, 0, 1)
-  assert_all_in_range(cutBfdr, 0, 1)
+  assert_all_in_closed_interval(cutT, 0, 1)
+  assert_all_in_closed_interval(cutBfdr, 0, 1)
 
   tres <- row_t_welch(x[,b==1, drop=FALSE], x[,b==0, drop=FALSE])
   bres <- row_bartlett(x, b)
