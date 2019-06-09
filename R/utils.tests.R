@@ -34,6 +34,132 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   res
 }
 
+do_wilcox_1_exact <- function(stat, n, alt) {
+  res <- rep(NA_integer_, length(stat))
+
+  case <- stat > (n * (n+1)/4)
+
+
+  inds <- alt=="two.sided" & case
+  if(any(inds)) {
+    res[inds] <- stats::psignrank(stat[inds]-1, n[inds], lower.tail=FALSE)
+    res[inds] <- pmin(2*res[inds], 1)
+  }
+
+  inds <- alt=="two.sided" & !case
+  if(any(inds)) {
+    res[inds] <- stats::psignrank(stat[inds], n[inds])
+    res[inds] <- pmin(2*res[inds], 1)
+  }
+
+  inds <- alt=="less"
+  if(any(inds)) {
+    res[inds] <- stats::psignrank(stat[inds], n[inds])
+  }
+
+  inds <- alt=="greater"
+  if(any(inds)) {
+    res[inds] <- stats::psignrank(stat[inds]-1, n[inds], lower.tail=FALSE)
+  }
+
+  res
+}
+
+do_wilcox_1_approx <- function(stat, n, alt, nties, correct) {
+  res <- rep(NA_integer_, length(stat))
+
+  z <- stat - n * (n+1)/4
+  correction <- rep(0, length(stat))
+  correction[correct & alt=="two.sided"] <- sign(z[correct & alt=="two.sided"]) * 0.5
+  correction[correct & alt=="greater"]   <- 0.5
+  correction[correct & alt=="less"   ]   <- -0.5
+  z <- z - correction
+
+  sigma <- sqrt(n * (n+1) * (2*n + 1)/24 - rowSums(nties^3 - nties, na.rm=TRUE)/48)
+  z <- z/sigma
+
+
+  inds <- alt=="two.sided"
+  if(any(inds)) {
+    res[inds] <- 2 * pmin(stats::pnorm(z[inds]), stats::pnorm(z[inds], lower.tail=FALSE))
+  }
+
+  inds <- alt=="greater"
+  if(any(inds)) {
+    res[inds] <- stats::pnorm(z[inds], lower.tail=FALSE)
+  }
+
+  inds <- alt=="less"
+  if(any(inds)) {
+    res[inds] <- stats::pnorm(z[inds])
+  }
+
+  res
+}
+
+do_wilcox_2_exact <- function(stat, nx, ny, alt) {
+  res <- rep(NA_integer_, length(stat))
+
+  case <- stat > (nx*ny/2)
+
+
+  inds <- alt=="two.sided" & case
+  if(any(inds)) {
+    res[inds] <- stats::pwilcox(stat[inds]-1, nx[inds], ny[inds], lower.tail=FALSE)
+    res[inds] <- pmin(2*res[inds], 1)
+  }
+
+  inds <- alt=="two.sided" & !case
+  if(any(inds)) {
+    res[inds] <- stats::pwilcox(stat[inds], nx[inds], ny[inds])
+    res[inds] <- pmin(2*res[inds], 1)
+  }
+
+  inds <- alt=="greater"
+  if(any(inds)) {
+    res[inds] <- stats::pwilcox(stat[inds]-1, nx[inds], ny[inds], lower.tail=FALSE)
+  }
+
+  inds <- alt=="less"
+  if(any(inds)) {
+    res[inds] <- stats::pwilcox(stat[inds], nx[inds], ny[inds])
+  }
+
+  res
+}
+
+do_wilcox_2_approx <- function(stat, nx, ny, alt, nties, correct) {
+  res <- rep(NA_integer_, length(stat))
+
+  z <- stat - nx*ny/2
+  correction <- rep(0, length(stat))
+  correction[correct & alt=="two.sided"] <- sign(z[correct & alt=="two.sided"]) * 0.5
+  correction[correct & alt=="greater"]   <- 0.5
+  correction[correct & alt=="less"   ]   <- -0.5
+  z <- z - correction
+
+  sigma <- sqrt((nx*ny/12) * ((nx+ny+1) - rowSums(nties^3 - nties, na.rm=TRUE) / ((nx+ny) * (nx+ny-1))))
+  z <- z/sigma
+
+
+  inds <- alt=="two.sided"
+  if(any(inds)) {
+    res[inds] <- 2 * pmin(stats::pnorm(z[inds]), stats::pnorm(z[inds], lower.tail=FALSE))
+  }
+
+  inds <- alt=="greater"
+  if(any(inds)) {
+    res[inds] <- stats::pnorm(z[inds], lower.tail=FALSE)
+  }
+
+  inds <- alt=="less"
+  if(any(inds)) {
+    res[inds] <- stats::pnorm(z[inds])
+  }
+
+  res
+}
+
 # Obtain p-values and confidence intervals for Pearson correlation test
 do_pearson <- function(r, df, alt, conf) {
   res <- matrix(numeric(), nrow=length(r), ncol=4)

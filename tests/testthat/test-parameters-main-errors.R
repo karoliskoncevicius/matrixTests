@@ -18,6 +18,9 @@ test_that("x cannot be missing", {
   expect_error(row_ievora(), er)
   expect_error(row_jarquebera(), er)
   expect_error(row_flignerkilleen(), er)
+  expect_error(row_wilcoxon_onesample(), er)
+  expect_error(row_wilcoxon_twosample(), er)
+  expect_error(row_wilcoxon_paired(), er)
 })
 
 test_that("y cannot be missing", {
@@ -26,6 +29,8 @@ test_that("y cannot be missing", {
   expect_error(row_t_welch(x=NA), er)
   expect_error(row_t_paired(x=NA), er)
   expect_error(row_cor_pearson(x=NA), er)
+  expect_error(row_wilcoxon_twosample(x=NA), er)
+  expect_error(row_wilcoxon_paired(x=NA), er)
 })
 
 test_that("groups cannot be missing", {
@@ -61,6 +66,9 @@ test_that("x cannot be a character", {
   expect_error(row_ievora(x=matX, b="a"), er)
   expect_error(row_jarquebera(x=matX), er)
   expect_error(row_flignerkilleen(x=matX, g="a"), er)
+  expect_error(row_wilcoxon_onesample(x=matX), er)
+  expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
+  expect_error(row_wilcoxon_paired(x=matX, y=0), er)
 })
 
 test_that("y cannot be a character", {
@@ -70,6 +78,8 @@ test_that("y cannot be a character", {
   expect_error(row_t_welch(x=0, y=matX), er)
   expect_error(row_t_paired(x=0, y=matX), er)
   expect_error(row_cor_pearson(x=0, y=matX), er)
+  expect_error(row_wilcoxon_twosample(x=0, y=matX), er)
+  expect_error(row_wilcoxon_paired(x=0, y=matX), er)
 })
 
 
@@ -87,6 +97,9 @@ test_that("x cannot be partially numeric", {
   expect_error(row_ievora(x=iris, b="a"), er)
   expect_error(row_jarquebera(x=iris), er)
   expect_error(row_flignerkilleen(x=iris, g="a"), er)
+  expect_error(row_wilcoxon_onesample(x=iris), er)
+  expect_error(row_wilcoxon_twosample(x=iris, y=0), er)
+  expect_error(row_wilcoxon_paired(x=iris, y=0), er)
 })
 
 test_that("y cannot be partially numeric", {
@@ -95,6 +108,8 @@ test_that("y cannot be partially numeric", {
   expect_error(row_t_welch(x=0, y=iris), er)
   expect_error(row_t_paired(x=0, y=iris), er)
   expect_error(row_cor_pearson(x=0, y=iris), er)
+  expect_error(row_wilcoxon_twosample(x=0, y=iris), er)
+  expect_error(row_wilcoxon_paired(x=0, y=iris), er)
 })
 
 
@@ -113,6 +128,9 @@ test_that("x cannot be complex", {
   expect_error(row_ievora(x=matX, b="a"), er)
   expect_error(row_jarquebera(x=matX), er)
   expect_error(row_flignerkilleen(x=matX, g="a"), er)
+  expect_error(row_wilcoxon_onesample(x=matX), er)
+  expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
+  expect_error(row_wilcoxon_paired(x=matX, y=0), er)
 })
 
 test_that("y cannot be complex", {
@@ -122,6 +140,8 @@ test_that("y cannot be complex", {
   expect_error(row_t_welch(x=0, y=matX), er)
   expect_error(row_t_paired(x=0, y=matX), er)
   expect_error(row_cor_pearson(x=0, y=matX), er)
+  expect_error(row_wilcoxon_twosample(x=0, y=matX), er)
+  expect_error(row_wilcoxon_paired(x=0, y=matX), er)
 })
 
 
@@ -140,6 +160,9 @@ test_that("x cannot be logical", {
   expect_error(row_ievora(x=matX, b="a"), er)
   expect_error(row_jarquebera(x=matX), er)
   expect_error(row_flignerkilleen(x=matX, g="a"), er)
+  expect_error(row_wilcoxon_onesample(x=matX), er)
+  expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
+  expect_error(row_wilcoxon_paired(x=matX, y=0), er)
 })
 
 test_that("y cannot be logical", {
@@ -149,6 +172,8 @@ test_that("y cannot be logical", {
   expect_error(row_t_welch(x=0, y=matX), er)
   expect_error(row_t_paired(x=0, y=matX), er)
   expect_error(row_cor_pearson(x=0, y=matX), er)
+  expect_error(row_wilcoxon_twosample(x=0, y=matX), er)
+  expect_error(row_wilcoxon_paired(x=0, y=matX), er)
 })
 
 
@@ -166,6 +191,9 @@ test_that("x cannot be NULL", {
   expect_error(row_ievora(x=NULL, b="a"), er)
   expect_error(row_jarquebera(x=NULL), er)
   expect_error(row_flignerkilleen(x=NULL, g="a"), er)
+  expect_error(row_wilcoxon_onesample(x=NULL), er)
+  expect_error(row_wilcoxon_twosample(x=NULL, y=0), er)
+  expect_error(row_wilcoxon_paired(x=NULL, y=0), er)
 })
 
 test_that("y cannot be NULL", {
@@ -175,6 +203,8 @@ test_that("y cannot be NULL", {
   expect_error(row_t_welch(x=0, y=NULL), er)
   expect_error(row_t_paired(x=0, y=NULL), er)
   expect_error(row_cor_pearson(x=0, y=NULL), er)
+  expect_error(row_wilcoxon_twosample(x=0, y=NULL), er)
+  expect_error(row_wilcoxon_paired(x=0, y=NULL), er)
 })
 
 
@@ -192,6 +222,9 @@ test_that("x cannot be in a list", {
   expect_error(row_ievora(x=list(1:5), b="a"), er)
   expect_error(row_jarquebera(x=list(1:5)), er)
   expect_error(row_flignerkilleen(x=list(1:5), g="a"), er)
+  expect_error(row_wilcoxon_onesample(x=list(1:5)), er)
+  expect_error(row_wilcoxon_twosample(x=list(1:5), y=0), er)
+  expect_error(row_wilcoxon_paired(x=list(1:5), y=0), er)
 })
 
 test_that("y cannot be in a list", {
@@ -201,6 +234,8 @@ test_that("y cannot be in a list", {
   expect_error(row_t_welch(x=0, y=list(1:5)), er)
   expect_error(row_t_paired(x=0, y=list(1:5)), er)
   expect_error(row_cor_pearson(x=0, y=list(1:5)), er)
+  expect_error(row_wilcoxon_twosample(x=0, y=list(1:5)), er)
+  expect_error(row_wilcoxon_paired(x=0, y=list(1:5)), er)
 })
 
 test_that("x cannot be a list", {
@@ -217,6 +252,9 @@ test_that("x cannot be a list", {
   expect_error(row_ievora(x=as.list(1:5), b="a"), er)
   expect_error(row_jarquebera(x=as.list(1:5)), er)
   expect_error(row_flignerkilleen(x=as.list(1:5), g="a"), er)
+  expect_error(row_wilcoxon_onesample(x=as.list(1:5)), er)
+  expect_error(row_wilcoxon_twosample(x=as.list(1:5), y=0), er)
+  expect_error(row_wilcoxon_paired(x=as.list(1:5), y=0), er)
 })
 
 test_that("y cannot be a list", {
@@ -226,6 +264,8 @@ test_that("y cannot be a list", {
   expect_error(row_t_welch(x=0, y=as.list(1:5)), er)
   expect_error(row_t_paired(x=0, y=as.list(1:5)), er)
   expect_error(row_cor_pearson(x=0, y=as.list(1:5)), er)
+  expect_error(row_wilcoxon_twosample(x=0, y=as.list(1:5)), er)
+  expect_error(row_wilcoxon_paired(x=0, y=as.list(1:5)), er)
 })
 
 ################################################################################
@@ -305,6 +345,8 @@ test_that("x and y has same number of rows", {
   expect_error(row_t_welch(x=matX, y=matY), er)
   expect_error(row_t_paired(x=matX, y=matY), er)
   expect_error(row_cor_pearson(x=matX, y=matY), er)
+  expect_error(row_wilcoxon_twosample(x=matX, y=matY), er)
+  expect_error(row_wilcoxon_paired(x=matX, y=matY), er)
 })
 
 test_that("x and y has same number of columns", {
@@ -313,6 +355,7 @@ test_that("x and y has same number of columns", {
   er <- '"x" and "y" must have the same number of columns'
   expect_error(row_t_paired(x=matX, y=matY), er)
   expect_error(row_cor_pearson(x=matX, y=matY), er)
+  expect_error(row_wilcoxon_paired(x=matX, y=matY), er)
 })
 
 test_that("group length matches number of columns", {

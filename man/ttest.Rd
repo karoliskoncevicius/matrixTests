@@ -2,22 +2,16 @@
 % Please edit documentation in R/ttest.R
 \name{ttest}
 \alias{ttest}
-\alias{row_t_onesample}
-\alias{col_t_onesample}
 \alias{row_t_equalvar}
 \alias{col_t_equalvar}
 \alias{row_t_welch}
 \alias{col_t_welch}
+\alias{row_t_onesample}
+\alias{col_t_onesample}
 \alias{row_t_paired}
 \alias{col_t_paired}
 \title{t-test}
 \usage{
-row_t_onesample(x, alternative = "two.sided", mu = 0,
-  conf.level = 0.95)
-
-col_t_onesample(x, alternative = "two.sided", mu = 0,
-  conf.level = 0.95)
-
 row_t_equalvar(x, y, alternative = "two.sided", mu = 0,
   conf.level = 0.95)
 
@@ -30,6 +24,12 @@ row_t_welch(x, y, alternative = "two.sided", mu = 0,
 col_t_welch(x, y, alternative = "two.sided", mu = 0,
   conf.level = 0.95)
 
+row_t_onesample(x, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
+
+col_t_onesample(x, alternative = "two.sided", mu = 0,
+  conf.level = 0.95)
+
 row_t_paired(x, y, alternative = "two.sided", mu = 0,
   conf.level = 0.95)
 
@@ -38,6 +38,8 @@ col_t_paired(x, y, alternative = "two.sided", mu = 0,
 }
 \arguments{
 \item{x}{numeric matrix.}
+
+\item{y}{numeric matrix for the second group of observations.}
 
 \item{alternative}{alternative hypothesis to use for each row/column of x.
 A single string or a vector with values for each observation.
@@ -49,8 +51,6 @@ A single number or numeric vector with values for each observation.}
 \item{conf.level}{confidence levels used for the confidence intervals.
 A single number or a numeric vector with values for each observation.
 All values must be in the range of [0;1].}
-
-\item{y}{numeric matrix for the second group of observations.}
 }
 \value{
 a data.frame where each row contains the results of a t.test
@@ -79,7 +79,7 @@ They will contain a subset of the following information:\cr
 20. conf.level - chosen confidence level
 }
 \description{
-Performs a t-test on each row/column of a the input matrix.
+Performs a t-test on each row/column of the input matrix.
 }
 \details{
 Functions to perform one sample and two sample t-tests for rows/columns of matrices.

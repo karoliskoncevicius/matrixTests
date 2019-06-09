@@ -20,11 +20,14 @@ test_that("x and y can be numeric vectors", {
   expect_equal(row_ievora(x=x, b=grp), row_ievora(x=X, b=grp))
   expect_equal(row_jarquebera(x=x), row_jarquebera(x=X))
   expect_equal(row_flignerkilleen(x=x, g=grp), row_flignerkilleen(x=X, g=grp))
+  expect_equal(row_wilcoxon_onesample(x=x), row_wilcoxon_onesample(x=X))
+  expect_equal(row_wilcoxon_twosample(x=x, y=y), row_wilcoxon_twosample(x=X, y=Y))
+  expect_equal(row_wilcoxon_paired(x=x, y=y), row_wilcoxon_paired(x=X, y=Y))
 })
 
 test_that("x and y can be numeric data.frames", {
-  x <- t(iris[1:75,-5]); X <- data.frame(x)
-  y <- t(iris[76:150,-5]); Y <- data.frame(y)
+  x <- t(iris[1:75,-5]) + rnorm(75*4); X <- data.frame(x)
+  y <- t(iris[76:150,-5]) + rnorm(75*4); Y <- data.frame(y)
   grp <- iris$Species[1:75]=="setosa"
   expect_equal(row_t_onesample(x=x), row_t_onesample(x=X))
   expect_equal(row_t_equalvar(x=x, y=y), row_t_equalvar(x=X, y=Y))
@@ -38,6 +41,9 @@ test_that("x and y can be numeric data.frames", {
   expect_equal(row_ievora(x=x, b=grp), row_ievora(x=X, b=grp))
   expect_equal(row_jarquebera(x=x), row_jarquebera(x=X))
   expect_equal(row_flignerkilleen(x=x, g=grp), row_flignerkilleen(x=X, g=grp))
+  expect_equal(row_wilcoxon_onesample(x=x), row_wilcoxon_onesample(x=X))
+  expect_equal(row_wilcoxon_twosample(x=x, y=y), row_wilcoxon_twosample(x=X, y=Y))
+  expect_equal(row_wilcoxon_paired(x=x, y=y), row_wilcoxon_paired(x=X, y=Y))
 })
 
 test_that("x and y can have 0 rows and 0 columns", {
@@ -56,9 +62,13 @@ test_that("x and y can have 0 rows and 0 columns", {
   expect_equal(nrow(row_ievora(x=x, b=grp)), 0)
   expect_equal(nrow(row_jarquebera(x=x)), 0)
   expect_equal(nrow(row_flignerkilleen(x=x, g=grp)), 0)
+  expect_equal(nrow(row_wilcoxon_onesample(x=x)), 0)
+  expect_equal(nrow(row_wilcoxon_twosample(x=x, y=y)), 0)
+  expect_equal(nrow(row_wilcoxon_paired(x=x, y=y)), 0)
 })
 
 test_that("NA and NaN are treated the same", {
+  set.seed(14)
   Xna <- Xnan <- matrix(rnorm(100), nrow=10)
   Yna <- Ynan <- matrix(rnorm(100), nrow=10)
   Xna[sample(length(Xna), 20)] <- NA
@@ -78,6 +88,9 @@ test_that("NA and NaN are treated the same", {
   expect_equal(row_ievora(x=Xna, b=grp), row_ievora(x=Xnan, b=grp))
   expect_equal(row_jarquebera(x=Xna), row_jarquebera(x=Xnan))
   expect_equal(row_flignerkilleen(x=Xna, g=grp), row_flignerkilleen(x=Xnan, g=grp))
+  expect_equal(row_wilcoxon_onesample(x=Xna), row_wilcoxon_onesample(x=Xnan))
+  expect_equal(row_wilcoxon_twosample(x=Xna, y=Yna), row_wilcoxon_twosample(x=Xnan, y=Ynan))
+  expect_equal(row_wilcoxon_paired(x=Xna, y=Yna), row_wilcoxon_paired(x=Xnan, y=Ynan))
 })
 
 ################################################################################
@@ -230,8 +243,8 @@ test_that("groups can be infinite", {
 ################################################################################
 
 test_that("alternative can be partially completed", {
-  x <- t(iris[1:75,-5])
-  y <- t(iris[76:150,-5])
+  x <- t(iris[1:75,-5]) + rnorm(75*4)
+  y <- t(iris[76:150,-5]) + rnorm(75*4)
   alt1 <- c("greater", "less", "two.sided", "two.sided")
   alt2 <- c("g", "l", "t", "t")
   # NA
@@ -240,6 +253,9 @@ test_that("alternative can be partially completed", {
   expect_equal(row_t_welch(x=x, y=y, alternative=alt1), row_t_welch(x=x, y=y, alternative=alt2))
   expect_equal(row_t_paired(x=x, y=y, alternative=alt1), row_t_paired(x=x, y=y, alternative=alt2))
   expect_equal(row_cor_pearson(x=x, y=y, alternative=alt1), row_cor_pearson(x=x, y=y, alternative=alt2))
+  expect_equal(row_wilcoxon_onesample(x=x, alternative=alt1), row_wilcoxon_onesample(x=x, alternative=alt2))
+  expect_equal(row_wilcoxon_twosample(x=x, y=y, alternative=alt1), row_wilcoxon_twosample(x=x, y=y, alternative=alt2))
+  expect_equal(row_wilcoxon_paired(x=x, y=y, alternative=alt1), row_wilcoxon_paired(x=x, y=y, alternative=alt2))
 })
 
 ################################################################################
@@ -259,5 +275,13 @@ test_that("MU can be Infinite", {
   expect_equal(row_t_equalvar(x=x, y=y, mu=-Inf)$statistic, rep(Inf, nrow(x)))
   expect_equal(row_t_welch(x=x, y=y, mu=-Inf)$statistic, rep(Inf, nrow(x)))
   expect_equal(row_t_paired(x=x, y=y, mu=-Inf)$statistic, rep(Inf, nrow(x)))
+  # except for wilcoxon test
+  er <- 'all "mu" values must be greater than -Inf and lower than Inf'
+  expect_error(row_wilcoxon_onesample(x, mu=Inf), er)
+  expect_error(row_wilcoxon_onesample(x, mu=-Inf), er)
+  expect_error(row_wilcoxon_twosample(x, y, mu=Inf), er)
+  expect_error(row_wilcoxon_twosample(x, y, mu=-Inf), er)
+  expect_error(row_wilcoxon_paired(x, y, mu=Inf), er)
+  expect_error(row_wilcoxon_paired(x, y, mu=-Inf), er)
 })
 
