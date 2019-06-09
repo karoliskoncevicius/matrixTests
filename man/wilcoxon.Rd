@@ -2,14 +2,20 @@
 % Please edit documentation in R/wilcox.R
 \name{wilcoxon}
 \alias{wilcoxon}
+\alias{row_wilcoxon_twosample}
+\alias{col_wilcoxon_twosample}
 \alias{row_wilcoxon_onesample}
 \alias{col_wilcoxon_onesample}
 \alias{row_wilcoxon_paired}
 \alias{col_wilcoxon_paired}
-\alias{row_wilcoxon_twosample}
-\alias{col_wilcoxon_twosample}
 \title{Wilcoxon Test}
 \usage{
+row_wilcoxon_twosample(x, y, alternative = "two.sided", mu = 0,
+  exact = NA, correct = TRUE)
+
+col_wilcoxon_twosample(x, y, alternative = "two.sided", mu = 0,
+  exact = NA, correct = TRUE)
+
 row_wilcoxon_onesample(x, alternative = "two.sided", mu = 0,
   exact = NA, correct = TRUE)
 
@@ -21,15 +27,11 @@ row_wilcoxon_paired(x, y, alternative = "two.sided", mu = 0,
 
 col_wilcoxon_paired(x, y, alternative = "two.sided", mu = 0,
   exact = NA, correct = TRUE)
-
-row_wilcoxon_twosample(x, y, alternative = "two.sided", mu = 0,
-  exact = NA, correct = TRUE)
-
-col_wilcoxon_twosample(x, y, alternative = "two.sided", mu = 0,
-  exact = NA, correct = TRUE)
 }
 \arguments{
 \item{x}{numeric matrix.}
+
+\item{y}{numeric matrix for the second group of observations.}
 
 \item{alternative}{alternative hypothesis to use for each row/column of x.
 A single string or a vector with values for each observation.
@@ -45,8 +47,6 @@ A single value or a logical vector with values for each observation.}
 \item{correct}{logical indicator whether continuity correction should be
 applied in the cases where p-values are obtained using normal approximation.
 A single value or logical vector with values for each observation.}
-
-\item{y}{numeric matrix for the second group of observations.}
 }
 \value{
 a data.frame where each row contains the results of a wilcoxon test
@@ -98,7 +98,7 @@ having zeroe values (values equal to null hypothesis location argument 'mu').
 Otherwise, a normal approximation is used. Be wary of using 'exact=TRUE' on
 large sample sizes as computations can take a very long time.
 
-'correct' arguments controls the continuity correction of p-values but only
+'correct' argument controls the continuity correction of p-values but only
 when exact p-values cannot be computed and normal approximation is used.
 For cases where exact p-values are returned 'correct' is switched to FALSE.
 }

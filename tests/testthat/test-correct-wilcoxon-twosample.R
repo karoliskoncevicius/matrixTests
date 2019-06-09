@@ -34,7 +34,7 @@ base_wilcoxon_twosample <- function(mat1, mat2, alt="two.sided", mu=0, exact=NA,
     ext[i] <- if(length(unique(na.omit(c(mat1[i,]-m0[i], mat2[i,])))) != nxy[i]) FALSE else ext[i]
   }
 
-  data.frame(obs.x=nx, obs.y=ny, obs.total=nxy, statistic=stat, pvalue=p,
+  data.frame(obs.x=nx, obs.y=ny, obs.tot=nxy, statistic=stat, pvalue=p,
              alternative=al, location.null=m0, exact=ext, corrected=cor,
              stringsAsFactors=FALSE
              )
@@ -241,7 +241,7 @@ test_that("minumum allowed sample sizes give equal results", {
   expect_equal(t1, t2)
   expect_true(all(t2$obs.x==1))
   expect_true(all(t2$obs.y==1))
-  expect_true(all(t2$obs.total==2))
+  expect_true(all(t2$obs.tot==2))
 
   # 3 observation in both, but only one non NA or Inf
   pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
@@ -252,7 +252,7 @@ test_that("minumum allowed sample sizes give equal results", {
   expect_equal(t1, t2)
   expect_true(all(t2$obs.x==1))
   expect_true(all(t2$obs.y==1))
-  expect_true(all(t2$obs.total==2))
+  expect_true(all(t2$obs.tot==2))
 
   # three numbers in both grouops, all equal
   pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
@@ -305,7 +305,7 @@ test_that("small sample size automatically turns exact=TRUE", {
   expect_true(t2$exact)
   expect_equal(t2$obs.x, 49)
   expect_equal(t2$obs.y, 49)
-  expect_equal(t2$obs.total, 49*2)
+  expect_equal(t2$obs.tot, 49*2)
   expect_equal(t1, t2)
   expect_equal(t2, t3)
   # 50 samples in both groups - one with NA
@@ -318,7 +318,7 @@ test_that("small sample size automatically turns exact=TRUE", {
   expect_false(t2$corrected)
   expect_equal(t2$obs.x, 49)
   expect_equal(t2$obs.y, 49)
-  expect_equal(t2$obs.total, 2*49)
+  expect_equal(t2$obs.tot, 2*49)
   expect_equal(t1, t2)
   expect_equal(t2, t3)
 })
@@ -334,7 +334,7 @@ test_that("big sample size automatically turns exact=FALSE", {
   expect_true(t2$corrected)
   expect_equal(t2$obs.x, 50)
   expect_equal(t2$obs.y, 50)
-  expect_equal(t2$obs.total, 100)
+  expect_equal(t2$obs.tot, 100)
   expect_equal(t1, t2)
   expect_equal(t2, t3)
   # 51 samples with one NA
@@ -347,7 +347,7 @@ test_that("big sample size automatically turns exact=FALSE", {
   expect_true(t2$corrected)
   expect_equal(t2$obs.x, 50)
   expect_equal(t2$obs.y, 50)
-  expect_equal(t2$obs.total, 100)
+  expect_equal(t2$obs.tot, 100)
   expect_equal(t1, t2)
   expect_equal(t2, t3)
   # One small group and another with 50 values
@@ -360,7 +360,7 @@ test_that("big sample size automatically turns exact=FALSE", {
   expect_true(t2$corrected)
   expect_equal(t2$obs.x, 10)
   expect_equal(t2$obs.y, 50)
-  expect_equal(t2$obs.total, 60)
+  expect_equal(t2$obs.tot, 60)
   expect_equal(t1, t2)
   expect_equal(t2, t3)
 })
@@ -464,14 +464,14 @@ test_that("warnign when row has less than 1 available observations", {
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 0)
   expect_equal(res$obs.y, 1)
-  expect_equal(res$obs.total, 1)
+  expect_equal(res$obs.tot, 1)
 
   # no y observations
   expect_warning(res <- row_wilcoxon_twosample(1, numeric()), wrnY)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 1)
   expect_equal(res$obs.y, 0)
-  expect_equal(res$obs.total, 1)
+  expect_equal(res$obs.tot, 1)
 
   # no x no y observations
   expect_warning(res <- row_wilcoxon_twosample(numeric(), numeric()), wrnX)
@@ -479,21 +479,21 @@ test_that("warnign when row has less than 1 available observations", {
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 0)
   expect_equal(res$obs.y, 0)
-  expect_equal(res$obs.total, 0)
+  expect_equal(res$obs.tot, 0)
 
   # only NAs in x
   expect_warning(res <- row_wilcoxon_twosample(c(NA, NaN, NA), 1:10), wrnX)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 0)
   expect_equal(res$obs.y, 10)
-  expect_equal(res$obs.total, 10)
+  expect_equal(res$obs.tot, 10)
 
   # only NAs in y
   expect_warning(res <- row_wilcoxon_twosample(1:10, c(NA, NaN, NA)), wrnY)
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 10)
   expect_equal(res$obs.y, 0)
-  expect_equal(res$obs.total, 10)
+  expect_equal(res$obs.tot, 10)
 
   # only NAs in both
   expect_warning(res <- row_wilcoxon_twosample(numeric(), c(NA, NaN, NA)), wrnX)
@@ -501,7 +501,7 @@ test_that("warnign when row has less than 1 available observations", {
   expect_true(all(is.na(res[,colnames(res) %in% nacolumns])))
   expect_equal(res$obs.x, 0)
   expect_equal(res$obs.y, 0)
-  expect_equal(res$obs.total, 0)
+  expect_equal(res$obs.tot, 0)
 })
 
 test_that("warning when a infinite values are removed", {
@@ -512,20 +512,20 @@ test_that("warning when a infinite values are removed", {
   expect_warning(res <- row_wilcoxon_twosample(c(-Inf,5,7,Inf), 1:4), wrnX, all=TRUE)
   expect_equal(res$obs.x, 2)
   expect_equal(res$obs.y, 4)
-  expect_equal(res$obs.total, 6)
+  expect_equal(res$obs.tot, 6)
 
   # -Inf and Inf among y observations
   expect_warning(res <- row_wilcoxon_twosample(1:4, c(-Inf,5,7,Inf)), wrnY, all=TRUE)
   expect_equal(res$obs.x, 4)
   expect_equal(res$obs.y, 2)
-  expect_equal(res$obs.total, 6)
+  expect_equal(res$obs.tot, 6)
 
   # -Inf and Inf among both
   expect_warning(res <- row_wilcoxon_twosample(c(1,2,3,Inf), c(-Inf,7,6,5)), wrnX)
   expect_warning(res <- row_wilcoxon_twosample(c(1,2,3,Inf), c(-Inf,7,6,5)), wrnY)
   expect_equal(res$obs.x, 3)
   expect_equal(res$obs.y, 3)
-  expect_equal(res$obs.total, 6)
+  expect_equal(res$obs.tot, 6)
 })
 
 test_that("warning when ties are present", {
@@ -535,7 +535,7 @@ test_that("warning when ties are present", {
   expect_warning(res <- row_wilcoxon_twosample(c(3,3,1,2), c(2,0,5,-2), exact=TRUE), wrn, all=TRUE)
   expect_equal(res$obs.x, 4)
   expect_equal(res$obs.y, 4)
-  expect_equal(res$obs.total, 8)
+  expect_equal(res$obs.tot, 8)
   expect_false(res$exact)
 
   # no warning when exact=FALSE
@@ -546,7 +546,7 @@ test_that("warning when ties are present", {
   expect_warning(res <- row_wilcoxon_twosample(c(3.1,4,1,2), c(-1,-2,3,-4), mu=0.1, exact=TRUE), wrn, all=TRUE)
   expect_equal(res$obs.x, 4)
   expect_equal(res$obs.y, 4)
-  expect_equal(res$obs.total, 8)
+  expect_equal(res$obs.tot, 8)
   expect_false(res$exact)
 })
 

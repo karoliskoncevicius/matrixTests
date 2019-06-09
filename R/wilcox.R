@@ -32,7 +32,7 @@
 #' Otherwise, a normal approximation is used. Be wary of using 'exact=TRUE' on
 #' large sample sizes as computations can take a very long time.
 #'
-#' 'correct' arguments controls the continuity correction of p-values but only
+#' 'correct' argument controls the continuity correction of p-values but only
 #' when exact p-values cannot be computed and normal approximation is used.
 #' For cases where exact p-values are returned 'correct' is switched to FALSE.
 #'
@@ -79,6 +79,124 @@
 #'
 #' @author Karolis Koncevičius
 #' @name wilcoxon
+#' @export
+row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
+                                   exact=NA, correct=TRUE
+                                   ) {
+  force(x)
+  force(y)
+
+  if (is.vector(x))
+    x <- matrix(x, nrow=1)
+  if(is.vector(y))
+    y <- matrix(y, nrow=1)
+
+  if (is.data.frame(x) && all(sapply(x, is.numeric)))
+    x <- data.matrix(x)
+  if(is.data.frame(y) && all(sapply(y, is.numeric)))
+    y <- data.matrix(y)
+
+  assert_numeric_mat_or_vec(x)
+  assert_numeric_mat_or_vec(y)
+
+  if(nrow(y)==1 & nrow(x)>1) {
+    y <- matrix(y, nrow=nrow(x), ncol=ncol(y), byrow=TRUE)
+  }
+
+  assert_equal_nrow(x, y)
+
+  if(length(alternative)==1)
+    alternative <- rep(alternative, length.out=nrow(x))
+  assert_character_vec_length(alternative, 1, nrow(x))
+
+  choices <- c("two.sided", "less", "greater")
+  alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
+  assert_all_in_set(alternative, choices)
+
+  if(length(mu)==1)
+    mu <- rep(mu, length.out=nrow(x))
+  assert_numeric_vec_length(mu, 1, nrow(x))
+  assert_all_in_open_interval(mu, -Inf, Inf)
+
+  if(length(exact)==1)
+    exact <- rep(exact, length.out=nrow(x))
+  assert_logical_vec_length(exact, 1, nrow(x))
+  assert_all_in_set(exact, c(TRUE, FALSE, NA))
+
+  if(length(correct)==1)
+    correct <- rep(correct, length.out=nrow(x))
+  assert_logical_vec_length(correct, 1, nrow(x))
+  assert_all_in_set(correct, c(TRUE, FALSE))
+
+
+  hasinfx <- is.infinite(x)
+  x[hasinfx] <- NA
+  hasinfx <- rowSums(hasinfx) > 0
+
+  hasinfy <- is.infinite(y)
+  y[hasinfy] <- NA
+  hasinfy <- rowSums(hasinfy) > 0
+
+  nxs  <- matrixStats::rowCounts(!is.na(x))
+  nys  <- matrixStats::rowCounts(!is.na(y))
+
+  exact[is.na(exact)] <- (nxs[is.na(exact)] < 50) & (nys[is.na(exact)] < 50)
+
+  r <- matrixStats::rowRanks(cbind(x - mu, y), ties.method="average")
+
+  statistic <- rowSums(r[,seq_len(ncol(x)),drop=FALSE], na.rm=TRUE) - nxs * (nxs + 1)/2
+
+  nties   <- rowTables(r)
+  hasties <- rowSums(nties>1) > 0
+
+  wres <- rep(NA_integer_, nrow(x))
+  inds <- exact & !hasties
+  wres[inds]  <- do_wilcox_2_exact(statistic[inds], nxs[inds], nys[inds], alternative[inds])
+  wres[!inds] <- do_wilcox_2_approx(statistic[!inds], nxs[!inds], nys[!inds], alternative[!inds],
+                                  nties[!inds,,drop=FALSE], correct[!inds])
+
+
+  w1 <- hasinfx
+  showWarning(w1, 'had infinite "x" observations that were removed')
+
+  w2 <- hasinfy
+  showWarning(w2, 'had infinite "y" observations that were removed')
+
+  w3 <- nxs < 1
+  showWarning(w3, 'had less than 1 remaining finite "x" observation')
+
+  w4 <- nys < 1
+  showWarning(w4, 'had less than 1 remaining finite "y" observation')
+
+  w5 <- exact & hasties
+  showWarning(w5, 'had ties: cannot compute exact p-values with ties')
+
+  statistic[w3 | w4] <- NA
+
+  exact <- exact & !hasties
+  correct <- correct & !exact
+
+
+  rnames <- rownames(x)
+  if(!is.null(rnames)) rnames <- make.unique(rnames)
+  data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxs+nys, statistic=statistic,
+             pvalue=wres, alternative=alternative, location.null=mu,
+             exact=exact, corrected=correct,
+             stringsAsFactors=FALSE, row.names=rnames
+             )
+}
+
+#' @rdname wilcoxon
+#' @export
+col_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
+                                   exact=NA, correct=TRUE) {
+  row_wilcoxon_twosample(t(x), t(y), alternative=alternative, mu=mu,
+                         exact=exact, correct=correct
+                         )
+}
+
+
+#' @rdname wilcoxon
 #' @export
 row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
                                    exact=NA, correct=TRUE
@@ -316,121 +434,4 @@ col_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
                       )
 }
 
-
-#' @rdname wilcoxon
-#' @export
-row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
-                                   exact=NA, correct=TRUE
-                                   ) {
-  force(x)
-  force(y)
-
-  if (is.vector(x))
-    x <- matrix(x, nrow=1)
-  if(is.vector(y))
-    y <- matrix(y, nrow=1)
-
-  if (is.data.frame(x) && all(sapply(x, is.numeric)))
-    x <- data.matrix(x)
-  if(is.data.frame(y) && all(sapply(y, is.numeric)))
-    y <- data.matrix(y)
-
-  assert_numeric_mat_or_vec(x)
-  assert_numeric_mat_or_vec(y)
-
-  if(nrow(y)==1 & nrow(x)>1) {
-    y <- matrix(y, nrow=nrow(x), ncol=ncol(y), byrow=TRUE)
-  }
-
-  assert_equal_nrow(x, y)
-
-  if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
-  assert_character_vec_length(alternative, 1, nrow(x))
-
-  choices <- c("two.sided", "less", "greater")
-  alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
-  assert_all_in_set(alternative, choices)
-
-  if(length(mu)==1)
-    mu <- rep(mu, length.out=nrow(x))
-  assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_open_interval(mu, -Inf, Inf)
-
-  if(length(exact)==1)
-    exact <- rep(exact, length.out=nrow(x))
-  assert_logical_vec_length(exact, 1, nrow(x))
-  assert_all_in_set(exact, c(TRUE, FALSE, NA))
-
-  if(length(correct)==1)
-    correct <- rep(correct, length.out=nrow(x))
-  assert_logical_vec_length(correct, 1, nrow(x))
-  assert_all_in_set(correct, c(TRUE, FALSE))
-
-
-  hasinfx <- is.infinite(x)
-  x[hasinfx] <- NA
-  hasinfx <- rowSums(hasinfx) > 0
-
-  hasinfy <- is.infinite(y)
-  y[hasinfy] <- NA
-  hasinfy <- rowSums(hasinfy) > 0
-
-  nxs  <- matrixStats::rowCounts(!is.na(x))
-  nys  <- matrixStats::rowCounts(!is.na(y))
-
-  exact[is.na(exact)] <- (nxs[is.na(exact)] < 50) & (nys[is.na(exact)] < 50)
-
-  r <- matrixStats::rowRanks(cbind(x - mu, y), ties.method="average")
-
-  statistic <- rowSums(r[,seq_len(ncol(x)),drop=FALSE], na.rm=TRUE) - nxs * (nxs + 1)/2
-
-  nties   <- rowTables(r)
-  hasties <- rowSums(nties>1) > 0
-
-  wres <- rep(NA_integer_, nrow(x))
-  inds <- exact & !hasties
-  wres[inds]  <- do_wilcox_2_exact(statistic[inds], nxs[inds], nys[inds], alternative[inds])
-  wres[!inds] <- do_wilcox_2_approx(statistic[!inds], nxs[!inds], nys[!inds], alternative[!inds],
-                                  nties[!inds,,drop=FALSE], correct[!inds])
-
-
-  w1 <- hasinfx
-  showWarning(w1, 'had infinite "x" observations that were removed')
-
-  w2 <- hasinfy
-  showWarning(w2, 'had infinite "y" observations that were removed')
-
-  w3 <- nxs < 1
-  showWarning(w3, 'had less than 1 remaining finite "x" observation')
-
-  w4 <- nys < 1
-  showWarning(w4, 'had less than 1 remaining finite "y" observation')
-
-  w5 <- exact & hasties
-  showWarning(w5, 'had ties: cannot compute exact p-values with ties')
-
-  statistic[w3 | w4] <- NA
-
-  exact <- exact & !hasties
-  correct <- correct & !exact
-
-
-  rnames <- rownames(x)
-  if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.x=nxs, obs.y=nys, obs.total=nxs+nys, statistic=statistic,
-             pvalue=wres, alternative=alternative, location.null=mu,
-             exact=exact, corrected=correct,
-             stringsAsFactors=FALSE, row.names=rnames
-             )
-}
-
-#' @rdname wilcoxon
-#' @export
-col_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
-                                   exact=NA, correct=TRUE) {
-  row_wilcoxon_twosample(t(x), t(y), alternative=alternative, mu=mu,
-                         exact=exact, correct=correct
-                         )
-}
 
