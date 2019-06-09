@@ -110,8 +110,8 @@ X <- iris[iris$Species=="setosa",1:4]
 Y <- iris[iris$Species=="virginica",1:4]
 col_wilcoxon_twosample(X, Y)
 
-# same row using different confidence levels
-col_wilcoxon_twosample(X[,c(1,1,1)], Y[,c(1,1,1)], conf.level=c(0.9, 0.95, 0.99))
+# same row using different alternative hypotheses
+col_wilcoxon_twosample(X[,c(1,1,1)], Y[,c(1,1,1)], alternative=c("t", "g", "l"))
 
 }
 \seealso{
