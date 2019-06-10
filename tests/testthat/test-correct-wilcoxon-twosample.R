@@ -48,8 +48,8 @@ base_wilcoxon_twosample <- function(mat1, mat2, alt="two.sided", mu=0, exact=NA,
 
 test_that("monte-carlo random testing gives equal results 1", {
   set.seed(14)
-  X <- matrix(rnorm(100000), ncol=10)
-  Y <- matrix(rnorm(200000), ncol=20)
+  X <- matrix(rnorm(10000), ncol=10)
+  Y <- matrix(rnorm(20000), ncol=20)
   X[sample(length(X), nrow(X))] <- NA
   Y[sample(length(Y), 2*nrow(Y))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
@@ -67,8 +67,8 @@ test_that("monte-carlo random testing gives equal results 1", {
 
 test_that("monte-carlo random testing gives equal results 2", {
   set.seed(14)
-  X <- matrix(rnorm(700000), ncol=70)
-  Y <- matrix(rnorm(600000), ncol=60)
+  X <- matrix(rnorm(70000), ncol=70)
+  Y <- matrix(rnorm(60000), ncol=60)
   X[sample(length(X), 7*nrow(X))] <- NA
   Y[sample(length(Y), 8*nrow(Y))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
@@ -86,8 +86,8 @@ test_that("monte-carlo random testing gives equal results 2", {
 
 test_that("monte-carlo random testing gives equal results 3", {
   set.seed(14)
-  X <- matrix(rnorm(520000), ncol=52)
-  Y <- matrix(rnorm(520000), ncol=52)
+  X <- matrix(rnorm(52000), ncol=52)
+  Y <- matrix(rnorm(52000), ncol=52)
   X[sample(length(X), 5*nrow(X))] <- NA
   Y[sample(length(Y), 5*nrow(Y))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
@@ -105,8 +105,8 @@ test_that("monte-carlo random testing gives equal results 3", {
 
 test_that("monte-carlo random testing gives equal results 4", {
   set.seed(14)
-  X <- matrix(rnorm(700000), ncol=70)
-  Y <- matrix(rnorm(150000), ncol=15)
+  X <- matrix(rnorm(70000), ncol=70)
+  Y <- matrix(rnorm(15000), ncol=15)
   X[sample(length(X), 7*nrow(X))] <- NA
   Y[sample(length(Y), 1*nrow(Y))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
@@ -124,8 +124,8 @@ test_that("monte-carlo random testing gives equal results 4", {
 
 test_that("monte-carlo random testing gives equal results 5", {
   set.seed(14)
-  X <- matrix(round(runif(100000, -15, 15)), ncol=10)
-  Y <- matrix(round(runif(110000, -15, 15)), ncol=11)
+  X <- matrix(round(runif(10000, -15, 15)), ncol=10)
+  Y <- matrix(round(runif(11000, -15, 15)), ncol=11)
   X[sample(length(X), nrow(X))] <- NA
   Y[sample(length(Y), nrow(Y))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
@@ -145,8 +145,8 @@ test_that("monte-carlo random testing gives equal results 5", {
 
 test_that("monte-carlo random testing gives equal results 6", {
   set.seed(14)
-  X <- matrix(round(runif(600000, -60, 60)), ncol=60)
-  Y <- matrix(round(runif(600000, -60, 60)), ncol=60)
+  X <- matrix(round(runif(60000, -60, 60)), ncol=60)
+  Y <- matrix(round(runif(60000, -60, 60)), ncol=60)
   X[sample(length(X), 10*nrow(X))] <- NA
   Y[sample(length(Y), 10*nrow(Y))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
@@ -166,8 +166,8 @@ test_that("monte-carlo random testing gives equal results 6", {
 
 test_that("monte-carlo random testing gives equal results 7", {
   set.seed(14)
-  X <- matrix(round(runif(520000, -50, 50)), ncol=52)
-  Y <- matrix(round(runif(530000, -50, 50)), ncol=53)
+  X <- matrix(round(runif(52000, -50, 50)), ncol=52)
+  Y <- matrix(round(runif(53000, -50, 50)), ncol=53)
   X[sample(length(X), 5*nrow(X))] <- NA
   Y[sample(length(Y), 5*nrow(Y))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
@@ -187,8 +187,8 @@ test_that("monte-carlo random testing gives equal results 7", {
 
 test_that("monte-carlo random testing gives equal results 8", {
   set.seed(14)
-  X <- matrix(round(runif(150000, -20, 20)), ncol=15)
-  Y <- matrix(round(runif(700000, -15, 15)), ncol=70)
+  X <- matrix(round(runif(15000, -20, 20)), ncol=15)
+  Y <- matrix(round(runif(70000, -15, 15)), ncol=70)
   X[sample(length(X), 2*nrow(X))] <- NA
   Y[sample(length(Y), 7*nrow(Y))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))

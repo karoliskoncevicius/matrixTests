@@ -44,7 +44,7 @@ base_wilcoxon_onesample <- function(mat, alt="two.sided", mu=0, exact=NA, correc
 
 test_that("monte-carlo random testing gives equal results 1", {
   set.seed(14)
-  X <- matrix(rnorm(100000), ncol=10)
+  X <- matrix(rnorm(10000), ncol=10)
   X[sample(length(X), nrow(X))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
   mus  <- runif(nrow(X), -1,1)
@@ -61,7 +61,7 @@ test_that("monte-carlo random testing gives equal results 1", {
 
 test_that("monte-carlo random testing gives equal results 2", {
   set.seed(14)
-  X <- matrix(rnorm(1000000), ncol=100)
+  X <- matrix(rnorm(100000), ncol=100)
   X[sample(length(X), 10*nrow(X))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
   mus  <- runif(nrow(X), -1,1)
@@ -78,7 +78,7 @@ test_that("monte-carlo random testing gives equal results 2", {
 
 test_that("monte-carlo random testing gives equal results 3", {
   set.seed(14)
-  X <- matrix(rnorm(500000), ncol=50)
+  X <- matrix(rnorm(50000), ncol=50)
   X[sample(length(X), 5*nrow(X))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
   mus  <- runif(nrow(X), -1,1)
@@ -95,7 +95,7 @@ test_that("monte-carlo random testing gives equal results 3", {
 
 test_that("monte-carlo random testing gives equal results 4", {
   set.seed(14)
-  X <- matrix(round(runif(100000, -15, 15)), ncol=10)
+  X <- matrix(round(runif(10000, -15, 15)), ncol=10)
   X[sample(length(X), nrow(X))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
   mus  <- runif(nrow(X), -1,1)
@@ -114,7 +114,7 @@ test_that("monte-carlo random testing gives equal results 4", {
 
 test_that("monte-carlo random testing gives equal results 5", {
   set.seed(14)
-  X <- matrix(round(runif(1000000, -150, 15)), ncol=100)
+  X <- matrix(round(runif(100000, -150, 15)), ncol=100)
   X[sample(length(X), 10*nrow(X))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
   mus  <- runif(nrow(X), -1,1)
@@ -133,7 +133,7 @@ test_that("monte-carlo random testing gives equal results 5", {
 
 test_that("monte-carlo random testing gives equal results 6", {
   set.seed(14)
-  X <- matrix(round(runif(500000, -150, 15)), ncol=50)
+  X <- matrix(round(runif(50000, -150, 15)), ncol=50)
   X[sample(length(X), 5*nrow(X))] <- NA
   alts <- sample(rep(c("t", "g", "l"), length.out=nrow(X)))
   mus  <- runif(nrow(X), -1,1)
