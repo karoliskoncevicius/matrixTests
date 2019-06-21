@@ -93,6 +93,21 @@ test_that("NA and NaN are treated the same", {
   expect_equal(row_wilcoxon_paired(x=Xna, y=Yna), row_wilcoxon_paired(x=Xnan, y=Ynan))
 })
 
+test_that("x is a matrix and y is a vector", {
+  X <- matrix(rnorm(11*16), ncol=16)
+  X[sample(length(X), 11)] <- NA
+  y <- rnorm(16)
+  y[sample(length(y), 3)] <- NA
+  Y <- matrix(y, nrow=11, ncol=16, byrow=TRUE)
+  grp <- c(rep("a", 8), rep("b", 8))
+  expect_equal(row_t_equalvar(x=X, y=y), row_t_equalvar(x=X, y=Y))
+  expect_equal(row_t_welch(x=X, y=y), row_t_welch(x=X, y=Y))
+  expect_equal(row_t_paired(x=X, y=y), row_t_paired(x=X, y=Y))
+  expect_equal(row_cor_pearson(x=X, y=y), row_cor_pearson(x=X, y=Y))
+  expect_equal(row_wilcoxon_twosample(x=X, y=y), row_wilcoxon_twosample(x=X, y=Y))
+  expect_equal(row_wilcoxon_paired(x=X, y=y), row_wilcoxon_paired(x=X, y=Y))
+})
+
 ################################################################################
 ############################ ALLOWED GROUP FORMATS #############################
 ################################################################################
