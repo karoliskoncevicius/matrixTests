@@ -1,8 +1,10 @@
 context("row and col versions give equal outputs")
 
 ################################################################################
-##################### STANDARD MATRICES GIVE EQUAL RESULTS #####################
+########################### COL VERSION CORRECTNESS ############################
 ################################################################################
+
+##################### STANDARD MATRICES GIVE EQUAL RESULTS #####################
 
 test_that("row eq col on matrix xs and ys", {
   X <- matrix(rnorm(17*6), ncol=6)
@@ -25,9 +27,7 @@ test_that("row eq col on matrix xs and ys", {
   expect_equal(row_ievora(X, g), col_ievora(t(X), g))
 })
 
-################################################################################
 ############################# NUMERIC DATA FRAMES ##############################
-################################################################################
 
 test_that("row eq col on data.frame xs and ys", {
   X <- as.data.frame(matrix(rnorm(17*6), ncol=6))
@@ -50,9 +50,7 @@ test_that("row eq col on data.frame xs and ys", {
   expect_equal(row_ievora(X, g), col_ievora(t(X), g))
 })
 
-################################################################################
 ############################### NUMERIC VECTORS ################################
-################################################################################
 
 test_that("row eq col on vector xs and ys", {
   X <- rnorm(6)
@@ -75,9 +73,7 @@ test_that("row eq col on vector xs and ys", {
   expect_equal(row_ievora(X, g), col_ievora(X, g))
 })
 
-################################################################################
 ################################ EMPTY MATRICES ################################
-################################################################################
 
 test_that("row eq col on 0 dimension matrix xs and ys", {
   X <- matrix(NA_integer_, nrow=0, ncol=0)
@@ -100,9 +96,7 @@ test_that("row eq col on 0 dimension matrix xs and ys", {
   expect_equal(row_ievora(X, g), col_ievora(X, g))
 })
 
-################################################################################
 ############################## X MATRIX Y VECTOR ###############################
-################################################################################
 
 test_that("row eq col when x is a matrix and y is a vector", {
   X <- matrix(rnorm(17*6), ncol=6)
@@ -114,5 +108,20 @@ test_that("row eq col when x is a matrix and y is a vector", {
   expect_equal(row_cor_pearson(X, Y), col_cor_pearson(t(X), Y))
   expect_equal(row_wilcoxon_twosample(X, Y), col_wilcoxon_twosample(t(X), Y))
   expect_equal(row_wilcoxon_paired(X, Y), col_wilcoxon_paired(t(X), Y))
+})
+
+################################################################################
+############################# COL VERSION WARNINGS #############################
+################################################################################
+
+# testing only one case - all the test use the same mechanism
+
+test_that("warnings in col_ versions specify columns", {
+  wrnR <- 'row_t_onesample: 2 of the rows were essentially constant\\.\nFirst occurrence at row 14'
+  wrnC <- 'col_t_onesample: 2 of the columns were essentially constant\\.\nFirst occurrence at column 14'
+  X <- matrix(rnorm(17*6), ncol=6)
+  X[14:15,] <- 1
+  expect_warning(row_t_onesample(X), wrnR, all=TRUE)
+  expect_warning(col_t_onesample(t(X)), wrnC, all=TRUE)
 })
 
