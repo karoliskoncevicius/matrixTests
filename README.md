@@ -142,8 +142,9 @@ install_github("KKPMW/matrixTests", ref="dev")
 For more information please refer to the [Wiki](https://github.com/KKPMW/matrixTests/wiki) page:
 
 1. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
-2. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
-3. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
+2. [Benchmarks](https://github.com/KKPMW/matrixTests/wiki/Benchmarks)
+3. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
+4. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
 
 ## See Also ##
 
