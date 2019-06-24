@@ -69,6 +69,15 @@ Petal.Width      150          3       80.41333        6.1566       40.206667    
 |------------------------------------|-----------------------------|-----------------------------------------
 | EVORA                              | `row_ievora(x, b)`          | ---
 
+## Further Information ##
+
+For more information please refer to the [Wiki](https://github.com/KKPMW/matrixTests/wiki) page:
+
+1. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
+2. [Benchmarks](https://github.com/KKPMW/matrixTests/wiki/Benchmarks)
+3. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
+4. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
+
 ## Installation ##
 
 From **CRAN**:
@@ -90,16 +99,6 @@ To install the **developement version** (stable updates not yet on **CRAN**):
 library(devtools)
 install_github("KKPMW/matrixTests", ref="dev")
 ```
-
-
-## Further Information ##
-
-For more information please refer to the [Wiki](https://github.com/KKPMW/matrixTests/wiki) page:
-
-1. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
-2. [Benchmarks](https://github.com/KKPMW/matrixTests/wiki/Benchmarks)
-3. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
-4. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
 
 ## See Also ##
 
