@@ -23,10 +23,9 @@ A package dedicated to running multiple statistical hypothesis tests on rows and
 X <- matrix(rnorm(10000000), ncol=10)
 Y <- matrix(rnorm(10000000), ncol=10)
 
-res1 <- row_t_welch(X, Y)  # running time: 2.4 seconds
+row_t_welch(X, Y)  # running time: 2.4 seconds
 ```
 ```
-> res1[1:2,]
   obs.x obs.y obs.tot      mean.x     mean.y  mean.diff    var.x     var.y stderr          df  statistic    pvalue   conf.low conf.high alternative mean.null conf.level
 1    10    10      20 -0.06643757 -0.2985907  0.2321531 1.627547 0.9140158 0.5041392 16.68493  0.4604941 0.6511065 -0.8330197 1.2973259   two.sided         0       0.95
 2    10    10      20 -0.02447724  0.4805317 -0.5050090 1.424720 1.2936936 0.5213841 17.95828 -0.9685930 0.3456133 -1.6005787 0.5905608   two.sided         0       0.95
