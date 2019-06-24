@@ -4,13 +4,16 @@ rowVars <- function(x, na.rm=FALSE) {
   ifelse(n > 0, rowSums((x-M)^2, na.rm=na.rm) / n, NA)
 }
 
-rowTables <- function(x) {
-  lvl <- sort(unique(as.numeric(x)))
-  res <- matrix(numeric(), nrow=nrow(x), ncol=length(lvl))
-  colnames(res) <- lvl
-  for(i in seq_along(lvl)) {
-    res[,i] <- rowSums(x==lvl[i], na.rm=TRUE)
-  }
+rowTies <- function(x) {
+  dups <- t(apply(x, 1, duplicated, incomparables=NA))
+  dups <- cbind(which(dups, arr.ind=TRUE), val=x[dups])
+  inds <- !duplicated(dups[,c(1,3),drop=FALSE])
+  dups[,3] <- ave(dups[,1], dups[,1], dups[,3], FUN=length)+1
+  dups <- dups[inds,,drop=FALSE]
+  dups[,2] <- ave(dups[,2], dups[,1], FUN=seq_along)
+
+  res <- matrix(0L, nrow=nrow(x), ncol=max(1, dups[,2]))
+  res[dups[,1:2,drop=FALSE]] <- dups[,3]
   res
 }
 
