@@ -63,9 +63,9 @@ Petal.Width      150          3       80.41333        6.1566       40.206667    
 | Fligner-Killeen test               | `row_flignerkilleen(x, g)`     | `fligner.test(x, g)`
 | Jarque-Bera test                   | `row_jarquebera(x)`            | `moments::jarque.test(x)`
 
-## Test-Based Procedures ##
+### Test-Based Procedures ###
 
-|             Description            |      matrixTests            |       R equivalent
+|             Name                   |      matrixTests            |       R equivalent
 |------------------------------------|-----------------------------|-----------------------------------------
 | EVORA                              | `row_ievora(x, b)`          | ---
 
@@ -73,32 +73,11 @@ Petal.Width      150          3       80.41333        6.1566       40.206667    
 
 For more information please refer to the [Wiki](https://github.com/KKPMW/matrixTests/wiki) page:
 
-1. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
-2. [Benchmarks](https://github.com/KKPMW/matrixTests/wiki/Benchmarks)
-3. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
-4. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
-
-## Installation ##
-
-From **CRAN**:
-
-```r
-install.packages("matrixTests")
-```
-
-Using the `devtools` library:
-
-```r
-library(devtools)
-install_github("KKPMW/matrixTests")
-```
-
-To install the **developement version** (stable updates not yet on **CRAN**):
-
-```r
-library(devtools)
-install_github("KKPMW/matrixTests", ref="dev")
-```
+1. [Installation Instructions](https://github.com/KKPMW/matrixTests/wiki/Installation)
+2. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
+3. [Speed Benchmarks](https://github.com/KKPMW/matrixTests/wiki/Benchmarks)
+4. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
+5. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
 
 ## See Also ##
 
