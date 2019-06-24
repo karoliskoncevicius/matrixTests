@@ -8,9 +8,9 @@ rowTies <- function(x) {
   dups <- t(apply(x, 1, duplicated, incomparables=NA))
   dups <- cbind(which(dups, arr.ind=TRUE), val=x[dups])
   inds <- !duplicated(dups[,c(1,3),drop=FALSE])
-  dups[,3] <- ave(dups[,1], dups[,1], dups[,3], FUN=length)+1
+  dups[,3] <- stats::ave(dups[,1], dups[,1], dups[,3], FUN=length)+1
   dups <- dups[inds,,drop=FALSE]
-  dups[,2] <- ave(dups[,2], dups[,1], FUN=seq_along)
+  dups[,2] <- stats::ave(dups[,2], dups[,1], FUN=seq_along)
 
   res <- matrix(0L, nrow=nrow(x), ncol=max(1, dups[,2]))
   res[dups[,1:2,drop=FALSE]] <- dups[,3]
