@@ -83,8 +83,8 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 
 ### Literature ###
 
-**Computing thousands of test statistics simultaneously in R**,
-*Holger Schwender, Tina Müller*. Statistical Computing & Graphics. Volume 18, No 1, June 2007.
+**Computing thousands of test statistics simultaneously in R**, *Holger Schwender, Tina Müller*.\
+Statistical Computing & Graphics. Volume 18, No 1, June 2007.
 
 ### Packages ###
 
