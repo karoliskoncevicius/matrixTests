@@ -3,6 +3,10 @@ Package: matrixTests
 
 Version: 0.1.4 [TBD]
 
+IMPROVEMENTS:
+
+o Improved the speed of Wilcoxon and Kruskal Wallis tests.
+
 TESTS:
 
 o Expanded test coverage to include all lines within code at least once.
