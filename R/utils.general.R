@@ -5,15 +5,27 @@ rowVars <- function(x, na.rm=FALSE) {
 }
 
 rowTies <- function(x) {
-  dups <- t(apply(x, 1, duplicated, incomparables=NA))
-  dups <- cbind(which(dups, arr.ind=TRUE), val=x[dups])
-  inds <- !duplicated(dups[,c(1,3),drop=FALSE])
-  dups[,3] <- stats::ave(dups[,1], dups[,1], dups[,3], FUN=length)+1
-  dups <- dups[inds,,drop=FALSE]
-  dups[,2] <- stats::ave(dups[,2], dups[,1], FUN=seq_along)
+  dupRows <- apply(x, 1, anyDuplicated, incomparables=NA) != 0
+  if(any(dupRows)) {
+    dups <- matrix(FALSE, nrow=nrow(x), ncol=ncol(x))
+    dups[dupRows,] <- t(apply(x[dupRows,,drop=FALSE], 1, duplicated, incomparables=NA))
+    dups <- cbind(which(dups, arr.ind=TRUE), val=x[dups])
+    dups <- dups[order(dups[,1], dups[,3]),,drop=FALSE]
 
-  res <- matrix(0L, nrow=nrow(x), ncol=max(1, dups[,2]))
-  res[dups[,1:2,drop=FALSE]] <- dups[,3]
+    sp <- split(dups[,3], dups[,1])
+    sp <- lapply(sp, function(x) rle(x)$length+1)
+    cl <- lapply(sp, seq_along)
+
+    dups <- cbind(rep(unique(dups[,1]), lengths(sp)),
+                  unlist(cl),
+                  unlist(sp)
+                  )
+
+    res <- matrix(0L, nrow=nrow(x), ncol=max(dups[,2]))
+    res[dups[,1:2,drop=FALSE]] <- dups[,3]
+  } else {
+    res <- matrix(0L, nrow=nrow(x), ncol=1)
+  }
   res
 }
 
