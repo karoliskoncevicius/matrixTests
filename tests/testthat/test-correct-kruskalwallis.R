@@ -123,6 +123,25 @@ test_that("groups with one remaining member give equal results", {
   expect_equal(t1, t2)
 })
 
+test_that("various cases of ties give equal results", {
+  x <- matrix(rnorm(100*50), nrow=100)
+  x[11:100,] <- round(runif(90*50, 0, 10))
+  x[1,] <- rep(x[1,1], 50)
+  x[2,1:49] <- rep(x[2,1], 49)
+  x[3,] <- rep(x[3,1:5])
+  x[4,] <- rep(x[3,1:5], each=10)
+  x[5,] <- sample(x[5,1:2], ncol(x), replace=TRUE)
+  x[6,] <- sample(x[6,1:3], ncol(x), replace=TRUE)
+  x[7,] <- sample(x[7,1:4], ncol(x), replace=TRUE)
+  x[8,] <- sample(x[8,1:5], ncol(x), replace=TRUE)
+  x[9,1:30] <- rep(x[9,1:3], each=10)
+  x[10,1:40] <- rep(x[10,1:4], each=10)
+  g <- rep(letters[1:5], each=10)
+  t1 <- base_kruskal(x, g)
+  t2 <- suppressWarnings(row_kruskalwallis(x, g))
+  expect_equal(t1, t2)
+})
+
 ################################################################################
 ################################ TEST WARNINGS #################################
 ################################################################################
