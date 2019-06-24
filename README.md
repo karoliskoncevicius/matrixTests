@@ -101,8 +101,8 @@ sample estimates:
 | Two sample Wilcoxon test           | `row_wilcoxon_twosample(x, y)` | `wilcox.test(x, y)`
 | Paired Wilcoxon test               | `row_wilcoxon_paired(x, y)`    | `wilcox.test(x, y, paired=TRUE)`
 | Pearson's correlation test         | `row_cor_pearson(x, y)`        | `cor.test(x, y)`
-| Welch oneway ANOVA                 | `row_oneway_welch(x, g)`       | `oneway.test(x, g)`
-| Equal variance oneway ANOVA        | `row_oneway_equalvar(x, g)`    | `oneway.test(x, g, var.equal=TRUE)`
+| Welch oneway ANOVA                 | `row_oneway_welch(x, g)`       | `oneway.test(x ~ g)`
+| Equal variance oneway ANOVA        | `row_oneway_equalvar(x, g)`    | `oneway.test(x ~ g, var.equal=TRUE)`
 | Kruskal-Wallis test                | `row_kruskalwallis(x, g)`      | `kruskal.test(x, g)`
 | Bartlett's test                    | `row_bartlett(x, g)`           | `bartlett.test(x, g)`
 | Fligner-Killeen test               | `row_flignerkilleen(x, g)`     | `fligner.test(x, g)`
@@ -142,8 +142,9 @@ install_github("KKPMW/matrixTests", ref="dev")
 For more information please refer to the [Wiki](https://github.com/KKPMW/matrixTests/wiki) page:
 
 1. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
-2. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
-3. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
+2. [Benchmarks](https://github.com/KKPMW/matrixTests/wiki/Benchmarks)
+3. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
+4. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
 
 ## See Also ##
 
