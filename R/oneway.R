@@ -69,10 +69,10 @@ row_oneway_equalvar <- function(x, g) {
   nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(g))) {
-    group <- unique(g)[i]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
-    mPerGroup[,i] <- rowMeans(x[,g==group, drop=FALSE], na.rm=TRUE)
-    vPerGroup[,i] <- rowVars(x[,g==group, drop=FALSE], na.rm=TRUE)
+    tmpx <- x[,g==unique(g)[i], drop=FALSE]
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(tmpx))
+    mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
+    vPerGroup[,i] <- rowSums((tmpx-mPerGroup[,i])^2, na.rm=TRUE) / (nPerGroup[,i]-1)
   }
 
   nSamples <- rowSums(nPerGroup)
@@ -149,10 +149,10 @@ row_oneway_welch <- function(x, g) {
   nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(g))) {
-    group <- unique(g)[i]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,g==group, drop=FALSE]))
-    mPerGroup[,i] <- rowMeans(x[,g==group, drop=FALSE], na.rm=TRUE)
-    vPerGroup[,i] <- rowVars(x[,g==group, drop=FALSE], na.rm=TRUE)
+    tmpx <- x[,g==unique(g)[i], drop=FALSE]
+    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(tmpx))
+    mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
+    vPerGroup[,i] <- rowSums((tmpx-mPerGroup[,i])^2, na.rm=TRUE) / (nPerGroup[,i]-1)
   }
   mPerGroup[nPerGroup<2] <- NA
   vPerGroup[nPerGroup<2] <- NA
