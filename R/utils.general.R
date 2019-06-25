@@ -4,12 +4,27 @@ rowVars <- function(x, na.rm=FALSE) {
   ifelse(n > 0, rowSums((x-M)^2, na.rm=na.rm) / n, NA)
 }
 
-rowTables <- function(x) {
-  lvl <- sort(unique(as.numeric(x)))
-  res <- matrix(numeric(), nrow=nrow(x), ncol=length(lvl))
-  colnames(res) <- lvl
-  for(i in seq_along(lvl)) {
-    res[,i] <- rowSums(x==lvl[i], na.rm=TRUE)
+rowTies <- function(x) {
+  dupRows <- apply(x, 1, anyDuplicated, incomparables=NA) != 0
+  if(any(dupRows)) {
+    dups <- matrix(FALSE, nrow=nrow(x), ncol=ncol(x))
+    dups[dupRows,] <- t(apply(x[dupRows,,drop=FALSE], 1, duplicated, incomparables=NA))
+    dups <- cbind(which(dups, arr.ind=TRUE), val=x[dups])
+    dups <- dups[order(dups[,1], dups[,3]),,drop=FALSE]
+
+    sp <- split(dups[,3], dups[,1])
+    sp <- lapply(sp, function(x) rle(x)$length+1)
+    cl <- lapply(sp, seq_along)
+
+    dups <- cbind(rep(unique(dups[,1]), lengths(sp)),
+                  unlist(cl),
+                  unlist(sp)
+                  )
+
+    res <- matrix(0L, nrow=nrow(x), ncol=max(dups[,2]))
+    res[dups[,1:2,drop=FALSE]] <- dups[,3]
+  } else {
+    res <- matrix(0L, nrow=nrow(x), ncol=1)
   }
   res
 }
