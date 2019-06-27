@@ -46,7 +46,7 @@ row_jarquebera <- function(x) {
   m2   <- rowMeans(m0^2, na.rm=TRUE)
   m3   <- rowMeans(m0^3, na.rm=TRUE)
   m4   <- rowMeans(m0^4, na.rm=TRUE)
-  skew <- (m3 / m2^(3/2))
+  skew <- (m3 / m2^(1.5))
   kurt <- (m4 / m2^2)
 
   ksq  <- n * skew^2/6 + n * (kurt-3)^2/24

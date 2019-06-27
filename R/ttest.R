@@ -232,10 +232,11 @@ row_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
   vys <- rowSums((y-mys)^2, na.rm=TRUE) / (nys-1)
 
-  stderxs <- sqrt(vxs/nxs)
-  stderys <- sqrt(vys/nys)
-  stders  <- sqrt(stderxs^2 + stderys^2)
-  dfs     <- stders^4/(stderxs^4/(nxs - 1) + stderys^4/(nys - 1))
+  stderxs <- vxs/nxs
+  stderys <- vys/nys
+  stders  <- stderxs + stderys
+  dfs     <- stders*stders / (stderxs*stderxs/(nxs - 1) + stderys*stderys/(nys - 1))
+  stders  <- sqrt(stders)
 
   tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
 

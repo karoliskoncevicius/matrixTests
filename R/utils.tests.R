@@ -24,7 +24,7 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   inds <- alt=="two.sided"
   if(any(inds)) {
     res[inds,2] <- 2 * stats::pt(-abs(res[inds,1]), df[inds])
-    intrange    <- stats::qt(1 - (1-conf[inds])/2, df[inds])
+    intrange    <- stats::qt(1 - (1-conf[inds])*0.5, df[inds])
     res[inds,3] <- res[inds,1] - intrange
     res[inds,4] <- res[inds,1] + intrange
   }
@@ -37,7 +37,7 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
 do_wilcox_1_exact <- function(stat, n, alt) {
   res <- rep(NA_integer_, length(stat))
 
-  case <- stat > (n * (n+1)/4)
+  case <- stat > (n * (n+1)*0.25)
 
 
   inds <- alt=="two.sided" & case
@@ -68,7 +68,7 @@ do_wilcox_1_exact <- function(stat, n, alt) {
 do_wilcox_1_approx <- function(stat, n, alt, nties, correct) {
   res <- rep(NA_integer_, length(stat))
 
-  z <- stat - n * (n+1)/4
+  z <- stat - n * (n+1)*0.25
   correction <- rep(0, length(stat))
   correction[correct & alt=="two.sided"] <- sign(z[correct & alt=="two.sided"]) * 0.5
   correction[correct & alt=="greater"]   <- 0.5
@@ -100,7 +100,7 @@ do_wilcox_1_approx <- function(stat, n, alt, nties, correct) {
 do_wilcox_2_exact <- function(stat, nx, ny, alt) {
   res <- rep(NA_integer_, length(stat))
 
-  case <- stat > (nx*ny/2)
+  case <- stat > (nx*ny*0.5)
 
 
   inds <- alt=="two.sided" & case
@@ -131,7 +131,7 @@ do_wilcox_2_exact <- function(stat, nx, ny, alt) {
 do_wilcox_2_approx <- function(stat, nx, ny, alt, nties, correct) {
   res <- rep(NA_integer_, length(stat))
 
-  z <- stat - nx*ny/2
+  z <- stat - nx*ny*0.5
   correction <- rep(0, length(stat))
   correction[correct & alt=="two.sided"] <- sign(z[correct & alt=="two.sided"]) * 0.5
   correction[correct & alt=="greater"]   <- 0.5
@@ -188,8 +188,8 @@ do_pearson <- function(r, df, alt, conf) {
   inds <- alt=="two.sided"
   if(any(inds)) {
     res[inds,2] <- 2 * pmin(stats::pt(res[inds,1], df[inds]), stats::pt(res[inds,1], df[inds], lower.tail=FALSE))
-    res[inds,3] <- z[inds] + -sigma[inds] * stats::qnorm((1 + conf[inds])/2)
-    res[inds,4] <- z[inds] + sigma[inds] * stats::qnorm((1 + conf[inds])/2)
+    res[inds,3] <- z[inds] + -sigma[inds] * stats::qnorm((1 + conf[inds])*0.5)
+    res[inds,4] <- z[inds] + sigma[inds] * stats::qnorm((1 + conf[inds])*0.5)
   }
 
   res[,3] <- tanh(res[,3])

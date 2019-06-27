@@ -144,7 +144,7 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
 
   r <- matrixStats::rowRanks(cbind(x - mu, y), ties.method="average")
 
-  statistic <- rowSums(r[,seq_len(ncol(x)),drop=FALSE], na.rm=TRUE) - nxs * (nxs + 1)/2
+  statistic <- rowSums(r[,seq_len(ncol(x)),drop=FALSE], na.rm=TRUE) - nxs * (nxs + 1)*0.5
 
   nties   <- rowTies(r)
   hasties <- rowSums(nties>0) > 0
