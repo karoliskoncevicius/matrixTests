@@ -1,7 +1,11 @@
-rowVars <- function(x, na.rm=FALSE) {
-  M <- rowMeans(x, na.rm=na.rm)
-  n <- rowSums(!is.na(x))-1
-  ifelse(n > 0, rowSums((x-M)^2, na.rm=na.rm) / n, NA)
+rowVars <- function(x, n=NULL, m=NULL, na.rm=FALSE) {
+  if(is.null(n))
+    n <- rep.int(ncol(x), nrow(x)) - rowSums(is.na(x))
+  if(is.null(m))
+    m <- rowMeans(x, na.rm=na.rm)
+  res <- rowSums((x-m)^2, na.rm=na.rm) / (n-1)
+  res[n <= 0] <- NA
+  res
 }
 
 rowTies <- function(x) {

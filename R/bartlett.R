@@ -63,7 +63,7 @@ row_bartlett <- function(x, g) {
   for(i in seq_along(unique(g))) {
     tmpx <- x[,g==unique(g)[i], drop=FALSE]
     nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
-    vPerGroup[,i] <- rowVars(tmpx, na.rm=TRUE)
+    vPerGroup[,i] <- rowVars(tmpx, n=nPerGroup[,i], na.rm=TRUE)
   }
   nPerGroup[nPerGroup < 2] <- NA # drop group with less than 2 observations
   nGroups <- rep.int(ncol(nPerGroup), nrow(nPerGroup)) - matrixStats::rowCounts(is.na(nPerGroup))

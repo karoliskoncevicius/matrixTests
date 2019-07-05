@@ -49,13 +49,13 @@ assert_all_in_set <- function(x, vals) {
 
 assert_all_in_open_interval <- function(x, min, max) {
   name <- as.character(substitute(x))
-  if(is.null(x) | any(is.na(x) | x<=min | x>=max))
+  if(is.null(x) | any(anyNA(x) | x<=min | x>=max))
     stop(paste0('all "', name, '" values must be greater than ', min, ' and lower than ', max))
 }
 
 assert_all_in_closed_interval <- function(x, min, max) {
   name <- as.character(substitute(x))
-  if(is.null(x) | any(is.na(x) | x<min | x>max))
+  if(is.null(x) | any(anyNA(x) | x<min | x>max))
     stop(paste0('all "', name, '" values must be between: ', min, ' and ', max))
 }
 
@@ -76,6 +76,6 @@ assert_equal_ncol <- function(x, y) {
 
 assert_max_number_of_levels <- function(x, mlevels) {
   name <- as.character(substitute(x))
-  if(is.null(x) || length(unique(x[!is.na(x)])) > mlevels)
+  if(is.null(x) || length(na.omit(unique(x))) > mlevels)
     stop(paste0('"', name, '"', ' must have no more than ', mlevels, ' unique elements'))
 }
