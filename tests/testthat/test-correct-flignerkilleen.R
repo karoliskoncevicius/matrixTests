@@ -113,6 +113,23 @@ test_that("minimum allowed sample sizes give equal results", {
 ################################ TEST WARNINGS #################################
 ################################################################################
 
+test_that("warning is shown when columns are removed because of NA groups", {
+  wrn <- '2 columns dropped due to missing group information'
+
+  # 2 NAs
+  expect_warning(res <- row_flignerkilleen(1:10, c(1,1,1,1,NA,NA,2,2,2,2)), wrn, all=TRUE)
+  expect_equal(res$obs.tot, 8)
+  expect_equal(res$obs.groups, 2)
+
+  # 4 groups with one group dropped because of missing x values
+  x <- rnorm(10); x[c(1,2)] <- NA
+  g <- c(1,1,2,2,NA,NA,3,3,4,4)
+  expect_warning(res <- row_flignerkilleen(x, g), wrn)
+  expect_equal(res$obs.tot, 6)
+  expect_equal(res$obs.groups, 3)
+})
+
+
 test_that("warning when rows have less than 2 groups", {
   wrn <- 'row_flignerkilleen: 1 of the rows had less than 2 groups with enough observations\\.\nFirst occurrence at row 1'
   nacolumns <- c("statistic", "pvalue")

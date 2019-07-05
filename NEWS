@@ -5,7 +5,11 @@ Version 0.1.5 [TBD]
 
 IMPROVEMENTS:
 
-o Various speed improvements
+o Various speed improvements.
+
+TESTS:
+
+o Added missing tests for warnings about NA values in "group" argument.
 
 
 Version: 0.1.4 [2019 Jun 25]
