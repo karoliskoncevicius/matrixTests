@@ -77,7 +77,7 @@ row_flignerkilleen <- function(x, g) {
     mPerGroup[,i] <- rowSums(a[,g==group, drop=FALSE], na.rm=TRUE)
   }
 
-  stat <- rowSums(mPerGroup^2 / nPerGroup)
+  stat <- rowSums(mPerGroup*mPerGroup / nPerGroup)
   stat <- (stat - nSamples * rowMeans(a, na.rm=TRUE)^2) / rowVars(a, na.rm=TRUE)
   df   <- nGroups-1
   p    <- stats::pchisq(stat, df, lower.tail=FALSE)

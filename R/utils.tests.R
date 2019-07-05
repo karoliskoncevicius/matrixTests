@@ -167,7 +167,7 @@ do_pearson <- function(r, df, alt, conf) {
 
   df[df<=0] <- NA
 
-  res[,1] <- sqrt(df)*r / sqrt(1 - r^2)
+  res[,1] <- sqrt(df)*r / sqrt(1 - r*r)
   z <- atanh(r)
   sigma <- 1/sqrt(df-1)
 

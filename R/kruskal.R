@@ -67,7 +67,7 @@ row_kruskalwallis <- function(x, g) {
   nSamples <- rowSums(nPerGroup)
   nGroups  <- matrixStats::rowCounts(nPerGroup!=0)
 
-  st0 <- rowSums(rPerGroup^2/nPerGroup, na.rm=TRUE)
+  st0 <- rowSums(rPerGroup*rPerGroup/nPerGroup, na.rm=TRUE)
   st1 <- 12*st0 / (nSamples * (nSamples + 1)) - 3 * (nSamples + 1)
   st2 <- 1 - rowSums(ties^3 - ties) / (nSamples^3 - nSamples)
   stat <- st1/st2
