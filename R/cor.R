@@ -85,10 +85,11 @@ row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
 
   mu <- rep(0, length.out=nrow(x)) # can't be changed because different test should be used in that case.
 
-  x[is.na(y)] <- NA
-  y[is.na(x)] <- NA
+  isna <- is.na(x+y)
+  x[isna] <- NA
+  y[isna] <- NA
 
-  ns <- matrixStats::rowCounts(!is.na(x))
+  ns <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(isna)
 
   mx <- rowMeans(x, na.rm=TRUE)
   my <- rowMeans(y, na.rm=TRUE)

@@ -137,10 +137,11 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
   y[hasinfy] <- NA
   hasinfy <- rowSums(hasinfy) > 0
 
-  nxs  <- matrixStats::rowCounts(!is.na(x))
-  nys  <- matrixStats::rowCounts(!is.na(y))
+  nxs  <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
+  nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
 
-  exact[is.na(exact)] <- (nxs[is.na(exact)] < 50) & (nys[is.na(exact)] < 50)
+  naexact <- is.na(exact)
+  exact[naexact] <- (nxs[naexact] < 50) & (nys[naexact] < 50)
 
   r <- matrixStats::rowRanks(cbind(x - mu, y), ties.method="average")
 
@@ -245,9 +246,10 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
   x[haszeroes] <- NA
   haszeroes <- rowSums(haszeroes, na.rm=TRUE) > 0
 
-  nxs <- matrixStats::rowCounts(!is.na(x))
+  nxs <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
 
-  exact[is.na(exact)] <- nxs[is.na(exact)] < 50
+  naexact <- is.na(exact)
+  exact[naexact] <- nxs[naexact] < 50
 
   r <- matrixStats::rowRanks(abs(x), ties.method="average")
   rtmp <- r
@@ -371,11 +373,12 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
   xy[haszeroes] <- NA
   haszeroes <- rowSums(haszeroes, na.rm=TRUE) > 0
 
-  nxs  <- matrixStats::rowCounts(!is.na(x))
-  nys  <- matrixStats::rowCounts(!is.na(y))
-  nxys <- matrixStats::rowCounts(!is.na(xy))
+  nxs  <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
+  nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
+  nxys <- rep.int(ncol(xy), nrow(xy)) - matrixStats::rowCounts(is.na(xy))
 
-  exact[is.na(exact)] <- nxys[is.na(exact)] < 50
+  naexact <- is.na(exact)
+  exact[naexact] <- nxys[naexact] < 50
 
   r <- matrixStats::rowRanks(abs(xy), ties.method="average")
   rtmp <- r

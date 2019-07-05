@@ -41,7 +41,7 @@ row_jarquebera <- function(x) {
   assert_numeric_mat_or_vec(x)
 
 
-  n    <- matrixStats::rowCounts(!is.na(x))
+  n    <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
   m0   <- x - rowMeans(x, na.rm=TRUE)
   m2   <- rowMeans(m0*m0, na.rm=TRUE)
   m3   <- rowMeans(m0^3, na.rm=TRUE)

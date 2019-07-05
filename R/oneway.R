@@ -70,7 +70,7 @@ row_oneway_equalvar <- function(x, g) {
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(g))) {
     tmpx <- x[,g==unique(g)[i], drop=FALSE]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(tmpx))
+    nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
     mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowSums((tmpx-mPerGroup[,i])^2, na.rm=TRUE) / (nPerGroup[,i]-1)
   }
@@ -150,7 +150,7 @@ row_oneway_welch <- function(x, g) {
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(g))) {
     tmpx <- x[,g==unique(g)[i], drop=FALSE]
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(tmpx))
+    nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
     mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowSums((tmpx-mPerGroup[,i])^2, na.rm=TRUE) / (nPerGroup[,i]-1)
   }

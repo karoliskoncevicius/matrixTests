@@ -59,10 +59,10 @@ row_flignerkilleen <- function(x, g) {
 
   nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   for(i in seq_along(unique(g))) {
-    group <- unique(g)[i]
-    inds  <- g==group
-    nPerGroup[,i] <- matrixStats::rowCounts(!is.na(x[,inds, drop=FALSE]))
-    x[,inds] <- x[,inds] - matrixStats::rowMedians(x[,inds, drop=FALSE], na.rm=TRUE)
+    inds <- g==unique(g)[i]
+    tmpx <- x[,inds, drop=FALSE]
+    nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
+    x[,inds] <- tmpx - matrixStats::rowMedians(tmpx, na.rm=TRUE)
   }
 
   nGroups  <- matrixStats::rowCounts(nPerGroup!=0)
@@ -73,8 +73,7 @@ row_flignerkilleen <- function(x, g) {
 
   mPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   for(i in seq_along(unique(g))) {
-    group <- unique(g)[i]
-    mPerGroup[,i] <- rowSums(a[,g==group, drop=FALSE], na.rm=TRUE)
+    mPerGroup[,i] <- rowSums(a[,g==unique(g)[i], drop=FALSE], na.rm=TRUE)
   }
 
   stat <- rowSums(mPerGroup*mPerGroup / nPerGroup)
