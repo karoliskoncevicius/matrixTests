@@ -93,6 +93,14 @@ row_f_var <- function(x, y, ratio=1, alternative="two.sided", conf.level=0.95) {
   assert_all_in_closed_interval(conf.level, 0, 1)
 
 
+  hasinfx <- is.infinite(x)
+  x[hasinfx] <- NA
+  hasinfx <- rowSums(hasinfx) > 0
+
+  hasinfy <- is.infinite(y)
+  y[hasinfy] <- NA
+  hasinfy <- rowSums(hasinfy) > 0
+
   nxs  <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
   nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
   nxys <- nxs + nys
@@ -108,22 +116,34 @@ row_f_var <- function(x, y, ratio=1, alternative="two.sided", conf.level=0.95) {
   fres <- do_ftest(estimate, ratio, alternative, dfx, dfy, conf.level)
 
 
-  w1 <- nxs <= 1
-  showWarning(w1, 'had less than 1 "x" observation')
+  w1 <- hasinfx
+  showWarning(w1, 'had infinite "x" observations that were removed')
 
-  w2 <- nys <= 1
-  showWarning(w2, 'had less than 1 "y" observation')
+  w2 <- hasinfy
+  showWarning(w2, 'had infinite "y" observations that were removed')
+
+  w3 <- nxs <= 1
+  showWarning(w3, 'had less than 1 "x" observation')
+
+  w4 <- nys <= 1
+  showWarning(w4, 'had less than 1 "y" observation')
+
+  w5 <- vxs == 0
+  showWarning(w5, 'had zero variance in "x"')
+
+  w6 <- vys == 0
+  showWarning(w6, 'had zero variance in "y"')
 
 
-  fres[w1 | w2,] <- NA
+  fres[w3 | w4 | (w5 & w6),] <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, var.x=vxs, var.y=vxs,
+  data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, var.x=vxs, var.y=vys,
              var.ratio=estimate, df.num=dfx, df.denom=dfy, statistic=fres[,1],
              pvalue=fres[,2], conf.low=fres[,3], conf.high=fres[,4],
              ratio.null=ratio, alternative=alternative, conf.level=conf.level,
-             row.names=rnames
+             row.names=rnames, stringsAsFactors=FALSE
              )
 }
 

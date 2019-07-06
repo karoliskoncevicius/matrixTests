@@ -12,6 +12,7 @@ test_that("alternative must be a character", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=NULL), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=NULL), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=NULL), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=NULL), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=NULL), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=NULL), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=NULL), er)
@@ -20,6 +21,7 @@ test_that("alternative must be a character", {
   expect_error(row_t_onesample(x=mat, alternative=NA), er)
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=NA), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=NA), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=NA), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=NA), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=NA), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=NA), er)
@@ -29,6 +31,7 @@ test_that("alternative must be a character", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=1), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=1), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=1), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=1), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=1), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=1), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=1), er)
@@ -38,6 +41,7 @@ test_that("alternative must be a character", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=complex(1)), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=complex(1)), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=complex(1)), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=complex(1)), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=complex(1)), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=complex(1)), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=complex(1)), er)
@@ -47,6 +51,7 @@ test_that("alternative must be a character", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=list("less")), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=list("less")), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=list("less")), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=list("less")), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=list("less")), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=list("less")), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=list("less")), er)
@@ -56,6 +61,7 @@ test_that("alternative must be a character", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=data.frame("less")), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=data.frame("less")), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=data.frame("less")), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=data.frame("less")), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=data.frame("less")), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=data.frame("less")), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=data.frame("less")), er)
@@ -115,6 +121,23 @@ test_that("mu must be numeric", {
   expect_error(row_wilcoxon_paired(x=mat, y=mat, mu=data.frame(1)), er)
 })
 
+test_that("ratio must be numeric", {
+  er <- '"ratio" must be a numeric vector with length 1 or nrow\\(x\\)'
+  mat <- matrix(1:12, nrow=3)
+  # NULL
+  expect_error(row_f_var(x=mat, y=mat, ratio=NULL), er)
+  # NA
+  expect_error(row_f_var(x=mat, y=mat, ratio=NA), er)
+  # character
+  expect_error(row_f_var(x=mat, y=mat, ratio="1"), er)
+  # complex
+  expect_error(row_f_var(x=mat, y=mat, ratio=complex(1)), er)
+  # in list
+  expect_error(row_f_var(x=mat, y=mat, ratio=list(1)), er)
+  # data frame
+  expect_error(row_f_var(x=mat, y=mat, ratio=data.frame(1)), er)
+})
+
 
 test_that("conf.level must be numeric", {
   er <- '"conf.level" must be a numeric vector with length 1 or nrow\\(x\\)'
@@ -124,36 +147,42 @@ test_that("conf.level must be numeric", {
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=NULL), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=NULL), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=NULL), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=NULL), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=NULL), er)
   # NA
   expect_error(row_t_onesample(x=mat, conf.level=NA), er)
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=NA), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=NA), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=NA), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=NA), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=NA), er)
   # character
   expect_error(row_t_onesample(x=mat, conf.level="1"), er)
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level="1"), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level="1"), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level="1"), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level="1"), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level="1"), er)
   # complex
   expect_error(row_t_onesample(x=mat, conf.level=complex(1)), er)
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=complex(1)), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=complex(1)), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=complex(1)), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=complex(1)), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=complex(1)), er)
   # in list
   expect_error(row_t_onesample(x=mat, conf.level=list(1)), er)
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=list(1)), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=list(1)), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=list(1)), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=list(1)), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=list(1)), er)
   # data frame
   expect_error(row_t_onesample(x=mat, conf.level=data.frame(1)), er)
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=data.frame(1)), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=data.frame(1)), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=data.frame(1)), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=data.frame(1)), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=data.frame(1)), er)
 })
 
@@ -261,6 +290,7 @@ test_that("alternative has correct dimensions", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=c("less", "greater")), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=c("less", "greater")), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=c("less", "greater")), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=c("less", "greater")), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=c("less", "greater")), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=c("less", "greater")), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=c("less", "greater")), er)
@@ -270,6 +300,7 @@ test_that("alternative has correct dimensions", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=rep("less", 5)), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=rep("less", 5)), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=rep("less", 5)), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=rep("less", 5)), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=rep("less", 5)), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=rep("less", 5)), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=rep("less", 5)), er)
@@ -280,6 +311,7 @@ test_that("alternative has correct dimensions", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=alt), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=alt), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=alt), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=alt), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=alt), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=alt), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=alt), er)
@@ -316,6 +348,18 @@ test_that("mu has correct dimensions", {
   expect_error(row_wilcoxon_paired(x=mat, y=mat, mu=mus), er)
 })
 
+test_that("ratio has correct dimensions", {
+  er <- '"ratio" must be a numeric vector with length 1 or nrow\\(x\\)'
+  mat <- matrix(1:12, ncol=3)
+  # too short
+  expect_error(row_f_var(x=mat, y=mat, ratio=c(1,2)), er)
+  # too long
+  expect_error(row_f_var(x=mat, y=mat, ratio=rep(0, 5)), er)
+  # matrix format
+  mus <- matrix(rep(1, 4), ncol=2)
+  expect_error(row_f_var(x=mat, y=mat, ratio=mus), er)
+})
+
 test_that("conf.level has correct dimensions", {
   er <- '"conf.level" must be a numeric vector with length 1 or nrow\\(x\\)'
   mat <- matrix(1:12, ncol=3)
@@ -324,12 +368,14 @@ test_that("conf.level has correct dimensions", {
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=c(1,2)), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=c(1,2)), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=c(1,2)), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=c(1,2)), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=c(1,2)), er)
   # too long
   expect_error(row_t_onesample(x=mat, conf.level=rep(0, 5)), er)
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=rep(0, 5)), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=rep(0, 5)), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=rep(0, 5)), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=rep(0, 5)), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=rep(0, 5)), er)
   # matrix format
   cfs <- matrix(rep(1, 4), ncol=2)
@@ -337,6 +383,7 @@ test_that("conf.level has correct dimensions", {
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=cfs), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=cfs), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=cfs), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=cfs), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=cfs), er)
 })
 
@@ -402,6 +449,7 @@ test_that("alternative is in: less, greater, two-sided)", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative="ga"), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative="ga"), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative="ga"), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative="ga"), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative="ga"), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative="ga"), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative="ga"), er)
@@ -411,6 +459,7 @@ test_that("alternative is in: less, greater, two-sided)", {
   expect_error(row_t_equalvar(x=mat, y=mat, alternative=c("t","l","c")), er)
   expect_error(row_t_welch(x=mat, y=mat, alternative=c("t","l","c")), er)
   expect_error(row_t_paired(x=mat, y=mat, alternative=c("t","l","c")), er)
+  expect_error(row_f_var(x=mat, y=mat, alternative=c("t","l","c")), er)
   expect_error(row_cor_pearson(x=mat, y=mat, alternative=c("t","l","c")), er)
   expect_error(row_wilcoxon_onesample(x=mat, alternative=c("t","l","c")), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, alternative=c("t","l","c")), er)
@@ -425,18 +474,21 @@ test_that("conf.level is in: 0-1)", {
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=-0.001), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=-0.001), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=-0.001), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=-0.001), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=-0.001), er)
   # slightly above
   expect_error(row_t_onesample(x=mat, conf.level=1.001), er)
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=1.001), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=1.001), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=1.001), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=1.001), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=1.001), er)
   # special values
   expect_error(row_t_onesample(x=mat, conf.level=NA_integer_), er)
   expect_error(row_t_equalvar(x=mat, y=mat, conf.level=NaN), er)
   expect_error(row_t_welch(x=mat, y=mat, conf.level=Inf), er)
   expect_error(row_t_paired(x=mat, y=mat, conf.level=-Inf), er)
+  expect_error(row_f_var(x=mat, y=mat, conf.level=-Inf), er)
   expect_error(row_cor_pearson(x=mat, y=mat, conf.level=-Inf), er)
 })
 
@@ -466,6 +518,27 @@ test_that("when mu is in: (-Inf,Inf))", {
   expect_error(row_wilcoxon_onesample(x=mat, mu=NaN), er)
   expect_error(row_wilcoxon_twosample(x=mat, y=mat, mu=NaN), er)
   expect_error(row_wilcoxon_paired(x=mat, y=mat, mu=NaN), er)
+  # Inf
+  expect_error(row_wilcoxon_onesample(x=mat, mu=Inf), er)
+  expect_error(row_wilcoxon_twosample(x=mat, y=mat, mu=Inf), er)
+  expect_error(row_wilcoxon_paired(x=mat, y=mat, mu=Inf), er)
+  # -Inf
+  expect_error(row_wilcoxon_onesample(x=mat, mu=-Inf), er)
+  expect_error(row_wilcoxon_twosample(x=mat, y=mat, mu=-Inf), er)
+  expect_error(row_wilcoxon_paired(x=mat, y=mat, mu=-Inf), er)
+})
+
+test_that("ratio must be in: (0,Inf))", {
+  er <- 'all "ratio" values must be greater than 0 and lower than Inf'
+  mat <- matrix(1:12, nrow=3)
+  # NA
+  expect_error(row_f_var(x=mat, y=mat, ratio=NA_integer_), er)
+  # NaN
+  expect_error(row_f_var(x=mat, y=mat, ratio=NaN), er)
+  # 0
+  expect_error(row_f_var(x=mat, y=mat, ratio=0), er)
+  # Inf
+  expect_error(row_f_var(x=mat, y=mat, ratio=Inf), er)
 })
 
 test_that("correct indicator cannot be NA", {
