@@ -34,6 +34,43 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   res
 }
 
+# Obtain p-values and confidence intervals for f-tests
+do_ftest <- function(est, rat, alt, df1, df2, conf) {
+  res <- matrix(numeric(), nrow=length(est), ncol=4)
+  colnames(res) <- c("f", "p", "cl", "ch")
+
+  df1[df1 <= 0] <- NA
+  df2[df2 <= 0] <- NA
+
+  res[,1] <- est/rat
+
+  inds <- alt=="less"
+  if(any(inds)) {
+    res[inds,2] <- pf(res[inds,1], df1[inds], df2[inds])
+    res[inds,3] <- 0
+    res[inds,4] <- est[inds] / qf(1 - conf[inds], df1[inds], df2[inds])
+  }
+
+  inds <- alt=="greater"
+  if(any(inds)) {
+    res[inds,2] <- 1 - pf(res[inds,1], df1[inds], df2[inds])
+    res[inds,3] <- est[inds] / qf(conf[inds], df1[inds], df2[inds])
+    res[inds,4] <- Inf
+  }
+
+  inds <- alt=="two.sided"
+  if(any(inds)) {
+    pval <- pf(res[inds,1], df1[inds], df2[inds])
+    beta <- (1 - conf[inds]) * 0.5
+    res[inds,2] <- 2 * pmin(pval, 1 - pval)
+    res[inds,3] <- est[inds] / qf(1-beta, df1[inds], df2[inds])
+    res[inds,4] <- est[inds] / qf(beta, df1[inds], df2[inds])
+  }
+
+  res
+}
+
+
 do_wilcox_1_exact <- function(stat, n, alt) {
   res <- rep(NA_integer_, length(stat))
 

@@ -40,7 +40,7 @@
 #' A single number or numeric vector with values for each observation.
 #' @param conf.level confidence levels used for the confidence intervals.
 #' A single number or a numeric vector with values for each observation.
-#' All values must be in the range of [0;1].
+#' All values must be in the range of [0:1].
 #'
 #' @return a data.frame where each row contains the results of a t.test
 #' performed on the corresponding row/column of x.
