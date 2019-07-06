@@ -3,6 +3,10 @@ Package: matrixTests
 
 Version 0.1.5 [TBD]
 
+NEW FEATURES:
+
+o Added F-test for variance: `row_f_var` and it's column equivalent.
+
 IMPROVEMENTS:
 
 o Various speed improvements across all types of tests.
