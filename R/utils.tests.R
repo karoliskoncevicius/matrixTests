@@ -46,25 +46,25 @@ do_ftest <- function(est, rat, alt, df1, df2, conf) {
 
   inds <- alt=="less"
   if(any(inds)) {
-    res[inds,2] <- pf(res[inds,1], df1[inds], df2[inds])
+    res[inds,2] <- stats::pf(res[inds,1], df1[inds], df2[inds])
     res[inds,3] <- 0
-    res[inds,4] <- est[inds] / qf(1 - conf[inds], df1[inds], df2[inds])
+    res[inds,4] <- est[inds] / stats::qf(1 - conf[inds], df1[inds], df2[inds])
   }
 
   inds <- alt=="greater"
   if(any(inds)) {
-    res[inds,2] <- 1 - pf(res[inds,1], df1[inds], df2[inds])
-    res[inds,3] <- est[inds] / qf(conf[inds], df1[inds], df2[inds])
+    res[inds,2] <- 1 - stats::pf(res[inds,1], df1[inds], df2[inds])
+    res[inds,3] <- est[inds] / stats::qf(conf[inds], df1[inds], df2[inds])
     res[inds,4] <- Inf
   }
 
   inds <- alt=="two.sided"
   if(any(inds)) {
-    pval <- pf(res[inds,1], df1[inds], df2[inds])
+    pval <- stats::pf(res[inds,1], df1[inds], df2[inds])
     beta <- (1 - conf[inds]) * 0.5
     res[inds,2] <- 2 * pmin(pval, 1 - pval)
-    res[inds,3] <- est[inds] / qf(1-beta, df1[inds], df2[inds])
-    res[inds,4] <- est[inds] / qf(beta, df1[inds], df2[inds])
+    res[inds,3] <- est[inds] / stats::qf(1-beta, df1[inds], df2[inds])
+    res[inds,4] <- est[inds] / stats::qf(beta, df1[inds], df2[inds])
   }
 
   res
