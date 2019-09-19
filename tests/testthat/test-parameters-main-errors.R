@@ -19,6 +19,8 @@ test_that("x cannot be missing", {
   expect_error(row_ievora(), er)
   expect_error(row_jarquebera(), er)
   expect_error(row_flignerkilleen(), er)
+  expect_error(row_levene(), er)
+  expect_error(row_brownforsythe(), er)
   expect_error(row_wilcoxon_onesample(), er)
   expect_error(row_wilcoxon_twosample(), er)
   expect_error(row_wilcoxon_paired(), er)
@@ -42,6 +44,8 @@ test_that("groups cannot be missing", {
   expect_error(row_kruskalwallis(x=NA), er)
   expect_error(row_bartlett(x=NA), er)
   expect_error(row_flignerkilleen(x=NA), er)
+  expect_error(row_levene(x=NA), er)
+  expect_error(row_brownforsythe(x=NA), er)
 })
 
 test_that("binary cannot be missing", {
@@ -69,6 +73,8 @@ test_that("x cannot be a character", {
   expect_error(row_ievora(x=matX, b="a"), er)
   expect_error(row_jarquebera(x=matX), er)
   expect_error(row_flignerkilleen(x=matX, g="a"), er)
+  expect_error(row_levene(x=matX, g="a"), er)
+  expect_error(row_brownforsythe(x=matX, g="a"), er)
   expect_error(row_wilcoxon_onesample(x=matX), er)
   expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
   expect_error(row_wilcoxon_paired(x=matX, y=0), er)
@@ -102,6 +108,8 @@ test_that("x cannot be partially numeric", {
   expect_error(row_ievora(x=iris, b="a"), er)
   expect_error(row_jarquebera(x=iris), er)
   expect_error(row_flignerkilleen(x=iris, g="a"), er)
+  expect_error(row_levene(x=iris, g="a"), er)
+  expect_error(row_brownforsythe(x=iris, g="a"), er)
   expect_error(row_wilcoxon_onesample(x=iris), er)
   expect_error(row_wilcoxon_twosample(x=iris, y=0), er)
   expect_error(row_wilcoxon_paired(x=iris, y=0), er)
@@ -135,6 +143,8 @@ test_that("x cannot be complex", {
   expect_error(row_ievora(x=matX, b="a"), er)
   expect_error(row_jarquebera(x=matX), er)
   expect_error(row_flignerkilleen(x=matX, g="a"), er)
+  expect_error(row_levene(x=matX, g="a"), er)
+  expect_error(row_brownforsythe(x=matX, g="a"), er)
   expect_error(row_wilcoxon_onesample(x=matX), er)
   expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
   expect_error(row_wilcoxon_paired(x=matX, y=0), er)
@@ -169,6 +179,8 @@ test_that("x cannot be logical", {
   expect_error(row_ievora(x=matX, b="a"), er)
   expect_error(row_jarquebera(x=matX), er)
   expect_error(row_flignerkilleen(x=matX, g="a"), er)
+  expect_error(row_levene(x=matX, g="a"), er)
+  expect_error(row_brownforsythe(x=matX, g="a"), er)
   expect_error(row_wilcoxon_onesample(x=matX), er)
   expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
   expect_error(row_wilcoxon_paired(x=matX, y=0), er)
@@ -202,6 +214,8 @@ test_that("x cannot be NULL", {
   expect_error(row_ievora(x=NULL, b="a"), er)
   expect_error(row_jarquebera(x=NULL), er)
   expect_error(row_flignerkilleen(x=NULL, g="a"), er)
+  expect_error(row_levene(x=NULL, g="a"), er)
+  expect_error(row_brownforsythe(x=NULL, g="a"), er)
   expect_error(row_wilcoxon_onesample(x=NULL), er)
   expect_error(row_wilcoxon_twosample(x=NULL, y=0), er)
   expect_error(row_wilcoxon_paired(x=NULL, y=0), er)
@@ -235,6 +249,8 @@ test_that("x cannot be in a list", {
   expect_error(row_ievora(x=list(1:5), b="a"), er)
   expect_error(row_jarquebera(x=list(1:5)), er)
   expect_error(row_flignerkilleen(x=list(1:5), g="a"), er)
+  expect_error(row_levene(x=list(1:5), g="a"), er)
+  expect_error(row_brownforsythe(x=list(1:5), g="a"), er)
   expect_error(row_wilcoxon_onesample(x=list(1:5)), er)
   expect_error(row_wilcoxon_twosample(x=list(1:5), y=0), er)
   expect_error(row_wilcoxon_paired(x=list(1:5), y=0), er)
@@ -267,6 +283,8 @@ test_that("x cannot be a list", {
   expect_error(row_ievora(x=as.list(1:5), b="a"), er)
   expect_error(row_jarquebera(x=as.list(1:5)), er)
   expect_error(row_flignerkilleen(x=as.list(1:5), g="a"), er)
+  expect_error(row_levene(x=as.list(1:5), g="a"), er)
+  expect_error(row_brownforsythe(x=as.list(1:5), g="a"), er)
   expect_error(row_wilcoxon_onesample(x=as.list(1:5)), er)
   expect_error(row_wilcoxon_twosample(x=as.list(1:5), y=0), er)
   expect_error(row_wilcoxon_paired(x=as.list(1:5), y=0), er)
@@ -296,6 +314,8 @@ test_that("groups cannot be NULL", {
   expect_error(row_kruskalwallis(x=matX, g=NULL), er)
   expect_error(row_bartlett(x=matX, g=NULL), er)
   expect_error(row_flignerkilleen(x=matX, g=NULL), er)
+  expect_error(row_levene(x=matX, g=NULL), er)
+  expect_error(row_brownforsythe(x=matX, g=NULL), er)
 })
 
 test_that("groups cannot be a list", {
@@ -306,6 +326,8 @@ test_that("groups cannot be a list", {
   expect_error(row_kruskalwallis(x=matX, g=list(1:3)), er)
   expect_error(row_bartlett(x=matX, g=list(1:3)), er)
   expect_error(row_flignerkilleen(x=matX, g=list(1:3)), er)
+  expect_error(row_levene(x=matX, g=list(1:3)), er)
+  expect_error(row_brownforsythe(x=matX, g=list(1:3)), er)
 })
 
 test_that("groups cannot be a matrix", {
@@ -317,6 +339,8 @@ test_that("groups cannot be a matrix", {
   expect_error(row_kruskalwallis(x=matX, g=grp), er)
   expect_error(row_bartlett(x=matX, g=grp), er)
   expect_error(row_flignerkilleen(x=matX, g=grp), er)
+  expect_error(row_levene(x=matX, g=grp), er)
+  expect_error(row_brownforsythe(x=matX, g=grp), er)
 })
 
 ################################################################################
@@ -383,6 +407,8 @@ test_that("group length matches number of columns", {
   expect_error(row_kruskalwallis(x=matX, g=1:3), er)
   expect_error(row_bartlett(x=matX, g=1:3), er)
   expect_error(row_flignerkilleen(x=matX, g=1:3), er)
+  expect_error(row_levene(x=matX, g=1:3), er)
+  expect_error(row_brownforsythe(x=matX, g=1:3), er)
 })
 
 test_that("binary length matches number of columns", {
