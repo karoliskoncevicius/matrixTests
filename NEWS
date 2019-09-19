@@ -1,6 +1,14 @@
 Package: matrixTests
 ====================
 
+Version 0.1.6 [2019 Sep 19]
+
+NEW FEATURES:
+
+o Added Levene test: `row_levene` and `col_levene`
+o Added Brown-Forsythe test: `row_brownforsythe` and `col_brownforsythe`
+
+
 Version 0.1.5 [2019 Jul 09]
 
 NEW FEATURES:
