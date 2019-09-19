@@ -62,7 +62,7 @@ Petal.Width      150          3       80.41333        6.1566       40.206667    
 | Bartlett's test                    | `row_bartlett(x, g)`           | `bartlett.test(x, g)`
 | Kruskal-Wallis test                | `row_kruskalwallis(x, g)`      | `kruskal.test(x, g)`
 | Fligner-Killeen test               | `row_flignerkilleen(x, g)`     | `fligner.test(x, g)`
-| Levene test                        | `row_levene(x, g)`             | `car:leveneTest(x, g, center="mean")`
+| Levene's test                      | `row_levene(x, g)`             | `car:leveneTest(x, g, center="mean")`
 | Brown-Forsythe test                | `row_brownforsythe(x, g)`      | `car:leveneTest(x, g, center="median")`
 | Jarque-Bera test                   | `row_jarquebera(x)`            | `moments::jarque.test(x)`
 
