@@ -46,64 +46,111 @@ Petal.Width      150          3       80.41333        6.1566       40.206667    
 
 ## Available Tests ##
 
-```
+#### Location tests (1 group) ####
 
+```
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-
-Location tests (1 group)
-
-  single sample t.test          row_t_onesample(x)              t.test(x)
-  single sample wilcoxon test   row_wilcoxon_onesample(x)       wilcox.test(x)
-
-
-Location tests (2 groups)
-
-  equal variance t.test         row_t_equalvar(x, y)            t.test(x, y, var.equal=TRUE)
-  welch t.test                  row_t_welch(x, y)               t.test(x, y)
-  two sample wilcoxon test      row_wilcoxon_twosample(x, y)    wilcox.test(x, y)
+| single sample t.test        | row_t_onesample(x)            | t.test(x)                             |
+| single sample wilcoxon test | row_wilcoxon_onesample(x)     | wilcox.test(x)                        |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
 
 
-Location tests (2+ groups)
+#### Location tests (2 groups) ####
 
-  equal variance oneway anova   row_oneway_equalvar(x, g)       oneway.test(x ~ g, var.equal=TRUE)
-  welch oneway anova            row_oneway_welch(x, g)          oneway.test(x ~ g)
-  kruskal-wallis test           row_kruskalwallis(x, g)         kruskal.test(x, g)
-
-
-Location tests (paired)
-
-  paired t.test                 row_t_paired(x, y)              t.test(x, y, paired=TRUE)
-  paired wilcoxon test          row_wilcoxon_paired(x, y)       wilcox.test(x, y, paired=TRUE)
-
-
-Scale tests (2 groups)
-
-  f variance test               row_f_var(x, y)                 var.test(x, y)
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| equal variance t.test       | row_t_equalvar(x, y)          | t.test(x, y, var.equal=TRUE)          |
+| welch t.test                | row_t_welch(x, y)             | t.test(x, y)                          |
+| two sample wilcoxon test    | row_wilcoxon_twosample(x, y)  | wilcox.test(x, y)                     |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
 
 
-Scale tests (2+ groups)
+#### Location tests (2+ groups) ####
 
-  bartlett's test               row_bartlett(x, g)              bartlett.test(x, g)
-  fligner-killeen test          row_flignerkilleen(x, g)        fligner.test(x, g)
-  levene's test                 row_levene(x, g)                car::leveneTest(x, g, "mean")
-  brown-forsythe test           row_brownforsythe(x, g)         car::leveneTest(x, g, "median")
-
-
-Assosiation tests
-
-   pearson's correlation test   row_cor_pearson(x, y)           cor.test(x, y)
-
-
-Distribution tests
-
-  jarque-bera test              row_jarquebera(x)               moments::jarque.test(x)
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| equal variance oneway anova | row_oneway_equalvar(x, g)     | oneway.test(x ~ g, var.equal=TRUE)    |
+| welch oneway anova          | row_oneway_welch(x, g)        | oneway.test(x ~ g)                    |
+| kruskal-wallis test         | row_kruskalwallis(x, g)       | kruskal.test(x, g)                    |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
 
 
-Test based procedures
+#### Location tests (paired) ####
 
-  evora                         row_ievora(x, b)                                 ---
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| paired t.test               | row_t_paired(x, y)            | t.test(x, y, paired=TRUE)             |
+| paired wilcoxon test        | row_wilcoxon_paired(x, y)     | wilcox.test(x, y, paired=TRUE)        |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
+
+
+#### Scale tests (2 groups) ####
+
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| f variance test             | row_f_var(x, y)               | var.test(x, y)                        |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
+
+
+#### Scale tests (2+ groups) ####
+
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| bartlett's test             | row_bartlett(x, g)            | bartlett.test(x, g)                   |
+| fligner-killeen test        | row_flignerkilleen(x, g)      | fligner.test(x, g)                    |
+| levene's test               | row_levene(x, g)              | car::leveneTest(x, g, "mean")         |
+| brown-forsythe test         | row_brownforsythe(x, g)       | car::leveneTest(x, g, "median")       |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
+
+
+#### Assosiation tests ####
+
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+|  pearson's correlation test | row_cor_pearson(x, y)         | cor.test(x, y)                        |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
+
+
+#### Distribution tests ####
+
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| jarque-bera test            | row_jarquebera(x)             | moments::jarque.test(x)               |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
+
+
+#### Test based procedures ####
+
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| evora                       | row_ievora(x, b)              |                  ---                  |
+|-----------------------------|-------------------------------|---------------------------------------|
 ```
 
 
