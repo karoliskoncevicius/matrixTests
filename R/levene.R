@@ -79,9 +79,7 @@ row_levene <- function(x, g) {
 
   betweenScatter <- rowSums(nPerGroup * (mPerGroup-M)^2, na.rm=TRUE)
   withinScatter  <- rowSums((nPerGroup-1) * vPerGroup, na.rm=TRUE)
-  if(withinScatter <= 10 * .Machine$double.eps) {
-    withinScatter <- 0
-  }
+  withinScatter[withinScatter <= 10 * .Machine$double.eps] <- 0
 
   dft <- nGroups-1
   dfr <- nSamples-nGroups
@@ -160,9 +158,7 @@ row_brownforsythe <- function(x, g) {
 
   betweenScatter <- rowSums(nPerGroup * (mPerGroup-M)^2, na.rm=TRUE)
   withinScatter  <- rowSums((nPerGroup-1) * vPerGroup, na.rm=TRUE)
-  if(withinScatter <= 10 * .Machine$double.eps) {
-    withinScatter <- 0
-  }
+  withinScatter[withinScatter <= 10 * .Machine$double.eps] <- 0
 
   dft <- nGroups-1
   dfr <- nSamples-nGroups
