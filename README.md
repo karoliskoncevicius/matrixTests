@@ -53,8 +53,8 @@ Location tests (1 group)
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| single sample t.test        |  row_t_onesample(x)           |  t.test(x)                            |
-| single sample wilcoxon test |  row_wilcoxon_onesample(x)    |  wilcox.test(x)                       |
+| single sample t.test        | row_t_onesample(x)            | t.test(x)                             |
+| single sample wilcoxon test | row_wilcoxon_onesample(x)     | wilcox.test(x)                        |
 |-----------------------------|-------------------------------|---------------------------------------|
 
 
@@ -63,9 +63,9 @@ Location tests (2 groups)
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| equal variance t.test       |  row_t_equalvar(x, y)         |  t.test(x, y, var.equal=TRUE)         |
-| welch t.test                |  row_t_welch(x, y)            |  t.test(x, y)                         |
-| two sample wilcoxon test    |  row_wilcoxon_twosample(x, y) |  wilcox.test(x, y)                    |
+| equal variance t.test       | row_t_equalvar(x, y)          | t.test(x, y, var.equal=TRUE)          |
+| welch t.test                | row_t_welch(x, y)             | t.test(x, y)                          |
+| two sample wilcoxon test    | row_wilcoxon_twosample(x, y)  | wilcox.test(x, y)                     |
 |-----------------------------|-------------------------------|---------------------------------------|
 
 
@@ -74,9 +74,9 @@ Location tests (2+ groups)
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| equal variance oneway anova |  row_oneway_equalvar(x, g)    |  oneway.test(x ~ g, var.equal=TRUE)   |
-| welch oneway anova          |  row_oneway_welch(x, g)       |  oneway.test(x ~ g)                   |
-| kruskal-wallis test         |  row_kruskalwallis(x, g)      |  kruskal.test(x, g)                   |
+| equal variance oneway anova | row_oneway_equalvar(x, g)     | oneway.test(x ~ g, var.equal=TRUE)    |
+| welch oneway anova          | row_oneway_welch(x, g)        | oneway.test(x ~ g)                    |
+| kruskal-wallis test         | row_kruskalwallis(x, g)       | kruskal.test(x, g)                    |
 |-----------------------------|-------------------------------|---------------------------------------|
 
 
@@ -85,8 +85,8 @@ Location tests (paired)
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| paired t.test               |  row_t_paired(x, y)           |  t.test(x, y, paired=TRUE)            |
-| paired wilcoxon test        |  row_wilcoxon_paired(x, y)    |  wilcox.test(x, y, paired=TRUE)       |
+| paired t.test               | row_t_paired(x, y)            | t.test(x, y, paired=TRUE)             |
+| paired wilcoxon test        | row_wilcoxon_paired(x, y)     | wilcox.test(x, y, paired=TRUE)        |
 |-----------------------------|-------------------------------|---------------------------------------|
 
 
@@ -95,7 +95,7 @@ Scale tests (2 groups)
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| f variance test             |  row_f_var(x, y)              |  var.test(x, y)                       |
+| f variance test             | row_f_var(x, y)               | var.test(x, y)                        |
 |-----------------------------|-------------------------------|---------------------------------------|
 
 
@@ -104,10 +104,10 @@ Scale tests (2+ groups)
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| bartlett's test             |  row_bartlett(x, g)           |  bartlett.test(x, g)                  |
-| fligner-killeen test        |  row_flignerkilleen(x, g)     |  fligner.test(x, g)                   |
-| levene's test               |  row_levene(x, g)             |  car::leveneTest(x, g, "mean")        |
-| brown-forsythe test         |  row_brownforsythe(x, g)      |  car::leveneTest(x, g, "median")      |
+| bartlett's test             | row_bartlett(x, g)            | bartlett.test(x, g)                   |
+| fligner-killeen test        | row_flignerkilleen(x, g)      | fligner.test(x, g)                    |
+| levene's test               | row_levene(x, g)              | car::leveneTest(x, g, "mean")         |
+| brown-forsythe test         | row_brownforsythe(x, g)       | car::leveneTest(x, g, "median")       |
 |-----------------------------|-------------------------------|---------------------------------------|
 
 
@@ -116,7 +116,7 @@ Assosiation tests
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| pearson's correlation test  |  row_cor_pearson(x, y)        |  cor.test(x, y)                       |
+|  pearson's correlation test | row_cor_pearson(x, y)         | cor.test(x, y)                        |
 |-----------------------------|-------------------------------|---------------------------------------|
 
 
@@ -125,7 +125,7 @@ Distribution tests
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| jarque-bera test            |  row_jarquebera(x)            |  moments::jarque.test(x)              |
+| jarque-bera test            | row_jarquebera(x)             | moments::jarque.test(x)               |
 |-----------------------------|-------------------------------|---------------------------------------|
 
 
@@ -134,7 +134,7 @@ Test based procedures
 |-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |          matrixTests          |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
-| evora                       |  row_ievora(x, b)             |  ---                                  |
+| evora                       | row_ievora(x, b)              |                  ---                  |
 |-----------------------------|-------------------------------|---------------------------------------|
 ```
 
