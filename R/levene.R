@@ -62,14 +62,18 @@ row_levene <- function(x, g) {
 
   g <- as.character(g)
 
+  hasinfx <- is.infinite(x)
+  x[hasinfx] <- NA
+  hasinfx <- rowSums(hasinfx) > 0
+
   nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(g))) {
     tmpx <- x[,g==unique(g)[i], drop=FALSE]
     tmpx <- abs(tmpx - rowMeans(tmpx, na.rm=TRUE))
     x[,g==unique(g)[i]] <- tmpx
-    mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
+    mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowSums((tmpx-mPerGroup[,i])^2, na.rm=TRUE) / (nPerGroup[,i]-1)
   }
 
@@ -79,7 +83,6 @@ row_levene <- function(x, g) {
 
   betweenScatter <- rowSums(nPerGroup * (mPerGroup-M)^2, na.rm=TRUE)
   withinScatter  <- rowSums((nPerGroup-1) * vPerGroup, na.rm=TRUE)
-  withinScatter[withinScatter <= 10 * .Machine$double.eps] <- 0
 
   dft <- nGroups-1
   dfr <- nSamples-nGroups
@@ -88,17 +91,23 @@ row_levene <- function(x, g) {
   p <- stats::pf(F, dft, dfr, lower.tail=FALSE)
 
 
-  w1 <- nGroups < 2
-  showWarning(w1, 'had less than 2 groups with enough observations')
+  w1 <- hasinfx
+  showWarning(w1, 'had infinite observations that were removed')
 
-  w2 <- !w1 & all(nPerGroup < 3)
-  showWarning(w2, 'had no groups with more than 2 observations')
+  w2 <- nGroups < 2
+  showWarning(w2, 'had less than 2 groups with enough observations')
 
-  w3 <- !w1 & !w2 & withinScatter==0
-  showWarning(w3, 'had zero within group variance of absolute residuals from the mean')
+  w3 <- !w2 & all(nPerGroup < 3)
+  showWarning(w3, 'had no groups with at least 3 observations')
 
-  F[w1 | w2 | w3] <- NA
-  p[w1 | w2 | w3] <- NA
+  w4 <- !w2 & !w3 & withinScatter==0
+  showWarning(w4, 'had zero within group variance of absolute residuals from the mean')
+
+  w5 <- !w2 & !w3 & !w4 & withinScatter <= .Machine$double.eps
+  showWarning(w5, 'had essentially constant absolute residuals from the mean: results might be unreliable')
+  F[w2 | w3 | w4] <- NA
+  p[w2 | w3 | w4] <- NA
+
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
@@ -141,14 +150,18 @@ row_brownforsythe <- function(x, g) {
 
   g <- as.character(g)
 
+  hasinfx <- is.infinite(x)
+  x[hasinfx] <- NA
+  hasinfx <- rowSums(hasinfx) > 0
+
   nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   mPerGroup <- vPerGroup <- nPerGroup
   for(i in seq_along(unique(g))) {
     tmpx <- x[,g==unique(g)[i], drop=FALSE]
     tmpx <- abs(tmpx - matrixStats::rowMedians(tmpx, na.rm=TRUE))
     x[,g==unique(g)[i]] <- tmpx
-    mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
+    mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowSums((tmpx-mPerGroup[,i])^2, na.rm=TRUE) / (nPerGroup[,i]-1)
   }
 
@@ -158,7 +171,6 @@ row_brownforsythe <- function(x, g) {
 
   betweenScatter <- rowSums(nPerGroup * (mPerGroup-M)^2, na.rm=TRUE)
   withinScatter  <- rowSums((nPerGroup-1) * vPerGroup, na.rm=TRUE)
-  withinScatter[withinScatter <= 10 * .Machine$double.eps] <- 0
 
   dft <- nGroups-1
   dfr <- nSamples-nGroups
@@ -166,18 +178,22 @@ row_brownforsythe <- function(x, g) {
   F <- (betweenScatter/dft) / (withinScatter/dfr)
   p <- stats::pf(F, dft, dfr, lower.tail=FALSE)
 
+  w1 <- hasinfx
+  showWarning(w1, 'had infinite observations that were removed')
 
-  w1 <- nGroups < 2
-  showWarning(w1, 'had less than 2 groups with enough observations')
+  w2 <- nGroups < 2
+  showWarning(w2, 'had less than 2 groups with enough observations')
 
-  w2 <- !w1 & all(nPerGroup < 3)
-  showWarning(w2, 'had no groups with more than 2 observations')
+  w3 <- !w2 & all(nPerGroup < 3)
+  showWarning(w3, 'had no groups with at least 3 observations')
 
-  w3 <- !w1 & !w2 & withinScatter==0
-  showWarning(w3, 'had zero within group variance of absolute residuals from the median')
+  w4 <- !w2 & !w3 & withinScatter==0
+  showWarning(w4, 'had zero within group variance of absolute residuals from the median')
 
-  F[w1 | w2 | w3] <- NA
-  p[w1 | w2 | w3] <- NA
+  w5 <- !w2 & !w3 & !w4 & withinScatter <= .Machine$double.eps
+  showWarning(w5, 'had essentially constant absolute residuals from the median: results might be unreliable')
+  F[w2 | w3 | w4] <- NA
+  p[w2 | w3 | w4] <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
