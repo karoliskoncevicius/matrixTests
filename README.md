@@ -46,71 +46,35 @@ Petal.Width      150          3       80.41333        6.1566       40.206667    
 
 ## Available Tests ##
 
-### Location tests (1 group) ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| Single sample t.test           | `row_t_onesample(x)`           | `t.test(x)`
-| Single sample Wilcoxon test    | `row_wilcoxon_onesample(x)`    | `wilcox.test(x)`
-
-### Location tests (2 groups) ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| Equal variance t.test          | `row_t_equalvar(x, y)`         | `t.test(x, y, var.equal=TRUE)`
-| Welch t.test                   | `row_t_welch(x, y)`            | `t.test(x, y)`
-| Two sample Wilcoxon test       | `row_wilcoxon_twosample(x, y)` | `wilcox.test(x, y)`
-
-### Locations tests (2 and more groups) ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| Equal variance oneway ANOVA    | `row_oneway_equalvar(x, g)`    | `oneway.test(x ~ g, var.equal=TRUE)`
-| Welch oneway ANOVA             | `row_oneway_welch(x, g)`       | `oneway.test(x ~ g)`
-| Kruskal-Wallis test            | `row_kruskalwallis(x, g)`      | `kruskal.test(x, g)`
-
-### Locations tests (paired) ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| Paired t.test                  | `row_t_paired(x, y)`           | `t.test(x, y, paired=TRUE)`
-| Paired Wilcoxon test           | `row_wilcoxon_paired(x, y)`    | `wilcox.test(x, y, paired=TRUE)`
-
-### Scale tests (2 groups) ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| F variance test                | `row_f_var(x, y)`              | `var.test(x, y)`
-
-
-### Scale tests (2 and more groups) ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| Bartlett's test                | `row_bartlett(x, g)`           | `bartlett.test(x, g)`
-| Fligner-Killeen test           | `row_flignerkilleen(x, g)`     | `fligner.test(x, g)`
-| Levene's test                  | `row_levene(x, g)`             | `car:leveneTest(x, g, center="mean")`
-| Brown-Forsythe test            | `row_brownforsythe(x, g)`      | `car:leveneTest(x, g, center="median")`
-
-### Assosiations tests ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| **Assosiations tests**         |                                |
-| Pearson's correlation test     | `row_cor_pearson(x, y)`        | `cor.test(x, y)`
-
-### Distribution tests ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| Jarque-Bera test               | `row_jarquebera(x)`            | `moments::jarque.test(x)`
-
-### Tests-based procedures ###
-
-|             Name               |      matrixTests               |       R equivalent
-|--------------------------------|--------------------------------|-------------------------------------
-| EVORA                          | `row_ievora(x, b)`             | ---
-
+|             Name                      |      matrixTests               |       R equivalent
+|---------------------------------------|--------------------------------|-------------------------------------
+| **Location tests (1 group)**          |                                |
+| &nbsp; Single sample t.test           | `row_t_onesample(x)`           | `t.test(x)`
+| &nbsp; Single sample Wilcoxon test    | `row_wilcoxon_onesample(x)`    | `wilcox.test(x)`
+| **Location tests (2 groups)**         |                                |
+| &nbsp; Equal variance t.test          | `row_t_equalvar(x, y)`         | `t.test(x, y, var.equal=TRUE)`
+| &nbsp; Welch t.test                   | `row_t_welch(x, y)`            | `t.test(x, y)`
+| &nbsp; Two sample Wilcoxon test       | `row_wilcoxon_twosample(x, y)` | `wilcox.test(x, y)`
+| **Location tests (2+ groups)**        |                                |
+| &nbsp; Equal variance oneway ANOVA    | `row_oneway_equalvar(x, g)`    | `oneway.test(x ~ g, var.equal=TRUE)`
+| &nbsp; Welch oneway ANOVA             | `row_oneway_welch(x, g)`       | `oneway.test(x ~ g)`
+| &nbsp; Kruskal-Wallis test            | `row_kruskalwallis(x, g)`      | `kruskal.test(x, g)`
+| **Location tests (paired)**           |                                |
+| &nbsp; Paired t.test                  | `row_t_paired(x, y)`           | `t.test(x, y, paired=TRUE)`
+| &nbsp; Paired Wilcoxon test           | `row_wilcoxon_paired(x, y)`    | `wilcox.test(x, y, paired=TRUE)`
+| **Scale tests (2 groups)**            |                                |
+| &nbsp; F variance test                | `row_f_var(x, y)`              | `var.test(x, y)`
+| **Scale tests (2+ groups)**           |                                |
+| &nbsp; Bartlett's test                | `row_bartlett(x, g)`           | `bartlett.test(x, g)`
+| &nbsp; Fligner-Killeen test           | `row_flignerkilleen(x, g)`     | `fligner.test(x, g)`
+| &nbsp; Levene's test                  | `row_levene(x, g)`             | `car:leveneTest(x, g, center="mean")`
+| &nbsp; Brown-Forsythe test            | `row_brownforsythe(x, g)`      | `car:leveneTest(x, g, center="median")`
+| **Assosiations tests**                |                                |
+| &nbsp; Pearson's correlation test     | `row_cor_pearson(x, y)`        | `cor.test(x, y)`
+| **Distribution tests**                |                                |
+| &nbsp; Jarque-Bera test               | `row_jarquebera(x)`            | `moments::jarque.test(x)`
+| **Test based procedures**             |                                |
+| &nbsp; EVORA                          | `row_ievora(x, b)`             | ---
 
 ## Further Information ##
 
