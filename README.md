@@ -51,7 +51,7 @@ Petal.Width      150          3       80.41333        6.1566       40.206667    
 Location tests (1 group)
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | single sample t.test        | row_t_onesample(x)            | t.test(x)                             |
 | single sample wilcoxon test | row_wilcoxon_onesample(x)     | wilcox.test(x)                        |
@@ -61,7 +61,7 @@ Location tests (1 group)
 Location tests (2 groups)
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | equal variance t.test       | row_t_equalvar(x, y)          | t.test(x, y, var.equal=TRUE)          |
 | welch t.test                | row_t_welch(x, y)             | t.test(x, y)                          |
@@ -72,7 +72,7 @@ Location tests (2 groups)
 Location tests (2+ groups)
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | equal variance oneway anova | row_oneway_equalvar(x, g)     | oneway.test(x ~ g, var.equal=TRUE)    |
 | welch oneway anova          | row_oneway_welch(x, g)        | oneway.test(x ~ g)                    |
@@ -83,7 +83,7 @@ Location tests (2+ groups)
 Location tests (paired)
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | paired t.test               | row_t_paired(x, y)            | t.test(x, y, paired=TRUE)             |
 | paired wilcoxon test        | row_wilcoxon_paired(x, y)     | wilcox.test(x, y, paired=TRUE)        |
@@ -93,7 +93,7 @@ Location tests (paired)
 Scale tests (2 groups)
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | f variance test             | row_f_var(x, y)               | var.test(x, y)                        |
 |-----------------------------|-------------------------------|---------------------------------------|
@@ -102,7 +102,7 @@ Scale tests (2 groups)
 Scale tests (2+ groups)
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | bartlett's test             | row_bartlett(x, g)            | bartlett.test(x, g)                   |
 | fligner-killeen test        | row_flignerkilleen(x, g)      | fligner.test(x, g)                    |
@@ -114,7 +114,7 @@ Scale tests (2+ groups)
 Assosiation tests
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 |  pearson's correlation test | row_cor_pearson(x, y)         | cor.test(x, y)                        |
 |-----------------------------|-------------------------------|---------------------------------------|
@@ -123,7 +123,7 @@ Assosiation tests
 Distribution tests
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | jarque-bera test            | row_jarquebera(x)             | moments::jarque.test(x)               |
 |-----------------------------|-------------------------------|---------------------------------------|
@@ -132,7 +132,7 @@ Distribution tests
 Test based procedures
 
 |-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |          matrixTests          |             R equivalent              |
+|           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | evora                       | row_ievora(x, b)              |                  ---                  |
 |-----------------------------|-------------------------------|---------------------------------------|
