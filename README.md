@@ -1,7 +1,7 @@
 [![CRAN version](http://www.r-pkg.org/badges/version/matrixTests)](https://cran.r-project.org/package=matrixTests)
 [![Build Status](https://travis-ci.com/KKPMW/matrixTests.svg?branch=master)](https://travis-ci.com/KKPMW/matrixTests)
-[![dependencies](https://tinyverse.netlify.com/badge/matrixTests)](https://CRAN.R-project.org/package=matrixTests)
 [![codecov](https://codecov.io/gh/KKPMW/matrixTests/branch/master/graph/badge.svg)](https://codecov.io/gh/KKPMW/matrixTests)
+[![dependencies](https://tinyverse.netlify.com/badge/matrixTests)](https://CRAN.R-project.org/package=matrixTests)
 [![Monthly Downloads](https://cranlogs.r-pkg.org/badges/matrixTests)](https://cranlogs.r-pkg.org/badges/matrixTests)
 
 # Matrix Tests #
@@ -17,7 +17,7 @@ A package dedicated to running multiple statistical hypothesis tests on rows and
 
 ## Examples ##
 
-#### Bartlett's test on columns ####
+#### 1. Bartlett's test on columns ####
 
 Bartlett's test on every column of iris dataset using Species as groups:
 
@@ -32,7 +32,7 @@ Petal.Length     150          3 0.18518776  2 55.422503 0.0000000000009229038
 Petal.Width      150          3 0.04188163  2 39.213114 0.0000000030547839322
 ```
 
-#### Welch t-test on rows ####
+#### 2. Welch t-test on rows ####
 
 Welch t-test on each row of 2 large (million row) matrices:
 
