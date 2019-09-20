@@ -17,31 +17,30 @@ A package dedicated to running multiple statistical hypothesis tests on rows and
 
 ## Examples ##
 
-**1) Welch t-test on each row of 2 large (million row) matrices**
+#### Bartlett's test on columns ####
+
+Bartlett's test on every column of iris dataset using Species as groups:
+
+```r
+col_bartlett(iris[,-5], iris$Species)
+```
+```
+             obs.tot obs.groups var.pooled df statistic                pvalue
+Sepal.Length     150          3 0.26500816  2 16.005702 0.0003345076070163084
+Sepal.Width      150          3 0.11538776  2  2.091075 0.3515028004158132768
+Petal.Length     150          3 0.18518776  2 55.422503 0.0000000000009229038
+Petal.Width      150          3 0.04188163  2 39.213114 0.0000000030547839322
+```
+
+#### Welch t-test on rows ####
+
+Welch t-test on each row of 2 large (million row) matrices:
 
 ```r
 X <- matrix(rnorm(10000000), ncol=10)
 Y <- matrix(rnorm(10000000), ncol=10)
 
 row_t_welch(X, Y)  # running time: 2.4 seconds
-```
-```
-  obs.x obs.y obs.tot      mean.x     mean.y  mean.diff    var.x     var.y stderr          df  statistic    pvalue   conf.low conf.high alternative mean.null conf.level
-1    10    10      20 -0.06643757 -0.2985907  0.2321531 1.627547 0.9140158 0.5041392 16.68493  0.4604941 0.6511065 -0.8330197 1.2973259   two.sided         0       0.95
-2    10    10      20 -0.02447724  0.4805317 -0.5050090 1.424720 1.2936936 0.5213841 17.95828 -0.9685930 0.3456133 -1.6005787 0.5905608   two.sided         0       0.95
-```
-
-**2) One way ANOVA on every column of iris data using Species as groups**
-
-```r
-col_oneway_equalvar(iris[,-5], iris$Species)
-```
-```
-             obs.tot obs.groups  sumsq.between  sumsq.within  meansq.between  meansq.within df.between df.within  statistic       pvalue
-Sepal.Length     150          3       63.21213       38.9562       31.606067     0.26500816          2       147  119.26450 1.669669e-31
-Sepal.Width      150          3       11.34493       16.9620        5.672467     0.11538776          2       147   49.16004 4.492017e-17
-Petal.Length     150          3      437.10280       27.2226      218.551400     0.18518776          2       147 1180.16118 2.856777e-91
-Petal.Width      150          3       80.41333        6.1566       40.206667     0.04188163          2       147  960.00715 4.169446e-85
 ```
 
 ## Available Tests ##
