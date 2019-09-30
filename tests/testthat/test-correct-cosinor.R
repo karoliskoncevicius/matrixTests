@@ -25,8 +25,8 @@ base_cosinor <- function(mat, time, per) {
     p[i]   <- cosinor2::cosinor.detect(res)[4]
   }
 
-  data.frame(obs=n, mesor=m, amplitude=amp, acrophase=acr,
-             df.model=dfm, df.residual=dfr, rsquared=rsq, statistic=f,
+  data.frame(obs=n, mesor=m, amplitude=amp, acrophase=acr, rsquared=rsq,
+             df.model=dfm, df.residual=dfr, statistic=f,
              pvalue=p, period=per
              )
 }

@@ -1,6 +1,6 @@
 #' Cosinor
 #'
-#' Performs a Cosinor linear regression test on each row/column of the input matrix.
+#' Performs a Cosinor test for periodicity on each row/column of the input matrix.
 #'
 #' \code{row_cosinor} - cosinor test on rows.
 #' \code{col_cosinor} - cosinor test on columns.
@@ -16,12 +16,14 @@
 #' 2. mesor - "Midline Estimating Statistic Of Rhythm" - the average value around which the variable oscillates\cr
 #' 3. amplitude - difference between mesor and the peak of the rhythm\cr
 #' 4. acrophase - time when rhythm reaches its peak\cr
-#' 5. df.model - model terms degrees of freedom\cr
-#' 6. df.residual - residual degrees of freedom\cr
-#' 7. rsquared - R-squared\cr
+#' 5. rsquared - R-squared\cr
+#' 6. df.model - model terms degrees of freedom\cr
+#' 7. df.residual - residual degrees of freedom\cr
 #' 8. statistic - F statistic for the omnibus test against intercept-only model\cr
 #' 9. pvalue - p-value\cr
 #' 10. period - the period used within the model\cr
+#'
+#' @seealso \code{\link[cosinor]{cosinor.lm}}
 #'
 #' @examples
 #  # sinus wave with Gaussian noise
@@ -99,8 +101,8 @@ row_cosinor <- function(x, t, period=24) {
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs=nobs, mesor=mesor, amplitude=amplitude, acrophase=acrophase,
-             df.model=res$stats$dfmod, df.residual=res$stats$dfres,
-             rsquared=res$stats$rsq, statistic=res$stats$f,
+             rsquared=res$stats$rsq, df.model=res$stats$dfmod,
+             df.residual=res$stats$dfres, statistic=res$stats$f,
              pvalue=res$stats$p, period=period, row.names=rnames
              )
 }

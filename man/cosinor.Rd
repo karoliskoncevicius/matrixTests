@@ -22,25 +22,30 @@ a data.frame where each row contains the results of a cosinor test
 performed on the corresponding row/column of x.\cr\cr
 Each row contains the following information (in order):\cr
 1. obs - total number of observations\cr
-2. mesor - "Midline Estimating Statistic Of Rhythm"\cr
-3. amplitude - magnitude of oscillation\cr
-4. acrophase - time point when oscillations reaches its peak\cr
-5. df.model - model terms degrees of freedom\cr
-6. df.residual - residual degrees of freedom\cr
-7. r.squared - R-squared\cr
+2. mesor - "Midline Estimating Statistic Of Rhythm" - the average value around which the variable oscillates\cr
+3. amplitude - difference between mesor and the peak of the rhythm\cr
+4. acrophase - time when rhythm reaches its peak\cr
+5. rsquared - R-squared\cr
+6. df.model - model terms degrees of freedom\cr
+7. df.residual - residual degrees of freedom\cr
 8. statistic - F statistic for the omnibus test against intercept-only model\cr
 9. pvalue - p-value\cr
 10. period - the period used within the model\cr
 }
 \description{
-Performs a Cosinor linear regression test on each row/column of the input matrix.
+Performs a Cosinor test for periodicity on each row/column of the input matrix.
 }
 \details{
 \code{row_cosinor} - cosinor test on rows.
 \code{col_cosinor} - cosinor test on columns.
 }
 \examples{
+wave <- sin(2*pi*1:24/24) * rnorm(24)
+row_cosinor(wave, 1:24, 24)
 
+}
+\seealso{
+\code{\link[cosinor]{cosinor.lm}}
 }
 \author{
 Karolis Koncevičius
