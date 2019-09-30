@@ -10,6 +10,7 @@ test_that("row eq col on matrix xs and ys", {
   X <- matrix(rnorm(17*6), ncol=6)
   Y <- matrix(rnorm(17*6), ncol=6)
   g <- c("a", "a", "a", "b", "b", "b")
+  t <- 1:6
   expect_equal(row_t_onesample(X), col_t_onesample(t(X)))
   expect_equal(row_t_equalvar(X, Y), col_t_equalvar(t(X), t(Y)))
   expect_equal(row_t_welch(X, Y), col_t_welch(t(X), t(Y)))
@@ -27,6 +28,7 @@ test_that("row eq col on matrix xs and ys", {
   expect_equal(row_wilcoxon_onesample(X), col_wilcoxon_onesample(t(X)))
   expect_equal(row_wilcoxon_twosample(X, Y), col_wilcoxon_twosample(t(X), t(Y)))
   expect_equal(row_wilcoxon_paired(X, Y), col_wilcoxon_paired(t(X), t(Y)))
+  expect_equal(row_cosinor(X, t), col_cosinor(t(X), t))
   expect_equal(row_ievora(X, g), col_ievora(t(X), g))
 })
 
@@ -36,6 +38,7 @@ test_that("row eq col on data.frame xs and ys", {
   X <- as.data.frame(matrix(rnorm(17*6), ncol=6))
   Y <- as.data.frame(matrix(rnorm(17*6), ncol=6))
   g <- c("a", "a", "a", "b", "b", "b")
+  t <- 1:6
   expect_equal(row_t_onesample(X), col_t_onesample(t(X)))
   expect_equal(row_t_equalvar(X, Y), col_t_equalvar(t(X), t(Y)))
   expect_equal(row_t_welch(X, Y), col_t_welch(t(X), t(Y)))
@@ -53,6 +56,7 @@ test_that("row eq col on data.frame xs and ys", {
   expect_equal(row_wilcoxon_onesample(X), col_wilcoxon_onesample(t(X)))
   expect_equal(row_wilcoxon_twosample(X, Y), col_wilcoxon_twosample(t(X), t(Y)))
   expect_equal(row_wilcoxon_paired(X, Y), col_wilcoxon_paired(t(X), t(Y)))
+  expect_equal(row_cosinor(X, t), col_cosinor(t(X), t))
   expect_equal(row_ievora(X, g), col_ievora(t(X), g))
 })
 
@@ -62,6 +66,7 @@ test_that("row eq col on vector xs and ys", {
   X <- rnorm(6)
   Y <- rnorm(6)
   g <- c("a", "a", "a", "b", "b", "b")
+  t <- 1:6
   expect_equal(row_t_onesample(X), col_t_onesample(X))
   expect_equal(row_t_equalvar(X, Y), col_t_equalvar(X, Y))
   expect_equal(row_t_welch(X, Y), col_t_welch(X, Y))
@@ -79,6 +84,7 @@ test_that("row eq col on vector xs and ys", {
   expect_equal(row_wilcoxon_onesample(X), col_wilcoxon_onesample(X))
   expect_equal(row_wilcoxon_twosample(X, Y), col_wilcoxon_twosample(X, Y))
   expect_equal(row_wilcoxon_paired(X, Y), col_wilcoxon_paired(X, Y))
+  expect_equal(row_cosinor(X, t), col_cosinor(X, t))
   expect_equal(row_ievora(X, g), col_ievora(X, g))
 })
 
@@ -88,6 +94,7 @@ test_that("row eq col on 0 dimension matrix xs and ys", {
   X <- matrix(NA_integer_, nrow=0, ncol=0)
   Y <- matrix(NA_integer_, nrow=0, ncol=0)
   g <- character()
+  t <- numeric()
   expect_equal(row_t_onesample(X), col_t_onesample(X))
   expect_equal(row_t_equalvar(X, Y), col_t_equalvar(X, Y))
   expect_equal(row_t_welch(X, Y), col_t_welch(X, Y))
@@ -105,6 +112,7 @@ test_that("row eq col on 0 dimension matrix xs and ys", {
   expect_equal(row_wilcoxon_onesample(X), col_wilcoxon_onesample(X))
   expect_equal(row_wilcoxon_twosample(X, Y), col_wilcoxon_twosample(X, Y))
   expect_equal(row_wilcoxon_paired(X, Y), col_wilcoxon_paired(X, Y))
+  expect_equal(row_cosinor(X, t), col_cosinor(X, t))
   expect_equal(row_ievora(X, g), col_ievora(X, g))
 })
 

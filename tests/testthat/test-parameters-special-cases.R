@@ -7,7 +7,8 @@ context("Parameter special cases")
 test_that("x and y can be numeric vectors", {
   x <- rnorm(10); X <- matrix(x, nrow=1)
   y <- rnorm(10); Y <- matrix(y, nrow=1)
-  grp <- sample(c(1,0), 10, replace=TRUE)
+  grp  <- sample(c(1,0), 10, replace=TRUE)
+  time <- 1:10
   expect_equal(row_t_onesample(x=x), row_t_onesample(x=X))
   expect_equal(row_t_equalvar(x=x, y=y), row_t_equalvar(x=X, y=Y))
   expect_equal(row_t_welch(x=x, y=y), row_t_welch(x=X, y=Y))
@@ -26,12 +27,14 @@ test_that("x and y can be numeric vectors", {
   expect_equal(row_wilcoxon_onesample(x=x), row_wilcoxon_onesample(x=X))
   expect_equal(row_wilcoxon_twosample(x=x, y=y), row_wilcoxon_twosample(x=X, y=Y))
   expect_equal(row_wilcoxon_paired(x=x, y=y), row_wilcoxon_paired(x=X, y=Y))
+  expect_equal(row_cosinor(x=x, t=time), row_cosinor(x=X, t=time))
 })
 
 test_that("x and y can be numeric data.frames", {
   x <- t(iris[1:75,-5]) + rnorm(75*4); X <- data.frame(x)
   y <- t(iris[76:150,-5]) + rnorm(75*4); Y <- data.frame(y)
   grp <- iris$Species[1:75]=="setosa"
+  time <- 1:ncol(x)
   expect_equal(row_t_onesample(x=x), row_t_onesample(x=X))
   expect_equal(row_t_equalvar(x=x, y=y), row_t_equalvar(x=X, y=Y))
   expect_equal(row_t_welch(x=x, y=y), row_t_welch(x=X, y=Y))
@@ -50,12 +53,14 @@ test_that("x and y can be numeric data.frames", {
   expect_equal(row_wilcoxon_onesample(x=x), row_wilcoxon_onesample(x=X))
   expect_equal(row_wilcoxon_twosample(x=x, y=y), row_wilcoxon_twosample(x=X, y=Y))
   expect_equal(row_wilcoxon_paired(x=x, y=y), row_wilcoxon_paired(x=X, y=Y))
+  expect_equal(row_cosinor(x=x, t=time), row_cosinor(x=X, t=time))
 })
 
 test_that("x and y can have 0 rows and 0 columns", {
   x <- matrix(0, nrow=0, ncol=0)
   y <- matrix(0, nrow=0, ncol=0)
   grp <- numeric()
+  time <- numeric()
   expect_equal(nrow(row_t_onesample(x=x)), 0)
   expect_equal(nrow(row_t_equalvar(x=x, y=y)), 0)
   expect_equal(nrow(row_t_welch(x=x, y=y)), 0)
@@ -74,6 +79,7 @@ test_that("x and y can have 0 rows and 0 columns", {
   expect_equal(nrow(row_wilcoxon_onesample(x=x)), 0)
   expect_equal(nrow(row_wilcoxon_twosample(x=x, y=y)), 0)
   expect_equal(nrow(row_wilcoxon_paired(x=x, y=y)), 0)
+  expect_equal(nrow(row_cosinor(x=x, t=numeric())), 0)
 })
 
 test_that("NA and NaN are treated the same", {
@@ -85,6 +91,7 @@ test_that("NA and NaN are treated the same", {
   Yna[sample(length(Yna), 20)] <- NA
   Ynan[is.na(Yna)] <- NaN
   grp <- c(rep(0,5), rep(1,5))
+  time <- 1:10
   expect_equal(row_t_onesample(x=Xna), row_t_onesample(x=Xnan))
   expect_equal(row_t_equalvar(x=Xna, y=Yna), row_t_equalvar(x=Xnan, y=Ynan))
   expect_equal(row_t_welch(x=Xna, y=Yna), row_t_welch(x=Xnan, y=Ynan))
@@ -103,6 +110,7 @@ test_that("NA and NaN are treated the same", {
   expect_equal(row_wilcoxon_onesample(x=Xna), row_wilcoxon_onesample(x=Xnan))
   expect_equal(row_wilcoxon_twosample(x=Xna, y=Yna), row_wilcoxon_twosample(x=Xnan, y=Ynan))
   expect_equal(row_wilcoxon_paired(x=Xna, y=Yna), row_wilcoxon_paired(x=Xnan, y=Ynan))
+  expect_equal(row_cosinor(x=Xna, t=time), row_cosinor(x=Xnan, t=time))
 })
 
 test_that("x is a matrix and y is a vector", {

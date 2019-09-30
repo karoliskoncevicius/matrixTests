@@ -64,15 +64,6 @@ test_that("monte-carlo random testing gives equal results", {
 ############################### TEST EDGE CASES ################################
 ################################################################################
 
-test_that("warning when a infinite values are removed", {
-  wrn <- 'row_levene: 1 of the rows had infinite observations that were removed\\.\nFirst occurrence at row 1'
-
-  # -Inf and Inf among observations
-  expect_warning(res <- row_levene(c(1,1,Inf,2,3,4), c(1,1,1,2,2,2)), wrn, all=TRUE)
-  expect_equal(res$obs.tot, 5)
-  expect_equal(res$obs.groups, 2)
-})
-
 test_that("extreme numbers give equal results", {
   # big numbers
   x <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000,
@@ -232,6 +223,15 @@ test_that("cases when some groups are constant after residuals give equal result
 ################################################################################
 ################################ TEST WARNINGS #################################
 ################################################################################
+
+test_that("warning when a infinite values are removed", {
+  wrn <- 'row_levene: 1 of the rows had infinite observations that were removed\\.\nFirst occurrence at row 1'
+
+  # -Inf and Inf among observations
+  expect_warning(res <- row_levene(c(1,1,Inf,2,3,4), c(1,1,1,2,2,2)), wrn, all=TRUE)
+  expect_equal(res$obs.tot, 5)
+  expect_equal(res$obs.groups, 2)
+})
 
 test_that("warning is shown when columns are removed because of NA groups", {
   wrn <- '3 columns dropped due to missing group information'

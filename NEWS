@@ -1,6 +1,13 @@
 Package: matrixTests
 ====================
 
+Version 0.1.7 [TBD]
+
+NEW FEATURES:
+
+o Added Cosinor test: `row_cosinor` and `col_cosinor`
+
+
 Version 0.1.6 [2019 Sep 19]
 
 NEW FEATURES:

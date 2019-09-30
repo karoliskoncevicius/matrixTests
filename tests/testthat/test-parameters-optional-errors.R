@@ -138,6 +138,22 @@ test_that("ratio must be numeric", {
   expect_error(row_f_var(x=mat, y=mat, ratio=data.frame(1)), er)
 })
 
+test_that("period must be numeric", {
+  er <- '"period" must be a numeric vector with length 1'
+  mat <- matrix(1:12, nrow=3)
+  # NULL
+  expect_error(row_cosinor(x=mat, t=1:4, period=NULL), er)
+  # NA
+  expect_error(row_cosinor(x=mat, t=1:4, period=NA), er)
+  # character
+  expect_error(row_cosinor(x=mat, t=1:4, period="1"), er)
+  # complex
+  expect_error(row_cosinor(x=mat, t=1:4, period=complex(1)), er)
+  # in list
+  expect_error(row_cosinor(x=mat, t=1:4, period=list(1)), er)
+  # data frame
+  expect_error(row_cosinor(x=mat, t=1:4, period=data.frame(1)), er)
+})
 
 test_that("conf.level must be numeric", {
   er <- '"conf.level" must be a numeric vector with length 1 or nrow\\(x\\)'
@@ -360,6 +376,20 @@ test_that("ratio has correct dimensions", {
   expect_error(row_f_var(x=mat, y=mat, ratio=mus), er)
 })
 
+test_that("period has correct dimensions", {
+  er <- '"period" must be a numeric vector with length 1'
+  mat <- matrix(1:12, ncol=4)
+  # too short
+  expect_error(row_cosinor(x=mat, t=1:4, period=numeric()), er)
+  # too long
+  expect_error(row_cosinor(x=mat, t=1:4, period=c(1,2)), er)
+  # matrix format
+  per <- matrix(rep(1, 4), ncol=1)
+  expect_error(row_cosinor(x=mat, t=1:4, period=per), er)
+  per <- matrix(rep(1, 4), ncol=4)
+  expect_error(row_cosinor(x=mat, t=1:4, period=per), er)
+})
+
 test_that("conf.level has correct dimensions", {
   er <- '"conf.level" must be a numeric vector with length 1 or nrow\\(x\\)'
   mat <- matrix(1:12, ncol=3)
@@ -539,6 +569,23 @@ test_that("ratio must be in: (0,Inf))", {
   expect_error(row_f_var(x=mat, y=mat, ratio=0), er)
   # Inf
   expect_error(row_f_var(x=mat, y=mat, ratio=Inf), er)
+})
+
+test_that("period must be in: (0,Inf))", {
+  er <- 'all "period" values must be greater than 0 and lower than Inf'
+  mat <- matrix(1:12, nrow=3)
+  # NA
+  expect_error(row_cosinor(x=mat, t=1:4, period=NA_integer_), er)
+  # NaN
+  expect_error(row_cosinor(x=mat, t=1:4, period=NaN), er)
+  # 0
+  expect_error(row_cosinor(x=mat, t=1:4, period=0), er)
+  # Negative
+  expect_error(row_cosinor(x=mat, t=1:4, period=-1), er)
+  # Inf
+  expect_error(row_cosinor(x=mat, t=1:4, period=Inf), er)
+  # -Inf
+  expect_error(row_cosinor(x=mat, t=1:4, period=-Inf), er)
 })
 
 test_that("correct indicator cannot be NA", {

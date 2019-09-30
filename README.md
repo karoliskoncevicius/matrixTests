@@ -130,6 +130,16 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 |-----------------------------|-------------------------------|---------------------------------------|
 ```
 
+#### Periodicity tests ####
+
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| cosinor                     | row_cosinor(x, t, period)     | cosinor::cosinor.lm(x ~ t, period)    |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
+
 
 #### Distribution tests ####
 
@@ -178,6 +188,7 @@ CRAN:
 2. `row.ttest.stat()` in the [**metaMA**](https://CRAN.R-project.org/package=metaMA) package.
 3. `MultiTtest()` in the [**ClassComparison**](https://CRAN.R-project.org/package=ClassComparison) package.
 4. `bartlettTests()` in the [**heplots**](https://CRAN.R-project.org/package=heplots) package.
+5. `harmonic.regression()` in the [**HarmonicRegression**](https://CRAN.R-project.org/package=HarmonicRegression) package.
 
 BioConductor:
 

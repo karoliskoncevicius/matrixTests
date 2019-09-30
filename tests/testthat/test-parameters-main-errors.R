@@ -24,6 +24,7 @@ test_that("x cannot be missing", {
   expect_error(row_wilcoxon_onesample(), er)
   expect_error(row_wilcoxon_twosample(), er)
   expect_error(row_wilcoxon_paired(), er)
+  expect_error(row_cosinor(), er)
 })
 
 test_that("y cannot be missing", {
@@ -46,6 +47,11 @@ test_that("groups cannot be missing", {
   expect_error(row_flignerkilleen(x=NA), er)
   expect_error(row_levene(x=NA), er)
   expect_error(row_brownforsythe(x=NA), er)
+})
+
+test_that("time cannot be missing", {
+  er <- 'argument "t" is missing, with no default'
+  expect_error(row_cosinor(x=NA), er)
 })
 
 test_that("binary cannot be missing", {
@@ -78,6 +84,7 @@ test_that("x cannot be a character", {
   expect_error(row_wilcoxon_onesample(x=matX), er)
   expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
   expect_error(row_wilcoxon_paired(x=matX, y=0), er)
+  expect_error(row_cosinor(x=matX, t=0), er)
 })
 
 test_that("y cannot be a character", {
@@ -113,6 +120,7 @@ test_that("x cannot be partially numeric", {
   expect_error(row_wilcoxon_onesample(x=iris), er)
   expect_error(row_wilcoxon_twosample(x=iris, y=0), er)
   expect_error(row_wilcoxon_paired(x=iris, y=0), er)
+  expect_error(row_cosinor(x=iris, t=0), er)
 })
 
 test_that("y cannot be partially numeric", {
@@ -148,6 +156,7 @@ test_that("x cannot be complex", {
   expect_error(row_wilcoxon_onesample(x=matX), er)
   expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
   expect_error(row_wilcoxon_paired(x=matX, y=0), er)
+  expect_error(row_cosinor(x=matX, t=0), er)
 })
 
 test_that("y cannot be complex", {
@@ -184,6 +193,7 @@ test_that("x cannot be logical", {
   expect_error(row_wilcoxon_onesample(x=matX), er)
   expect_error(row_wilcoxon_twosample(x=matX, y=0), er)
   expect_error(row_wilcoxon_paired(x=matX, y=0), er)
+  expect_error(row_cosinor(x=matX, t=0), er)
 })
 
 test_that("y cannot be logical", {
@@ -219,6 +229,7 @@ test_that("x cannot be NULL", {
   expect_error(row_wilcoxon_onesample(x=NULL), er)
   expect_error(row_wilcoxon_twosample(x=NULL, y=0), er)
   expect_error(row_wilcoxon_paired(x=NULL, y=0), er)
+  expect_error(row_cosinor(x=NULL, t=0), er)
 })
 
 test_that("y cannot be NULL", {
@@ -254,6 +265,7 @@ test_that("x cannot be in a list", {
   expect_error(row_wilcoxon_onesample(x=list(1:5)), er)
   expect_error(row_wilcoxon_twosample(x=list(1:5), y=0), er)
   expect_error(row_wilcoxon_paired(x=list(1:5), y=0), er)
+  expect_error(row_cosinor(x=list(1:5), t=0), er)
 })
 
 test_that("y cannot be in a list", {
@@ -288,6 +300,7 @@ test_that("x cannot be a list", {
   expect_error(row_wilcoxon_onesample(x=as.list(1:5)), er)
   expect_error(row_wilcoxon_twosample(x=as.list(1:5), y=0), er)
   expect_error(row_wilcoxon_paired(x=as.list(1:5), y=0), er)
+  expect_error(row_cosinor(x=as.list(1:5), t=0), er)
 })
 
 test_that("y cannot be a list", {
@@ -374,6 +387,35 @@ test_that("binary has required number of groups", {
 })
 
 ################################################################################
+########################### WRONG TIME SPECIFICATION ###########################
+################################################################################
+
+test_that("time cannot be NULL", {
+  matX <- matrix(1:12, ncol=3)
+  er <- '"t" must be a numeric vector with length ncol\\(x\\)'
+  expect_error(row_cosinor(x=matX, t=NULL), er)
+})
+
+test_that("time cannot be a list", {
+  matX <- matrix(1:12, ncol=3)
+  er <- '"t" must be a numeric vector with length ncol\\(x\\)'
+  expect_error(row_cosinor(x=matX, t=list(1:3)), er)
+})
+
+test_that("time cannot be a matrix", {
+  matX <- matrix(1:12, ncol=4)
+  grp  <- cbind(c("A", "A"), c("B", "B"))
+  er <- '"t" must be a numeric vector with length ncol\\(x\\)'
+  expect_error(row_cosinor(x=matX, t=grp), er)
+})
+
+test_that("time cannot be character", {
+  matX <- matrix(1:12, nrow=3)
+  er <- '"t" must be a numeric vector with length ncol\\(x\\)'
+  expect_error(row_cosinor(x=matX, t=c("A","B","C","C")), er)
+})
+
+################################################################################
 ############################## DIMENSION MISMATCH ##############################
 ################################################################################
 
@@ -411,9 +453,14 @@ test_that("group length matches number of columns", {
   expect_error(row_brownforsythe(x=matX, g=1:3), er)
 })
 
+test_that("time length matches number of columns", {
+  matX <- matrix(1:12, nrow=3)
+  er <- '"t" must be a numeric vector with length ncol\\(x\\)'
+  expect_error(row_cosinor(x=matX, t=1:3), er)
+})
+
 test_that("binary length matches number of columns", {
   matX <- matrix(1:12, nrow=3)
   er <- '"b" must be a vector with length ncol\\(x\\)'
   expect_error(row_ievora(x=matX, b=1:3), er)
 })
-
