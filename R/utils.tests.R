@@ -265,7 +265,8 @@ do_regression <- function(Y, X) {
     sstot[rowinds][sstot[rowinds] < .Machine$double.eps] <- 0
     ssres[rowinds] <- colSums(res$residuals^2, na.rm=TRUE)
     ssres[rowinds][ssres[rowinds] < .Machine$double.eps] <- 0
-    ssres[rowinds][abs(ssres[rowinds]-sstot[rowinds]) < .Machine$double.eps^0.5] <- sstot[rowinds]
+    isequal <- abs(ssres[rowinds]-sstot[rowinds]) < .Machine$double.eps^0.5
+    ssres[rowinds][isequal] <- sstot[rowinds][isequal]
     rsqs[rowinds] <- 1 - (ssres[rowinds]/sstot[rowinds])
 
     ssmod <- sstot[rowinds] - ssres[rowinds]
