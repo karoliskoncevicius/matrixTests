@@ -238,9 +238,6 @@ do_pearson <- function(r, df, alt, conf) {
 
 # Obtain statistics for linear regression
 do_regression <- function(Y, X) {
-  obsinds <- is.na(t(Y))
-  nacases <- unique(obsinds, MARGIN=2)
-
   betas <- matrix(NA, nrow=3, ncol=nrow(Y))
   dfmod <- numeric(nrow(Y))
   dfres <- numeric(nrow(Y))
@@ -249,9 +246,15 @@ do_regression <- function(Y, X) {
   rsqs  <- numeric(nrow(Y))
   fs    <- numeric(nrow(Y))
 
-  for(i in seq_len(ncol(nacases))) {
-    colinds <- !nacases[,i]
-    rowinds <- colMeans(obsinds == nacases[,i]) == 1
+  nainds <- is.na(Y)
+  groups <- rowSums(nainds)
+  if(any(groups != 0)) {
+    categ <- lapply(asplit(nainds[groups!=0,,drop=FALSE], 1), which)
+    groups[groups!=0] <- match(categ, unique(categ))
+  }
+  for(g in unique(groups)) {
+    rowinds <- groups == g
+    colinds <- !nainds[match(g, groups),]
     y   <- Y[rowinds,colinds,drop=FALSE]
     res <- .lm.fit(X[colinds,,drop=FALSE], t(y))
 
