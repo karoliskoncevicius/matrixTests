@@ -249,7 +249,7 @@ do_regression <- function(Y, X) {
   nainds <- is.na(Y)
   groups <- rowSums(nainds)
   if(any(groups != 0)) {
-    categ <- lapply(asplit(nainds[groups!=0,,drop=FALSE], 1), which)
+    categ <- lapply(split(nainds[groups!=0,,drop=FALSE], row(nainds[groups!=0,,drop=FALSE])), which)
     groups[groups!=0] <- match(categ, unique(categ))
   }
   for(g in unique(groups)) {
