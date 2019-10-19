@@ -27,7 +27,7 @@
 #'
 #' @examples
 #  # sinus wave with Gaussian noise
-#' wave <- sin(2*pi*1:24/24) * rnorm(24)
+#' wave <- sin(2*pi*1:24/24) + rnorm(24)
 #' row_cosinor(wave, 1:24, 24)
 #'
 #' @author Karolis Koncevičius

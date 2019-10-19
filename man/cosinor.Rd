@@ -40,7 +40,7 @@ Performs a Cosinor test for periodicity on each row/column of the input matrix.
 \code{col_cosinor} - cosinor test on columns.
 }
 \examples{
-wave <- sin(2*pi*1:24/24) * rnorm(24)
+wave <- sin(2*pi*1:24/24) + rnorm(24)
 row_cosinor(wave, 1:24, 24)
 
 }
