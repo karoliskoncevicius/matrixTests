@@ -256,7 +256,7 @@ do_regression <- function(Y, X) {
     rowinds <- groups == g
     colinds <- !nainds[match(g, groups),]
     y   <- Y[rowinds,colinds,drop=FALSE]
-    res <- .lm.fit(X[colinds,,drop=FALSE], t(y))
+    res <- stats::.lm.fit(X[colinds,,drop=FALSE], t(y))
 
     betas[,rowinds] <- res$coefficients
     betas[,rowinds][abs(betas[,rowinds]) < .Machine$double.eps] <- 0
@@ -278,7 +278,7 @@ do_regression <- function(Y, X) {
     fs[rowinds] <- msmod / msres
   }
 
-  ps <- pf(fs, dfmod, dfres, lower.tail=FALSE)
+  ps <- stats::pf(fs, dfmod, dfres, lower.tail=FALSE)
 
   list(betas=betas, stats=data.frame(dfmod=dfmod, dfres=dfres, sstot=sstot, ssres=ssres, rsq=rsqs, f=fs, p=ps))
 }
