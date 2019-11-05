@@ -8,7 +8,7 @@
 
 A package dedicated to running multiple statistical hypothesis tests on rows and columns of matrices.
 
-![illustration](http://karolis.koncevicius.lt/data/matrixtests/matrixtests_illustration.png)
+![illustration](http://karolis.koncevicius.lt/data/matrixtests/illustration.png)
 
 ## Goals ##
 
