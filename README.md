@@ -8,6 +8,8 @@
 
 A package dedicated to running multiple statistical hypothesis tests on rows and columns of matrices.
 
+![illustration](http://karolis.koncevicius.lt/data/matrixtests/illustration.png)
+
 ## Goals ##
 
 1. Fast execution via vectorization.
@@ -129,6 +131,17 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 | pearson's correlation test  | row_cor_pearson(x, y)         | cor.test(x, y)                        |
 |-----------------------------|-------------------------------|---------------------------------------|
 ```
+
+#### Periodicity tests ####
+
+```
+|-----------------------------|-------------------------------|---------------------------------------|
+|           Name              |           Function            |             R equivalent              |
+|-----------------------------|-------------------------------|---------------------------------------|
+| cosinor                     | row_cosinor(x, t, period)     | cosinor::cosinor.lm(x ~ t, period)    |
+|-----------------------------|-------------------------------|---------------------------------------|
+```
+
 
 #### Distribution tests ####
 
