@@ -1,7 +1,14 @@
 Package: matrixTests
 ====================
 
-Version 0.1.7 [TBD]
+Version 0.1.8 [2020 Jan 08]
+
+TESTS:
+
+o Adjusted tests to conform with changes in R-devel 4.0.0 for CRAN.
+
+
+Version 0.1.7 [2019 Nov 05]
 
 NEW FEATURES:
 

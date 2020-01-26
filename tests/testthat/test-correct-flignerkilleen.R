@@ -73,18 +73,6 @@ test_that("extreme numbers give equal results", {
 
 
 test_that("constant values give equal results", {
-  # all values are constant
-  x <- c(1,1,1,1); g <- c("a","a","b","b")
-  t1 <- base_fligner(x, g)
-  t2 <- suppressWarnings(row_flignerkilleen(x, g))
-  expect_equal(t1, t2)
-
-  # within group values are constant
-  x <- c(1,1,2,2); g <- c("a","a","b","b")
-  t1 <- base_fligner(x, g)
-  t2 <- suppressWarnings(row_flignerkilleen(x, g))
-  expect_equal(t1, t2)
-
   # one group's values are constant
   x <- c(1,1,2,3); g <- c("a","a","b","b")
   t1 <- base_fligner(x, g)
