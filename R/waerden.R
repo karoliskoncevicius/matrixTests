@@ -17,7 +17,7 @@
 #' 4. statistic - van det Waerden chi-squared statistic\cr
 #' 5. pvalue - p.value
 #'
-#' @seealso \code{\link[PMCMR]{vanWaerden.test}}, \code{row_oneway_equalvar}
+#' @seealso \code{\link[PMCMR]{vanWaerden.test}}, \code{row_oneway_equalvar}, \code{row_kruskalwallis}
 #'
 #' @examples
 #' col_waerden(iris[,1:4], iris$Species)
@@ -52,7 +52,8 @@ row_waerden <- function(x, g) {
 
   r <- matrixStats::rowRanks(x, ties.method="average")
   n <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
-  z <- qnorm(r/(n+1))
+  z <- stats::qnorm(r/(n+1))
+  z <- matrix(z, nrow=nrow(x), ncol=ncol(x))
 
   nPerGroup <- matrix(numeric(), nrow=nrow(z), ncol=length(unique(g)))
   sPerGroup <- nPerGroup
