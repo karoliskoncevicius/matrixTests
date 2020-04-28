@@ -1,6 +1,13 @@
 Package: matrixTests
 ====================
 
+Version 0.1.9 [TBD]
+
+NEW FEATURES:
+
+o Added van der Waerden test: `row_waerden` and `col_waerden`
+
+
 Version 0.1.8 [2020 Jan 08]
 
 TESTS:
