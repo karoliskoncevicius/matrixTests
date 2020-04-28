@@ -38,7 +38,7 @@ row_waerden(t(iris[,1:4]), iris$Species)
 
 }
 \seealso{
-\code{\link[PMCMR]{vanWaerden.test}}, \code{row_oneway_equalvar}
+\code{\link[PMCMR]{vanWaerden.test}}, \code{row_oneway_equalvar}, \code{row_kruskalwallis}
 }
 \author{
 Karolis Koncevičius

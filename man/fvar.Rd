@@ -6,11 +6,9 @@
 \alias{col_f_var}
 \title{F Variance test}
 \usage{
-row_f_var(x, y, ratio = 1, alternative = "two.sided",
-  conf.level = 0.95)
+row_f_var(x, y, ratio = 1, alternative = "two.sided", conf.level = 0.95)
 
-col_f_var(x, y, ratio = 1, alternative = "two.sided",
-  conf.level = 0.95)
+col_f_var(x, y, ratio = 1, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}

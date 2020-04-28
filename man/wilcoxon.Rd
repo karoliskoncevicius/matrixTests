@@ -10,23 +10,57 @@
 \alias{col_wilcoxon_paired}
 \title{Wilcoxon Test}
 \usage{
-row_wilcoxon_twosample(x, y, alternative = "two.sided", mu = 0,
-  exact = NA, correct = TRUE)
+row_wilcoxon_twosample(
+  x,
+  y,
+  alternative = "two.sided",
+  mu = 0,
+  exact = NA,
+  correct = TRUE
+)
 
-col_wilcoxon_twosample(x, y, alternative = "two.sided", mu = 0,
-  exact = NA, correct = TRUE)
+col_wilcoxon_twosample(
+  x,
+  y,
+  alternative = "two.sided",
+  mu = 0,
+  exact = NA,
+  correct = TRUE
+)
 
-row_wilcoxon_onesample(x, alternative = "two.sided", mu = 0,
-  exact = NA, correct = TRUE)
+row_wilcoxon_onesample(
+  x,
+  alternative = "two.sided",
+  mu = 0,
+  exact = NA,
+  correct = TRUE
+)
 
-col_wilcoxon_onesample(x, alternative = "two.sided", mu = 0,
-  exact = NA, correct = TRUE)
+col_wilcoxon_onesample(
+  x,
+  alternative = "two.sided",
+  mu = 0,
+  exact = NA,
+  correct = TRUE
+)
 
-row_wilcoxon_paired(x, y, alternative = "two.sided", mu = 0,
-  exact = NA, correct = TRUE)
+row_wilcoxon_paired(
+  x,
+  y,
+  alternative = "two.sided",
+  mu = 0,
+  exact = NA,
+  correct = TRUE
+)
 
-col_wilcoxon_paired(x, y, alternative = "two.sided", mu = 0,
-  exact = NA, correct = TRUE)
+col_wilcoxon_paired(
+  x,
+  y,
+  alternative = "two.sided",
+  mu = 0,
+  exact = NA,
+  correct = TRUE
+)
 }
 \arguments{
 \item{x}{numeric matrix.}
