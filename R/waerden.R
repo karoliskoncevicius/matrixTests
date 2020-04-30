@@ -69,7 +69,7 @@ row_waerden <- function(x, g) {
   stat <- rowSums(sPerGroup^2 / nPerGroup) / s2
 
   df <- nGroups - 1
-  p  <- pchisq(stat, df, lower.tail = FALSE)
+  p  <- stats::pchisq(stat, df, lower.tail = FALSE)
 
 
   w1 <- n < 2
