@@ -81,7 +81,7 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 | equal variance oneway anova | row_oneway_equalvar(x, g)     | oneway.test(x ~ g, var.equal=TRUE)    |
 | welch oneway anova          | row_oneway_welch(x, g)        | oneway.test(x ~ g)                    |
 | kruskal-wallis test         | row_kruskalwallis(x, g)       | kruskal.test(x, g)                    |
-| van der waerden test        | row_waerden(x, g)             | PMCMR::vanWaerden.test(x,g)           |
+| van der waerden test        | row_waerden(x, g)             | PMCMR::vanWaerden.test(x, g)          |
 |-----------------------------|-------------------------------|---------------------------------------|
 ```
 
@@ -173,8 +173,6 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 1. [Installation Instructions](https://github.com/KKPMW/matrixTests/wiki/Installation)
 2. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
 3. [Speed Benchmarks](https://github.com/KKPMW/matrixTests/wiki/Benchmarks)
-4. [Future Plans](https://github.com/KKPMW/matrixTests/wiki/Future-Plans)
-5. [Possible Shortcomings](https://github.com/KKPMW/matrixTests/wiki/Possible-Shortcomings)
 
 ## See Also ##
 
