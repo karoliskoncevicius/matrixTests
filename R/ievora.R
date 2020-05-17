@@ -57,8 +57,8 @@
 #' @name ievora
 #' @export
 row_ievora <- function(x, b, cutT=0.05, cutBfdr=0.001) {
-  force(x)
-  force(b)
+  is.null(x)
+  is.null(b)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)

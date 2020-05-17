@@ -52,8 +52,8 @@
 #' @name fvar
 #' @export
 row_f_var <- function(x, y, ratio=1, alternative="two.sided", conf.level=0.95) {
-  force(x)
-  force(y)
+  is.null(x)
+  is.null(y)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)

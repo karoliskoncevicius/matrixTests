@@ -34,8 +34,8 @@
 #' @name cosinor
 #' @export
 row_cosinor <- function(x, t, period=24) {
-  force(x)
-  force(t)
+  is.null(x)
+  is.null(t)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)

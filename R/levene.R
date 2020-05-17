@@ -40,8 +40,8 @@
 #' @name levene
 #' @export
 row_levene <- function(x, g) {
-  force(x)
-  force(g)
+  is.null(x)
+  is.null(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -128,8 +128,8 @@ col_levene <- function(x, g) {
 #' @rdname levene
 #' @export
 row_brownforsythe <- function(x, g) {
-  force(x)
-  force(g)
+  is.null(x)
+  is.null(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)

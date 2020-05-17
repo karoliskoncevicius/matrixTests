@@ -30,7 +30,7 @@
 #' @name jarquebera
 #' @export
 row_jarquebera <- function(x) {
-  force(x)
+  is.null(x)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)

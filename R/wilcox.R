@@ -83,8 +83,8 @@
 row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
                                    exact=NA, correct=TRUE
                                    ) {
-  force(x)
-  force(y)
+  is.null(x)
+  is.null(y)
 
   if (is.vector(x))
     x <- matrix(x, nrow=1)
@@ -202,7 +202,7 @@ col_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
 row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
                                    exact=NA, correct=TRUE
                                    ) {
-  force(x)
+  is.null(x)
 
   if (is.vector(x))
     x <- matrix(x, nrow=1)
@@ -311,8 +311,8 @@ col_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
 row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
                                 exact=NA, correct=TRUE
                                 ) {
-  force(x)
-  force(y)
+  is.null(x)
+  is.null(y)
 
   if (is.vector(x))
     x <- matrix(x, nrow=1)

@@ -81,8 +81,8 @@
 #' @name ttest
 #' @export
 row_t_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
-  force(x)
-  force(y)
+  is.null(x)
+  is.null(y)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -180,8 +180,8 @@ col_t_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
 #' @rdname ttest
 #' @export
 row_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
-  force(x)
-  force(y)
+  is.null(x)
+  is.null(y)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -273,7 +273,7 @@ col_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 #' @rdname ttest
 #' @export
 row_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
-  force(x)
+  is.null(x)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -343,8 +343,8 @@ col_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 #' @rdname ttest
 #' @export
 row_t_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
-  force(x)
-  force(y)
+  is.null(x)
+  is.null(y)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)

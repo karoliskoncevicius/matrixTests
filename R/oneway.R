@@ -44,8 +44,8 @@
 #' @name oneway
 #' @export
 row_oneway_equalvar <- function(x, g) {
-  force(x)
-  force(g)
+  is.null(x)
+  is.null(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
@@ -124,8 +124,8 @@ col_oneway_equalvar <- function(x, g) {
 #' @rdname oneway
 #' @export
 row_oneway_welch <- function(x, g) {
-  force(x)
-  force(g)
+  is.null(x)
+  is.null(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)

@@ -35,8 +35,8 @@
 #' @name bartlett
 #' @export
 row_bartlett <- function(x, g) {
-  force(x)
-  force(g)
+  is.null(x)
+  is.null(g)
 
   if(is.vector(x))
     x <- matrix(x, nrow=1)
