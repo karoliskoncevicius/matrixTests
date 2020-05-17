@@ -3,6 +3,10 @@ Package: matrixTests
 
 Version 0.2 [TBD]
 
+CHANGES:
+
+ * Missing argument errors no longer reference force()
+
 
 Version 0.1.9 [2020 April 30]
 
