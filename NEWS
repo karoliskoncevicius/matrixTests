@@ -5,7 +5,11 @@ Version 0.2 [TBD]
 
 CHANGES:
 
- * Missing argument errors no longer reference force()
+ * Missing argument errors no longer reference force().
+
+INTERNAL:
+
+ * Various code simplifications.
 
 
 Version 0.1.9 [2020 April 30]
