@@ -66,7 +66,7 @@ row_waerden <- function(x, g) {
   nGroups <- matrixStats::rowCounts(nPerGroup!=0)
 
   s2   <- rowSums(z^2, na.rm=TRUE) / (n - 1)
-  stat <- rowSums(sPerGroup^2 / nPerGroup) / s2
+  stat <- rowSums(sPerGroup^2 / nPerGroup, na.rm=TRUE) / s2
 
   df <- nGroups - 1
   p  <- stats::pchisq(stat, df, lower.tail = FALSE)
