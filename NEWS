@@ -6,6 +6,7 @@ Version 0.2 [TBD]
 BUG FIXES:
 
  * Fixed the issue where `row_waerden` and `col_waerden` would produce NA results when one whole group had only NA values in x.
+ * Fixed the issue where `row_flignerkilleen` and `col_flignerkilleen` would produce NA results when one whole group had only NA values in x.
 
 CHANGES:
 

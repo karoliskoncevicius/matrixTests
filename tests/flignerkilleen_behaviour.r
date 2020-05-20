@@ -41,7 +41,6 @@ res2 <- row_flignerkilleen(x[!is.na(x)], g[!is.na(x)])
 stopifnot(all.equal(res1, res2))
 
 # missing values in x for whole group are removed correctly
-# TODO: fix this!
 x <- c(rep(NA, 5), rnorm(10))
 g <- rep(letters[1:3], each=5)
 res1 <- row_flignerkilleen(x, g)
@@ -72,7 +71,6 @@ res2 <- suppressWarnings(row_flignerkilleen(x, g2))
 stopifnot(all.equal(res1, res2))
 
 # correct synergy between NAs in x and NAs in g
-# TODO: fix this!
 x <- c(NA, NA, rnorm(13))
 g <- c(NA, "a", NA, rep(letters[2:5], each=3))
 res1 <- suppressWarnings(row_flignerkilleen(x, g))
