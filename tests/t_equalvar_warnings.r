@@ -69,7 +69,7 @@ stopifnot(all.equal(res$value$obs.y, 3))
 stopifnot(all.equal(res$value$obs.tot, 3))
 
 
-wrn <- 'row_t_equalvar: 1 of the rows had zero "x" observations.\nFirst occurrence at row 1'
+wrn <- 'row_t_equalvar: 1 of the rows had zero "y" observations.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
 # no observations in y

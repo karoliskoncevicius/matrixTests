@@ -43,7 +43,7 @@ stopifnot(all.equal(res1, res2))
 # missing values in x for whole group are removed correctly
 x <- c(rep(NA, 5), rnorm(10))
 g <- rep(letters[1:3], each=5)
-res1 <- row_oneway_welch(x, g)
+res1 <- suppressWarnings(row_oneway_welch(x, g))
 res2 <- row_oneway_welch(x[!is.na(x)], g[!is.na(x)])
 stopifnot(all.equal(res1, res2))
 
@@ -140,5 +140,4 @@ x <- matrix(rnorm(40), nrow=4, dimnames=list(c("A", "A", "B", "B")))
 g <- rep(letters[1:2], each=5)
 res <- row_oneway_welch(x, g)
 stopifnot(all.equal(rownames(res), make.unique(rownames(x))))
-
 

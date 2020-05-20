@@ -43,7 +43,7 @@ stopifnot(all.equal(res1, res2))
 # missing values in x for whole group are removed correctly
 x <- c(rep(NA, 5), rnorm(10))
 g <- rep(letters[1:3], each=5)
-res1 <- row_bartlett(x, g)
+res1 <- suppressWarnings(row_bartlett(x, g))
 res2 <- row_bartlett(x[!is.na(x)], g[!is.na(x)])
 stopifnot(all.equal(res1, res2))
 

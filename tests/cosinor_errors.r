@@ -64,7 +64,7 @@ res <- capture(row_cosinor(matrix(1:4, nrow=1), matrix(letters[1:4], nrow=2)))
 stopifnot(all.equal(res$error, err))
 
 # cannot be a in a list
-err <- '"g" must be a numeric vector with length ncol(x)'
+err <- '"t" must be a numeric vector with length ncol(x)'
 res <- capture(row_cosinor(1:5, list(1:5)))
 stopifnot(all.equal(res$error, err))
 
