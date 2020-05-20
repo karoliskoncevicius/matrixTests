@@ -3,7 +3,7 @@ source("utils/capture.r")
 
 #--- hes less than 1 paired observation ----------------------------------------
 
-wrn <- 'row_wilcoxon_paired: 1 of the rows had less than 1 remaining finite paired "x-y" observation.\nFirst occurrence at row 1'
+wrn <- 'row_wilcoxon_paired: 1 of the rows had less than 1 remaining paired "x-y" observation.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue")
 
 # no observations

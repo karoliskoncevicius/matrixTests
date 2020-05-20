@@ -17,8 +17,6 @@ base_wilcoxon_paired <- function(mat1, mat2, alt="two.sided", mu=0, exact=NA, co
     ex  <- if(is.na(exact[i])) NULL else exact[i]
     res <- wilcox.test(mat1[i,], mat2[i,], alternative=alt[i], mu=mu[i], paired=TRUE, exact=ex, correct=correct[i])
 
-    mat1[i,!is.finite(mat1[i,])] <- NA
-    mat2[i,!is.finite(mat2[i,])] <- NA
     inds <- complete.cases(mat1[i,], mat2[i,])
     vec1 <- mat1[i,inds]
     vec2 <- mat2[i,inds]
@@ -117,7 +115,51 @@ res1 <- base_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
 res2 <- row_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
-# TODO: add tests for Inf and -Inf values once decided how to handle them.
+# x has infinity
+x <- c(Inf, rnorm(4))
+y <- rnorm(5)
+res1 <- base_wilcoxon_paired(x, y)
+res2 <- row_wilcoxon_paired(x, y)
+stopifnot(all.equal(res1, res2))
+
+# x has both positive and negative infinities
+x <- c(Inf, rnorm(4), -Inf)
+y <- rnorm(6)
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y))
+stopifnot(all.equal(res1, res2))
+
+# y has infinity
+x <- rnorm(5)
+y <- c(Inf, rnorm(4))
+res1 <- base_wilcoxon_paired(x, y)
+res2 <- row_wilcoxon_paired(x, y)
+stopifnot(all.equal(res1, res2))
+
+# y has positive and negative infinities
+x <- rnorm(6)
+y <- c(Inf, rnorm(4), -Inf)
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y))
+stopifnot(all.equal(res1, res2))
+
+# both and y have various infinities
+# NOTE: base implementation doesn't work when both Inf with the same sign is present in both groups
+x <- c(-Inf, rnorm(4), Inf, Inf)
+y <- c(Inf, Inf, rnorm(4), -Inf)
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y))
+stopifnot(all.equal(res1, res2))
+
+# infinities are treated as highest ranks
+# NOTE: this scenario is a bit more complex because the ranks are calculated after taking differences.
+x1 <- c(-Inf, 1:10, Inf, Inf)
+y1 <- c(-Inf, Inf, 31:40, -Inf)
+x2 <- c(-100, 0, 2:10, 200, 100)
+y2 <- c(-100, 200, 31:39, 0, -100)
+res1 <- suppressWarnings(row_wilcoxon_paired(x1, y1))
+res2 <- suppressWarnings(row_wilcoxon_paired(x2, y2))
+stopifnot(all.equal(res1, res2))
 
 
 #--- minimal sample size -------------------------------------------------------

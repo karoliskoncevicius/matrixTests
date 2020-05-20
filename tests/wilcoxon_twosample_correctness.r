@@ -17,8 +17,6 @@ base_wilcoxon_twosample <- function(mat1, mat2, alt="two.sided", mu=0, exact=NA,
     ex  <- if(is.na(exact[i])) NULL else exact[i]
     res <- wilcox.test(mat1[i,], mat2[i,], alternative=alt[i], mu=mu[i], exact=ex, correct=correct[i])
 
-    mat1[i,!is.finite(mat1[i,])] <- NA
-    mat2[i,!is.finite(mat2[i,])] <- NA
     nx[i]   <- sum(!is.na(mat1[i,]))
     ny[i]   <- sum(!is.na(mat2[i,]))
     nxy[i]  <- nx[i] + ny[i]
@@ -138,7 +136,49 @@ res1 <- base_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3]
 res2 <- row_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
-# TODO: add tests for Inf and -Inf values once decided how to handle them.
+# x has infinity
+x <- c(Inf, rnorm(4))
+y <- rnorm(5)
+res1 <- base_wilcoxon_twosample(x, y)
+res2 <- row_wilcoxon_twosample(x, y)
+stopifnot(all.equal(res1, res2))
+
+# x has both positive and negative infinities
+x <- c(Inf, rnorm(4), -Inf)
+y <- rnorm(5)
+res1 <- base_wilcoxon_twosample(x, y)
+res2 <- row_wilcoxon_twosample(x, y)
+stopifnot(all.equal(res1, res2))
+
+# y has infinity
+x <- rnorm(5)
+y <- c(Inf, rnorm(4))
+res1 <- base_wilcoxon_twosample(x, y)
+res2 <- row_wilcoxon_twosample(x, y)
+stopifnot(all.equal(res1, res2))
+
+# y has positive and negative infinities
+x <- rnorm(5)
+y <- c(Inf, rnorm(4), -Inf)
+res1 <- base_wilcoxon_twosample(x, y)
+res2 <- row_wilcoxon_twosample(x, y)
+stopifnot(all.equal(res1, res2))
+
+# both and y have various infinities
+x <- c(-Inf, rnorm(4), Inf, Inf)
+y <- c(Inf, rnorm(4), -Inf)
+res1 <- suppressWarnings(base_wilcoxon_twosample(x, y))
+res2 <- suppressWarnings(row_wilcoxon_twosample(x, y))
+stopifnot(all.equal(res1, res2))
+
+# infinities are treated as highest ranks
+x1 <- c(-Inf, 1:10, Inf, Inf)
+y1 <- c(Inf, 31:40, -Inf)
+x2 <- c(-100, 1:10, 100, 100)
+y2 <- c(100, 31:40, -100)
+res1 <- suppressWarnings(row_wilcoxon_twosample(x1, y1))
+res2 <- suppressWarnings(row_wilcoxon_twosample(x2, y2))
+stopifnot(all.equal(res1, res2))
 
 
 #--- minimal sample size -------------------------------------------------------

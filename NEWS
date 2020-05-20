@@ -10,6 +10,7 @@ BUG FIXES:
 
 CHANGES:
 
+ * Adjusted the behaviour of `Inf` values in `wilcox_*` to no longer be removed but treated as highest ranks in order to be consistent with base R 4.0.0. implementation.
  * Missing argument errors no longer reference force().
 
 INTERNAL:

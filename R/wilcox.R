@@ -26,7 +26,7 @@
 #' on every row (or column) of \code{x} and \code{y}.
 #'
 #' By default if ‘exact’ argument is set to 'NA', exact p-values are computed
-#' only if both 'x' and 'y' contain less than 50 finite values and there are no
+#' only if both 'x' and 'y' contain less than 50 values and there are no
 #' ties. Single sample and paired tests have additional requirement of not
 #' having zeroe values (values equal to null hypothesis location argument 'mu').
 #' Otherwise, a normal approximation is used. Be wary of using 'exact=TRUE' on
@@ -129,14 +129,6 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
   assert_all_in_set(correct, c(TRUE, FALSE))
 
 
-  hasinfx <- is.infinite(x)
-  x[hasinfx] <- NA
-  hasinfx <- rowSums(hasinfx) > 0
-
-  hasinfy <- is.infinite(y)
-  y[hasinfy] <- NA
-  hasinfy <- rowSums(hasinfy) > 0
-
   nxs  <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
   nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
 
@@ -157,22 +149,16 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
                                   nties[!inds,,drop=FALSE], correct[!inds])
 
 
-  w1 <- hasinfx
-  showWarning(w1, 'had infinite "x" observations that were removed')
+  w1 <- nxs < 1
+  showWarning(w1, 'had less than 1 remaining "x" observation')
 
-  w2 <- hasinfy
-  showWarning(w2, 'had infinite "y" observations that were removed')
+  w2 <- nys < 1
+  showWarning(w2, 'had less than 1 remaining "y" observation')
 
-  w3 <- nxs < 1
-  showWarning(w3, 'had less than 1 remaining finite "x" observation')
+  w3 <- exact & hasties
+  showWarning(w3, 'had ties: cannot compute exact p-values with ties')
 
-  w4 <- nys < 1
-  showWarning(w4, 'had less than 1 remaining finite "y" observation')
-
-  w5 <- exact & hasties
-  showWarning(w5, 'had ties: cannot compute exact p-values with ties')
-
-  statistic[w3 | w4] <- NA
+  statistic[w1 | w2] <- NA
 
   exact <- exact & !hasties
   correct <- correct & !exact
@@ -236,10 +222,6 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
   assert_all_in_set(correct, c(TRUE, FALSE))
 
 
-  hasinf <- is.infinite(x)
-  x[hasinf] <- NA
-  hasinf <- rowSums(hasinf, na.rm=TRUE) > 0
-
   x <- x - mu
 
   haszeroes <- x==0
@@ -266,22 +248,19 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
                                     nties[!inds,,drop=FALSE], correct[!inds])
 
 
-  w1 <- hasinf
-  showWarning(w1, 'had infinite observations that were removed')
+  w1 <- haszeroes
+  showWarning(w1, 'had observations with "x" equal "mu" that were removed')
 
-  w2 <- haszeroes
-  showWarning(w2, 'had observations with "x" equal "mu" that were removed')
+  w2 <- nxs < 1
+  showWarning(w2, 'had less than 1 remaining "x" observation')
 
-  w3 <- nxs < 1
-  showWarning(w3, 'had less than 1 remaining finite "x" observation')
+  w3 <- exact & haszeroes
+  showWarning(w3, 'had zeroes: cannot compute exact p-values with zeroes')
 
-  w4 <- exact & haszeroes
-  showWarning(w4, 'had zeroes: cannot compute exact p-values with zeroes')
+  w4 <- !w3 & exact & hasties
+  showWarning(w4, 'had ties: cannot compute exact p-values with ties')
 
-  w5 <- !w4 & exact & hasties
-  showWarning(w5, 'had ties: cannot compute exact p-values with ties')
-
-  statistic[w3] <- NA
+  statistic[w2] <- NA
 
   exact <- exact & !hasties & !haszeroes
   correct <- correct & !exact
@@ -358,14 +337,6 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
   assert_all_in_set(correct, c(TRUE, FALSE))
 
 
-  hasinfx <- is.infinite(x)
-  x[hasinfx] <- NA
-  hasinfx <- rowSums(hasinfx) > 0
-
-  hasinfy <- is.infinite(y)
-  y[hasinfy] <- NA
-  hasinfy <- rowSums(hasinfy) > 0
-
   xy <- x - y
   xy <- xy - mu
 
@@ -395,25 +366,19 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
                                     nties[!inds,,drop=FALSE], correct[!inds])
 
 
-  w1 <- hasinfx
-  showWarning(w1, 'had infinite "x" observations that were removed')
+  w1 <- haszeroes
+  showWarning(w1, 'had observations with "x-y" equal "mu" that were removed')
 
-  w2 <- hasinfy
-  showWarning(w2, 'had infinite "y" observations that were removed')
+  w2 <- nxys < 1
+  showWarning(w2, 'had less than 1 remaining paired "x-y" observation')
 
-  w3 <- haszeroes
-  showWarning(w3, 'had observations with "x-y" equal "mu" that were removed')
+  w3 <- exact & haszeroes
+  showWarning(w3, 'had zeroes: cannot compute exact p-values with zeroes')
 
-  w4 <- nxys < 1
-  showWarning(w4, 'had less than 1 remaining finite paired "x-y" observation')
+  w4 <- !w3 & exact & hasties
+  showWarning(w4, 'had ties: cannot compute exact p-values with ties')
 
-  w5 <- exact & haszeroes
-  showWarning(w5, 'had zeroes: cannot compute exact p-values with zeroes')
-
-  w6 <- !w5 & exact & hasties
-  showWarning(w6, 'had ties: cannot compute exact p-values with ties')
-
-  statistic[w4] <- NA
+  statistic[w2] <- NA
 
   exact <- exact & !hasties & !haszeroes
   correct <- correct & !exact

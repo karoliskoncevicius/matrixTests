@@ -13,7 +13,7 @@ base_wilcoxon_onesample <- function(mat, alt="two.sided", mu=0, exact=NA, correc
   al <- character(nrow(mat))
   ext <- cor <- logical(nrow(mat))
   for(i in 1:nrow(mat)) {
-    vec <- mat[i,][is.finite(mat[i,])]
+    vec <- mat[i,][!is.na(mat[i,])]
     ex  <- if(is.na(exact[i])) NULL else exact[i]
     res <- wilcox.test(vec, alternative=alt[i], mu=mu[i], exact=ex, correct=correct[i])
 
@@ -100,7 +100,31 @@ res1 <- base_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
 res2 <- row_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
-# TODO: add tests for Inf and -Inf values once decided how to handle them.
+# has infinity
+x <- c(Inf, rnorm(4))
+res1 <- base_wilcoxon_onesample(x)
+res2 <- row_wilcoxon_onesample(x)
+stopifnot(all.equal(res1, res2))
+
+# infinity is treated as highes rank
+x1 <- c(Inf, 1:4)
+x2 <- c(100, 1:4)
+res1 <- row_wilcoxon_onesample(x1)
+res2 <- row_wilcoxon_onesample(x2)
+stopifnot(all.equal(res1, res2))
+
+# has negative and positive infinities
+x <- c(Inf, rnorm(4), -Inf)
+res1 <- suppressWarnings(base_wilcoxon_onesample(x))
+res2 <- suppressWarnings(row_wilcoxon_onesample(x))
+stopifnot(all.equal(res1, res2))
+
+# all infinities are treated as highest ranks
+x1 <- c(-Inf, -Inf, 1:4, Inf, Inf)
+x2 <- c(-100, -100, 1:4, 100, 100)
+res1 <- suppressWarnings(row_wilcoxon_onesample(x1))
+res2 <- suppressWarnings(row_wilcoxon_onesample(x2))
+stopifnot(all.equal(res1, res2))
 
 
 #--- minimal sample size -------------------------------------------------------
@@ -282,7 +306,7 @@ stopifnot(all.equal(res1, res2))
 stopifnot(all.equal(res2, res3))
 
 # big sample size, exact is turned on but exact=FALSE because of ties and zeroes (exact = FALSE: correct can be specified)
-x - c(1.2,1.2,1.2,1.2,1.2,rnorm(100),1,1,1,1,1)
+x <- c(1.2,1.2,1.2,1.2,1.2,rnorm(100),1,1,1,1,1)
 res1 <- suppressWarnings(base_wilcoxon_onesample(x, mu=1, exact=TRUE, correct=FALSE))
 res2 <- suppressWarnings(row_wilcoxon_onesample(x, mu=1, exact=NA, correct=FALSE))
 res3 <- suppressWarnings(row_wilcoxon_onesample(x, mu=1, exact=TRUE, correct=FALSE))
