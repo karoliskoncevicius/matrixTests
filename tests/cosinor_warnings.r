@@ -63,12 +63,12 @@ wrn <- 'row_cosinor: 1 of the rows had less than 3 unique timepoints within the 
 #       right now only the case with 1 time point turns them to NA.
 
 # one distinct point, duplicated multiple times
-res <- capture(row_cosinor(rnorm(4), rep(1,4)))
+res <- capture(row_cosinor(1:4, rep(1,4)))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$obs, 4))
 
 # two distinct points, duplicated multiple times
-res <- capture(row_cosinor(rnorm(4), c(1,2,1,2)))
+res <- capture(row_cosinor(1:4, c(1,2,1,2)))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$obs, 4))
 
@@ -78,7 +78,7 @@ stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$obs, 4))
 
 # four points, but period is such that they are not unique
-res <- capture(row_cosinor(rnorm(4), c(1,2,3,4), 2))
+res <- capture(row_cosinor(1:4, c(1,2,3,4), 2))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$obs, 4))
 

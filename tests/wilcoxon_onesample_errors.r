@@ -76,7 +76,7 @@ res <- capture(row_wilcoxon_onesample(x=1:3, alternative="ga"))
 stopifnot(all.equal(res$error, err))
 
 # error produced even when some are correct
-res <- capture(row_wilcoxon_onesample(x=matrix(rnorm(10), nrow=2), alternative=c("g","c")))
+res <- capture(row_wilcoxon_onesample(x=matrix(1:10, nrow=2), alternative=c("g","c")))
 stopifnot(all.equal(res$error, err))
 
 
@@ -186,25 +186,25 @@ stopifnot(all.equal(res$error, err))
 
 # mu must match x number of rows
 err <- '"mu" must be a numeric vector with length 1 or nrow(x)'
-x <- matrix(rnorm(12), nrow=4)
+x <- matrix(1:12, nrow=4)
 res <- capture(row_wilcoxon_onesample(x, mu=c(1,2)))
 stopifnot(all.equal(res$error, err))
 
 # alternative must match x number of rows
 err <- '"alternative" must be a character vector with length 1 or nrow(x)'
-x <- matrix(rnorm(12), nrow=4)
+x <- matrix(1:12, nrow=4)
 res <- capture(row_wilcoxon_onesample(x, alternative=c("g","l")))
 stopifnot(all.equal(res$error, err))
 
 # exact must match x number of rows
 err <- '"exact" must be a logical vector with length 1 or nrow(x)'
-x <- matrix(rnorm(12), nrow=4)
+x <- matrix(1:12, nrow=4)
 res <- capture(row_wilcoxon_onesample(x, exact=c(TRUE, FALSE)))
 stopifnot(all.equal(res$error, err))
 
 # correct must match x number of rows
 err <- '"correct" must be a logical vector with length 1 or nrow(x)'
-x <- matrix(rnorm(12), nrow=4)
+x <- matrix(1:12, nrow=4)
 res <- capture(row_wilcoxon_onesample(x, correct=c(TRUE, FALSE)))
 stopifnot(all.equal(res$error, err))
 

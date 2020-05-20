@@ -47,7 +47,7 @@ stopifnot(all.equal(res$value$obs.groups, 1))
 stopifnot(all.equal(res$value$obs.tot, 10))
 
 # 3 groups but others have only NA values
-x <- c(rnorm(8), NA, NA)
+x <- c(1:8, NA, NA)
 g <- c(rep("a", 8), "b", "c")
 res <- capture(row_kruskalwallis(x, g))
 stopifnot(all.equal(res$warning, wrn))

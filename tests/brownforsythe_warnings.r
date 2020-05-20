@@ -20,7 +20,7 @@ wrn <- 'row_brownforsythe: 1 of the rows had less than 2 groups with enough obse
 nacolumns <- c("statistic", "pvalue")
 
 # all values in one group
-x <- rnorm(10)
+x <- 1:10
 g <- rep("a", 10)
 res <- capture(row_brownforsythe(x, g))
 stopifnot(all.equal(res$warning, wrn))
@@ -29,7 +29,7 @@ stopifnot(all.equal(res$value$obs.tot, 10))
 stopifnot(all.equal(res$value$obs.groups, 1))
 
 # two groups but one has only NAs
-x <- c(rnorm(3), NA, NA, NA)
+x <- c(1:3, NA, NA, NA)
 g <- rep(c("a","b"), each=3)
 res <- capture(row_brownforsythe(x, g))
 stopifnot(all.equal(res$warning, wrn))
@@ -62,7 +62,7 @@ stopifnot(all.equal(res$value$obs.tot, 10))
 stopifnot(all.equal(res$value$obs.groups, 5))
 
 # two groups one with 3 observations but one of them is NA
-x <- c(rnorm(3), NA)
+x <- c(1:3, NA)
 g <- c("a", "b", "b","b")
 res <- capture(row_brownforsythe(x, g))
 stopifnot(all.equal(res$warning, wrn))

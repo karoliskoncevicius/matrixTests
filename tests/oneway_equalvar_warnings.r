@@ -38,7 +38,7 @@ stopifnot(all.equal(res$value$obs.tot, 10))
 stopifnot(all.equal(res$value$obs.groups, 10))
 
 # 2 groups 3 observations but one is NA
-x <- c(rnorm(2), NA)
+x <- c(1:2, NA)
 g <- c("a", "b", "b")
 res <- capture(row_oneway_equalvar(x, g))
 stopifnot(all.equal(res$warning, wrn))
@@ -60,7 +60,7 @@ stopifnot(all.equal(res$value$obs.groups, 1))
 stopifnot(all.equal(res$value$obs.tot, 10))
 
 # 3 groups but others have only NA values
-x <- c(rnorm(8), NA, NA)
+x <- c(1:8, NA, NA)
 g <- c(rep("a", 8), "b", "c")
 res <- capture(row_oneway_equalvar(x, g))
 stopifnot(all.equal(res$warning, wrn))

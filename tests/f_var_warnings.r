@@ -82,13 +82,13 @@ stopifnot(all.equal(res$value$obs.tot, 2))
 wrn <- 'row_f_var: 1 of the rows had zero variance in "x".\nFirst occurrence at row 1'
 
 # constant values
-res <- capture(row_f_var(rep(1,5), rnorm(5)))
+res <- capture(row_f_var(rep(1,5), 1:5))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$var.x, 0))
 stopifnot(all.equal(res$value$var.ratio, 0))
 
 # constant values with NAs
-res <- capture(row_f_var(c(NA,rep(1,5),NA), rnorm(5)))
+res <- capture(row_f_var(c(NA,rep(1,5),NA), 1:5))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$var.x, 0))
 stopifnot(all.equal(res$value$var.ratio, 0))
@@ -99,13 +99,13 @@ stopifnot(all.equal(res$value$var.ratio, 0))
 wrn <- 'row_f_var: 1 of the rows had zero variance in "y".\nFirst occurrence at row 1'
 
 # constant values
-res <- capture(row_f_var(rnorm(5), rep(1,5)))
+res <- capture(row_f_var(1:5, rep(1,5)))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$var.y, 0))
 stopifnot(all.equal(res$value$var.ratio, Inf))
 
 # constant values with NAs
-res <- capture(row_f_var(rnorm(5), c(NA,rep(1,5),NA)))
+res <- capture(row_f_var(1:5, c(NA,rep(1,5),NA)))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$var.y, 0))
 stopifnot(all.equal(res$value$var.ratio, Inf))

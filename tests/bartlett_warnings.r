@@ -22,7 +22,7 @@ stopifnot(all.equal(res$value$obs.groups, 2))
 wrn <- 'row_bartlett: 1 of the rows had groups with less than 2 observations: those groups were removed.\nFirst occurrence at row 1'
 
 # 3 groups with one having only one observation
-x <- rnorm(5)
+x <- 1:5
 g <- c("a","a","b","b","c")
 res <- capture(row_bartlett(x, g))
 stopifnot(all.equal(res$warning, wrn))
@@ -30,7 +30,7 @@ stopifnot(all.equal(res$value$obs.tot, 4))
 stopifnot(all.equal(res$value$obs.groups, 2))
 
 # 3 groups with 1 having one observation due to NA values
-x <- c(rnorm(4), NA, 1)
+x <- c(1:4, NA, 1)
 g <- c("a","a","b","b","c","c")
 res <- capture(row_bartlett(x, g))
 stopifnot(all.equal(res$warning, wrn))
@@ -44,7 +44,7 @@ wrn <- 'row_bartlett: 1 of the rows had less than 2 groups with enough observati
 nacolumns <- c("statistic", "pvalue")
 
 # all values in one group
-x <- rnorm(10)
+x <- 1:10
 g <- rep("a", 10)
 res <- capture(row_bartlett(x, g))
 stopifnot(all.equal(res$warning, wrn))
@@ -53,7 +53,7 @@ stopifnot(all.equal(res$value$obs.tot, 10))
 stopifnot(all.equal(res$value$obs.groups, 1))
 
 # many groups but all have one observation
-x <- rnorm(10)
+x <- 1:10
 g <- letters[1:10]
 res <- capture(row_bartlett(x, g))
 stopifnot(all.equal(res$warning, wrn))
@@ -62,7 +62,7 @@ stopifnot(all.equal(res$value$obs.tot, 0))
 stopifnot(all.equal(res$value$obs.groups, 0))
 
 # two groups but one has only a single observation and is removed
-x <- rnorm(4)
+x <- 1:4
 g <- c("a","a","a","b")
 res <- capture(row_bartlett(x, g))
 stopifnot(all.equal(res$warning, wrn))
@@ -71,7 +71,7 @@ stopifnot(all.equal(res$value$obs.tot, 3))
 stopifnot(all.equal(res$value$obs.groups, 1))
 
 # two groups but one has only NAs
-x <- c(rnorm(3), NA, NA, NA)
+x <- c(1:3, NA, NA, NA)
 g <- rep(c("a","b"), each=3)
 res <- capture(row_bartlett(x, g))
 stopifnot(all.equal(res$warning, wrn))

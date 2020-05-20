@@ -119,7 +119,7 @@ res <- capture(row_t_paired(x=1:3, y=2:4, alternative="ga"))
 stopifnot(all.equal(res$error, err))
 
 # error produced even when some are correct
-res <- capture(row_t_paired(x=matrix(rnorm(10), nrow=2), y=matrix(rnorm(10), nrow=2), alternative=c("g","c")))
+res <- capture(row_t_paired(x=matrix(1:10, nrow=2), y=matrix(1:10, nrow=2), alternative=c("g","c")))
 stopifnot(all.equal(res$error, err))
 
 
@@ -199,36 +199,36 @@ stopifnot(all.equal(res$error, err))
 
 # y number of rows must match x number of rows
 err <- '"x" and "y" must have the same number of rows'
-x <- matrix(rnorm(10), nrow=2)
-y <- matrix(rnorm(10), nrow=5)
+x <- matrix(1:10, nrow=2)
+y <- matrix(1:10, nrow=5)
 res <- capture(row_t_paired(x, y))
 stopifnot(all.equal(res$error, err))
 
 # y number of columns must match x number of columns
 err <- '"x" and "y" must have the same number of columns'
-x <- matrix(rnorm(10), nrow=2)
-y <- matrix(rnorm(20), nrow=2)
+x <- matrix(1:10, nrow=2)
+y <- matrix(1:20, nrow=2)
 res <- capture(row_t_paired(x, y))
 stopifnot(all.equal(res$error, err))
 
 # mu must match x number of rows
 err <- '"mu" must be a numeric vector with length 1 or nrow(x)'
-x <- matrix(rnorm(12), nrow=4)
-y <- matrix(rnorm(12), nrow=4)
+x <- matrix(1:12, nrow=4)
+y <- matrix(1:12, nrow=4)
 res <- capture(row_t_paired(x, y, mu=c(1,2)))
 stopifnot(all.equal(res$error, err))
 
 # alternative must match x number of rows
 err <- '"alternative" must be a character vector with length 1 or nrow(x)'
-x <- matrix(rnorm(12), nrow=4)
-y <- matrix(rnorm(12), nrow=4)
+x <- matrix(1:12, nrow=4)
+y <- matrix(1:12, nrow=4)
 res <- capture(row_t_paired(x, y, alternative=c("g","l")))
 stopifnot(all.equal(res$error, err))
 
 # conf.level must match x number of rows
 err <- '"conf.level" must be a numeric vector with length 1 or nrow(x)'
-x <- matrix(rnorm(12), nrow=4)
-y <- matrix(rnorm(12), nrow=4)
+x <- matrix(1:12, nrow=4)
+y <- matrix(1:12, nrow=4)
 res <- capture(row_t_paired(x, y, conf.level=c(0.95, 0.99)))
 stopifnot(all.equal(res$error, err))
 
