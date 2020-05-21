@@ -29,7 +29,7 @@ stopifnot(all.equal(res$value$obs.tot, 10))
 stopifnot(all.equal(res$value$obs.groups, 1))
 
 # two groups but one has only NAs
-x <- c(1:3), NA, NA, NA)
+x <- c(1:3, NA, NA, NA)
 g <- rep(c("a","b"), each=3)
 res <- capture(row_levene(x, g))
 stopifnot(all.equal(res$warning, wrn))
