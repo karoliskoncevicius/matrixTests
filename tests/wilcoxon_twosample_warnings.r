@@ -84,8 +84,8 @@ stopifnot(all.equal(res$value$obs.x, 4))
 stopifnot(all.equal(res$value$obs.y, 4))
 stopifnot(all.equal(res$value$obs.tot, 8))
 
-# ties only after subtracting mu
-res <- capture(row_wilcoxon_twosample(c(3.1,4,1,2), c(-1,-2,3,-4), mu=0.1, exact=TRUE))
+# ties only after subtracting null
+res <- capture(row_wilcoxon_twosample(c(3.1,4,1,2), c(-1,-2,3,-4), null=0.1, exact=TRUE))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$exact, FALSE))
 stopifnot(all.equal(res$value$obs.x, 4))

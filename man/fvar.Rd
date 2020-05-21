@@ -6,16 +6,16 @@
 \alias{col_f_var}
 \title{F Variance test}
 \usage{
-row_f_var(x, y, ratio = 1, alternative = "two.sided", conf.level = 0.95)
+row_f_var(x, y, null = 1, alternative = "two.sided", conf.level = 0.95)
 
-col_f_var(x, y, ratio = 1, alternative = "two.sided", conf.level = 0.95)
+col_f_var(x, y, null = 1, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}
 
 \item{y}{numeric matrix for the second group of observations.}
 
-\item{ratio}{- hypothesized 'x' and 'y' variance ratio.
+\item{null}{- hypothesized 'x' and 'y' variance ratio.
 A single number or numeric vector with values for each observation.}
 
 \item{alternative}{alternative hypothesis to use for each row/column of x.

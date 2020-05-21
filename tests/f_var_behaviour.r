@@ -54,11 +54,11 @@ res1 <- row_f_var(x, y)
 res2 <- row_f_var(x, rbind(y,y))
 stopifnot(all.equal(res1, res2))
 
-# ratio can be specified for each row
+# null can be specified for each row
 x <- matrix(rnorm(10), nrow=2)
 y <- matrix(rnorm(10), nrow=2)
-res1 <- row_f_var(x, y, ratio=2)
-res2 <- row_f_var(x, y, ratio=c(2,2))
+res1 <- row_f_var(x, y, null=2)
+res2 <- row_f_var(x, y, null=c(2,2))
 stopifnot(all.equal(res1, res2))
 
 # alternative can be specified for each row

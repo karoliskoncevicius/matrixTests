@@ -2,17 +2,17 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_t_onesample <- function(mat, alt="two.sided", mu=0, conf=0.95) {
+base_t_onesample <- function(mat, alt="two.sided", null=0, conf=0.95) {
   if(is.vector(mat)) mat <- matrix(mat, nrow=1)
   if(length(alt)==1) alt <- rep(alt, nrow(mat))
-  if(length(mu)==1) mu <- rep(mu, nrow(mat))
+  if(length(null)==1) null <- rep(null, nrow(mat))
   if(length(conf)==1) conf <- rep(conf, nrow(mat))
 
   mx <- vx <- nx <- tst <- p <- cl <- ch <- se <- df <- m0 <- cnf <- numeric(nrow(mat))
   al <- character(nrow(mat))
   for(i in 1:nrow(mat)) {
     vec <- na.omit(mat[i,])
-    res <- t.test(vec, alternative=alt[i], mu=mu[i], conf.level=conf[i])
+    res <- t.test(vec, alternative=alt[i], mu=null[i], conf.level=conf[i])
 
     vx[i]  <- var(vec)
     nx[i]  <- length(vec)
@@ -104,8 +104,8 @@ res2 <- row_t_onesample(x, pars[,1], pars[,2], pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # null exactly equal to the mean
-res1 <- base_t_onesample(c(1,2,3), mu=2)
-res2 <- row_t_onesample(c(1,2,3), mu=2)
+res1 <- base_t_onesample(c(1,2,3), null=2)
+res2 <- row_t_onesample(c(1,2,3), null=2)
 stopifnot(all.equal(res2$pvalue, 1))
 stopifnot(all.equal(res1, res2))
 

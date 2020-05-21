@@ -14,7 +14,7 @@ row_wilcoxon_twosample(
   x,
   y,
   alternative = "two.sided",
-  mu = 0,
+  null = 0,
   exact = NA,
   correct = TRUE
 )
@@ -23,7 +23,7 @@ col_wilcoxon_twosample(
   x,
   y,
   alternative = "two.sided",
-  mu = 0,
+  null = 0,
   exact = NA,
   correct = TRUE
 )
@@ -31,7 +31,7 @@ col_wilcoxon_twosample(
 row_wilcoxon_onesample(
   x,
   alternative = "two.sided",
-  mu = 0,
+  null = 0,
   exact = NA,
   correct = TRUE
 )
@@ -39,7 +39,7 @@ row_wilcoxon_onesample(
 col_wilcoxon_onesample(
   x,
   alternative = "two.sided",
-  mu = 0,
+  null = 0,
   exact = NA,
   correct = TRUE
 )
@@ -48,7 +48,7 @@ row_wilcoxon_paired(
   x,
   y,
   alternative = "two.sided",
-  mu = 0,
+  null = 0,
   exact = NA,
   correct = TRUE
 )
@@ -57,7 +57,7 @@ col_wilcoxon_paired(
   x,
   y,
   alternative = "two.sided",
-  mu = 0,
+  null = 0,
   exact = NA,
   correct = TRUE
 )
@@ -71,7 +71,7 @@ col_wilcoxon_paired(
 A single string or a vector with values for each observation.
 Values must be one of "two.sided" (default), "greater" or "less".}
 
-\item{mu}{true values of the location shift for the null hypothesis.
+\item{null}{true values of the location shift for the null hypothesis.
 A single number or numeric vector with values for each observation.}
 
 \item{exact}{logical or NA (default) indicator whether an exact p-value

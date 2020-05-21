@@ -36,7 +36,7 @@ x <- rnorm(5)
 y <- rnorm(5)
 stopifnot(all.equal(row_wilcoxon_twosample(x, y, exact=NA), row_wilcoxon_twosample(x, y, exact=TRUE)))
 
-# TODO: investigate if mu can be allowed Inf values.
+# TODO: investigate if null can be allowed Inf values.
 
 
 #--- recycling -----------------------------------------------------------------
@@ -48,11 +48,11 @@ res1 <- row_wilcoxon_twosample(x, y)
 res2 <- row_wilcoxon_twosample(x, rbind(y,y))
 stopifnot(all.equal(res1, res2))
 
-# mu can be specified for each row
+# null can be specified for each row
 x <- matrix(rnorm(10), nrow=2)
 y <- matrix(rnorm(10), nrow=2)
-res1 <- row_wilcoxon_twosample(x, y, mu=2)
-res2 <- row_wilcoxon_twosample(x, y, mu=c(2,2))
+res1 <- row_wilcoxon_twosample(x, y, null=2)
+res2 <- row_wilcoxon_twosample(x, y, null=c(2,2))
 stopifnot(all.equal(res1, res2))
 
 # alternative can be specified for each row

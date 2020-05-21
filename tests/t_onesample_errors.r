@@ -80,35 +80,35 @@ res <- capture(row_t_onesample(x=matrix(1:10, nrow=2), alternative=c("g","c")))
 stopifnot(all.equal(res$error, err))
 
 
-#--- mu argument errors --------------------------------------------------------
+#--- null argument errors ------------------------------------------------------
 
-err <- '"mu" must be a numeric vector with length 1 or nrow(x)'
+err <- '"null" must be a numeric vector with length 1 or nrow(x)'
 
 # cannot be a character
-res <- capture(row_t_onesample(x=1:3, mu="1"))
+res <- capture(row_t_onesample(x=1:3, null="1"))
 stopifnot(all.equal(res$error, err))
 
 # cannot be complex
-res <- capture(row_t_onesample(x=1:3, mu=complex(1)))
+res <- capture(row_t_onesample(x=1:3, null=complex(1)))
 stopifnot(all.equal(res$error, err))
 
 # cannot be in a list
-res <- capture(row_t_onesample(x=1:3, mu=list(1)))
+res <- capture(row_t_onesample(x=1:3, null=list(1)))
 stopifnot(all.equal(res$error, err))
 
 # cannot be a data frame
-res <- capture(row_t_onesample(x=1:3, mu=data.frame(1)))
+res <- capture(row_t_onesample(x=1:3, null=data.frame(1)))
 stopifnot(all.equal(res$error, err))
 
 
-err <- 'all "mu" values must be between: -Inf and Inf'
+err <- 'all "null" values must be between: -Inf and Inf'
 
 # cannot be NA
-res <- capture(row_t_onesample(x=1:3, mu=NA_integer_))
+res <- capture(row_t_onesample(x=1:3, null=NA_integer_))
 stopifnot(all.equal(res$error, err))
 
 # cannot be NaN
-res <- capture(row_t_onesample(x=1:3, mu=NaN))
+res <- capture(row_t_onesample(x=1:3, null=NaN))
 stopifnot(all.equal(res$error, err))
 
 
@@ -154,10 +154,10 @@ stopifnot(all.equal(res$error, err))
 
 #--- dimension mismatch errors -------------------------------------------------
 
-# mu must match x number of rows
-err <- '"mu" must be a numeric vector with length 1 or nrow(x)'
+# null must match x number of rows
+err <- '"null" must be a numeric vector with length 1 or nrow(x)'
 x <- matrix(1:12, nrow=4)
-res <- capture(row_t_onesample(x, mu=c(1,2)))
+res <- capture(row_t_onesample(x, null=c(1,2)))
 stopifnot(all.equal(res$error, err))
 
 # alternative must match x number of rows

@@ -123,44 +123,44 @@ res <- capture(row_f_var(x=matrix(1:10, nrow=2), y=matrix(1:10, nrow=2), alterna
 stopifnot(all.equal(res$error, err))
 
 
-#--- ratio argument errors -----------------------------------------------------
+#--- null argument errors ------------------------------------------------------
 
-err <- '"ratio" must be a numeric vector with length 1 or nrow(x)'
+err <- '"null" must be a numeric vector with length 1 or nrow(x)'
 
 # cannot be a character
-res <- capture(row_f_var(x=1:3, y=2:4, ratio="1"))
+res <- capture(row_f_var(x=1:3, y=2:4, null="1"))
 stopifnot(all.equal(res$error, err))
 
 # cannot be complex
-res <- capture(row_f_var(x=1:3, y=2:4, ratio=complex(1)))
+res <- capture(row_f_var(x=1:3, y=2:4, null=complex(1)))
 stopifnot(all.equal(res$error, err))
 
 # cannot be in a list
-res <- capture(row_f_var(x=1:3, y=2:4, ratio=list(1)))
+res <- capture(row_f_var(x=1:3, y=2:4, null=list(1)))
 stopifnot(all.equal(res$error, err))
 
 # cannot be a data frame
-res <- capture(row_f_var(x=1:3, y=2:4, ratio=data.frame(1)))
+res <- capture(row_f_var(x=1:3, y=2:4, null=data.frame(1)))
 stopifnot(all.equal(res$error, err))
 
 
 # TODO: see if we can allow 0 and Inf values
-err <- 'all "ratio" values must be greater than 0 and lower than Inf'
+err <- 'all "null" values must be greater than 0 and lower than Inf'
 
 # cannot be NA
-res <- capture(row_f_var(x=1:3, y=2:4, ratio=NA_integer_))
+res <- capture(row_f_var(x=1:3, y=2:4, null=NA_integer_))
 stopifnot(all.equal(res$error, err))
 
 # cannot be NaN
-res <- capture(row_f_var(x=1:3, y=2:4, ratio=NaN))
+res <- capture(row_f_var(x=1:3, y=2:4, null=NaN))
 stopifnot(all.equal(res$error, err))
 
 # cannot be 0
-res <- capture(row_f_var(x=1:3, y=2:4, ratio=0))
+res <- capture(row_f_var(x=1:3, y=2:4, null=0))
 stopifnot(all.equal(res$error, err))
 
 # cannot be Inf
-res <- capture(row_f_var(x=1:3, y=2:4, ratio=Inf))
+res <- capture(row_f_var(x=1:3, y=2:4, null=Inf))
 stopifnot(all.equal(res$error, err))
 
 
@@ -213,11 +213,11 @@ y <- matrix(1:10, nrow=5)
 res <- capture(row_f_var(x, y))
 stopifnot(all.equal(res$error, err))
 
-# ratio must match x number of rows
-err <- '"ratio" must be a numeric vector with length 1 or nrow(x)'
+# null must match x number of rows
+err <- '"null" must be a numeric vector with length 1 or nrow(x)'
 x <- matrix(1:12, nrow=4)
 y <- matrix(1:12, nrow=4)
-res <- capture(row_f_var(x, y, ratio=c(1,2)))
+res <- capture(row_f_var(x, y, null=c(1,2)))
 stopifnot(all.equal(res$error, err))
 
 # alternative must match x number of rows

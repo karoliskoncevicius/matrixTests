@@ -21,23 +21,23 @@ stopifnot(all.equal(res$value$obs, 0))
 
 #--- values equal to null are removed ------------------------------------------
 
-wrn <- 'row_wilcoxon_onesample: 1 of the rows had observations with "x" equal "mu" that were removed.\nFirst occurrence at row 1'
+wrn <- 'row_wilcoxon_onesample: 1 of the rows had observations with "x" equal "null" that were removed.\nFirst occurrence at row 1'
 
-# a few x values equal to mu
-res <- capture(row_wilcoxon_onesample(c(1,2,3,4,1), mu=1, exact=FALSE))
+# a few x values equal to null
+res <- capture(row_wilcoxon_onesample(c(1,2,3,4,1), null=1, exact=FALSE))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$obs, 3))
 
-# one x value equal to mu plus NAs
-res <- capture(row_wilcoxon_onesample(c(NA,3,4,1), mu=1, exact=FALSE))
+# one x value equal to null plus NAs
+res <- capture(row_wilcoxon_onesample(c(NA,3,4,1), null=1, exact=FALSE))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$obs, 2))
 
-wrn1 <- 'row_wilcoxon_onesample: 1 of the rows had observations with "x" equal "mu" that were removed.\nFirst occurrence at row 1'
+wrn1 <- 'row_wilcoxon_onesample: 1 of the rows had observations with "x" equal "null" that were removed.\nFirst occurrence at row 1'
 wrn2 <- 'row_wilcoxon_onesample: 1 of the rows had zeroes: cannot compute exact p-values with zeroes.\nFirst occurrence at row 1'
 
-# a few x values equal to mu and exact is changed to FALSE
-res <- capture(row_wilcoxon_onesample(c(1,2,3,4,1), mu=1, exact=TRUE))
+# a few x values equal to null and exact is changed to FALSE
+res <- capture(row_wilcoxon_onesample(c(1,2,3,4,1), null=1, exact=TRUE))
 stopifnot(all.equal(res$warning, c(wrn1,wrn2)))
 stopifnot(all.equal(res$value$obs, 3))
 stopifnot(all.equal(res$value$exact, FALSE))
@@ -62,17 +62,17 @@ stopifnot(all.equal(res$value$exact, FALSE))
 
 #--- warning about zero values -------------------------------------------------
 
-wrn1 <- 'row_wilcoxon_onesample: 1 of the rows had observations with "x" equal "mu" that were removed.\nFirst occurrence at row 1'
+wrn1 <- 'row_wilcoxon_onesample: 1 of the rows had observations with "x" equal "null" that were removed.\nFirst occurrence at row 1'
 wrn2 <- 'row_wilcoxon_onesample: 1 of the rows had zeroes: cannot compute exact p-values with zeroes.\nFirst occurrence at row 1'
 
 # warning when exact=TRUE
-res <- capture(row_wilcoxon_onesample(c(1,2,3,4,1), mu=2, exact=TRUE))
+res <- capture(row_wilcoxon_onesample(c(1,2,3,4,1), null=2, exact=TRUE))
 stopifnot(all.equal(res$warning, c(wrn1,wrn2)))
 stopifnot(all.equal(res$value$obs, 4))
 stopifnot(all.equal(res$value$exact, FALSE))
 
 # no warning about ties when exact=FALSE
-res <- capture(row_wilcoxon_onesample(c(1,2,3,4,1), mu=2, exact=FALSE))
+res <- capture(row_wilcoxon_onesample(c(1,2,3,4,1), null=2, exact=FALSE))
 stopifnot(all.equal(res$warning, wrn1))
 stopifnot(all.equal(res$value$obs, 4))
 stopifnot(all.equal(res$value$exact, FALSE))

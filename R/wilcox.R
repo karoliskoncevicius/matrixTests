@@ -41,7 +41,7 @@
 #' @param alternative alternative hypothesis to use for each row/column of x.
 #' A single string or a vector with values for each observation.
 #' Values must be one of "two.sided" (default), "greater" or "less".
-#' @param mu true values of the location shift for the null hypothesis.
+#' @param null true values of the location shift for the null hypothesis.
 #' A single number or numeric vector with values for each observation.
 #' @param exact logical or NA (default) indicator whether an exact p-value
 #' should be computed (see Details).
@@ -80,7 +80,7 @@
 #' @author Karolis Koncevičius
 #' @name wilcoxon
 #' @export
-row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
+row_wilcoxon_twosample <- function(x, y, alternative="two.sided", null=0,
                                    exact=NA, correct=TRUE
                                    ) {
   is.null(x)
@@ -113,10 +113,10 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_all_in_set(alternative, choices)
 
-  if(length(mu)==1)
-    mu <- rep(mu, length.out=nrow(x))
-  assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_open_interval(mu, -Inf, Inf)
+  if(length(null)==1)
+    null <- rep(null, length.out=nrow(x))
+  assert_numeric_vec_length(null, 1, nrow(x))
+  assert_all_in_open_interval(null, -Inf, Inf)
 
   if(length(exact)==1)
     exact <- rep(exact, length.out=nrow(x))
@@ -135,7 +135,7 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
   naexact <- is.na(exact)
   exact[naexact] <- (nxs[naexact] < 50) & (nys[naexact] < 50)
 
-  r <- matrixStats::rowRanks(cbind(x - mu, y), ties.method="average")
+  r <- matrixStats::rowRanks(cbind(x - null, y), ties.method="average")
 
   statistic <- rowSums(r[,seq_len(ncol(x)),drop=FALSE], na.rm=TRUE) - nxs * (nxs + 1)*0.5
 
@@ -167,7 +167,7 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxs+nys, statistic=statistic,
-             pvalue=wres, alternative=alternative, location.null=mu,
+             pvalue=wres, alternative=alternative, location.null=null,
              exact=exact, corrected=correct,
              stringsAsFactors=FALSE, row.names=rnames
              )
@@ -175,9 +175,9 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
 
 #' @rdname wilcoxon
 #' @export
-col_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
+col_wilcoxon_twosample <- function(x, y, alternative="two.sided", null=0,
                                    exact=NA, correct=TRUE) {
-  row_wilcoxon_twosample(t(x), t(y), alternative=alternative, mu=mu,
+  row_wilcoxon_twosample(t(x), t(y), alternative=alternative, null=null,
                          exact=exact, correct=correct
                          )
 }
@@ -185,7 +185,7 @@ col_wilcoxon_twosample <- function(x, y, alternative="two.sided", mu=0,
 
 #' @rdname wilcoxon
 #' @export
-row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
+row_wilcoxon_onesample <- function(x, alternative="two.sided", null=0,
                                    exact=NA, correct=TRUE
                                    ) {
   is.null(x)
@@ -206,10 +206,10 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_all_in_set(alternative, choices)
 
-  if(length(mu)==1)
-    mu <- rep(mu, length.out=nrow(x))
-  assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_open_interval(mu, -Inf, Inf)
+  if(length(null)==1)
+    null <- rep(null, length.out=nrow(x))
+  assert_numeric_vec_length(null, 1, nrow(x))
+  assert_all_in_open_interval(null, -Inf, Inf)
 
   if(length(exact)==1)
     exact <- rep(exact, length.out=nrow(x))
@@ -222,7 +222,7 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
   assert_all_in_set(correct, c(TRUE, FALSE))
 
 
-  x <- x - mu
+  x <- x - null
 
   haszeroes <- x==0
   x[haszeroes] <- NA
@@ -249,7 +249,7 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
 
 
   w1 <- haszeroes
-  showWarning(w1, 'had observations with "x" equal "mu" that were removed')
+  showWarning(w1, 'had observations with "x" equal "null" that were removed')
 
   w2 <- nxs < 1
   showWarning(w2, 'had less than 1 remaining "x" observation')
@@ -269,7 +269,7 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs=nxs, statistic=statistic, pvalue=wres,
-             alternative=alternative, location.null=mu,
+             alternative=alternative, location.null=null,
              exact=exact, corrected=correct,
              stringsAsFactors=FALSE, row.names=rnames
              )
@@ -277,9 +277,9 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
 
 #' @rdname wilcoxon
 #' @export
-col_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
+col_wilcoxon_onesample <- function(x, alternative="two.sided", null=0,
                                    exact=NA, correct=TRUE) {
-  row_wilcoxon_onesample(t(x), alternative=alternative, mu=mu,
+  row_wilcoxon_onesample(t(x), alternative=alternative, null=null,
                          exact=exact, correct=correct
                          )
 }
@@ -287,7 +287,7 @@ col_wilcoxon_onesample <- function(x, alternative="two.sided", mu=0,
 
 #' @rdname wilcoxon
 #' @export
-row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
+row_wilcoxon_paired <- function(x, y, alternative="two.sided", null=0,
                                 exact=NA, correct=TRUE
                                 ) {
   is.null(x)
@@ -321,10 +321,10 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_all_in_set(alternative, choices)
 
-  if(length(mu)==1)
-    mu <- rep(mu, length.out=nrow(x))
-  assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_open_interval(mu, -Inf, Inf)
+  if(length(null)==1)
+    null <- rep(null, length.out=nrow(x))
+  assert_numeric_vec_length(null, 1, nrow(x))
+  assert_all_in_open_interval(null, -Inf, Inf)
 
   if(length(exact)==1)
     exact <- rep(exact, length.out=nrow(x))
@@ -338,7 +338,7 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
 
 
   xy <- x - y
-  xy <- xy - mu
+  xy <- xy - null
 
   haszeroes <- xy==0
   xy[haszeroes] <- NA
@@ -367,7 +367,7 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
 
 
   w1 <- haszeroes
-  showWarning(w1, 'had observations with "x-y" equal "mu" that were removed')
+  showWarning(w1, 'had observations with "x-y" equal "null" that were removed')
 
   w2 <- nxys < 1
   showWarning(w2, 'had less than 1 remaining paired "x-y" observation')
@@ -387,7 +387,7 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, obs.y=nys, obs.paired=nxys, statistic=statistic,
-             pvalue=wres, alternative=alternative, location.null=mu,
+             pvalue=wres, alternative=alternative, location.null=null,
              exact=exact, corrected=correct,
              stringsAsFactors=FALSE, row.names=rnames
              )
@@ -395,9 +395,9 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
 
 #' @rdname wilcoxon
 #' @export
-col_wilcoxon_paired <- function(x, y, alternative="two.sided", mu=0,
+col_wilcoxon_paired <- function(x, y, alternative="two.sided", null=0,
                                    exact=NA, correct=TRUE) {
-  row_wilcoxon_paired(t(x), t(y), alternative=alternative, mu=mu,
+  row_wilcoxon_paired(t(x), t(y), alternative=alternative, null=null,
                       exact=exact, correct=correct
                       )
 }

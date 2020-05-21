@@ -36,7 +36,7 @@
 #' @param alternative alternative hypothesis to use for each row/column of x.
 #' A single string or a vector with values for each observation.
 #' Values must be one of "two.sided" (default), "greater" or "less".
-#' @param mu true values of the means for the null hypothesis.
+#' @param null true values of the means for the null hypothesis.
 #' A single number or numeric vector with values for each observation.
 #' @param conf.level confidence levels used for the confidence intervals.
 #' A single number or a numeric vector with values for each observation.
@@ -80,7 +80,7 @@
 #' @author Karolis Koncevičius
 #' @name ttest
 #' @export
-row_t_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+row_t_equalvar <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
   is.null(x)
   is.null(y)
 
@@ -111,10 +111,10 @@ row_t_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_all_in_set(alternative, choices)
 
-  if(length(mu)==1)
-    mu <- rep(mu, length.out=nrow(x))
-  assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_closed_interval(mu, -Inf, Inf)
+  if(length(null)==1)
+    null <- rep(null, length.out=nrow(x))
+  assert_numeric_vec_length(null, 1, nrow(x))
+  assert_all_in_closed_interval(null, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -141,7 +141,7 @@ row_t_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
   vs <- vs/dfs
   stders <- sqrt(vs * (1/nxs + 1/nys))
 
-  tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
+  tres <- do_ttest(mxys, null, stders, alternative, dfs, conf.level)
 
 
   w1 <- nxys < 3
@@ -165,21 +165,21 @@ row_t_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95)
              mean.diff=mxys, var.x=vxs, var.y=vys, var.pooled=vs,
              stderr=stders, df=dfs, statistic=tres[,1], pvalue=tres[,2],
              conf.low=tres[,3], conf.high=tres[,4], alternative=alternative,
-             mean.null=mu, conf.level=conf.level, stringsAsFactors=FALSE,
+             mean.null=null, conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
 }
 
 #' @rdname ttest
 #' @export
-col_t_equalvar <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
-  row_t_equalvar(t(x), t(y), alternative=alternative, mu=mu, conf.level=conf.level)
+col_t_equalvar <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
+  row_t_equalvar(t(x), t(y), alternative=alternative, null=null, conf.level=conf.level)
 }
 
 
 #' @rdname ttest
 #' @export
-row_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+row_t_welch <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
   is.null(x)
   is.null(y)
 
@@ -210,10 +210,10 @@ row_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_all_in_set(alternative, choices)
 
-  if(length(mu)==1)
-    mu <- rep(mu, length.out=nrow(x))
-  assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_closed_interval(mu, -Inf, Inf)
+  if(length(null)==1)
+    null <- rep(null, length.out=nrow(x))
+  assert_numeric_vec_length(null, 1, nrow(x))
+  assert_all_in_closed_interval(null, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -238,7 +238,7 @@ row_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   dfs     <- stders*stders / (stderxs*stderxs/(nxs - 1) + stderys*stderys/(nys - 1))
   stders  <- sqrt(stders)
 
-  tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
+  tres <- do_ttest(mxys, null, stders, alternative, dfs, conf.level)
 
 
   w1 <- nxs < 2
@@ -257,7 +257,7 @@ row_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, stderr=stders, df=dfs,
              statistic=tres[,1], pvalue=tres[,2], conf.low=tres[,3],
-             conf.high=tres[,4], alternative=alternative, mean.null=mu,
+             conf.high=tres[,4], alternative=alternative, mean.null=null,
              conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
@@ -265,14 +265,14 @@ row_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
 
 #' @rdname ttest
 #' @export
-col_t_welch <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
-  row_t_welch(t(x), t(y), alternative=alternative, mu=mu, conf.level=conf.level)
+col_t_welch <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
+  row_t_welch(t(x), t(y), alternative=alternative, null=null, conf.level=conf.level)
 }
 
 
 #' @rdname ttest
 #' @export
-row_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
+row_t_onesample <- function(x, alternative="two.sided", null=0, conf.level=0.95) {
   is.null(x)
 
   if(is.vector(x))
@@ -292,10 +292,10 @@ row_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_all_in_set(alternative, choices)
 
-  if(length(mu)==1)
-    mu <- rep(mu, length.out=nrow(x))
-  assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_closed_interval(mu, -Inf, Inf)
+  if(length(null)==1)
+    null <- rep(null, length.out=nrow(x))
+  assert_numeric_vec_length(null, 1, nrow(x))
+  assert_all_in_closed_interval(null, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -310,7 +310,7 @@ row_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   stders <- sqrt(vxs/nxs)
 
 
-  tres <- do_ttest(mxs, mu, stders, alternative, dfs, conf.level)
+  tres <- do_ttest(mxs, null, stders, alternative, dfs, conf.level)
 
 
   w1 <- nxs < 2
@@ -327,7 +327,7 @@ row_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs=nxs, mean=mxs, var=vxs, stderr=stders, df=dfs,
              statistic=tres[,1], pvalue=tres[,2], conf.low=tres[,3],
-             conf.high=tres[,4], alternative=alternative, mean.null=mu,
+             conf.high=tres[,4], alternative=alternative, mean.null=null,
              conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
@@ -335,14 +335,14 @@ row_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
 
 #' @rdname ttest
 #' @export
-col_t_onesample <- function(x, alternative="two.sided", mu=0, conf.level=0.95) {
-  row_t_onesample(t(x), alternative=alternative, mu=mu, conf.level=conf.level)
+col_t_onesample <- function(x, alternative="two.sided", null=0, conf.level=0.95) {
+  row_t_onesample(t(x), alternative=alternative, null=null, conf.level=conf.level)
 }
 
 
 #' @rdname ttest
 #' @export
-row_t_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
+row_t_paired <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
   is.null(x)
   is.null(y)
 
@@ -374,10 +374,10 @@ row_t_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_all_in_set(alternative, choices)
 
-  if(length(mu)==1)
-    mu <- rep(mu, length.out=nrow(x))
-  assert_numeric_vec_length(mu, 1, nrow(x))
-  assert_all_in_closed_interval(mu, -Inf, Inf)
+  if(length(null)==1)
+    null <- rep(null, length.out=nrow(x))
+  assert_numeric_vec_length(null, 1, nrow(x))
+  assert_all_in_closed_interval(null, -Inf, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -405,7 +405,7 @@ row_t_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
   stders <- sqrt(vxys/nxys)
   dfs <- nxys-1
 
-  tres <- do_ttest(mxys, mu, stders, alternative, dfs, conf.level)
+  tres <- do_ttest(mxys, null, stders, alternative, dfs, conf.level)
 
 
   w1 <- nxys < 2
@@ -422,13 +422,13 @@ row_t_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
              mean.diff=mxys, var.x=vxs, var.y=vys, var.diff=vxys,
              stderr=stders, df=dfs, statistic=tres[,1], pvalue=tres[,2],
              conf.low=tres[,3], conf.high=tres[,4], alternative=alternative,
-             mean.null=mu, conf.level=conf.level, stringsAsFactors=FALSE,
+             mean.null=null, conf.level=conf.level, stringsAsFactors=FALSE,
              row.names=rnames
              )
 }
 
 #' @rdname ttest
 #' @export
-col_t_paired <- function(x, y, alternative="two.sided", mu=0, conf.level=0.95) {
-  row_t_paired(t(x), t(y), alternative=alternative, mu=mu, conf.level=conf.level)
+col_t_paired <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
+  row_t_paired(t(x), t(y), alternative=alternative, null=null, conf.level=conf.level)
 }

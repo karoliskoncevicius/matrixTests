@@ -13,7 +13,7 @@
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
-#' @param ratio - hypothesized 'x' and 'y' variance ratio.
+#' @param null - hypothesized 'x' and 'y' variance ratio.
 #' A single number or numeric vector with values for each observation.
 #' @param alternative alternative hypothesis to use for each row/column of x.
 #' A single string or a vector with values for each observation.
@@ -51,7 +51,7 @@
 #' @author Karolis Koncevičius
 #' @name fvar
 #' @export
-row_f_var <- function(x, y, ratio=1, alternative="two.sided", conf.level=0.95) {
+row_f_var <- function(x, y, null=1, alternative="two.sided", conf.level=0.95) {
   is.null(x)
   is.null(y)
 
@@ -82,10 +82,10 @@ row_f_var <- function(x, y, ratio=1, alternative="two.sided", conf.level=0.95) {
   alternative <- choices[pmatch(alternative, choices, duplicates.ok=TRUE)]
   assert_all_in_set(alternative, choices)
 
-  if(length(ratio)==1)
-    ratio <- rep(ratio, length.out=nrow(x))
-  assert_numeric_vec_length(ratio, 1, nrow(x))
-  assert_all_in_open_interval(ratio, 0, Inf)
+  if(length(null)==1)
+    null <- rep(null, length.out=nrow(x))
+  assert_numeric_vec_length(null, 1, nrow(x))
+  assert_all_in_open_interval(null, 0, Inf)
 
   if(length(conf.level)==1)
     conf.level <- rep(conf.level, length.out=nrow(x))
@@ -113,7 +113,7 @@ row_f_var <- function(x, y, ratio=1, alternative="two.sided", conf.level=0.95) {
 
   estimate  <- vxs/vys
 
-  fres <- do_ftest(estimate, ratio, alternative, dfx, dfy, conf.level)
+  fres <- do_ftest(estimate, null, alternative, dfx, dfy, conf.level)
 
 
   w1 <- hasinfx
@@ -142,14 +142,14 @@ row_f_var <- function(x, y, ratio=1, alternative="two.sided", conf.level=0.95) {
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, var.x=vxs, var.y=vys,
              var.ratio=estimate, df.num=dfx, df.denom=dfy, statistic=fres[,1],
              pvalue=fres[,2], conf.low=fres[,3], conf.high=fres[,4],
-             ratio.null=ratio, alternative=alternative, conf.level=conf.level,
+             ratio.null=null, alternative=alternative, conf.level=conf.level,
              row.names=rnames, stringsAsFactors=FALSE
              )
 }
 
 #' @rdname fvar
 #' @export
-col_f_var <- function(x, y, ratio=1, alternative="two.sided", conf.level=0.95) {
-  row_f_var(t(x), t(y), ratio, alternative, conf.level)
+col_f_var <- function(x, y, null=1, alternative="two.sided", conf.level=0.95) {
+  row_f_var(t(x), t(y), null, alternative, conf.level)
 }
 

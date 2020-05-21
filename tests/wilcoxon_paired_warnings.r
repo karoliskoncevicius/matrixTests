@@ -68,18 +68,18 @@ stopifnot(all.equal(res$value$obs.paired, 4))
 
 #--- warning about zero values -------------------------------------------------
 
-wrn1 <- 'row_wilcoxon_paired: 1 of the rows had observations with "x-y" equal "mu" that were removed.\nFirst occurrence at row 1'
+wrn1 <- 'row_wilcoxon_paired: 1 of the rows had observations with "x-y" equal "null" that were removed.\nFirst occurrence at row 1'
 wrn2 <- 'row_wilcoxon_paired: 1 of the rows had zeroes: cannot compute exact p-values with zeroes.\nFirst occurrence at row 1'
 
 # warning when exact = TRUE
-res <- capture(row_wilcoxon_paired(1:4, c(0,2,4,3), mu=1, exact=TRUE))
+res <- capture(row_wilcoxon_paired(1:4, c(0,2,4,3), null=1, exact=TRUE))
 stopifnot(all.equal(res$warning, c(wrn1, wrn2)))
 stopifnot(all.equal(res$value$obs.x, 4))
 stopifnot(all.equal(res$value$obs.y, 4))
 stopifnot(all.equal(res$value$obs.paired, 2))
 
 # no warning when exact = FALSE
-res <- capture(row_wilcoxon_paired(1:4, c(0,2,4,3), mu=1, exact=FALSE))
+res <- capture(row_wilcoxon_paired(1:4, c(0,2,4,3), null=1, exact=FALSE))
 stopifnot(all.equal(res$warning, wrn1))
 stopifnot(all.equal(res$value$obs.x, 4))
 stopifnot(all.equal(res$value$obs.y, 4))

@@ -2,10 +2,10 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_wilcoxon_onesample <- function(mat, alt="two.sided", mu=0, exact=NA, correct=TRUE) {
+base_wilcoxon_onesample <- function(mat, alt="two.sided", null=0, exact=NA, correct=TRUE) {
   if(is.vector(mat)) mat <- matrix(mat, nrow=1)
   if(length(alt)==1) alt <- rep(alt, nrow(mat))
-  if(length(mu)==1) mu <- rep(mu, nrow(mat))
+  if(length(null)==1) null <- rep(null, nrow(mat))
   if(length(exact)==1) exact <- rep(exact, nrow(mat))
   if(length(correct)==1) correct <- rep(correct, nrow(mat))
 
@@ -15,9 +15,9 @@ base_wilcoxon_onesample <- function(mat, alt="two.sided", mu=0, exact=NA, correc
   for(i in 1:nrow(mat)) {
     vec <- mat[i,][!is.na(mat[i,])]
     ex  <- if(is.na(exact[i])) NULL else exact[i]
-    res <- wilcox.test(vec, alternative=alt[i], mu=mu[i], exact=ex, correct=correct[i])
+    res <- wilcox.test(vec, alternative=alt[i], mu=null[i], exact=ex, correct=correct[i])
 
-    nx[i]   <- sum((vec-mu[i]) != 0)
+    nx[i]   <- sum((vec-null[i]) != 0)
     stat[i] <- res$statistic
     p[i]    <- res$p.value
     al[i]   <- res$alternative
@@ -162,7 +162,7 @@ stopifnot(all.equal(res1, res2))
 
 # various corner cases with NAs
 alt <- c("l", "t", "g")
-mus <- c(-10000, 0, 10000)  # TODO: decide if Inf is reasonable mu for this test
+mus <- c(-10000, 0, 10000)  # TODO: decide if Inf is reasonable null for this test
 ext <- c(TRUE, FALSE, NA)
 cor <- c(TRUE, FALSE)
 pars <- expand.grid(alt, mus, ext, cor, stringsAsFactors=FALSE)
@@ -173,8 +173,8 @@ res2 <- suppressWarnings(row_wilcoxon_onesample(x, pars[,1], pars[,2], pars[,3],
 stopifnot(all.equal(res1, res2))
 
 # null exactly equal to the median
-res1 <- suppressWarnings(base_wilcoxon_onesample(c(1,2,3), mu=2))
-res2 <- suppressWarnings(row_wilcoxon_onesample(c(1,2,3), mu=2))
+res1 <- suppressWarnings(base_wilcoxon_onesample(c(1,2,3), null=2))
+res2 <- suppressWarnings(row_wilcoxon_onesample(c(1,2,3), null=2))
 stopifnot(all.equal(res2$pvalue, 1))
 stopifnot(all.equal(res1, res2))
 
@@ -245,10 +245,10 @@ stopifnot(all.equal(res3, res4))
 
 # 11 samples with one zero (zero: exact = FALSE)
 x <- rnorm(11)
-res1 <- base_wilcoxon_onesample(x, mu=x[1], exact=FALSE)
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=NA))
-res3 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=TRUE))
-res4 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=FALSE))
+res1 <- base_wilcoxon_onesample(x, null=x[1], exact=FALSE)
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=NA))
+res3 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=TRUE))
+res4 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res3$exact, FALSE))
 stopifnot(all.equal(res2$corrected, TRUE))
@@ -258,10 +258,10 @@ stopifnot(all.equal(res3, res4))
 
 # 105 samples with 5 zeroes (zero: exact = FALSE)
 x <- c(1, rnorm(100), 1, 1, 1, 1)
-res1 <- base_wilcoxon_onesample(x, mu=x[1], exact=FALSE)
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=NA))
-res3 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=TRUE))
-res4 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=FALSE))
+res1 <- base_wilcoxon_onesample(x, null=x[1], exact=FALSE)
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=NA))
+res3 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=TRUE))
+res4 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res3$exact, FALSE))
 stopifnot(all.equal(res2$corrected, TRUE))
@@ -271,10 +271,10 @@ stopifnot(all.equal(res3, res4))
 
 # 11 samples with one zero and one tie (zero or tie: exact = FALSE)
 x <- c(rnorm(10),1.2,1.2)
-res1 <- base_wilcoxon_onesample(x, mu=x[1], exact=FALSE)
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=NA))
-res3 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=TRUE))
-res4 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=FALSE))
+res1 <- base_wilcoxon_onesample(x, null=x[1], exact=FALSE)
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=NA))
+res3 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=TRUE))
+res4 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res3$exact, FALSE))
 stopifnot(all.equal(res2$corrected, TRUE))
@@ -284,10 +284,10 @@ stopifnot(all.equal(res3, res4))
 
 # 110 samples with 5 zeroes and 5 ties (zero or tie: exact = FALSE)
 x <- c(1,1,1,1,1,rnorm(100),1.2,1.2,1.2,1.2,1.2)
-res1 <- base_wilcoxon_onesample(x, mu=x[1], exact=FALSE)
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=NA))
-res3 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=TRUE))
-res4 <- suppressWarnings(row_wilcoxon_onesample(x, mu=x[1], exact=FALSE))
+res1 <- base_wilcoxon_onesample(x, null=x[1], exact=FALSE)
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=NA))
+res3 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=TRUE))
+res4 <- suppressWarnings(row_wilcoxon_onesample(x, null=x[1], exact=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res3$exact, FALSE))
 stopifnot(all.equal(res2$corrected, TRUE))
@@ -307,9 +307,9 @@ stopifnot(all.equal(res2, res3))
 
 # big sample size, exact is turned on but exact=FALSE because of ties and zeroes (exact = FALSE: correct can be specified)
 x <- c(1.2,1.2,1.2,1.2,1.2,rnorm(100),1,1,1,1,1)
-res1 <- suppressWarnings(base_wilcoxon_onesample(x, mu=1, exact=TRUE, correct=FALSE))
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, mu=1, exact=NA, correct=FALSE))
-res3 <- suppressWarnings(row_wilcoxon_onesample(x, mu=1, exact=TRUE, correct=FALSE))
+res1 <- suppressWarnings(base_wilcoxon_onesample(x, null=1, exact=TRUE, correct=FALSE))
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, null=1, exact=NA, correct=FALSE))
+res3 <- suppressWarnings(row_wilcoxon_onesample(x, null=1, exact=TRUE, correct=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res2$corrected, FALSE))
 stopifnot(all.equal(res1, res2))

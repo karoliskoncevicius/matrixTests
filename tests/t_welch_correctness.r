@@ -2,11 +2,11 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_t_welch <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
+base_t_welch <- function(mat1, mat2, alt="two.sided", null=0, conf=0.95) {
   if(is.vector(mat1)) mat1 <- matrix(mat1, nrow=1)
   if(is.vector(mat2)) mat2 <- matrix(mat2, nrow=1)
   if(length(alt)==1) alt <- rep(alt, nrow(mat1))
-  if(length(mu)==1) mu <- rep(mu, nrow(mat1))
+  if(length(null)==1) null <- rep(null, nrow(mat1))
   if(length(conf)==1) conf <- rep(conf, nrow(mat1))
 
   mx <- my <- md <- vx <- vy <- vp <- nx <- ny <- nt <- tst <- p <- cl <- ch <-
@@ -15,7 +15,7 @@ base_t_welch <- function(mat1, mat2, alt="two.sided", mu=0, conf=0.95) {
   for(i in 1:nrow(mat1)) {
     vec1 <- na.omit(mat1[i,])
     vec2 <- na.omit(mat2[i,])
-    res <- t.test(vec1, vec2, alternative=alt[i], mu=mu[i], conf.level=conf[i])
+    res <- t.test(vec1, vec2, alternative=alt[i], mu=null[i], conf.level=conf[i])
 
     vx[i]  <- var(vec1)
     vy[i]  <- var(vec2)
@@ -129,8 +129,8 @@ res2 <- row_t_welch(x, y, pars[,1], pars[,2], pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # null exactly equal to the mean
-res1 <- base_t_welch(c(1,2,3), c(0,0,0), mu=2)
-res2 <- row_t_welch(c(1,2,3), c(0,0,0), mu=2)
+res1 <- base_t_welch(c(1,2,3), c(0,0,0), null=2)
+res2 <- row_t_welch(c(1,2,3), c(0,0,0), null=2)
 stopifnot(all.equal(res2$pvalue, 1))
 stopifnot(all.equal(res1, res2))
 

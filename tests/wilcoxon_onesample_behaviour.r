@@ -28,15 +28,15 @@ stopifnot(all.equal(row_wilcoxon_onesample(x, alternative="greater"), row_wilcox
 x <- rnorm(5)
 stopifnot(all.equal(row_wilcoxon_onesample(x, exact=NA), row_wilcoxon_onesample(x, exact=TRUE)))
 
-# TODO: investigate if mu can be allowed Inf values.
+# TODO: investigate if null can be allowed Inf values.
 
 
 #--- recycling -----------------------------------------------------------------
 
-# mu can be specified for each row
+# null can be specified for each row
 x <- matrix(rnorm(10), nrow=2)
-res1 <- row_wilcoxon_onesample(x, mu=2)
-res2 <- row_wilcoxon_onesample(x, mu=c(2,2))
+res1 <- row_wilcoxon_onesample(x, null=2)
+res2 <- row_wilcoxon_onesample(x, null=c(2,2))
 stopifnot(all.equal(res1, res2))
 
 # alternative can be specified for each row

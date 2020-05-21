@@ -24,15 +24,15 @@ stopifnot(all.equal(nrow(row_t_onesample(x)), 0))
 x <- rnorm(5)
 stopifnot(all.equal(row_t_onesample(x, alternative="greater"), row_t_onesample(x, alternative="g")))
 
-# mu can be +Inf
+# null can be +Inf
 x <- rnorm(5)
-res <- row_t_onesample(x, mu=Inf)
+res <- row_t_onesample(x, null=Inf)
 stopifnot(all.equal(res$pvalue, 0))
 stopifnot(all.equal(res$statistic, -Inf))
 
-# mu can be -Inf
+# null can be -Inf
 x <- rnorm(5)
-res <- row_t_onesample(x, mu=-Inf)
+res <- row_t_onesample(x, null=-Inf)
 stopifnot(all.equal(res$pvalue, 0))
 stopifnot(all.equal(res$statistic, Inf))
 
@@ -50,10 +50,10 @@ stopifnot(all.equal(res$conf.high, Inf))
 
 #--- recycling -----------------------------------------------------------------
 
-# mu can be specified for each row
+# null can be specified for each row
 x <- matrix(rnorm(10), nrow=2)
-res1 <- row_t_onesample(x, mu=2)
-res2 <- row_t_onesample(x, mu=c(2,2))
+res1 <- row_t_onesample(x, null=2)
+res2 <- row_t_onesample(x, null=c(2,2))
 stopifnot(all.equal(res1, res2))
 
 # alternative can be specified for each row

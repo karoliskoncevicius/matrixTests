@@ -31,17 +31,17 @@ x <- rnorm(5)
 y <- rnorm(5)
 stopifnot(all.equal(row_t_welch(x, y, alternative="greater"), row_t_welch(x, y, alternative="g")))
 
-# mu can be +Inf
+# null can be +Inf
 x <- rnorm(5)
 y <- rnorm(5)
-res <- row_t_welch(x, y, mu=Inf)
+res <- row_t_welch(x, y, null=Inf)
 stopifnot(all.equal(res$pvalue, 0))
 stopifnot(all.equal(res$statistic, -Inf))
 
-# mu can be -Inf
+# null can be -Inf
 x <- rnorm(5)
 y <- rnorm(5)
-res <- row_t_welch(x, y, mu=-Inf)
+res <- row_t_welch(x, y, null=-Inf)
 stopifnot(all.equal(res$pvalue, 0))
 stopifnot(all.equal(res$statistic, Inf))
 
@@ -68,11 +68,11 @@ res1 <- row_t_welch(x, y)
 res2 <- row_t_welch(x, rbind(y,y))
 stopifnot(all.equal(res1, res2))
 
-# mu can be specified for each row
+# null can be specified for each row
 x <- matrix(rnorm(10), nrow=2)
 y <- matrix(rnorm(10), nrow=2)
-res1 <- row_t_welch(x, y, mu=2)
-res2 <- row_t_welch(x, y, mu=c(2,2))
+res1 <- row_t_welch(x, y, null=2)
+res2 <- row_t_welch(x, y, null=c(2,2))
 stopifnot(all.equal(res1, res2))
 
 # alternative can be specified for each row

@@ -2,11 +2,11 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_wilcoxon_paired <- function(mat1, mat2, alt="two.sided", mu=0, exact=NA, correct=TRUE) {
+base_wilcoxon_paired <- function(mat1, mat2, alt="two.sided", null=0, exact=NA, correct=TRUE) {
   if(is.vector(mat1)) mat1 <- matrix(mat1, nrow=1)
   if(is.vector(mat2)) mat2 <- matrix(mat2, nrow=1)
   if(length(alt)==1) alt <- rep(alt, nrow(mat1))
-  if(length(mu)==1) mu <- rep(mu, nrow(mat1))
+  if(length(null)==1) null <- rep(null, nrow(mat1))
   if(length(exact)==1) exact <- rep(exact, nrow(mat1))
   if(length(correct)==1) correct <- rep(correct, nrow(mat1))
 
@@ -15,14 +15,14 @@ base_wilcoxon_paired <- function(mat1, mat2, alt="two.sided", mu=0, exact=NA, co
   ext <- cor <- logical(nrow(mat1))
   for(i in 1:nrow(mat1)) {
     ex  <- if(is.na(exact[i])) NULL else exact[i]
-    res <- wilcox.test(mat1[i,], mat2[i,], alternative=alt[i], mu=mu[i], paired=TRUE, exact=ex, correct=correct[i])
+    res <- wilcox.test(mat1[i,], mat2[i,], alternative=alt[i], mu=null[i], paired=TRUE, exact=ex, correct=correct[i])
 
     inds <- complete.cases(mat1[i,], mat2[i,])
     vec1 <- mat1[i,inds]
     vec2 <- mat2[i,inds]
     nx[i]   <- sum(!is.na(mat1[i,]))
     ny[i]   <- sum(!is.na(mat2[i,]))
-    nxy[i]  <- sum((vec1 - vec2 - mu[i]) != 0, na.rm=TRUE)
+    nxy[i]  <- sum((vec1 - vec2 - null[i]) != 0, na.rm=TRUE)
     stat[i] <- res$statistic
     p[i]    <- res$p.value
     al[i]   <- res$alternative
@@ -198,7 +198,7 @@ res1 <- suppressWarnings(base_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], co
 res2 <- suppressWarnings(row_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 
-# three numbers, two equal to mu after subtraction
+# three numbers, two equal to null after subtraction
 # NOTE: seems to be numerically unstable
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x <- matrix(rnorm(nrow(pars)*3), ncol=3)
@@ -213,7 +213,7 @@ stopifnot(all.equal(res1, res2))
 
 # various corner cases with NAs
 alt  <- c("l", "t", "g")
-mus  <- c(-10000, 0, 10000)  # TODO: decide if Inf is reasonable mu for this test
+mus  <- c(-10000, 0, 10000)  # TODO: decide if Inf is reasonable null for this test
 ext  <- c(TRUE, FALSE, NA)
 cor  <- c(TRUE, FALSE)
 pars <- expand.grid(alt, mus, ext, cor, stringsAsFactors=FALSE)
@@ -283,7 +283,7 @@ stopifnot(all.equal(res2$obs.paired, 50))
 stopifnot(all.equal(res1, res2))
 stopifnot(all.equal(res2, res3))
 
-# 50 samples with 1 value equal to mu (>= 50: exact = FALSE)
+# 50 samples with 1 value equal to null (>= 50: exact = FALSE)
 # NOTE: even thou 49 paired observations are left, base and matrixTests still treats it as 50
 x <- c(rnorm(49),1.2)
 y <- c(rnorm(49),1.2)
@@ -322,10 +322,10 @@ stopifnot(all.equal(res3, res4))
 # 10 samples with 1 zero (zeroes: exact = FALSE)
 x <- c(rnorm(9), 2)
 y <- c(rnorm(9), 1)
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, mu=1, exact=TRUE))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=NA))
-res3 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=TRUE))
-res4 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=FALSE))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, null=1, exact=TRUE))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=NA))
+res3 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=TRUE))
+res4 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res2$obs.paired, 9))
 stopifnot(all.equal(res1, res2))
@@ -335,10 +335,10 @@ stopifnot(all.equal(res3, res4))
 # 105 samples with 5 zeroes (zeroes: exact = FALSE)
 x <- c(rnorm(100), 2, 2, 2, 2, 2)
 y <- c(rnorm(100), 1, 1, 1, 1, 1)
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, mu=1, exact=TRUE))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=NA))
-res3 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=TRUE))
-res4 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=FALSE))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, null=1, exact=TRUE))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=NA))
+res3 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=TRUE))
+res4 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res2$obs.paired, 100))
 stopifnot(all.equal(res1, res2))
@@ -348,10 +348,10 @@ stopifnot(all.equal(res3, res4))
 # 11 samples with one zero and one tie (zeroes or ties: exact = FALSE)
 x <- c(rnorm(8), 2, 2, 3)
 y <- c(rnorm(8), 4, 4, 2)
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, mu=1, exact=TRUE))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=NA))
-res3 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=TRUE))
-res4 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=FALSE))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, null=1, exact=TRUE))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=NA))
+res3 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=TRUE))
+res4 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res2$obs.paired, 10))
 stopifnot(all.equal(res1, res2))
@@ -361,10 +361,10 @@ stopifnot(all.equal(res3, res4))
 # 110 samples with 5 zeroes and 5 ties
 x <- c(rnorm(100), 2,2,2,2,2, 3,3,3,3,3)
 y <- c(rnorm(100), 4,4,4,4,4, 2,2,2,2,2)
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, mu=1, exact=TRUE))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=NA))
-res3 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=TRUE))
-res4 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=FALSE))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, null=1, exact=TRUE))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=NA))
+res3 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=TRUE))
+res4 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res2$obs.paired, 105))
 stopifnot(all.equal(res1, res2))
@@ -386,9 +386,9 @@ stopifnot(all.equal(res2, res3))
 # big sample size, exact is turned on but exact=FALSE because of ties (exact = FALSE: correct can be specified)
 x <- c(rnorm(100), 2, 2, 3)
 y <- c(rnorm(100), 4, 4, 2)
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, mu=1, exact=TRUE, correct=FALSE))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=NA, correct=FALSE))
-res3 <- suppressWarnings(row_wilcoxon_paired(x, y, mu=1, exact=TRUE, correct=FALSE))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, null=1, exact=TRUE, correct=FALSE))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=NA, correct=FALSE))
+res3 <- suppressWarnings(row_wilcoxon_paired(x, y, null=1, exact=TRUE, correct=FALSE))
 stopifnot(all.equal(res2$exact, FALSE))
 stopifnot(all.equal(res2$corrected, FALSE))
 stopifnot(all.equal(res1, res2))
