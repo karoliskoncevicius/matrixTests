@@ -10,6 +10,8 @@ BUG FIXES:
 
 CHANGES:
 
+ * Made null-mean and null-ratio arguments more consistent across functions: previously named `mu` and `ratio`, now constantly named `null`.
+ * Switched the order of `null` argument to be more consistent between functions: now `null` always comes before `alternative` argument.
  * Removed `row_ievora` and `col_ievora` functions. ievora method is a simple application of a Bartlett's test followed by a Student's t-test and can be performed manually.
  * Adjusted the behaviour of `Inf` values in `wilcox_*` to no longer be removed but treated as highest ranks in order to be consistent with base R 4.0.0. implementation.
  * Missing argument errors no longer reference force().
