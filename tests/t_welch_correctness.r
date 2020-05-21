@@ -2,10 +2,10 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_t_welch <- function(mat1, mat2, alt="two.sided", null=0, conf=0.95) {
+base_t_welch <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.95) {
   if(is.vector(mat1)) mat1 <- matrix(mat1, nrow=1)
   if(is.vector(mat2)) mat2 <- matrix(mat2, nrow=1)
-  if(length(alt)==1) alt <- rep(alt, nrow(mat1))
+  if(length(alternative)==1) alternative <- rep(alternative, nrow(mat1))
   if(length(null)==1) null <- rep(null, nrow(mat1))
   if(length(conf)==1) conf <- rep(conf, nrow(mat1))
 
@@ -15,7 +15,7 @@ base_t_welch <- function(mat1, mat2, alt="two.sided", null=0, conf=0.95) {
   for(i in 1:nrow(mat1)) {
     vec1 <- na.omit(mat1[i,])
     vec2 <- na.omit(mat2[i,])
-    res <- t.test(vec1, vec2, alternative=alt[i], mu=null[i], conf.level=conf[i])
+    res <- t.test(vec1, vec2, alternative=alternative[i], mu=null[i], conf.level=conf[i])
 
     vx[i]  <- var(vec1)
     vy[i]  <- var(vec2)
@@ -38,7 +38,7 @@ base_t_welch <- function(mat1, mat2, alt="two.sided", null=0, conf=0.95) {
 
   data.frame(obs.x=nx, obs.y=ny, obs.tot=nt, mean.x=mx, mean.y=my, mean.diff=md,
              var.x=vx, var.y=vy, stderr=se, df=df, statistic=tst, pvalue=p,
-             conf.low=cl, conf.high=ch, alternative=al, mean.null=m0,
+             conf.low=cl, conf.high=ch, mean.null=m0, alternative=al,
              conf.level=cnf, stringsAsFactors=FALSE
              )
 }
@@ -52,8 +52,8 @@ y <- matrix(rnorm(2000), ncol=2)
 alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- sample(seq(-1, 1, length.out=nrow(x)))
 cfs  <- sample(seq(0, 1, length.out=nrow(x)))
-res1 <- base_t_welch(x, y, alts, mus, cfs)
-res2 <- row_t_welch(x, y, alts, mus, cfs)
+res1 <- base_t_welch(x, y, mus, alts, cfs)
+res2 <- row_t_welch(x, y, mus, alts, cfs)
 stopifnot(all.equal(res1, res2))
 
 # 20 observations in each group
@@ -62,8 +62,8 @@ y <- matrix(rnorm(20000), ncol=20)
 alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- sample(seq(-1, 1, length.out=nrow(x)))
 cfs  <- sample(seq(0, 1, length.out=nrow(x)))
-res1 <- base_t_welch(x, y, alts, mus, cfs)
-res2 <- row_t_welch(x, y, alts, mus, cfs)
+res1 <- base_t_welch(x, y, mus, alts, cfs)
+res2 <- row_t_welch(x, y, mus, alts, cfs)
 stopifnot(all.equal(res1, res2))
 
 
@@ -92,34 +92,34 @@ stopifnot(all.equal(res1, res2))
 x <- matrix(rnorm(6), ncol=2)
 y <- matrix(rnorm(6), ncol=2)
 alt <- c("two.sided", "greater", "less")
-res1 <- base_t_welch(x, y, alt)
-res2 <- row_t_welch(x, y, alt)
+res1 <- base_t_welch(x, y, alternative=alt)
+res2 <- row_t_welch(x, y, alternative=alt)
 stopifnot(all.equal(res1, res2))
 
 # 2 observations in first group and 4 in second
 x <- matrix(rnorm(6), ncol=2)
 y <- matrix(rnorm(12), ncol=4)
 alt <- c("two.sided", "greater", "less")
-res1 <- base_t_welch(x, y, alt)
-res2 <- row_t_welch(x, y, alt)
+res1 <- base_t_welch(x, y, alternative=alt)
+res2 <- row_t_welch(x, y, alternative=alt)
 stopifnot(all.equal(res1, res2))
 
 # 3 observations in both groups but one is NA
 x <- matrix(c(rnorm(6), NA,NA,NA), ncol=3)
 y <- matrix(c(NA,NA,NA,rnorm(6)), ncol=3)
 alt <- c("two.sided", "greater", "less")
-res1 <- base_t_welch(x, y, alt)
-res2 <- row_t_welch(x, y, alt)
+res1 <- base_t_welch(x, y, alternative=alt)
+res2 <- row_t_welch(x, y, alternative=alt)
 stopifnot(all.equal(res1, res2))
 
 
 #--- parameter edge cases ------------------------------------------------------
 
 # various corner cases with NAs
-alt <- c("l", "t", "g")
 mus <- c(-Inf, -1, 0, 1, Inf)
+alt <- c("l", "t", "g")
 cfs <- c(0, 0.5, 1)
-pars <- expand.grid(alt, mus, cfs, stringsAsFactors=FALSE)
+pars <- expand.grid(mus, alt, cfs, stringsAsFactors=FALSE)
 x <- matrix(rnorm(10*nrow(pars)), ncol=10)
 y <- matrix(rnorm(10*nrow(pars)), ncol=10)
 x[sample(length(x), nrow(pars)*2)] <- NA
@@ -141,15 +141,15 @@ stopifnot(all.equal(res1, res2))
 x <- matrix(1, nrow=3, ncol=3)
 y <- matrix(rnorm(9), nrow=3, ncol=3)
 alt <- c("l", "t", "g")
-res1 <- base_t_welch(x, y, alt)
-res2 <- row_t_welch(x, y, alt)
+res1 <- base_t_welch(x, y, alternative=alt)
+res2 <- row_t_welch(x, y, alternative=alt)
 stopifnot(all.equal(res2$var.x, rep(0, nrow(x))))
 
 # second group values are constant
 x <- matrix(rnorm(9), nrow=3, ncol=3)
 y <- matrix(1, nrow=3, ncol=3)
 alt <- c("l", "t", "g")
-res1 <- base_t_welch(x, y, alt)
-res2 <- row_t_welch(x, y, alt)
+res1 <- base_t_welch(x, y, alternative=alt)
+res2 <- row_t_welch(x, y, alternative=alt)
 stopifnot(all.equal(res2$var.y, rep(0, nrow(y))))
 

@@ -2,11 +2,11 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_t_paired <- function(mat1, mat2, alt="two.sided", null=0, conf=0.95) {
+base_t_paired <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.95) {
   stopifnot(ncol(mat1)==ncol(mat2))
   if(is.vector(mat1)) mat1 <- matrix(mat1, nrow=1)
   if(is.vector(mat2)) mat2 <- matrix(mat2, nrow=1)
-  if(length(alt)==1) alt <- rep(alt, nrow(mat1))
+  if(length(alternative)==1) alternative <- rep(alternative, nrow(mat1))
   if(length(null)==1) null <- rep(null, nrow(mat1))
   if(length(conf)==1) conf <- rep(conf, nrow(mat1))
 
@@ -16,7 +16,7 @@ base_t_paired <- function(mat1, mat2, alt="two.sided", null=0, conf=0.95) {
   for(i in 1:nrow(mat1)) {
     vec1 <- mat1[i,]
     vec2 <- mat2[i,]
-    res <- t.test(vec1, vec2, alternative=alt[i], mu=null[i], conf.level=conf[i],
+    res <- t.test(vec1, vec2, alternative=alternative[i], mu=null[i], conf.level=conf[i],
                   paired=TRUE
                   )
 
@@ -43,7 +43,7 @@ base_t_paired <- function(mat1, mat2, alt="two.sided", null=0, conf=0.95) {
   data.frame(obs.x=nx, obs.y=ny, obs.paired=nt, mean.x=mx, mean.y=my,
              mean.diff=md, var.x=vx, var.y=vy, var.diff=vd, stderr=se,
              df=df, statistic=tst, pvalue=p, conf.low=cl, conf.high=ch,
-             alternative=al, mean.null=m0, conf.level=cnf,
+             mean.null=m0, alternative=al, conf.level=cnf,
              stringsAsFactors=FALSE
              )
 }
@@ -57,8 +57,8 @@ y <- matrix(rnorm(5000), ncol=5)
 alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- sample(seq(-1, 1, length.out=nrow(x)))
 cfs  <- sample(seq(0, 1, length.out=nrow(x)))
-res1 <- base_t_paired(x, y, alts, mus, cfs)
-res2 <- row_t_paired(x, y, alts, mus, cfs)
+res1 <- base_t_paired(x, y, mus, alts, cfs)
+res2 <- row_t_paired(x, y, mus, alts, cfs)
 stopifnot(all.equal(res1, res2))
 
 # 20 observations
@@ -67,8 +67,8 @@ y <- matrix(rnorm(20000), ncol=20)
 alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- sample(seq(-1, 1, length.out=nrow(x)))
 cfs  <- sample(seq(0, 1, length.out=nrow(x)))
-res1 <- base_t_paired(x, y, alts, mus, cfs)
-res2 <- row_t_paired(x, y, alts, mus, cfs)
+res1 <- base_t_paired(x, y, mus, alts, cfs)
+res2 <- row_t_paired(x, y, mus, alts, cfs)
 stopifnot(all.equal(res1, res2))
 
 
@@ -97,8 +97,8 @@ stopifnot(all.equal(res1, res2))
 x <- matrix(rnorm(6), ncol=2)
 y <- matrix(rnorm(6), ncol=2)
 alt <- c("two.sided", "greater", "less")
-res1 <- base_t_paired(x, y, alt)
-res2 <- row_t_paired(x, y, alt)
+res1 <- base_t_paired(x, y, alternative=alt)
+res2 <- row_t_paired(x, y, alternative=alt)
 stopifnot(all.equal(res1, res2))
 
 # two numbers with NAs
@@ -113,10 +113,10 @@ stopifnot(all.equal(res1, res2))
 #--- parameter edge cases ------------------------------------------------------
 
 # various corner cases with NAs
-alt <- c("l", "t", "g")
 mus <- c(-Inf, -1, 0, 1, Inf)
+alt <- c("l", "t", "g")
 cfs <- c(0, 0.5, 1)
-pars <- expand.grid(alt, mus, cfs, stringsAsFactors=FALSE)
+pars <- expand.grid(mus, alt, cfs, stringsAsFactors=FALSE)
 x <- matrix(rnorm(10*nrow(pars)), ncol=10)
 y <- matrix(rnorm(10*nrow(pars)), ncol=10)
 x[sample(length(x), nrow(pars)*2)] <- NA

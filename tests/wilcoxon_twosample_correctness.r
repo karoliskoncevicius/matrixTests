@@ -2,10 +2,10 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_wilcoxon_twosample <- function(mat1, mat2, alt="two.sided", null=0, exact=NA, correct=TRUE) {
+base_wilcoxon_twosample <- function(mat1, mat2, null=0, alternative="two.sided", exact=NA, correct=TRUE) {
   if(is.vector(mat1)) mat1 <- matrix(mat1, nrow=1)
   if(is.vector(mat2)) mat2 <- matrix(mat2, nrow=1)
-  if(length(alt)==1) alt <- rep(alt, nrow(mat1))
+  if(length(alternative)==1) alternative <- rep(alternative, nrow(mat1))
   if(length(null)==1) null <- rep(null, nrow(mat1))
   if(length(exact)==1) exact <- rep(exact, nrow(mat1))
   if(length(correct)==1) correct <- rep(correct, nrow(mat1))
@@ -15,7 +15,7 @@ base_wilcoxon_twosample <- function(mat1, mat2, alt="two.sided", null=0, exact=N
   ext <- cor <- logical(nrow(mat1))
   for(i in 1:nrow(mat1)) {
     ex  <- if(is.na(exact[i])) NULL else exact[i]
-    res <- wilcox.test(mat1[i,], mat2[i,], alternative=alt[i], mu=null[i], exact=ex, correct=correct[i])
+    res <- wilcox.test(mat1[i,], mat2[i,], alternative=alternative[i], mu=null[i], exact=ex, correct=correct[i])
 
     nx[i]   <- sum(!is.na(mat1[i,]))
     ny[i]   <- sum(!is.na(mat2[i,]))
@@ -31,7 +31,7 @@ base_wilcoxon_twosample <- function(mat1, mat2, alt="two.sided", null=0, exact=N
   }
 
   data.frame(obs.x=nx, obs.y=ny, obs.tot=nxy, statistic=stat, pvalue=p,
-             alternative=al, location.null=m0, exact=ext, corrected=cor,
+             location.null=m0, alternative=al, exact=ext, corrected=cor,
              stringsAsFactors=FALSE
              )
 }
@@ -46,8 +46,8 @@ alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- base_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor)
-res2 <- row_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor)
+res1 <- base_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor)
+res2 <- row_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor)
 stopifnot(all.equal(res1, res2))
 
 # 51 samples in one group and 51 in another
@@ -57,8 +57,8 @@ alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- base_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor)
-res2 <- row_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor)
+res1 <- base_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor)
+res2 <- row_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor)
 stopifnot(all.equal(res1, res2))
 
 # 4 samples in one group and 51 in another
@@ -68,8 +68,8 @@ alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- base_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor)
-res2 <- row_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor)
+res1 <- base_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor)
+res2 <- row_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor)
 stopifnot(all.equal(res1, res2))
 
 # 6 samples per group with ties and zeroes
@@ -81,8 +81,8 @@ mus[sample(length(mus), length(mus)/8)] <- 0
 mus[sample(length(mus), length(mus)/8)] <- 1
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor))
-res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor))
+res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor))
+res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor))
 stopifnot(all.equal(res1, res2))
 
 # 60 samples per group with ties and zeroes
@@ -94,8 +94,8 @@ mus[sample(length(mus), length(mus)/8)] <- 0
 mus[sample(length(mus), length(mus)/8)] <- 1
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor))
-res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor))
+res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor))
+res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor))
 stopifnot(all.equal(res1, res2))
 
 
@@ -109,8 +109,8 @@ mus[sample(length(mus), length(mus)/8)] <- 0
 mus[sample(length(mus), length(mus)/8)] <- 1
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor))
-res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, alts, mus, exact=ext, correct=cor))
+res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor))
+res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, mus, alts, exact=ext, correct=cor))
 stopifnot(all.equal(res1, res2))
 
 
@@ -122,8 +122,8 @@ x    <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
 x    <- matrix(x, nrow=nrow(pars), ncol=length(x), byrow=TRUE)
 y    <- c(100000000000005, 100000000000006, 100000000000009)
 y    <- matrix(y, nrow=nrow(pars), ncol=length(y), byrow=TRUE)
-res1 <- base_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # small numbers
@@ -132,8 +132,8 @@ x    <- c(0.00000000000004, 0.00000000000002, 0.00000000000003, 0.00000000000001
 x    <- matrix(x, nrow=nrow(pars), ncol=length(x), byrow=TRUE)
 y    <- c(0.00000000000005, 0.00000000000006, 0.00000000000000)
 y    <- matrix(y, nrow=nrow(pars), ncol=length(y), byrow=TRUE)
-res1 <- base_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # x has infinity
@@ -187,8 +187,8 @@ stopifnot(all.equal(res1, res2))
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- matrix(rnorm(nrow(pars)), ncol=1)
 y    <- matrix(rnorm(nrow(pars)), ncol=1)
-res1 <- base_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 stopifnot(all.equal(res2$obs.x, rep(1, nrow(x))))
 stopifnot(all.equal(res2$obs.y, rep(1, nrow(x))))
@@ -196,10 +196,10 @@ stopifnot(all.equal(res2$obs.tot, rep(2, nrow(x))))
 
 # 3 observation in both, but only one non NA
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
-x  <- cbind(matrix(rnorm(nrow(pars)), ncol=1), NA, NaN)
-y  <- cbind(NaN, NA, matrix(rnorm(nrow(pars)), ncol=1))
-res1 <- base_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
+x    <- cbind(matrix(rnorm(nrow(pars)), ncol=1), NA, NaN)
+y    <- cbind(NaN, NA, matrix(rnorm(nrow(pars)), ncol=1))
+res1 <- base_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 stopifnot(all.equal(res2$obs.x, rep(1, nrow(x))))
 stopifnot(all.equal(res2$obs.y, rep(1, nrow(x))))
@@ -209,8 +209,8 @@ stopifnot(all.equal(res2$obs.tot, rep(2, nrow(x))))
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- matrix(rep(1, nrow(pars)), ncol=1)
 y    <- matrix(rep(1, nrow(pars)), ncol=1)
-res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
-res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
+res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
+res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 stopifnot(all.equal(res2$obs.x, rep(1, nrow(x))))
 stopifnot(all.equal(res2$obs.y, rep(1, nrow(x))))
@@ -221,8 +221,8 @@ pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFac
 x    <- matrix(rnorm(nrow(pars)), ncol=1)
 x    <- cbind(x,x,x)
 y    <- x
-res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
-res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
+res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
+res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 
 # three numbers all equal after subtracting null from x
@@ -230,8 +230,8 @@ pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFac
 x    <- matrix(rnorm(nrow(pars)), ncol=1)
 x    <- cbind(x, x, x)
 y    <- x - 1
-res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, pars[,1], null=1, exact=pars[,2], correct=pars[,3]))
-res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, pars[,1], null=1, exact=pars[,2], correct=pars[,3]))
+res1 <- suppressWarnings(base_wilcoxon_twosample(x, y, alternative=pars[,1], null=1, exact=pars[,2], correct=pars[,3]))
+res2 <- suppressWarnings(row_wilcoxon_twosample(x, y, alternative=pars[,1], null=1, exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 
 
@@ -242,7 +242,7 @@ alt <- c("l", "t", "g")
 mus <- c(-10000, 0, 10000)  # TODO: decide if Inf is reasonable null for this test
 ext <- c(TRUE, FALSE, NA)
 cor <- c(TRUE, FALSE)
-pars <- expand.grid(alt, mus, ext, cor, stringsAsFactors=FALSE)
+pars <- expand.grid(mus, alt, ext, cor, stringsAsFactors=FALSE)
 x <- matrix(round(runif(10*nrow(pars), -25, 25)), ncol=10)
 x[sample(length(x), nrow(pars)*2)] <- NA
 y <- matrix(round(runif(8*nrow(pars), -25, 25)), ncol=8)

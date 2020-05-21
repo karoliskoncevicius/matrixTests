@@ -33,11 +33,11 @@
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
+#' @param null true values of the means for the null hypothesis.
+#' A single number or numeric vector with values for each observation.
 #' @param alternative alternative hypothesis to use for each row/column of x.
 #' A single string or a vector with values for each observation.
 #' Values must be one of "two.sided" (default), "greater" or "less".
-#' @param null true values of the means for the null hypothesis.
-#' A single number or numeric vector with values for each observation.
 #' @param conf.level confidence levels used for the confidence intervals.
 #' A single number or a numeric vector with values for each observation.
 #' All values must be in the range of [0:1].
@@ -63,8 +63,8 @@
 #' 15. pvalue - p-value\cr
 #' 16. conf.low - lower bound of the confidence interval\cr
 #' 17. conf.high - higher bound of the confidence interval\cr
-#' 18. alternative - chosen alternative hypothesis\cr
-#' 19. mean.null - mean of the null hypothesis\cr
+#' 18. mean.null - mean of the null hypothesis\cr
+#' 19. alternative - chosen alternative hypothesis\cr
 #' 20. conf.level - chosen confidence level
 #'
 #' @seealso \code{t.test()}
@@ -80,7 +80,7 @@
 #' @author Karolis Koncevičius
 #' @name ttest
 #' @export
-row_t_equalvar <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
+row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) {
   is.null(x)
   is.null(y)
 
@@ -164,22 +164,22 @@ row_t_equalvar <- function(x, y, alternative="two.sided", null=0, conf.level=0.9
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, var.pooled=vs,
              stderr=stders, df=dfs, statistic=tres[,1], pvalue=tres[,2],
-             conf.low=tres[,3], conf.high=tres[,4], alternative=alternative,
-             mean.null=null, conf.level=conf.level, stringsAsFactors=FALSE,
-             row.names=rnames
+             conf.low=tres[,3], conf.high=tres[,4], mean.null=null,
+             alternative=alternative, conf.level=conf.level,
+             stringsAsFactors=FALSE, row.names=rnames
              )
 }
 
 #' @rdname ttest
 #' @export
-col_t_equalvar <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
-  row_t_equalvar(t(x), t(y), alternative=alternative, null=null, conf.level=conf.level)
+col_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) {
+  row_t_equalvar(t(x), t(y), null=null, alternative=alternative, conf.level=conf.level)
 }
 
 
 #' @rdname ttest
 #' @export
-row_t_welch <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
+row_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) {
   is.null(x)
   is.null(y)
 
@@ -257,22 +257,21 @@ row_t_welch <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) 
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, stderr=stders, df=dfs,
              statistic=tres[,1], pvalue=tres[,2], conf.low=tres[,3],
-             conf.high=tres[,4], alternative=alternative, mean.null=null,
-             conf.level=conf.level, stringsAsFactors=FALSE,
-             row.names=rnames
+             conf.high=tres[,4], mean.null=null, alternative=alternative,
+             conf.level=conf.level, stringsAsFactors=FALSE, row.names=rnames
              )
 }
 
 #' @rdname ttest
 #' @export
-col_t_welch <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
-  row_t_welch(t(x), t(y), alternative=alternative, null=null, conf.level=conf.level)
+col_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) {
+  row_t_welch(t(x), t(y), null=null, alternative=alternative, conf.level=conf.level)
 }
 
 
 #' @rdname ttest
 #' @export
-row_t_onesample <- function(x, alternative="two.sided", null=0, conf.level=0.95) {
+row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95) {
   is.null(x)
 
   if(is.vector(x))
@@ -327,22 +326,21 @@ row_t_onesample <- function(x, alternative="two.sided", null=0, conf.level=0.95)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs=nxs, mean=mxs, var=vxs, stderr=stders, df=dfs,
              statistic=tres[,1], pvalue=tres[,2], conf.low=tres[,3],
-             conf.high=tres[,4], alternative=alternative, mean.null=null,
-             conf.level=conf.level, stringsAsFactors=FALSE,
-             row.names=rnames
+             conf.high=tres[,4], mean.null=null, alternative=alternative,
+             conf.level=conf.level, stringsAsFactors=FALSE, row.names=rnames
              )
 }
 
 #' @rdname ttest
 #' @export
-col_t_onesample <- function(x, alternative="two.sided", null=0, conf.level=0.95) {
-  row_t_onesample(t(x), alternative=alternative, null=null, conf.level=conf.level)
+col_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95) {
+  row_t_onesample(t(x), null=null, alternative=alternative, conf.level=conf.level)
 }
 
 
 #' @rdname ttest
 #' @export
-row_t_paired <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
+row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) {
   is.null(x)
   is.null(y)
 
@@ -421,14 +419,14 @@ row_t_paired <- function(x, y, alternative="two.sided", null=0, conf.level=0.95)
   data.frame(obs.x=nxs, obs.y=nys, obs.paired=nxys, mean.x=mxs, mean.y=mys,
              mean.diff=mxys, var.x=vxs, var.y=vys, var.diff=vxys,
              stderr=stders, df=dfs, statistic=tres[,1], pvalue=tres[,2],
-             conf.low=tres[,3], conf.high=tres[,4], alternative=alternative,
-             mean.null=null, conf.level=conf.level, stringsAsFactors=FALSE,
-             row.names=rnames
+             conf.low=tres[,3], conf.high=tres[,4], mean.null=null,
+             alternative=alternative, conf.level=conf.level,
+             stringsAsFactors=FALSE, row.names=rnames
              )
 }
 
 #' @rdname ttest
 #' @export
-col_t_paired <- function(x, y, alternative="two.sided", null=0, conf.level=0.95) {
-  row_t_paired(t(x), t(y), alternative=alternative, null=null, conf.level=conf.level)
+col_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) {
+  row_t_paired(t(x), t(y), null=null, alternative=alternative, conf.level=conf.level)
 }

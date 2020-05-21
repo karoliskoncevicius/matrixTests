@@ -2,9 +2,9 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_wilcoxon_onesample <- function(mat, alt="two.sided", null=0, exact=NA, correct=TRUE) {
+base_wilcoxon_onesample <- function(mat, null=0, alternative="two.sided", exact=NA, correct=TRUE) {
   if(is.vector(mat)) mat <- matrix(mat, nrow=1)
-  if(length(alt)==1) alt <- rep(alt, nrow(mat))
+  if(length(alternative)==1) alternative <- rep(alternative, nrow(mat))
   if(length(null)==1) null <- rep(null, nrow(mat))
   if(length(exact)==1) exact <- rep(exact, nrow(mat))
   if(length(correct)==1) correct <- rep(correct, nrow(mat))
@@ -15,7 +15,7 @@ base_wilcoxon_onesample <- function(mat, alt="two.sided", null=0, exact=NA, corr
   for(i in 1:nrow(mat)) {
     vec <- mat[i,][!is.na(mat[i,])]
     ex  <- if(is.na(exact[i])) NULL else exact[i]
-    res <- wilcox.test(vec, alternative=alt[i], mu=null[i], exact=ex, correct=correct[i])
+    res <- wilcox.test(vec, alternative=alternative[i], mu=null[i], exact=ex, correct=correct[i])
 
     nx[i]   <- sum((vec-null[i]) != 0)
     stat[i] <- res$statistic
@@ -29,7 +29,7 @@ base_wilcoxon_onesample <- function(mat, alt="two.sided", null=0, exact=NA, corr
     ext[i] <- if(any((vec-m0[i]) == 0)) FALSE else ext[i]
   }
 
-  data.frame(obs=nx, statistic=stat, pvalue=p, alternative=al, location.null=m0,
+  data.frame(obs=nx, statistic=stat, pvalue=p, location.null=m0, alternative=al,
              exact=ext, corrected=cor, stringsAsFactors=FALSE
              )
 }
@@ -43,8 +43,8 @@ alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- base_wilcoxon_onesample(x, alts, mus, exact=ext, correct=cor)
-res2 <- row_wilcoxon_onesample(x, alts, mus, exact=ext, correct=cor)
+res1 <- base_wilcoxon_onesample(x, mus, alts, exact=ext, correct=cor)
+res2 <- row_wilcoxon_onesample(x, mus, alts, exact=ext, correct=cor)
 stopifnot(all.equal(res1, res2))
 
 # 60 observations
@@ -53,8 +53,8 @@ alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- base_wilcoxon_onesample(x, alts, mus, exact=ext, correct=cor)
-res2 <- row_wilcoxon_onesample(x, alts, mus, exact=ext, correct=cor)
+res1 <- base_wilcoxon_onesample(x, mus, alts, exact=ext, correct=cor)
+res2 <- row_wilcoxon_onesample(x, mus, alts, exact=ext, correct=cor)
 stopifnot(all.equal(res1, res2))
 
 # 10 observations with ties and zeroes
@@ -65,8 +65,8 @@ mus[sample(length(mus), length(mus)/8)] <- 0
 mus[sample(length(mus), length(mus)/8)] <- 1
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- suppressWarnings(base_wilcoxon_onesample(x, alts, mus, exact=ext, correct=cor))
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, alts, mus, exact=ext, correct=cor))
+res1 <- suppressWarnings(base_wilcoxon_onesample(x, mus, alts, exact=ext, correct=cor))
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, mus, alts, exact=ext, correct=cor))
 stopifnot(all.equal(res1, res2))
 
 # 60 observations with ties and zeroes
@@ -77,8 +77,8 @@ mus[sample(length(mus), length(mus)/8)] <- 0
 mus[sample(length(mus), length(mus)/8)] <- 1
 cor <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- suppressWarnings(base_wilcoxon_onesample(x, alts, mus, exact=ext, correct=cor))
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, alts, mus, exact=ext, correct=cor))
+res1 <- suppressWarnings(base_wilcoxon_onesample(x, mus, alts, exact=ext, correct=cor))
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, mus, alts, exact=ext, correct=cor))
 stopifnot(all.equal(res1, res2))
 
 
@@ -88,16 +88,16 @@ stopifnot(all.equal(res1, res2))
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
 x    <- matrix(x, nrow=nrow(pars), ncol=length(x), byrow=TRUE)
-res1 <- base_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # small numbers
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- c(0.00000000000004, 0.00000000000002, 0.00000000000003, 0.00000000000001)
 x    <- matrix(x, nrow=nrow(pars), ncol=length(x), byrow=TRUE)
-res1 <- base_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # has infinity
@@ -132,40 +132,40 @@ stopifnot(all.equal(res1, res2))
 # single number
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- matrix(rnorm(nrow(pars)), ncol=1)
-res1 <- base_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # single number with NAs
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- cbind(rnorm(nrow(pars)), NA, NA)
-res1 <- base_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # three numbers all equal
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- matrix(rnorm(nrow(pars)), nrow=nrow(pars), ncol=3)
-res1 <- suppressWarnings(base_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3]))
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, pars[,1], exact=pars[,2], correct=pars[,3]))
+res1 <- suppressWarnings(base_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 
 # three numbers, two equal to null
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
-x  <- cbind(matrix(rnorm(nrow(pars)), ncol=1), 1, 1)
-res1 <- suppressWarnings(base_wilcoxon_onesample(x, pars[,1], 1, exact=pars[,2], correct=pars[,3]))
-res2 <- suppressWarnings(row_wilcoxon_onesample(x, pars[,1], 1, exact=pars[,2], correct=pars[,3]))
+x    <- cbind(matrix(rnorm(nrow(pars)), ncol=1), 1, 1)
+res1 <- suppressWarnings(base_wilcoxon_onesample(x, alternative=pars[,1], 1, exact=pars[,2], correct=pars[,3]))
+res2 <- suppressWarnings(row_wilcoxon_onesample(x, alternative=pars[,1], 1, exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 
 
 #--- parameter edge cases ------------------------------------------------------
 
 # various corner cases with NAs
-alt <- c("l", "t", "g")
 mus <- c(-10000, 0, 10000)  # TODO: decide if Inf is reasonable null for this test
+alt <- c("l", "t", "g")
 ext <- c(TRUE, FALSE, NA)
 cor <- c(TRUE, FALSE)
-pars <- expand.grid(alt, mus, ext, cor, stringsAsFactors=FALSE)
+pars <- expand.grid(mus, alt, ext, cor, stringsAsFactors=FALSE)
 x <- matrix(round(runif(10*nrow(pars), -15, 15)), ncol=10)
 x[sample(length(x), nrow(pars)*2)] <- NA
 res1 <- suppressWarnings(base_wilcoxon_onesample(x, pars[,1], pars[,2], pars[,3], pars[,4]))
@@ -191,7 +191,7 @@ stopifnot(all.equal(res1, res2))
 stopifnot(all.equal(res2, res3))
 
 # 50 samples with one NA (< 50: exact = TRUE)
-x  <- c(rnorm(49), NA)
+x <- c(rnorm(49), NA)
 res1 <- base_wilcoxon_onesample(x, exact=TRUE)
 res2 <- row_wilcoxon_onesample(x, exact=TRUE)
 res3 <- row_wilcoxon_onesample(x, exact=NA)

@@ -2,9 +2,9 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_t_onesample <- function(mat, alt="two.sided", null=0, conf=0.95) {
+base_t_onesample <- function(mat, null=0, alternative="two.sided", conf=0.95) {
   if(is.vector(mat)) mat <- matrix(mat, nrow=1)
-  if(length(alt)==1) alt <- rep(alt, nrow(mat))
+  if(length(alternative)==1) alternative <- rep(alternative, nrow(mat))
   if(length(null)==1) null <- rep(null, nrow(mat))
   if(length(conf)==1) conf <- rep(conf, nrow(mat))
 
@@ -12,7 +12,7 @@ base_t_onesample <- function(mat, alt="two.sided", null=0, conf=0.95) {
   al <- character(nrow(mat))
   for(i in 1:nrow(mat)) {
     vec <- na.omit(mat[i,])
-    res <- t.test(vec, alternative=alt[i], mu=null[i], conf.level=conf[i])
+    res <- t.test(vec, alternative=alternative[i], mu=null[i], conf.level=conf[i])
 
     vx[i]  <- var(vec)
     nx[i]  <- length(vec)
@@ -29,7 +29,7 @@ base_t_onesample <- function(mat, alt="two.sided", null=0, conf=0.95) {
   }
 
   data.frame(obs=nx, mean=mx, var=vx, stderr=se, df=df, statistic=tst,
-             pvalue=p, conf.low=cl, conf.high=ch, alternative=al, mean.null=m0,
+             pvalue=p, conf.low=cl, conf.high=ch, mean.null=m0, alternative=al,
              conf.level=cnf, stringsAsFactors=FALSE
              )
 }
@@ -42,8 +42,8 @@ x <- matrix(rnorm(5000), ncol=5)
 alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cfs  <- sample(seq(0, 1, length.out=nrow(x)))
-res1 <- base_t_onesample(x, alts, mus, cfs)
-res2 <- row_t_onesample(x, alts, mus, cfs)
+res1 <- base_t_onesample(x, mus, alts, cfs)
+res2 <- row_t_onesample(x, mus, alts, cfs)
 stopifnot(all.equal(res1, res2))
 
 # 20 observations
@@ -51,8 +51,8 @@ x <- matrix(rnorm(20000), ncol=20)
 alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cfs  <- sample(seq(0, 1, length.out=nrow(x)))
-res1 <- base_t_onesample(x, alts, mus, cfs)
-res2 <- row_t_onesample(x, alts, mus, cfs)
+res1 <- base_t_onesample(x, mus, alts, cfs)
+res2 <- row_t_onesample(x, mus, alts, cfs)
 stopifnot(all.equal(res1, res2))
 
 
@@ -78,25 +78,25 @@ stopifnot(all.equal(res1, res2))
 # two numbers
 x <- matrix(rnorm(6), ncol=2)
 alt <- c("two.sided", "greater", "less")
-res1 <- base_t_onesample(x, alt)
-res2 <- row_t_onesample(x, alt)
+res1 <- base_t_onesample(x, alternative=alt)
+res2 <- row_t_onesample(x, alternative=alt)
 stopifnot(all.equal(res1, res2))
 
 # three numbers with NAs
 x <- matrix(c(rnorm(6),NA,NA,NA), ncol=3)
 alt <- c("two.sided", "greater", "less")
-res1 <- base_t_onesample(x, alt)
-res2 <- row_t_onesample(x, alt)
+res1 <- base_t_onesample(x, alternative=alt)
+res2 <- row_t_onesample(x, alternative=alt)
 stopifnot(all.equal(res1, res2))
 
 
 #--- parameter edge cases ------------------------------------------------------
 
 # various corner cases with NAs
-alt <- c("l", "t", "g")
 mus <- c(-Inf, -1, 0, 1, Inf)
+alt <- c("l", "t", "g")
 cfs <- c(0, 0.5, 1)
-pars <- expand.grid(alt, mus, cfs, stringsAsFactors=FALSE)
+pars <- expand.grid(mus, alt, cfs, stringsAsFactors=FALSE)
 x <- matrix(rnorm(10*nrow(pars)), ncol=10)
 x[sample(length(x), nrow(pars)*2)] <- NA
 res1 <- base_t_onesample(x, pars[,1], pars[,2], pars[,3])

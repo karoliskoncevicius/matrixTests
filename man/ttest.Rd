@@ -12,33 +12,33 @@
 \alias{col_t_paired}
 \title{t-test}
 \usage{
-row_t_equalvar(x, y, alternative = "two.sided", null = 0, conf.level = 0.95)
+row_t_equalvar(x, y, null = 0, alternative = "two.sided", conf.level = 0.95)
 
-col_t_equalvar(x, y, alternative = "two.sided", null = 0, conf.level = 0.95)
+col_t_equalvar(x, y, null = 0, alternative = "two.sided", conf.level = 0.95)
 
-row_t_welch(x, y, alternative = "two.sided", null = 0, conf.level = 0.95)
+row_t_welch(x, y, null = 0, alternative = "two.sided", conf.level = 0.95)
 
-col_t_welch(x, y, alternative = "two.sided", null = 0, conf.level = 0.95)
+col_t_welch(x, y, null = 0, alternative = "two.sided", conf.level = 0.95)
 
-row_t_onesample(x, alternative = "two.sided", null = 0, conf.level = 0.95)
+row_t_onesample(x, null = 0, alternative = "two.sided", conf.level = 0.95)
 
-col_t_onesample(x, alternative = "two.sided", null = 0, conf.level = 0.95)
+col_t_onesample(x, null = 0, alternative = "two.sided", conf.level = 0.95)
 
-row_t_paired(x, y, alternative = "two.sided", null = 0, conf.level = 0.95)
+row_t_paired(x, y, null = 0, alternative = "two.sided", conf.level = 0.95)
 
-col_t_paired(x, y, alternative = "two.sided", null = 0, conf.level = 0.95)
+col_t_paired(x, y, null = 0, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{numeric matrix.}
 
 \item{y}{numeric matrix for the second group of observations.}
 
+\item{null}{true values of the means for the null hypothesis.
+A single number or numeric vector with values for each observation.}
+
 \item{alternative}{alternative hypothesis to use for each row/column of x.
 A single string or a vector with values for each observation.
 Values must be one of "two.sided" (default), "greater" or "less".}
-
-\item{null}{true values of the means for the null hypothesis.
-A single number or numeric vector with values for each observation.}
 
 \item{conf.level}{confidence levels used for the confidence intervals.
 A single number or a numeric vector with values for each observation.
@@ -66,8 +66,8 @@ They will contain a subset of the following information:\cr
 15. pvalue - p-value\cr
 16. conf.low - lower bound of the confidence interval\cr
 17. conf.high - higher bound of the confidence interval\cr
-18. alternative - chosen alternative hypothesis\cr
-19. mean.null - mean of the null hypothesis\cr
+18. mean.null - mean of the null hypothesis\cr
+19. alternative - chosen alternative hypothesis\cr
 20. conf.level - chosen confidence level
 }
 \description{

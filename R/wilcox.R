@@ -38,11 +38,11 @@
 #'
 #' @param x numeric matrix.
 #' @param y numeric matrix for the second group of observations.
+#' @param null true values of the location shift for the null hypothesis.
+#' A single number or numeric vector with values for each observation.
 #' @param alternative alternative hypothesis to use for each row/column of x.
 #' A single string or a vector with values for each observation.
 #' Values must be one of "two.sided" (default), "greater" or "less".
-#' @param null true values of the location shift for the null hypothesis.
-#' A single number or numeric vector with values for each observation.
 #' @param exact logical or NA (default) indicator whether an exact p-value
 #' should be computed (see Details).
 #' A single value or a logical vector with values for each observation.
@@ -60,8 +60,8 @@
 #' 4. obs.paired - number of paired observations (present in x and y)\cr
 #' 5. statistic - Wilcoxon test statistic\cr
 #' 6. pvalue - p-value\cr
-#' 7. alternative - chosen alternative hypothesis\cr
-#' 8. location.null - location shift of the null hypothesis\cr
+#' 7. location.null - location shift of the null hypothesis\cr
+#' 8. alternative - chosen alternative hypothesis\cr
 #' 9. exact - indicates if exact p-value was computed\cr
 #' 10. correct - indicates if continuity correction was performed
 #'
@@ -80,7 +80,7 @@
 #' @author Karolis Koncevičius
 #' @name wilcoxon
 #' @export
-row_wilcoxon_twosample <- function(x, y, alternative="two.sided", null=0,
+row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
                                    exact=NA, correct=TRUE
                                    ) {
   is.null(x)
@@ -167,7 +167,7 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", null=0,
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, obs.y=nys, obs.tot=nxs+nys, statistic=statistic,
-             pvalue=wres, alternative=alternative, location.null=null,
+             pvalue=wres, location.null=null, alternative=alternative,
              exact=exact, corrected=correct,
              stringsAsFactors=FALSE, row.names=rnames
              )
@@ -175,9 +175,9 @@ row_wilcoxon_twosample <- function(x, y, alternative="two.sided", null=0,
 
 #' @rdname wilcoxon
 #' @export
-col_wilcoxon_twosample <- function(x, y, alternative="two.sided", null=0,
+col_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
                                    exact=NA, correct=TRUE) {
-  row_wilcoxon_twosample(t(x), t(y), alternative=alternative, null=null,
+  row_wilcoxon_twosample(t(x), t(y), null=null, alternative=alternative,
                          exact=exact, correct=correct
                          )
 }
@@ -185,7 +185,7 @@ col_wilcoxon_twosample <- function(x, y, alternative="two.sided", null=0,
 
 #' @rdname wilcoxon
 #' @export
-row_wilcoxon_onesample <- function(x, alternative="two.sided", null=0,
+row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
                                    exact=NA, correct=TRUE
                                    ) {
   is.null(x)
@@ -269,7 +269,7 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", null=0,
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs=nxs, statistic=statistic, pvalue=wres,
-             alternative=alternative, location.null=null,
+             location.null=null,alternative=alternative,
              exact=exact, corrected=correct,
              stringsAsFactors=FALSE, row.names=rnames
              )
@@ -277,9 +277,9 @@ row_wilcoxon_onesample <- function(x, alternative="two.sided", null=0,
 
 #' @rdname wilcoxon
 #' @export
-col_wilcoxon_onesample <- function(x, alternative="two.sided", null=0,
+col_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
                                    exact=NA, correct=TRUE) {
-  row_wilcoxon_onesample(t(x), alternative=alternative, null=null,
+  row_wilcoxon_onesample(t(x), null=null, alternative=alternative,
                          exact=exact, correct=correct
                          )
 }
@@ -287,7 +287,7 @@ col_wilcoxon_onesample <- function(x, alternative="two.sided", null=0,
 
 #' @rdname wilcoxon
 #' @export
-row_wilcoxon_paired <- function(x, y, alternative="two.sided", null=0,
+row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
                                 exact=NA, correct=TRUE
                                 ) {
   is.null(x)
@@ -387,7 +387,7 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", null=0,
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.x=nxs, obs.y=nys, obs.paired=nxys, statistic=statistic,
-             pvalue=wres, alternative=alternative, location.null=null,
+             pvalue=wres, location.null=null, alternative=alternative,
              exact=exact, corrected=correct,
              stringsAsFactors=FALSE, row.names=rnames
              )
@@ -395,9 +395,9 @@ row_wilcoxon_paired <- function(x, y, alternative="two.sided", null=0,
 
 #' @rdname wilcoxon
 #' @export
-col_wilcoxon_paired <- function(x, y, alternative="two.sided", null=0,
+col_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
                                    exact=NA, correct=TRUE) {
-  row_wilcoxon_paired(t(x), t(y), alternative=alternative, null=null,
+  row_wilcoxon_paired(t(x), t(y), null=null, alternative=alternative,
                       exact=exact, correct=correct
                       )
 }

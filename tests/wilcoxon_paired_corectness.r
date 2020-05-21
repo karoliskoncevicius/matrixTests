@@ -2,10 +2,10 @@ library(matrixTests)
 
 #--- functions -----------------------------------------------------------------
 
-base_wilcoxon_paired <- function(mat1, mat2, alt="two.sided", null=0, exact=NA, correct=TRUE) {
+base_wilcoxon_paired <- function(mat1, mat2, null=0, alternative="two.sided", exact=NA, correct=TRUE) {
   if(is.vector(mat1)) mat1 <- matrix(mat1, nrow=1)
   if(is.vector(mat2)) mat2 <- matrix(mat2, nrow=1)
-  if(length(alt)==1) alt <- rep(alt, nrow(mat1))
+  if(length(alternative)==1) alternative <- rep(alternative, nrow(mat1))
   if(length(null)==1) null <- rep(null, nrow(mat1))
   if(length(exact)==1) exact <- rep(exact, nrow(mat1))
   if(length(correct)==1) correct <- rep(correct, nrow(mat1))
@@ -15,7 +15,7 @@ base_wilcoxon_paired <- function(mat1, mat2, alt="two.sided", null=0, exact=NA, 
   ext <- cor <- logical(nrow(mat1))
   for(i in 1:nrow(mat1)) {
     ex  <- if(is.na(exact[i])) NULL else exact[i]
-    res <- wilcox.test(mat1[i,], mat2[i,], alternative=alt[i], mu=null[i], paired=TRUE, exact=ex, correct=correct[i])
+    res <- wilcox.test(mat1[i,], mat2[i,], alternative=alternative[i], mu=null[i], paired=TRUE, exact=ex, correct=correct[i])
 
     inds <- complete.cases(mat1[i,], mat2[i,])
     vec1 <- mat1[i,inds]
@@ -35,7 +35,7 @@ base_wilcoxon_paired <- function(mat1, mat2, alt="two.sided", null=0, exact=NA, 
   }
 
   data.frame(obs.x=nx, obs.y=ny, obs.paired=nxy, statistic=stat, pvalue=p,
-             alternative=al, location.null=m0, exact=ext, corrected=cor,
+             location.null=m0, alternative=al, exact=ext, corrected=cor,
              stringsAsFactors=FALSE
              )
 }
@@ -50,8 +50,8 @@ alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cor  <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext  <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- base_wilcoxon_paired(x, y, alts, mus, exact=ext, correct=cor)
-res2 <- row_wilcoxon_paired(x, y, alts, mus, exact=ext, correct=cor)
+res1 <- base_wilcoxon_paired(x, y, mus, alts, exact=ext, correct=cor)
+res2 <- row_wilcoxon_paired(x, y, mus, alts, exact=ext, correct=cor)
 stopifnot(all.equal(res1, res2))
 
 # 60 paired samples
@@ -61,8 +61,8 @@ alts <- sample(c("t", "g", "l"), nrow(x), replace=TRUE)
 mus  <- runif(nrow(x), -1, 1)
 cor  <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext  <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- base_wilcoxon_paired(x, y, alts, mus, exact=ext, correct=cor)
-res2 <- row_wilcoxon_paired(x, y, alts, mus, exact=ext, correct=cor)
+res1 <- base_wilcoxon_paired(x, y, mus, alts, exact=ext, correct=cor)
+res2 <- row_wilcoxon_paired(x, y, mus, alts, exact=ext, correct=cor)
 stopifnot(all.equal(res1, res2))
 
 
@@ -75,8 +75,8 @@ mus[sample(length(mus), length(mus)/8)] <- 0
 mus[sample(length(mus), length(mus)/8)] <- 1
 cor  <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext  <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, alts, mus, exact=ext, correct=cor))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, alts, mus, exact=ext, correct=cor))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, mus, alts, exact=ext, correct=cor))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, mus, alts, exact=ext, correct=cor))
 stopifnot(all.equal(res1, res2))
 
 # 60 paired samples per group with ties and zeroes
@@ -88,8 +88,8 @@ mus[sample(length(mus), length(mus)/8)] <- 0
 mus[sample(length(mus), length(mus)/8)] <- 1
 cor  <- sample(c(TRUE, FALSE), nrow(x), replace=TRUE)
 ext  <- sample(c(TRUE, FALSE, NA), nrow(x), replace=TRUE)
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, alts, mus, exact=ext, correct=cor))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, alts, mus, exact=ext, correct=cor))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, mus, alts, exact=ext, correct=cor))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, mus, alts, exact=ext, correct=cor))
 stopifnot(all.equal(res1, res2))
 
 
@@ -101,8 +101,8 @@ x <- c(100000000000004, 100000000000002, 100000000000003, 100000000000000)
 y <- c(100000000000002, 100000000000003, 100000000000000, 100000000000004)
 x <- matrix(x, nrow=nrow(pars), ncol=length(x), byrow=TRUE)
 y <- matrix(y, nrow=nrow(pars), ncol=length(y), byrow=TRUE)
-res1 <- base_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # small numbers
@@ -111,8 +111,8 @@ x <- c(0.00000000000004, 0.00000000000002, 0.00000000000003, 0.00000000000001)
 y <- c(0.00000000000002, 0.00000000000003, 0.00000000000000, 0.00000000000005)
 x <- matrix(x, nrow=nrow(pars), ncol=length(x), byrow=TRUE)
 y <- matrix(y, nrow=nrow(pars), ncol=length(y), byrow=TRUE)
-res1 <- base_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 
 # x has infinity
@@ -168,8 +168,8 @@ stopifnot(all.equal(res1, res2))
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- matrix(rnorm(nrow(pars)), ncol=1)
 y    <- matrix(rnorm(nrow(pars)), ncol=1)
-res1 <- base_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 stopifnot(all.equal(res2$obs.paired, rep(1, nrow(x))))
 
@@ -177,25 +177,25 @@ stopifnot(all.equal(res2$obs.paired, rep(1, nrow(x))))
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x    <- cbind(matrix(rnorm(nrow(pars)*2), ncol=2), NA)
 y    <- cbind(NA, matrix(rnorm(nrow(pars)*2), ncol=2))
-res1 <- base_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
-res2 <- row_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3])
+res1 <- base_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
+res2 <- row_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3])
 stopifnot(all.equal(res1, res2))
 stopifnot(all.equal(res2$obs.paired, rep(1, nrow(x))))
 
 # three paired numbers all equal
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
-x  <- matrix(rnorm(nrow(pars)), nrow=nrow(pars), ncol=3)
-y  <- matrix(rnorm(nrow(pars)), nrow=nrow(pars), ncol=3)
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
+x    <- matrix(rnorm(nrow(pars)), nrow=nrow(pars), ncol=3)
+y    <- matrix(rnorm(nrow(pars)), nrow=nrow(pars), ncol=3)
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 
 # three numbers all differences equal
 pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFactors=FALSE)
 x <- matrix(rnorm(nrow(pars)*3), ncol=3)
 y <- x + 0.2
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, pars[,1], exact=pars[,2], correct=pars[,3]))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, alternative=pars[,1], exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 
 # three numbers, two equal to null after subtraction
@@ -204,19 +204,19 @@ pars <- expand.grid(c("t","g","l"), c(TRUE, FALSE), c(TRUE, FALSE), stringsAsFac
 x <- matrix(rnorm(nrow(pars)*3), ncol=3)
 y <- matrix(rnorm(nrow(pars)*3), ncol=3)
 y[,1:2] <- x[,1:2]-1
-res1 <- suppressWarnings(base_wilcoxon_paired(x, y, pars[,1], 1, exact=pars[,2], correct=pars[,3]))
-res2 <- suppressWarnings(row_wilcoxon_paired(x, y, pars[,1], 1, exact=pars[,2], correct=pars[,3]))
+res1 <- suppressWarnings(base_wilcoxon_paired(x, y, alternative=pars[,1], 1, exact=pars[,2], correct=pars[,3]))
+res2 <- suppressWarnings(row_wilcoxon_paired(x, y, alternative=pars[,1], 1, exact=pars[,2], correct=pars[,3]))
 stopifnot(all.equal(res1, res2))
 
 
 #--- parameter edge cases ------------------------------------------------------
 
 # various corner cases with NAs
-alt  <- c("l", "t", "g")
 mus  <- c(-10000, 0, 10000)  # TODO: decide if Inf is reasonable null for this test
+alt  <- c("l", "t", "g")
 ext  <- c(TRUE, FALSE, NA)
 cor  <- c(TRUE, FALSE)
-pars <- expand.grid(alt, mus, ext, cor, stringsAsFactors=FALSE)
+pars <- expand.grid(mus, alt, ext, cor, stringsAsFactors=FALSE)
 x <- matrix(round(runif(10*nrow(pars), -15, 15)), ncol=10)
 x[sample(length(x), nrow(pars)*2)] <- NA
 y <- matrix(round(runif(10*nrow(pars), -15, 15)), ncol=10)
