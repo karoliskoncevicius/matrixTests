@@ -8,14 +8,14 @@ nacolumns <- c("statistic", "pvalue")
 
 # 0 observations
 res <- capture(row_wilcoxon_twosample(numeric(), 1))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 0))
 stopifnot(all.equal(res$value$obs.tot, 1))
 
 # only NA observations
 res <- capture(row_wilcoxon_twosample(c(NA_integer_, NA_integer_), 1))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 0))
 stopifnot(all.equal(res$value$obs.tot, 1))
@@ -28,14 +28,14 @@ nacolumns <- c("statistic", "pvalue")
 
 # 0 observations
 res <- capture(row_wilcoxon_twosample(1, numeric()))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.y, 0))
 stopifnot(all.equal(res$value$obs.tot, 1))
 
 # only NA observations
 res <- capture(row_wilcoxon_twosample(1, c(NA_integer_, NA_integer_)))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.y, 0))
 stopifnot(all.equal(res$value$obs.tot, 1))
@@ -49,7 +49,7 @@ nacolumns <- c("statistic", "pvalue")
 
 # 0 observations
 res <- capture(row_wilcoxon_twosample(numeric(), numeric()))
-stopifnot(all.equal(res$warning[2:3], c(wrnx, wrny)))  # TODO: check why extra warnings appear
+stopifnot(all.equal(res$warning[1:2], c(wrnx, wrny)))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 0))
 stopifnot(all.equal(res$value$obs.y, 0))
@@ -57,7 +57,7 @@ stopifnot(all.equal(res$value$obs.tot, 0))
 
 # only NA observations
 res <- capture(row_wilcoxon_twosample(c(NA_integer_, NA_integer_), c(NA_integer_, NA_integer_)))
-stopifnot(all.equal(res$warning[2:3], c(wrnx, wrny)))  # TODO: check why extra warnings appear
+stopifnot(all.equal(res$warning[1:2], c(wrnx, wrny)))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 0))
 stopifnot(all.equal(res$value$obs.y, 0))

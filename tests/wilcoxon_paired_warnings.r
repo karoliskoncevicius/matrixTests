@@ -8,7 +8,7 @@ nacolumns <- c("statistic", "pvalue")
 
 # no observations
 res <- capture(row_wilcoxon_paired(numeric(), numeric()))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 0))
 stopifnot(all.equal(res$value$obs.y, 0))
@@ -16,7 +16,7 @@ stopifnot(all.equal(res$value$obs.paired, 0))
 
 # x only has NAs
 res <- capture(row_wilcoxon_paired(c(NA, NaN, NA), 1:3))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 0))
 stopifnot(all.equal(res$value$obs.y, 3))
@@ -24,7 +24,7 @@ stopifnot(all.equal(res$value$obs.paired, 0))
 
 # y only has NAs
 res <- capture(row_wilcoxon_paired(1:3, c(NA, NaN, NA)))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 3))
 stopifnot(all.equal(res$value$obs.y, 0))
@@ -32,7 +32,7 @@ stopifnot(all.equal(res$value$obs.paired, 0))
 
 # both x and y only NA observations
 res <- capture(row_wilcoxon_paired(c(NA,NaN,NA), c(NA, NA, NaN)))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 0))
 stopifnot(all.equal(res$value$obs.y, 0))
@@ -40,7 +40,7 @@ stopifnot(all.equal(res$value$obs.paired, 0))
 
 # no common complete observations
 res <- capture(row_wilcoxon_paired(c(1, NA, 3, NA), c(NA, 2, NA, 4)))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.x, 2))
 stopifnot(all.equal(res$value$obs.y, 2))

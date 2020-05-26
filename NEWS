@@ -5,22 +5,21 @@ Version 0.2 [TBD]
 
 BUG FIXES:
 
- * Fixed the issue where `row_waerden` and `col_waerden` would produce NA results when one whole group had only NA values in x.
- * Fixed the issue where `row_flignerkilleen` and `col_flignerkilleen` would produce NA results when one whole group had only NA values in x.
+ * Waerden and Flinger-Killeen tests no longer produce NA results when a whole group has only NA values in x.
+ * Wilcoxon tests no longer produce double warning messages when some rows have no remaining observations.
 
 CHANGES:
 
- * Made null-mean and null-ratio arguments more consistent across functions: previously named `mu` and `ratio`, now constantly named `null`.
- * Switched the order of `null` argument to be more consistent between functions: now `null` always comes before `alternative` argument.
- * Removed `row_ievora` and `col_ievora` functions. ievora method is a simple application of a Bartlett's test followed by a Student's t-test and can be performed manually.
- * Adjusted the behaviour of `Inf` values in `wilcox_*` to no longer be removed but treated as highest ranks in order to be consistent with base R 4.0.0. implementation.
- * Missing argument errors no longer reference force().
+ * Null-mean and null-ratio arguments are now more consistent across functions: previously named `mu` and `ratio`, now consistently named `null`.
+ * The position of `null` argument is now more consistent across functions: `null` always comes before the `alternative` argument.
+ * `row_ievora` and `col_ievora` functions are removed. ievora method is a simple application of a Bartlett's test followed by a Student's t-test and can be performed manually.
+ * `Inf` values in `wilcox_*` tests are no longer removed but treated as highest ranks in order to be consistent with base R 4.0.0. implementation.
+ * Missing argument errors no longer reference `force()` in their error messages.
 
 INTERNAL:
 
- * Restructured unit tests.
- * Removed dependency on `testthat` package for tests
- * Various code simplifications.
+ * matrixTests no longer depends on `testthat` for unit tests.
+ * All unit tests were rewritten.
 
 
 Version 0.1.9 [2020 April 30]
@@ -38,7 +37,7 @@ Version 0.1.8 [2020 Jan 08]
 
 INTERNAL:
 
- * Adjusted tests to conform with changes in R-devel 4.0.0 for CRAN.
+ * Adjusted unit tests to conform with changes in R-devel 4.0.0 for CRAN.
 
 
 Version 0.1.7 [2019 Nov 05]
@@ -114,7 +113,7 @@ CHANGES:
 
 INTERNAL:
 
- * Fixed an indexing bug in `row_cor_pearson()` monte-carlo test.
+ * Fixed an indexing bug in `row_cor_pearson()` monte-carlo unit testing step.
 
 DOCUMENTATION:
 

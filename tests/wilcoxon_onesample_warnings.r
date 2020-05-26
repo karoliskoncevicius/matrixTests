@@ -8,13 +8,13 @@ nacolumns <- c("statistic", "pvalue")
 
 # 0 observations
 res <- capture(row_wilcoxon_onesample(numeric()))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs, 0))
 
 # only NA observations
 res <- capture(row_wilcoxon_onesample(c(NA_integer_,NA_integer_)))
-stopifnot(all.equal(res$warning[2], wrn))  # TODO: check why two warnings appear
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs, 0))
 

@@ -76,25 +76,25 @@ do_wilcox_1_exact <- function(stat, n, alt) {
 
   case <- stat > (n * (n+1)*0.25)
 
-
-  inds <- alt=="two.sided" & case
+  # if n == 0 then we leave p-value as NA, hence: n!=0
+  inds <- alt=="two.sided" & n!=0 & case
   if(any(inds)) {
     res[inds] <- stats::psignrank(stat[inds]-1, n[inds], lower.tail=FALSE)
     res[inds] <- pmin(2*res[inds], 1)
   }
 
-  inds <- alt=="two.sided" & !case
+  inds <- alt=="two.sided" & n!=0 & !case
   if(any(inds)) {
     res[inds] <- stats::psignrank(stat[inds], n[inds])
     res[inds] <- pmin(2*res[inds], 1)
   }
 
-  inds <- alt=="less"
+  inds <- alt=="less" & n!=0
   if(any(inds)) {
     res[inds] <- stats::psignrank(stat[inds], n[inds])
   }
 
-  inds <- alt=="greater"
+  inds <- alt=="greater" & n!=0
   if(any(inds)) {
     res[inds] <- stats::psignrank(stat[inds]-1, n[inds], lower.tail=FALSE)
   }
@@ -140,24 +140,25 @@ do_wilcox_2_exact <- function(stat, nx, ny, alt) {
   case <- stat > (nx*ny*0.5)
 
 
-  inds <- alt=="two.sided" & case
+  # if nx == 0 or ny == 0 then we leave p-value as NA, hence: nx!=0 & ny!=0
+  inds <- alt=="two.sided" & nx!=0 & ny!=0 & case
   if(any(inds)) {
     res[inds] <- stats::pwilcox(stat[inds]-1, nx[inds], ny[inds], lower.tail=FALSE)
     res[inds] <- pmin(2*res[inds], 1)
   }
 
-  inds <- alt=="two.sided" & !case
+  inds <- alt=="two.sided" & nx!=0 & ny!=0 & !case
   if(any(inds)) {
     res[inds] <- stats::pwilcox(stat[inds], nx[inds], ny[inds])
     res[inds] <- pmin(2*res[inds], 1)
   }
 
-  inds <- alt=="greater"
+  inds <- alt=="greater" & nx!=0 & ny!=0
   if(any(inds)) {
     res[inds] <- stats::pwilcox(stat[inds]-1, nx[inds], ny[inds], lower.tail=FALSE)
   }
 
-  inds <- alt=="less"
+  inds <- alt=="less" & nx!=0 & ny!=0
   if(any(inds)) {
     res[inds] <- stats::pwilcox(stat[inds], nx[inds], ny[inds])
   }
