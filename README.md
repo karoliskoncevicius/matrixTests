@@ -1,6 +1,6 @@
 [![CRAN version](http://www.r-pkg.org/badges/version/matrixTests)](https://cran.r-project.org/package=matrixTests)
-[![Build Status](https://travis-ci.com/KKPMW/matrixTests.svg?branch=master)](https://travis-ci.com/KKPMW/matrixTests)
-[![codecov](https://codecov.io/gh/KKPMW/matrixTests/branch/master/graph/badge.svg)](https://codecov.io/gh/KKPMW/matrixTests)
+[![Build Status](https://travis-ci.com/karoliskoncevicius/matrixTests.svg?branch=master)](https://travis-ci.com/karoliskoncevicius/matrixTests)
+[![codecov](https://codecov.io/gh/karoliskoncevicius/matrixTests/branch/master/graph/badge.svg)](https://codecov.io/gh/karoliskoncevicius/matrixTests)
 [![dependencies](https://tinyverse.netlify.com/badge/matrixTests)](https://CRAN.R-project.org/package=matrixTests)
 [![Monthly Downloads](https://cranlogs.r-pkg.org/badges/matrixTests)](https://cranlogs.r-pkg.org/badges/matrixTests)
 
@@ -168,11 +168,11 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 
 ## Further Information ##
 
-For more information please refer to the [Wiki](https://github.com/KKPMW/matrixTests/wiki) page:
+For more information please refer to the [Wiki](https://github.com/karoliskoncevicius/matrixTests/wiki) page:
 
-1. [Installation Instructions](https://github.com/KKPMW/matrixTests/wiki/Installation)
-2. [Design Decisions](https://github.com/KKPMW/matrixTests/wiki/Design-Decisions)
-3. [Speed Benchmarks](https://github.com/KKPMW/matrixTests/wiki/Benchmarks)
+1. [Installation Instructions](https://github.com/karoliskoncevicius/matrixTests/wiki/Installation)
+2. [Design Decisions](https://github.com/karoliskoncevicius/matrixTests/wiki/Design-Decisions)
+3. [Speed Benchmarks](https://github.com/karoliskoncevicius/matrixTests/wiki/Benchmarks)
 
 ## See Also ##
 
