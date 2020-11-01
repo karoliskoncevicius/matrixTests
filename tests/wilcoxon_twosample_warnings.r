@@ -3,7 +3,7 @@ source("utils/capture.r")
 
 #--- x has less than 1 observation ---------------------------------------------
 
-wrn <- 'row_wilcoxon_twosample: 1 of the rows had less than 1 remaining "x" observation.\nFirst occurrence at row 1'
+wrn <- 'row_wilcoxon_twosample: 1 of the rows had less than 1 "x" observation.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue")
 
 # 0 observations
@@ -23,7 +23,7 @@ stopifnot(all.equal(res$value$obs.tot, 1))
 
 #--- y has less than 1 observations --------------------------------------------
 
-wrn <- 'row_wilcoxon_twosample: 1 of the rows had less than 1 remaining "y" observation.\nFirst occurrence at row 1'
+wrn <- 'row_wilcoxon_twosample: 1 of the rows had less than 1 "y" observation.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue")
 
 # 0 observations
@@ -43,8 +43,8 @@ stopifnot(all.equal(res$value$obs.tot, 1))
 
 #--- both x and y have less than 1 observation ---------------------------------
 
-wrnx <- 'row_wilcoxon_twosample: 1 of the rows had less than 1 remaining "x" observation.\nFirst occurrence at row 1'
-wrny <- 'row_wilcoxon_twosample: 1 of the rows had less than 1 remaining "y" observation.\nFirst occurrence at row 1'
+wrnx <- 'row_wilcoxon_twosample: 1 of the rows had less than 1 "x" observation.\nFirst occurrence at row 1'
+wrny <- 'row_wilcoxon_twosample: 1 of the rows had less than 1 "y" observation.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue")
 
 # 0 observations

@@ -3,7 +3,7 @@ source("utils/capture.r")
 
 #--- x has less than 1 observation ---------------------------------------------
 
-wrn <- 'row_wilcoxon_onesample: 1 of the rows had less than 1 remaining "x" observation.\nFirst occurrence at row 1'
+wrn <- 'row_wilcoxon_onesample: 1 of the rows had less than 1 "x" observation.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue")
 
 # 0 observations

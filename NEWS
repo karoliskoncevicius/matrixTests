@@ -16,6 +16,7 @@ CHANGES:
  * `Inf` values in `wilcox_*` tests are no longer removed but treated as highest ranks in order to be consistent with base R 4.0.0. implementation.
  * Missing argument errors no longer reference `force()` in their error messages.
  * Warning message about constant values in rows are now consistent between tests.
+ * Warning message about two few remaining observations are now more consistent between wilcoxon and t tests.
 
 INTERNAL:
 

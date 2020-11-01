@@ -150,10 +150,10 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
 
 
   w1 <- nxs < 1
-  showWarning(w1, 'had less than 1 remaining "x" observation')
+  showWarning(w1, 'had less than 1 "x" observation')
 
   w2 <- nys < 1
-  showWarning(w2, 'had less than 1 remaining "y" observation')
+  showWarning(w2, 'had less than 1 "y" observation')
 
   w3 <- exact & hasties
   showWarning(w3, 'had ties: cannot compute exact p-values with ties')
@@ -252,7 +252,7 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
   showWarning(w1, 'had observations with "x" equal "null" that were removed')
 
   w2 <- nxs < 1
-  showWarning(w2, 'had less than 1 remaining "x" observation')
+  showWarning(w2, 'had less than 1 "x" observation')
 
   w3 <- exact & haszeroes
   showWarning(w3, 'had zeroes: cannot compute exact p-values with zeroes')
@@ -370,7 +370,7 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
   showWarning(w1, 'had observations with "x-y" equal "null" that were removed')
 
   w2 <- nxys < 1
-  showWarning(w2, 'had less than 1 remaining paired "x-y" observation')
+  showWarning(w2, 'had less than 1 paired observation')
 
   w3 <- exact & haszeroes
   showWarning(w3, 'had zeroes: cannot compute exact p-values with zeroes')
