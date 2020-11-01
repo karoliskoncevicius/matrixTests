@@ -30,7 +30,7 @@ stopifnot(all.equal(res$value$df, 2))
 
 #--- all values are constant ---------------------------------------------------
 
-wrn <- 'row_jarquebera: 1 of the rows were essentially constant.\nFirst occurrence at row 1'
+wrn <- 'row_jarquebera: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
 nacolumns <- c("skewness", "kurtosis", "statistic", "pvalue")
 
 # two equal observations

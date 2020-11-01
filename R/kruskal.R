@@ -84,7 +84,7 @@ row_kruskalwallis <- function(x, g) {
   showWarning(w2, 'had less than 2 groups with enough observations')
 
   w3 <- !w1 & !w2 & ties[,1]==nSamples
-  showWarning(w3, 'were essentially constant')
+  showWarning(w3, 'had essentially constant values')
 
   stat[w1 | w2 | w3] <- NA
   p[w1 | w2 | w3]    <- NA

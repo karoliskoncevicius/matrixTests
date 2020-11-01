@@ -58,7 +58,7 @@ row_jarquebera <- function(x) {
   showWarning(w1, 'had less than 2 total observations')
 
   w2 <- !w1 & matrixStats::rowAlls(m0, value=0, na.rm=TRUE)
-  showWarning(w2, 'were essentially constant')
+  showWarning(w2, 'had essentially constant values')
 
   p[w1 | w2] <- NA
   ksq[w1 | w2] <- NA

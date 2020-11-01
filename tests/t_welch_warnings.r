@@ -71,7 +71,7 @@ stopifnot(all.equal(res$value$obs.tot, 4))
 
 #--- constant values -----------------------------------------------------------
 
-wrn <- 'row_t_welch: 1 of the rows were essentially constant.\nFirst occurrence at row 1'
+wrn <- 'row_t_welch: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
 
 # all values are the same

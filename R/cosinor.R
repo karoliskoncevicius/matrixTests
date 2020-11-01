@@ -93,7 +93,7 @@ row_cosinor <- function(x, t, period=24) {
   showWarning(w5, 'had essentially perfect fit')
 
   w6 <- !w2 & !w3 & res$stats$sstot == 0
-  showWarning(w6, 'were essentially constant')
+  showWarning(w6, 'had essentially constant values')
 
   res$stats[w2 | w3 | w6, c("f","p")] <- NA
 

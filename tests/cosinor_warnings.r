@@ -85,7 +85,7 @@ stopifnot(all.equal(res$value$obs, 4))
 
 #--- constant values -----------------------------------------------------------
 
-wrn <- 'row_cosinor: 1 of the rows were essentially constant.\nFirst occurrence at row 1'
+wrn <- 'row_cosinor: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue")
 
 # all the values are 0

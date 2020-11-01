@@ -58,7 +58,7 @@ stopifnot(all.equal(res$value$obs.tot, 8))
 
 #--- single unique value -------------------------------------------------------
 
-wrn <- 'row_kruskalwallis: 1 of the rows were essentially constant.\nFirst occurrence at row 1'
+wrn <- 'row_kruskalwallis: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
 nacolumns <- c("statistic", "pvalue")
 
 # two groups

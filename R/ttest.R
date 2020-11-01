@@ -154,7 +154,7 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
   showWarning(w3, 'had zero "y" observations')
 
   w4 <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
-  showWarning(w4, 'were essentially constant')
+  showWarning(w4, 'had essentially constant values')
 
 
   tres[w1 | w2 | w3 | w4,] <- NA
@@ -248,7 +248,7 @@ row_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) 
   showWarning(w2, 'had less than 2 "y" observations')
 
   w3 <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
-  showWarning(w3, 'were essentially constant')
+  showWarning(w3, 'had essentially constant values')
 
   tres[w1 | w2 | w3,] <- NA
 
@@ -316,7 +316,7 @@ row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95)
   showWarning(w1, 'had less than 2 "x" observations')
 
   w2 <- !w1 & stders <= 10 * .Machine$double.eps * abs(mxs)
-  showWarning(w2, 'were essentially constant')
+  showWarning(w2, 'had essentially constant values')
 
 
   tres[w1 | w2,] <- NA
@@ -410,7 +410,7 @@ row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95)
   showWarning(w1, 'had less than 2 paired observations')
 
   w2 <- stders <= 10 * .Machine$double.eps * abs(mxys)
-  showWarning(w2, 'were essentially constant')
+  showWarning(w2, 'had essentially constant values')
 
   tres[w1 | w2,] <- NA
 
