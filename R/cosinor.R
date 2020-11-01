@@ -86,16 +86,16 @@ row_cosinor <- function(x, t, period=24) {
   w3 <- nobs == 3
   showWarning(w3, 'had exactly 3 complete observations: no p-values produced')
 
-  w4 <- !w2 & !w3 & res$stats$dfmod < 2
-  showWarning(w4, 'had less than 3 unique timepoints within the specified period: amplitude and acrophase will be unreliable')
+  w4 <- !w2 & !w3 & res$stats$sstot == 0
+  showWarning(w4, 'had essentially constant values')
 
-  w5 <- !w2 & !w3 & res$stats$rsq == 1
-  showWarning(w5, 'had essentially perfect fit')
+  w5 <- !w2 & res$stats$dfmod < 2
+  showWarning(w5, 'had less than 3 unique timepoints within the specified period: amplitude and acrophase will be unreliable')
 
-  w6 <- !w2 & !w3 & res$stats$sstot == 0
-  showWarning(w6, 'had essentially constant values')
+  w6 <- !w2 & !w3 & !w4 & res$stats$rsq == 1
+  showWarning(w6, 'had essentially perfect fit')
 
-  res$stats[w2 | w3 | w6, c("f","p")] <- NA
+  res$stats[w2 | w3 | w4, c("f","p")] <- NA
 
 
   rnames <- rownames(x)

@@ -101,10 +101,9 @@ stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$obs, 4))
 
 # all the vallues are constant with NAs
-# TODO: check why this gives multiple errors
 res <- capture(row_cosinor(c(1,1,1,1,4), c(2,2,2,2,NA)))
 stopifnot(all(is.na(res$value[,nacolumns])))
-stopifnot(all.equal(res$warning[3], wrn))
+stopifnot(all.equal(res$warning[2], wrn))
 stopifnot(all.equal(res$value$obs, 4))
 
 
