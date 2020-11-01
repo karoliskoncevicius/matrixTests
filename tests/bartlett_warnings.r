@@ -16,9 +16,9 @@ stopifnot(all.equal(res$value$obs.groups, 2))
 
 #--- groups with one observations ----------------------------------------------
 
-# TODO: Only show this warning in cases where group with 1 observation is removed.
-#       Skip this warning in cases where the whole group only has missing values.
-
+# TODO: In order to be consistent with tests that remove empty groups either:
+#       1) Only show this warning in cases where group with 1 observation is removed.
+#       2) Make other tests show similar warnings where empty groups are removed.
 wrn <- 'row_bartlett: 1 of the rows had groups with less than 2 observations: those groups were removed.\nFirst occurrence at row 1'
 
 # 3 groups with one having only one observation
