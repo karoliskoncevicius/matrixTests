@@ -92,7 +92,7 @@ row_cosinor <- function(x, t, period=24) {
   w5 <- !w2 & res$stats$dfmod == 0
   showWarning(w5, 'had only 1 unique timepoint within the specified period: no p-values produced, amplitude and acrophase will be unreliable')
 
-  w6 <- !w2 & !w5 & res$stats$dfmod < 2
+  w6 <- !w2 & res$stats$dfmod == 1
   showWarning(w6, 'had only 2 unique timepoints within the specified period: amplitude and acrophase will be unreliable')
 
   w7 <- !w2 & !w3 & !w4 & res$stats$rsq == 1
