@@ -83,7 +83,8 @@ base_oneway_equalvar2 <- function(mat, groups) {
 
 # two groups
 x <- matrix(rnorm(10000), ncol=10)
-g <- sample(letters[1:2], 10, replace=TRUE)
+g <- sample(letters[1:2], 6, replace=TRUE)
+g <- sample(c("a", "a", "b", "b", g))  # ensure both groups have at least 2 obs
 res1 <- base_oneway_equalvar(x, factor(g))
 res2 <- row_oneway_equalvar(x, g)
 stopifnot(all.equal(res1, res2))

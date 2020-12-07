@@ -116,8 +116,6 @@ cfs <- c(0, 0.5, 1)
 pars <- expand.grid(alt, cfs, stringsAsFactors=FALSE)
 x1 <- matrix(rnorm(10*nrow(pars)), ncol=10)
 x2 <- matrix(rnorm(10*nrow(pars)), ncol=10)
-x1[sample(length(x1), nrow(pars)*2)] <- NA
-x2[sample(length(x2), nrow(pars)*2)] <- NA
 res1 <- base_cor_pearson(x1, x2, pars[,1], pars[,2])
 res2 <- suppressWarnings(row_cor_pearson(x1, x2, pars[,1], pars[,2]))
 stopifnot(all.equal(res1, res2))

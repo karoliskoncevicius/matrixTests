@@ -20,7 +20,7 @@ base_bartlett <- function(mat, groups) {
     vec   <- vec[!bad]
     grp   <- grp[!bad]
 
-    res <- bartlett.test(vec, grp)
+    res <- bartlett.test(vec, factor(grp))
 
     # if p-value is NA turn df to NA as well
     if(is.na(res$p.value)) res$parameter <- NA
@@ -30,7 +30,7 @@ base_bartlett <- function(mat, groups) {
     vt[i] <- sum((tapply(vec, grp, length)-1) * tapply(vec, grp, var, na.rm=TRUE)) / (nt[i]-ng[i])
     ks[i] <- res$statistic
     p[i]  <- res$p.value
-    df[i]  <- res$parameter
+    df[i] <- res$parameter
   }
 
   data.frame(obs.tot=nt, obs.groups=ng, var.pooled=vt, df=df, statistic=ks,
@@ -43,15 +43,16 @@ base_bartlett <- function(mat, groups) {
 
 # two groups
 x <- matrix(rnorm(10000), ncol=10)
-g <- sample(letters[1:2], 10, replace=TRUE)
-res1 <- base_bartlett(x, factor(g))
+g <- sample(letters[1:2], 6, replace=TRUE)
+g <- sample(c("a", "a", "b", "b", g))  # ensure both groups have at least 2 obs
+res1 <- base_bartlett(x, g)
 res2 <- row_bartlett(x, g)
 stopifnot(all.equal(res1, res2))
 
 # lots of groups
 x <- matrix(rnorm(100000), ncol=100)
 g <- sample(letters[1:15], 100, replace=TRUE)
-res1 <- base_bartlett(x, factor(g))
+res1 <- base_bartlett(x, g)
 res2 <- row_bartlett(x, g)
 stopifnot(all.equal(res1, res2))
 

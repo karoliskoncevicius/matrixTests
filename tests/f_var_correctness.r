@@ -116,8 +116,6 @@ cfs <- c(0.000001, 0.5, 0.9999)
 pars <- expand.grid(rat, alt, cfs, stringsAsFactors=FALSE)
 x <- matrix(rnorm(10*nrow(pars)), ncol=10)
 y <- matrix(rnorm(10*nrow(pars)), ncol=10)
-x[sample(length(x), nrow(pars)*2)] <- NA
-y[sample(length(y), nrow(pars)*2)] <- NA
 res1 <- base_f_var(x, y, pars[,1], pars[,2], pars[,3])
 res2 <- row_f_var(x, y, pars[,1], pars[,2], pars[,3])
 stopifnot(all.equal(res1, res2))

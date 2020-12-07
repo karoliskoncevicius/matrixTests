@@ -168,7 +168,6 @@ ext <- c(TRUE, FALSE, NA)
 cor <- c(TRUE, FALSE)
 pars <- expand.grid(mus, alt, ext, cor, stringsAsFactors=FALSE)
 x <- matrix(round(runif(10*nrow(pars), -15, 15)), ncol=10)
-x[sample(length(x), nrow(pars)*2)] <- NA
 res1 <- suppressWarnings(base_wilcoxon_onesample(x, pars[,1], pars[,2], pars[,3], pars[,4]))
 res2 <- suppressWarnings(row_wilcoxon_onesample(x, pars[,1], pars[,2], pars[,3], pars[,4]))
 stopifnot(all.equal(res1, res2))

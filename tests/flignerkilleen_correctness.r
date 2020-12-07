@@ -37,15 +37,16 @@ base_fligner <- function(mat, groups) {
 
 # two groups
 x <- matrix(rnorm(10000), ncol=10)
-g <- sample(letters[1:2], 10, replace=TRUE)
-res1 <- base_fligner(x, factor(g))
+g <- sample(letters[1:2], 6, replace=TRUE)
+g <- sample(c("a", "a", "b", "b", g))  # ensure both groups have at least 2 obs
+res1 <- base_fligner(x, g)
 res2 <- row_flignerkilleen(x, g)
 stopifnot(all.equal(res1, res2))
 
 # lots of groups
 x <- matrix(rnorm(100000), ncol=100)
 g <- sample(letters[1:15], 100, replace=TRUE)
-res1 <- base_fligner(x, factor(g))
+res1 <- base_fligner(x, g)
 res2 <- row_flignerkilleen(x, g)
 stopifnot(all.equal(res1, res2))
 

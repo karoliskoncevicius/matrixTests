@@ -105,7 +105,6 @@ alt <- c("l", "t", "g")
 cfs <- c(0, 0.5, 1)
 pars <- expand.grid(mus, alt, cfs, stringsAsFactors=FALSE)
 x <- matrix(rnorm(10*nrow(pars)), ncol=10)
-x[sample(length(x), nrow(pars)*2)] <- NA
 res1 <- base_t_onesample(x, pars[,1], pars[,2], pars[,3])
 res2 <- row_t_onesample(x, pars[,1], pars[,2], pars[,3])
 stopifnot(all.equal(res1, res2))

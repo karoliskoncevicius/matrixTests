@@ -33,7 +33,8 @@ pmcmr_waerden <- function(mat, groups) {
 
 # two groups
 x <- matrix(rnorm(10000), ncol=10)
-g <- sample(c("a","b"), 10, replace=TRUE)
+g <- sample(letters[1:2], 6, replace=TRUE)
+g <- sample(c("a", "a", "b", "b", g))  # ensure both groups have at least 2 obs
 res1 <- pmcmr_waerden(x, g)
 res2 <- row_waerden(x, g)
 stopifnot(all.equal(res1, res2))
@@ -144,8 +145,7 @@ res2 <- row_waerden(x, g)
 stopifnot(all.equal(res1, res2))
 
 # one number is repeated multiple times
-x <- rnorm(15)
-x[sample(length(x), 5)] <- 1
+x <- sample(c(rep(1, 5), rnorm(15)))
 g <- rep(letters[1:5], each=3)
 res1 <- pmcmr_waerden(x, g)
 res2 <- row_waerden(x, g)

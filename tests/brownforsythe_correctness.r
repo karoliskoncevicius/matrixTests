@@ -38,15 +38,16 @@ car_brownforsythe <- function(mat, groups) {
 
 # two groups
 x <- matrix(rnorm(10000), ncol=10)
-g <- sample(letters[1:2], 10, replace=TRUE)
-res1 <- car_brownforsythe(x, factor(g))
+g <- sample(letters[1:2], 6, replace=TRUE)
+g <- sample(c("a", "a", "b", "b", g))  # ensure both groups have at least 2 obs
+res1 <- car_brownforsythe(x, g)
 res2 <- row_brownforsythe(x, g)
 stopifnot(all.equal(res1, res2))
 
 # lots of groups
 x <- matrix(rnorm(100000), ncol=100)
 g <- sample(letters[1:15], 100, replace=TRUE)
-res1 <- car_brownforsythe(x, factor(g))
+res1 <- car_brownforsythe(x, g)
 res2 <- row_brownforsythe(x, g)
 stopifnot(all.equal(res1, res2))
 
