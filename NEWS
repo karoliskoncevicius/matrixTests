@@ -15,6 +15,7 @@ CHANGES:
  * The position of `null` argument is now more consistent across functions: `null` always comes before the `alternative` argument.
  * `row_ievora` and `col_ievora` functions are removed. ievora method is a simple application of a Bartlett's test followed by a Student's t-test and can be performed manually.
  * `Inf` values in `wilcox_*` tests are no longer removed but treated as highest ranks in order to be consistent with base R 4.0.0. implementation.
+ * Cosinor gets a separate warning for the case where all observations come from the same time-point within the specified period.
  * Missing argument errors no longer reference `force()` in their error messages.
  * Warning message about constant values in rows are now consistent between tests.
  * Warning message about too few remaining observations are now more consistent between wilcoxon and t tests.
@@ -23,7 +24,7 @@ CHANGES:
 INTERNAL:
 
  * matrixTests no longer depends on `testthat` for unit tests.
- * All unit tests were rewritten.
+ * All unit tests are rewritten.
 
 
 Version 0.1.9 [2020 April 30]

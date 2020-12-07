@@ -55,17 +55,21 @@ stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs, 3))
 
 
-#--- less than 3 unique timepoints ---------------------------------------------
+#--- 1 unique timepoint --------------------------------------------------------
 
-wrn <- 'row_cosinor: 1 of the rows had less than 3 unique timepoints within the specified period: amplitude and acrophase will be unreliable.\nFirst occurrence at row 1'
-
-# TODO: check what to do about turning statistics to NA.
-#       right now only the case with 1 time point turns them to NA.
+wrn <- 'row_cosinor: 1 of the rows had only 1 unique timepoint within the specified period: no p-values produced, amplitude and acrophase will be unreliable.\nFirst occurrence at row 1'
+nacolumns <- c("df.model", "df.residual", "statistic", "pvalue")
 
 # one distinct point, duplicated multiple times
 res <- capture(row_cosinor(1:4, rep(1,4)))
+stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$warning, wrn))
 stopifnot(all.equal(res$value$obs, 4))
+
+
+#--- 2 unique timepoints -------------------------------------------------------
+
+wrn <- 'row_cosinor: 1 of the rows had only 2 unique timepoints within the specified period: amplitude and acrophase will be unreliable.\nFirst occurrence at row 1'
 
 # two distinct points, duplicated multiple times
 res <- capture(row_cosinor(1:4, c(1,2,1,2)))
