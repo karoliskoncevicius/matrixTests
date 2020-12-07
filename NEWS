@@ -7,6 +7,7 @@ BUG FIXES:
 
  * Waerden and Flinger-Killeen tests no longer produce NA results when a whole group has only NA values in x.
  * Wilcoxon tests no longer produce double warning messages when some rows have no remaining observations.
+ * Paired t-test no longer returns var.diff = 0 when all paired observations are missing.
 
 CHANGES:
 
@@ -16,7 +17,7 @@ CHANGES:
  * `Inf` values in `wilcox_*` tests are no longer removed but treated as highest ranks in order to be consistent with base R 4.0.0. implementation.
  * Missing argument errors no longer reference `force()` in their error messages.
  * Warning message about constant values in rows are now consistent between tests.
- * Warning message about two few remaining observations are now more consistent between wilcoxon and t tests.
+ * Warning message about too few remaining observations are now more consistent between wilcoxon and t tests.
 
 INTERNAL:
 

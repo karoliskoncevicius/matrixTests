@@ -399,6 +399,7 @@ row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95)
   vys[nys < 2] <- NA
 
   vxys <- rowSums((xy-mxys)^2, na.rm=TRUE) / (nxys-1)
+  vxys[nxys < 2] <- NA
 
   stders <- sqrt(vxys/nxys)
   dfs <- nxys-1
