@@ -17,7 +17,7 @@ stopifnot(all.equal(res$value$obs.groups, 2))
 #--- one observation per group -------------------------------------------------
 
 wrn <- 'row_oneway_equalvar: 1 of the rows had one observation per group.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.between", "df.within", "statistic", "pvalue")
 
 # two groups with a single obervation each
 x <- 1:2
@@ -50,7 +50,7 @@ stopifnot(all.equal(res$value$obs.groups, 2))
 #--- less than 2 groups --------------------------------------------------------
 
 wrn <- 'row_oneway_equalvar: 1 of the rows had less than 2 groups with enough observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.between", "df.within", "statistic", "pvalue")
 
 # single group with 10 observations
 res <- capture(row_oneway_equalvar(1:10, rep(1,10)))
@@ -72,7 +72,7 @@ stopifnot(all.equal(res$value$obs.tot, 8))
 #--- single unique value -------------------------------------------------------
 
 wrn <- 'row_oneway_equalvar: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.between", "df.within", "statistic", "pvalue")
 
 # two groups
 res <- capture(row_oneway_equalvar(rep(1, 3), c("a","a","b")))

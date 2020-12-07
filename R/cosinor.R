@@ -95,7 +95,7 @@ row_cosinor <- function(x, t, period=24) {
   w6 <- !w2 & !w3 & !w4 & res$stats$rsq == 1
   showWarning(w6, 'had essentially perfect fit')
 
-  res$stats[w2 | w3 | w4, c("f","p")] <- NA
+  res$stats[w2 | w3 | w4, c("dfmod","dfres","f","p")] <- NA
 
 
   rnames <- rownames(x)

@@ -4,7 +4,7 @@ source("utils/capture.r")
 #--- x has less than 2 observations --------------------------------------------
 
 wrn <- 'row_f_var: 1 of the rows had less than 1 "x" observation.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("df.num", "df.denom", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 0 observations
 res <- capture(row_f_var(numeric(), 1:2))
@@ -42,7 +42,7 @@ stopifnot(all.equal(res$value$obs.tot, 2))
 #--- y has less than 2 observations --------------------------------------------
 
 wrn <- 'row_f_var: 1 of the rows had less than 1 "y" observation.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("df.num", "df.denom", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 0 observations
 res <- capture(row_f_var(1:2, numeric()))
@@ -115,7 +115,7 @@ stopifnot(all.equal(res$value$var.ratio, Inf))
 
 wrnx <- 'row_f_var: 1 of the rows had zero variance in "x".\nFirst occurrence at row 1'
 wrny <- 'row_f_var: 1 of the rows had zero variance in "y".\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("df.num", "df.denom", "statistic", "pvalue", "conf.low", "conf.high")
 
 # x and y have constant values
 res <- capture(row_f_var(rep(1,5), rep(2,5)))

@@ -4,7 +4,7 @@ source("utils/capture.r")
 #--- less than 2 paired observations -------------------------------------------
 
 wrn <- 'row_t_paired: 1 of the rows had less than 2 paired observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 0 observations
 res <- capture(row_t_paired(NA_integer_, NA_integer_))
@@ -50,7 +50,7 @@ stopifnot(all.equal(res$value$obs.y, 3))
 #--- constant paired values ----------------------------------------------------
 
 wrn <- 'row_t_paired: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # all values are the same
 res <- capture(row_t_paired(c(1,1,1,1), c(1,1,1,1)))

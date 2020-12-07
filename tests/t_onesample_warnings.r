@@ -4,7 +4,7 @@ source("utils/capture.r")
 #--- x has less than 2 observations --------------------------------------------
 
 wrn <- 'row_t_onesample: 1 of the rows had less than 2 "x" observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 0 observations
 res <- capture(row_t_onesample(numeric()))
@@ -28,7 +28,7 @@ stopifnot(all.equal(res$value$obs, 1))
 #--- all values are constant ---------------------------------------------------
 
 wrn <- 'row_t_onesample: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 2 equal observations
 res <- capture(row_t_onesample(c(1,1)))

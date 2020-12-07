@@ -81,6 +81,7 @@ row_waerden <- function(x, g) {
   w3 <- !w1 & !w2 & s2==0
   showWarning(w3, 'had essentially constant values')
 
+  df[w1 | w2 | w3]   <- NA
   stat[w1 | w2 | w3] <- NA
   p[w1 | w2 | w3]    <- NA
 

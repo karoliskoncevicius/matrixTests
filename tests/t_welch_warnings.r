@@ -4,7 +4,7 @@ source("utils/capture.r")
 #--- less than 2 x observations ------------------------------------------------
 
 wrn <- 'row_t_welch: 1 of the rows had less than 2 "x" observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 0 observations in both
 res <- capture(row_t_welch(numeric(), numeric()))
@@ -42,7 +42,7 @@ stopifnot(all.equal(res$value$obs.tot, 4))
 #--- less than 2 y observations ------------------------------------------------
 
 wrn <- 'row_t_welch: 1 of the rows had less than 2 "y" observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 0 observations in y
 res <- capture(row_t_welch(1:3, numeric()))
@@ -72,7 +72,7 @@ stopifnot(all.equal(res$value$obs.tot, 4))
 #--- constant values -----------------------------------------------------------
 
 wrn <- 'row_t_welch: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # all values are the same
 res <- capture(row_t_welch(c(1,1,1,1), c(1,1,1,1)))

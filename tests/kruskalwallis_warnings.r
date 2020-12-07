@@ -17,7 +17,7 @@ stopifnot(all.equal(res$value$obs.groups, 2))
 #--- less than 2 observations --------------------------------------------------
 
 wrn <- 'row_kruskalwallis: 1 of the rows had less than 2 total observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df", "statistic", "pvalue")
 
 # one value one group
 res <- capture(row_kruskalwallis(1, "a"))
@@ -37,7 +37,7 @@ stopifnot(all.equal(res$value$obs.tot, 1))
 #--- less than 2 groups --------------------------------------------------------
 
 wrn <- 'row_kruskalwallis: 1 of the rows had less than 2 groups with enough observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df", "statistic", "pvalue")
 
 # single group with 10 observations
 res <- capture(row_kruskalwallis(1:10, rep(1,10)))
@@ -59,7 +59,7 @@ stopifnot(all.equal(res$value$obs.tot, 8))
 #--- single unique value -------------------------------------------------------
 
 wrn <- 'row_kruskalwallis: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df", "statistic", "pvalue")
 
 # two groups
 res <- capture(row_kruskalwallis(rep(1, 3), c("a","a","b")))

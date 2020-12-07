@@ -68,11 +68,12 @@ row_kruskalwallis <- function(x, g) {
   nSamples <- rowSums(nPerGroup)
   nGroups  <- matrixStats::rowCounts(nPerGroup!=0)
 
+  df <- nGroups - 1
+
   st0 <- rowSums(rPerGroup*rPerGroup/nPerGroup, na.rm=TRUE)
   st1 <- 12*st0 / (nSamples * (nSamples + 1)) - 3 * (nSamples + 1)
   st2 <- 1 - rowSums(ties^3 - ties) / (nSamples^3 - nSamples)
   stat <- st1/st2
-  df <- nGroups - 1
 
   p <- stats::pchisq(stat, df, lower.tail=FALSE)
 
@@ -86,6 +87,7 @@ row_kruskalwallis <- function(x, g) {
   w3 <- !w1 & !w2 & ties[,1]==nSamples
   showWarning(w3, 'had essentially constant values')
 
+  df[w1 | w2 | w3]   <- NA
   stat[w1 | w2 | w3] <- NA
   p[w1 | w2 | w3]    <- NA
 

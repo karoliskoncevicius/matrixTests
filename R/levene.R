@@ -105,6 +105,9 @@ row_levene <- function(x, g) {
 
   w5 <- !w2 & !w3 & !w4 & withinScatter <= .Machine$double.eps
   showWarning(w5, 'had essentially constant absolute residuals from the mean: results might be unreliable')
+
+  dft[w2 | w3 | w4] <- NA
+  dfr[w2 | w3 | w4] <- NA
   F[w2 | w3 | w4] <- NA
   p[w2 | w3 | w4] <- NA
 
@@ -192,8 +195,11 @@ row_brownforsythe <- function(x, g) {
 
   w5 <- !w2 & !w3 & !w4 & withinScatter <= .Machine$double.eps
   showWarning(w5, 'had essentially constant absolute residuals from the median: results might be unreliable')
-  F[w2 | w3 | w4] <- NA
-  p[w2 | w3 | w4] <- NA
+
+  dft[w2 | w3 | w4] <- NA
+  dfr[w2 | w3 | w4] <- NA
+  F[w2 | w3 | w4]   <- NA
+  p[w2 | w3 | w4]   <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)

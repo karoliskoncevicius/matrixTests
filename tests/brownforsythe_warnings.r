@@ -17,7 +17,7 @@ stopifnot(all.equal(res$value$obs.groups, 2))
 #--- less than 2 groups --------------------------------------------------------
 
 wrn <- 'row_brownforsythe: 1 of the rows had less than 2 groups with enough observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.between", "df.within", "statistic", "pvalue")
 
 # all values in one group
 x <- 1:10
@@ -41,7 +41,7 @@ stopifnot(all.equal(res$value$obs.groups, 1))
 #--- no groups with 3 observations ---------------------------------------------
 
 wrn <- 'row_brownforsythe: 1 of the rows had no groups with at least 3 observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.between", "df.within", "statistic", "pvalue")
 
 # 10 groups all with a single value
 x <- 1:10
@@ -89,7 +89,7 @@ stopifnot(all.equal(res$value$obs.groups, 2))
 #--- constant variance after residuals -----------------------------------------
 
 wrn <- 'row_brownforsythe: 1 of the rows had zero within group variance of absolute residuals from the median.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.between", "df.within", "statistic", "pvalue")
 
 # two groups - all zero values
 x <- rep(0,6)

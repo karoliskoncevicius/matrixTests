@@ -16,7 +16,7 @@ stopifnot(all.equal(res$value$obs, 8))
 #--- less than 3 observations --------------------------------------------------
 
 wrn <- 'row_cosinor: 1 of the rows had less than 3 complete observations: no p-values produced, amplitude and acrophase will be unreliable.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.model", "df.residual", "statistic", "pvalue")
 
 # 1 observations
 res <- capture(row_cosinor(1, 1))
@@ -40,7 +40,7 @@ stopifnot(all.equal(res$value$obs, 2))
 #--- exactly 3 observations ----------------------------------------------------
 
 wrn <- 'row_cosinor: 1 of the rows had exactly 3 complete observations: no p-values produced.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.model", "df.residual", "statistic", "pvalue")
 
 # 3 observations
 res <- capture(row_cosinor(1:3, 1:3))
@@ -86,7 +86,7 @@ stopifnot(all.equal(res$value$obs, 4))
 #--- constant values -----------------------------------------------------------
 
 wrn <- 'row_cosinor: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df.model", "df.residual", "statistic", "pvalue")
 
 # all the values are 0
 res <- capture(row_cosinor(c(0,0,0,0), c(1,2,3,4)))

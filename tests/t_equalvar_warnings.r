@@ -4,7 +4,7 @@ source("utils/capture.r")
 #--- less than 3 observations --------------------------------------------------
 
 wrn <- 'row_t_equalvar: 1 of the rows had less than 3 total observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 0 observations
 res <- capture(row_t_equalvar(NA_integer_, NA_integer_))
@@ -50,7 +50,7 @@ stopifnot(all.equal(res$value$obs.tot, 2))
 #--- one group has no observations ---------------------------------------------
 
 wrn <- 'row_t_equalvar: 1 of the rows had zero "x" observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # no observations in x
 res <- capture(row_t_equalvar(numeric(), 1:3))
@@ -70,7 +70,7 @@ stopifnot(all.equal(res$value$obs.tot, 3))
 
 
 wrn <- 'row_t_equalvar: 1 of the rows had zero "y" observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # no observations in y
 res <- capture(row_t_equalvar(1:3, numeric()))
@@ -92,7 +92,7 @@ stopifnot(all.equal(res$value$obs.tot, 3))
 #--- constant values -----------------------------------------------------------
 
 wrn <- 'row_t_equalvar: 1 of the rows had essentially constant values.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("stderr", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # all values are the same
 res <- capture(row_t_equalvar(c(1,1,1,1), c(1,1,1,1)))

@@ -76,9 +76,9 @@ row_flignerkilleen <- function(x, g) {
     mPerGroup[,i] <- rowSums(a[,g==unique(g)[i], drop=FALSE], na.rm=TRUE)
   }
 
+  df   <- nGroups-1
   stat <- rowSums(mPerGroup*mPerGroup / nPerGroup, na.rm=TRUE)
   stat <- (stat - nSamples * rowMeans(a, na.rm=TRUE)^2) / rowVars(a, na.rm=TRUE)
-  df   <- nGroups-1
   p    <- stats::pchisq(stat, df, lower.tail=FALSE)
 
 
@@ -91,8 +91,9 @@ row_flignerkilleen <- function(x, g) {
   w3 <- !w1 & !w2 & matrixStats::rowAlls(x==0 | is.na(x))
   showWarning(w3, 'had zero variance in all of the groups')
 
+  df[w1 | w2 | w3]   <- NA
   stat[w1 | w2 | w3] <- NA
-  p[w1 | w2 | w3] <- NA
+  p[w1 | w2 | w3]    <- NA
 
 
   rnames <- rownames(x)

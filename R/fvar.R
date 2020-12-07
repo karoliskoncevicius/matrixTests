@@ -105,13 +105,13 @@ row_f_var <- function(x, y, null=1, alternative="two.sided", conf.level=0.95) {
   nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
   nxys <- nxs + nys
 
-  dfx <- nxs - 1
-  dfy <- nys - 1
-
   vxs <- rowVars(x, na.rm=TRUE)
   vys <- rowVars(y, na.rm=TRUE)
 
   estimate  <- vxs/vys
+
+  dfx <- nxs - 1
+  dfy <- nys - 1
 
   fres <- do_ftest(estimate, null, alternative, dfx, dfy, conf.level)
 
@@ -135,6 +135,8 @@ row_f_var <- function(x, y, null=1, alternative="two.sided", conf.level=0.95) {
   showWarning(w6, 'had zero variance in "y"')
 
 
+  dfx[w3 | w4 | (w5 & w6)]   <- NA
+  dfy[w3 | w4 | (w5 & w6)]   <- NA
   fres[w3 | w4 | (w5 & w6),] <- NA
 
   rnames <- rownames(x)

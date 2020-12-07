@@ -4,7 +4,7 @@ source("utils/capture.r")
 #--- less than 3 complete observations -----------------------------------------
 
 wrn <- 'row_cor_pearson: 1 of the rows had less than 3 complete observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("cor", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # 0 observations
 res <- capture(row_cor_pearson(numeric(), numeric()))
@@ -46,7 +46,7 @@ stopifnot(all(is.na(res$value[,nacolumns])))
 #--- x has zero variance -------------------------------------------------------
 
 wrn <- 'row_cor_pearson: 1 of the rows had zero standard deviation in x.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("cor", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # all values are the same
 res <- capture(row_cor_pearson(c(1,1,1,1), 1:4))
@@ -62,7 +62,7 @@ stopifnot(all(is.na(res$value[,nacolumns])))
 #--- y has zero variance -------------------------------------------------------
 
 wrn <- 'row_cor_pearson: 1 of the rows had zero standard deviation in y.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("cor", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # all values are the same
 res <- capture(row_cor_pearson(1:4, c(1,1,1,1)))
@@ -79,7 +79,7 @@ stopifnot(all(is.na(res$value[,nacolumns])))
 
 wrnx <- 'row_cor_pearson: 1 of the rows had zero standard deviation in x.\nFirst occurrence at row 1'
 wrny <- 'row_cor_pearson: 1 of the rows had zero standard deviation in y.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue", "conf.low", "conf.high")
+nacolumns <- c("cor", "df", "statistic", "pvalue", "conf.low", "conf.high")
 
 # all values are constant in both groups
 res <- capture(row_cor_pearson(c(1,1,1,1), c(1,1,1,1)))

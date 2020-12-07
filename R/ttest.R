@@ -133,12 +133,13 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
   vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
   vys <- rowSums((y-mys)^2, na.rm=TRUE) / (nys-1)
 
-  dfs <- nxs + nys - 2
+  dfs  <- nxs + nys - 2
 
   vs <- rep(0, nrow(x))
   vs <- ifelse(nxs > 1, vs + (nxs-1) * vxs, vs)
   vs <- ifelse(nys > 1, vs + (nys-1) * vys, vs)
   vs <- vs/dfs
+
   stders <- sqrt(vs * (1/nxs + 1/nys))
 
   tres <- do_ttest(mxys, null, stders, alternative, dfs, conf.level)
@@ -157,7 +158,9 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
   showWarning(w4, 'had essentially constant values')
 
 
-  tres[w1 | w2 | w3 | w4,] <- NA
+  stders[w1 | w2 | w3 | w4] <- NA
+  dfs[w1 | w2 | w3 | w4]    <- NA
+  tres[w1 | w2 | w3 | w4,]  <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
@@ -250,7 +253,9 @@ row_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) 
   w3 <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
   showWarning(w3, 'had essentially constant values')
 
-  tres[w1 | w2 | w3,] <- NA
+  stders[w1 | w2 | w3] <- NA
+  dfs[w1 | w2 | w3]     <- NA
+  tres[w1 | w2 | w3,]   <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
@@ -305,9 +310,9 @@ row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95)
   nxs <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
   mxs <- rowMeans(x, na.rm=TRUE)
   vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
-  dfs <- nxs-1
-  stders <- sqrt(vxs/nxs)
 
+  stders <- sqrt(vxs/nxs)
+  dfs <- nxs-1
 
   tres <- do_ttest(mxs, null, stders, alternative, dfs, conf.level)
 
@@ -319,7 +324,9 @@ row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95)
   showWarning(w2, 'had essentially constant values')
 
 
-  tres[w1 | w2,] <- NA
+  stders[w1 | w2]  <- NA
+  dfs[w1 | w2]     <- NA
+  tres[w1 | w2,]   <- NA
 
 
   rnames <- rownames(x)
@@ -413,7 +420,9 @@ row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95)
   w2 <- stders <= 10 * .Machine$double.eps * abs(mxys)
   showWarning(w2, 'had essentially constant values')
 
-  tres[w1 | w2,] <- NA
+  stders[w1 | w2] <- NA
+  dfs[w1 | w2]    <- NA
+  tres[w1 | w2,]  <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)

@@ -88,6 +88,8 @@ row_oneway_equalvar <- function(x, g) {
   F <- (betweenScatter/dft) / (withinScatter/dfr)
   p <- stats::pf(F, dft, dfr, lower.tail=FALSE)
 
+  msqb <- betweenScatter/dft
+  msqw <- withinScatter/dfr
 
   w1 <- nGroups < 2
   showWarning(w1, 'had less than 2 groups with enough observations')
@@ -101,15 +103,17 @@ row_oneway_equalvar <- function(x, g) {
   w4 <- !w1 & !w2 & withinScatter==0 & betweenScatter!=0
   showWarning(w4, 'had zero within group variance: result might be unreliable')
 
-  F[w1 | w2 | w3] <- NA
-  p[w1 | w2 | w3] <- NA
+  dft[w1 | w2 | w3] <- NA
+  dfr[w1 | w2 | w3] <- NA
+  F[w1 | w2 | w3]   <- NA
+  p[w1 | w2 | w3]   <- NA
 
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
   data.frame(obs.tot=nSamples, obs.groups=nGroups,
              sumsq.between=betweenScatter, sumsq.within=withinScatter,
-             meansq.between=betweenScatter/dft, meansq.within=withinScatter/dfr,
+             meansq.between=msqb, meansq.within=msqw,
              df.between=dft, df.within=dfr, statistic=F, pvalue=p,
              row.names=rnames
              )
@@ -186,8 +190,10 @@ row_oneway_welch <- function(x, g) {
   showWarning(w4, 'had groups with zero variance: result might be unreliable')
 
 
-  F[w1 | w3] <- NA
-  p[w1 | w3] <- NA
+  dft[w1 | w3] <- NA
+  dfr[w1 | w3] <- NA
+  F[w1 | w3]   <- NA
+  p[w1 | w3]   <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)

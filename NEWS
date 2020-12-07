@@ -18,6 +18,7 @@ CHANGES:
  * Missing argument errors no longer reference `force()` in their error messages.
  * Warning message about constant values in rows are now consistent between tests.
  * Warning message about too few remaining observations are now more consistent between wilcoxon and t tests.
+ * When a test cannot be executed all test-specific outputs (including test statistic, standard error,  and degrees of freedom) are now turned to NA for that row/column.
 
 INTERNAL:
 

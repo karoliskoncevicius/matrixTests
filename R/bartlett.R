@@ -70,8 +70,8 @@ row_bartlett <- function(x, g) {
 
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
   vtot <- rowSums(vPerGroup*(nPerGroup-1), na.rm=TRUE) / (nSamples - nGroups)
-  df   <- nGroups-1
 
+  df   <- nGroups-1
   ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
            (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
   p <- stats::pchisq(ksq, df, lower.tail=FALSE)
@@ -89,8 +89,9 @@ row_bartlett <- function(x, g) {
   w4 <- !w1 & !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0
   showWarning(w4, 'had groups with zero variance: result might be unreliable')
 
+  df[w1 | w3]  <- NA
   ksq[w1 | w3] <- NA
-  p[w1 | w3] <- NA
+  p[w1 | w3]   <- NA
 
 
   rnames <- rownames(x)

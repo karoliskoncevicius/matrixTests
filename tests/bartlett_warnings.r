@@ -41,7 +41,7 @@ stopifnot(all.equal(res$value$obs.groups, 2))
 #--- less than 2 groups --------------------------------------------------------
 
 wrn <- 'row_bartlett: 1 of the rows had less than 2 groups with enough observations.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df", "statistic", "pvalue")
 
 # all values in one group
 x <- 1:10
@@ -83,7 +83,7 @@ stopifnot(all.equal(res$value$obs.groups, 1))
 #--- all groups have zero variance ---------------------------------------------
 
 wrn <- 'row_bartlett: 1 of the rows had zero variance in all of the groups.\nFirst occurrence at row 1'
-nacolumns <- c("statistic", "pvalue")
+nacolumns <- c("df", "statistic", "pvalue")
 
 # two groups - all values are constant
 x <- c(1,1,1,1)

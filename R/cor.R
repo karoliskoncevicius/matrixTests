@@ -120,9 +120,10 @@ row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   w5 <- !w1 & abs(rs)==1
   showWarning(w5, 'had essentially perfect fit: results might be unreliable for small sample sizes')
 
-  pres[w4, 3:4] <- NA
+  pres[w4, 3:4]       <- NA
+  df[w1 | w2 | w3]    <- NA
   pres[w1 | w2 | w3,] <- NA
-  rs[w1 | w2 | w3] <- NA
+  rs[w1 | w2 | w3]    <- NA
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)

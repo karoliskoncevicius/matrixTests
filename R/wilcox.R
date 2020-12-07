@@ -159,6 +159,7 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
   showWarning(w3, 'had ties: cannot compute exact p-values with ties')
 
   statistic[w1 | w2] <- NA
+  wres[w1 | w2]      <- NA
 
   exact <- exact & !hasties
   correct <- correct & !exact
@@ -261,6 +262,7 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
   showWarning(w4, 'had ties: cannot compute exact p-values with ties')
 
   statistic[w2] <- NA
+  wres[w2]      <- NA
 
   exact <- exact & !hasties & !haszeroes
   correct <- correct & !exact
@@ -268,9 +270,8 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
 
   rnames <- rownames(x)
   if(!is.null(rnames)) rnames <- make.unique(rnames)
-  data.frame(obs=nxs, statistic=statistic, pvalue=wres,
-             location.null=null,alternative=alternative,
-             exact=exact, corrected=correct,
+  data.frame(obs=nxs, statistic=statistic, pvalue=wres, location.null=null,
+             alternative=alternative, exact=exact, corrected=correct,
              stringsAsFactors=FALSE, row.names=rnames
              )
 }
@@ -379,6 +380,7 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
   showWarning(w4, 'had ties: cannot compute exact p-values with ties')
 
   statistic[w2] <- NA
+  wres[w2]      <- NA
 
   exact <- exact & !hasties & !haszeroes
   correct <- correct & !exact
