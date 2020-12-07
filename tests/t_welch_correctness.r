@@ -17,6 +17,12 @@ base_t_welch <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.95)
     vec2 <- na.omit(mat2[i,])
     res <- t.test(vec1, vec2, alternative=alternative[i], mu=null[i], conf.level=conf[i])
 
+    # if p-value is NA turn stderr and df to NA as well
+    if(is.na(res$p.value)) {
+      res$stderr <- NA
+      res$parameter <- NA
+    }
+
     vx[i]  <- var(vec1)
     vy[i]  <- var(vec2)
     nx[i]  <- length(vec1)
@@ -32,8 +38,8 @@ base_t_welch <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.95)
     df[i]  <- res$parameter
     m0[i]  <- res$null.value
     al[i]  <- res$alternative
+    se[i]  <- res$stderr
     cnf[i] <- attr(res$conf.int, "conf.level")
-    se[i]  <- sqrt(sqrt(vx[i]/nx[i])^2 + sqrt(vy[i]/ny[i])^2)
   }
 
   data.frame(obs.x=nx, obs.y=ny, obs.tot=nt, mean.x=mx, mean.y=my, mean.diff=md,

@@ -15,6 +15,7 @@ base_wilcoxon_twosample <- function(mat1, mat2, null=0, alternative="two.sided",
   ext <- cor <- logical(nrow(mat1))
   for(i in 1:nrow(mat1)) {
     ex  <- if(is.na(exact[i])) NULL else exact[i]
+
     res <- wilcox.test(mat1[i,], mat2[i,], alternative=alternative[i], mu=null[i], exact=ex, correct=correct[i])
 
     nx[i]   <- sum(!is.na(mat1[i,]))

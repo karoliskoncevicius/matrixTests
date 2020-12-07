@@ -14,7 +14,11 @@ car_levene <- function(mat, groups) {
     bad <- is.na(mat[i,])
     vec <- mat[i,!bad]
     grp <- factor(groups[!bad])
+
     res <- car::leveneTest(vec ~ grp, center="mean")
+
+    # if p-vallue is NA turn df to NA as well
+    if(is.na(res[["Pr(>F)"]][1])) res[["Df"]] <- NA
 
     dft[i] <- res[["Df"]][1]
     dfr[i] <- res[["Df"]][2]

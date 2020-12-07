@@ -20,6 +20,12 @@ base_t_paired <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.95
                   paired=TRUE
                   )
 
+    # if p-value is NA turn stderr and df to NA as well
+    if(is.na(res$p.value)) {
+      res$stderr <- NA
+      res$parameter <- NA
+    }
+
     mx[i]  <- mean(na.omit(vec1))
     my[i]  <- mean(na.omit(vec2))
     md[i]  <- res$estimate
@@ -36,8 +42,8 @@ base_t_paired <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.95
     df[i]  <- res$parameter
     m0[i]  <- res$null.value
     al[i]  <- res$alternative
+    se[i]  <- res$stderr
     cnf[i] <- attr(res$conf.int, "conf.level")
-    se[i]  <- sqrt(vd[i]/nt[i])
   }
 
   data.frame(obs.x=nx, obs.y=ny, obs.paired=nt, mean.x=mx, mean.y=my,

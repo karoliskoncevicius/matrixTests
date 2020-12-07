@@ -14,7 +14,11 @@ car_brownforsythe <- function(mat, groups) {
     bad <- is.na(mat[i,])
     vec <- mat[i,!bad]
     grp <- factor(groups[!bad])
+
     res <- car::leveneTest(vec ~ grp, center="median")
+
+    # if p-value is NA turn dfs to NA as well
+    if(is.na(res[["Pr(>F)"]][1])) res[["Df"]] <- NA
 
     dft[i] <- res[["Df"]][1]
     dfr[i] <- res[["Df"]][2]

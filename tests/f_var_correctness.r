@@ -15,7 +15,11 @@ base_f_var <- function(mat1, mat2, rat=1, alt="two.sided", conf=0.95) {
   for(i in 1:nrow(mat1)) {
     vec1 <- mat1[i,]
     vec2 <- mat2[i,]
+
     res <- var.test(vec1, vec2, ratio=rat[i], alternative=alt[i], conf.level=conf[i])
+
+    # if p-value is NA turn dfs to NA as well
+    if(is.na(res$p.value)) res$parameter <- NA
 
     nx[i]  <- length(na.omit(vec1))
     ny[i]  <- length(na.omit(vec2))

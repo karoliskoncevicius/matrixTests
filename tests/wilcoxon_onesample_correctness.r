@@ -15,6 +15,7 @@ base_wilcoxon_onesample <- function(mat, null=0, alternative="two.sided", exact=
   for(i in 1:nrow(mat)) {
     vec <- mat[i,][!is.na(mat[i,])]
     ex  <- if(is.na(exact[i])) NULL else exact[i]
+
     res <- wilcox.test(vec, alternative=alternative[i], mu=null[i], exact=ex, correct=correct[i])
 
     nx[i]   <- sum((vec-null[i]) != 0)

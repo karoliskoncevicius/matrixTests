@@ -18,7 +18,11 @@ base_oneway_equalvar <- function(mat, groups) {
     bad <- is.na(mat[i,])
     vec <- mat[i,!bad]
     grp <- factor(groups[!bad])
+
     res <- summary(aov(vec ~ grp))[[1]]
+
+    # if p-value is NA then turn dfs to NA as well
+    if(is.na(res[1,5])) res[,1] <- NA
 
     st[i]  <- res[1,2]
     sr[i]  <- res[2,2]
@@ -50,7 +54,11 @@ base_oneway_equalvar2 <- function(mat, groups) {
     bad <- is.na(mat[i,])
     vec <- mat[i,!bad]
     grp <- factor(groups[!bad])
+
     res <- oneway.test(vec ~ grp, var.equal=TRUE)
+
+    # if p-value is NA then turn dfs to NA as well
+    if(is.na(res$p.value)) res$parameter <- NA
 
     dft[i] <- res$parameter[1]
     dfr[i] <- res$parameter[2]

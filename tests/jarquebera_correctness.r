@@ -8,13 +8,17 @@ moments_jarquebera <- function(mat) {
   n <- skew <- kurt <- st <- df <- p <- numeric(nrow(mat))
   for(i in 1:nrow(mat)) {
     vec <- na.omit(mat[i,])
+
     res <- moments::jarque.test(x=as.numeric(vec))
+
+    # if p-value is NA turn df to NA as well
+    df[i] <- ifelse(is.na(res$p.value), NA, 2)
 
     n[i]    <- length(vec)
     skew[i] <- moments::skewness(vec)
     kurt[i] <- moments::kurtosis(vec)
     st[i]   <- res$statistic
-    df[i]   <- 2
+    df[i]   <- df
     p[i]    <- res$p.value
   }
 

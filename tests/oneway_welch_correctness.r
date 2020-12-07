@@ -22,9 +22,11 @@ base_oneway_welch <- function(mat, groups) {
 
     res <- oneway.test(vec ~ grp)
 
+    # if p-value is NA then turn dfs to NA as well
+    if(is.na(res$p.value)) res$parameter <- NA
+
     dft[i] <- res$parameter[1]
-    # fix to return infinity when there are groups with 0 variance
-    dfr[i] <- ifelse(all(tapply(vec, grp, var)==0), Inf, res$parameter[2])
+    dfr[i] <- res$parameter[2]
     fst[i] <- res$statistic
     p[i]   <- res$p.value
     ot[i]  <- length(vec)
@@ -123,7 +125,7 @@ stopifnot(all.equal(res1, res2))
 x <- c(1,1,2,3)
 g <- c("a","a","b","b")
 res1 <- base_oneway_welch(x, g)
-res1$df.within <- 1; res1$statistic <- Inf; res1$pvalue <- 0
+res1$df.between <- 1; res1$df.within <- 1; res1$statistic <- Inf; res1$pvalue <- 0
 res2 <- suppressWarnings(row_oneway_welch(x, g))
 stopifnot(all.equal(res1, res2))
 

@@ -19,6 +19,9 @@ base_cor_pearson <- function(mat1, mat2, alt="two.sided", conf=0.95) {
                     method="pearson"
                     )
 
+    # if p-value is NA turn df to NA as well
+    if(is.na(res$p.value)) res$parameter <- NA
+
     np[i]  <- length(vec1)
     cor[i] <- res$estimate
     tst[i] <- res$statistic

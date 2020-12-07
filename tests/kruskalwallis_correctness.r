@@ -16,6 +16,9 @@ base_kruskal <- function(mat, groups) {
     grp <- na.omit(groups[!bad])
     res <- kruskal.test(vec, factor(grp))
 
+    # if p-value is NA turn df to NA as well
+    if(is.na(res$p.value)) res$parameter <- NA
+
     ot[i]  <- length(vec)
     og[i]  <- length(unique(grp))
     df[i]  <- res$parameter

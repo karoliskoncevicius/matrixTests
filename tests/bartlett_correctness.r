@@ -22,6 +22,9 @@ base_bartlett <- function(mat, groups) {
 
     res <- bartlett.test(vec, grp)
 
+    # if p-value is NA turn df to NA as well
+    if(is.na(res$p.value)) res$parameter <- NA
+
     ng[i] <- length(unique(grp))
     nt[i] <- length(vec)
     vt[i] <- sum((tapply(vec, grp, length)-1) * tapply(vec, grp, var, na.rm=TRUE)) / (nt[i]-ng[i])

@@ -15,9 +15,16 @@ base_t_equalvar <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.
   for(i in 1:nrow(mat1)) {
     vec1 <- na.omit(mat1[i,])
     vec2 <- na.omit(mat2[i,])
+
     res <- t.test(vec1, vec2, alternative=alternative[i], mu=null[i], conf.level=conf[i],
                   var.equal=TRUE
                   )
+
+    # if p-value is NA turn stderr and df to NA as well
+    if(is.na(res$p.value)) {
+      res$stderr <- NA
+      res$parameter <- NA
+    }
 
     vx[i]  <- var(vec1)
     vy[i]  <- var(vec2)
@@ -34,13 +41,13 @@ base_t_equalvar <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.
     df[i]  <- res$parameter
     m0[i]  <- res$null.value
     al[i]  <- res$alternative
+    se[i]  <- res$stderr
     cnf[i] <- attr(res$conf.int, "conf.level")
     # pooled variance
     vp <- rep(0, nrow(mat1))
     vp <- ifelse(nx > 1, vp + (nx-1) * vx, vp)
     vp <- ifelse(ny > 1, vp + (ny-1) * vy, vp)
     vp <- vp/(nx+ny-2)
-    se[i]  <- sqrt(vp[i] * (1/nx[i] + 1/ny[i]))
   }
 
   data.frame(obs.x=nx, obs.y=ny, obs.tot=nt, mean.x=mx, mean.y=my, mean.diff=md,

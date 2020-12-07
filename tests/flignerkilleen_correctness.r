@@ -17,6 +17,9 @@ base_fligner <- function(mat, groups) {
 
     res <- fligner.test(vec, factor(grp))
 
+    # if p-value is NA turn df to NA as well
+    if(is.na(res$p.value)) res$parameter <- NA
+
     ng[i] <- length(unique(grp))
     nt[i] <- length(vec)
     ks[i] <- res$statistic

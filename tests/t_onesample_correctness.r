@@ -12,7 +12,14 @@ base_t_onesample <- function(mat, null=0, alternative="two.sided", conf=0.95) {
   al <- character(nrow(mat))
   for(i in 1:nrow(mat)) {
     vec <- na.omit(mat[i,])
+
     res <- t.test(vec, alternative=alternative[i], mu=null[i], conf.level=conf[i])
+
+    # if p-value is NA turn stderr and df to NA as well
+    if(is.na(res$p.value)) {
+      res$stderr <- NA
+      res$parameter <- NA
+    }
 
     vx[i]  <- var(vec)
     nx[i]  <- length(vec)
@@ -21,7 +28,7 @@ base_t_onesample <- function(mat, null=0, alternative="two.sided", conf=0.95) {
     p[i]   <- res$p.value
     cl[i]  <- res$conf.int[1]
     ch[i]  <- res$conf.int[2]
-    se[i]  <- sqrt(vx[i]) / sqrt(nx[i])
+    se[i]  <- res$stderr
     df[i]  <- res$parameter
     m0[i]  <- res$null.value
     al[i]  <- res$alternative
