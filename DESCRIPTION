@@ -14,4 +14,4 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/karoliskoncevicius/matrixTests
 BugReports: https://github.com/karoliskoncevicius/matrixTests/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
