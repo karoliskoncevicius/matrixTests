@@ -145,7 +145,7 @@ res2 <- row_waerden(x, g)
 stopifnot(all.equal(res1, res2))
 
 # one number is repeated multiple times
-x <- sample(c(rep(1, 5), rnorm(15)))
+x <- sample(c(rep(1, 5), rnorm(10)))
 g <- rep(letters[1:5], each=3)
 res1 <- pmcmr_waerden(x, g)
 res2 <- row_waerden(x, g)
