@@ -4,7 +4,8 @@ rowVars <- function(x, n=NULL, m=NULL, na.rm=FALSE) {
   if(is.null(m))
     m <- rowMeans(x, na.rm=na.rm)
   res <- rowSums((x-m)^2, na.rm=na.rm) / (n-1)
-  res[n <= 0] <- NA
+  res[n <= 1] <- NA
+  res[!is.finite(m)] <- NaN
   res
 }
 

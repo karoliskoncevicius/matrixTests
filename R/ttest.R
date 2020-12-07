@@ -130,8 +130,8 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
   nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
   nxys <- nxs + nys
 
-  vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
-  vys <- rowSums((y-mys)^2, na.rm=TRUE) / (nys-1)
+  vxs <- rowVars(x, n=nxs, m=mxs, na.rm=TRUE)
+  vys <- rowVars(y, n=nys, m=mys, na.rm=TRUE)
 
   dfs  <- nxs + nys - 2
 
@@ -232,8 +232,8 @@ row_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) 
   nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
   nxys <- nxs + nys
 
-  vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
-  vys <- rowSums((y-mys)^2, na.rm=TRUE) / (nys-1)
+  vxs <- rowVars(x, n=nxs, m=mxs, na.rm=TRUE)
+  vys <- rowVars(y, n=nys, m=mys, na.rm=TRUE)
 
   stderxs <- vxs/nxs
   stderys <- vys/nys
@@ -309,7 +309,7 @@ row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95)
 
   nxs <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
   mxs <- rowMeans(x, na.rm=TRUE)
-  vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
+  vxs <- rowVars(x, n=nxs, m=mxs, na.rm=TRUE)
 
   stders <- sqrt(vxs/nxs)
   dfs <- nxs-1
@@ -400,13 +400,9 @@ row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95)
   nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
   nxys <- rep.int(ncol(xy), nrow(xy)) - matrixStats::rowCounts(is.na(xy))
 
-  vxs <- rowSums((x-mxs)^2, na.rm=TRUE) / (nxs-1)
-  vxs[nxs < 2] <- NA
-  vys <- rowSums((y-mys)^2, na.rm=TRUE) / (nys-1)
-  vys[nys < 2] <- NA
-
-  vxys <- rowSums((xy-mxys)^2, na.rm=TRUE) / (nxys-1)
-  vxys[nxys < 2] <- NA
+  vxs  <- rowVars(x, n=nxs, m=mxs, na.rm=TRUE)
+  vys  <- rowVars(y, n=nys, m=mys, na.rm=TRUE)
+  vxys <- rowVars(xy, n=nxys, m=mxys, na.rm=TRUE)
 
   stders <- sqrt(vxys/nxys)
   dfs <- nxys-1

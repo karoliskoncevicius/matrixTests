@@ -105,8 +105,8 @@ row_f_var <- function(x, y, null=1, alternative="two.sided", conf.level=0.95) {
   nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
   nxys <- nxs + nys
 
-  vxs <- rowVars(x, na.rm=TRUE)
-  vys <- rowVars(y, na.rm=TRUE)
+  vxs <- rowVars(x, n=nxs, na.rm=TRUE)
+  vys <- rowVars(y, n=nys, na.rm=TRUE)
 
   estimate  <- vxs/vys
 
