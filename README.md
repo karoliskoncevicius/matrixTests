@@ -155,17 +155,6 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 ```
 
 
-#### Test based procedures ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| evora                       | row_ievora(x, b)              |                  ---                  |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-
 ## Further Information ##
 
 For more information please refer to the [Wiki](https://github.com/karoliskoncevicius/matrixTests/wiki) page:
