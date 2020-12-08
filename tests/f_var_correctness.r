@@ -128,8 +128,8 @@ x <- matrix(0, nrow=3, ncol=2)
 y <- matrix(0, nrow=3, ncol=2)
 alt <- c("l", "t", "g")
 res1 <- base_f_var(x, y, alt=alt)
-res1$conf.low[1]  <- NA  # TODO: check why this case returns conf.low = 0 for first row
-res1$conf.high[3] <- NA  # TODO: check why this case returns conf.high = Inf for last row
+res1$conf.low[1]  <- NA  # NOTE: var.test sets lower confidence interval to 0 when alternative is "less"
+res1$conf.high[3] <- NA  # NOTE: var.test sets higher confidence interval to Inf when alternative is "greater"
 res2 <- suppressWarnings(row_f_var(x, y, alt=alt))
 stopifnot(all.equal(res1, res2))
 
@@ -138,8 +138,8 @@ x <- matrix(1, nrow=3, ncol=2)
 y <- matrix(2, nrow=3, ncol=2)
 alt <- c("l", "t", "g")
 res1 <- base_f_var(x, y, alt=alt)
-res1$conf.low[1]  <- NA  # TODO: check why this case returns conf.low = 0 for first row
-res1$conf.high[3] <- NA  # TODO: check why this case returns conf.high = Inf for last row
+res1$conf.low[1]  <- NA  # NOTE: var.test sets lower confidence interval to 0 when alternative is "less"
+res1$conf.high[3] <- NA  # NOTE: var.test sets higher confidence interval to Inf when alternative is "greater"
 res2 <- suppressWarnings(row_f_var(x, y, alt=alt))
 stopifnot(all.equal(res1, res2))
 

@@ -52,6 +52,9 @@ stopifnot(all.equal(res1, res2))
 
 # TODO: test why the following returns NA: row_flignerkilleen(c(1,2,4,3), c(1,1,2,2))
 #       it returns NAs for both base and matrixTests version, so probably not an error
+# NOTE: this happens because all absolute residuals from the median are equal (in both groups)
+#       to fix - probably best to throw a separate warning (similar to levene case)
+#       maybe suggest a patch to base R
 
 #--- extreme numbers -----------------------------------------------------------
 
