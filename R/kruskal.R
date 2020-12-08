@@ -1,4 +1,4 @@
-#' Kruskal-Wallis Rank Sum Test
+#' Kruskal-Wallis rank sum test
 #'
 #' Performs a Kruskal-Wallis rank sum test on each row/column of the input matrix.
 #'

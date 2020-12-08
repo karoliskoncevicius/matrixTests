@@ -1,4 +1,4 @@
-#' Wilcoxon Test
+#' Wilcoxon test
 #'
 #' Performs a Wilcoxon test on each row/column of the input matrix.
 #'

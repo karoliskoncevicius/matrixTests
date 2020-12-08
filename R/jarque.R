@@ -1,4 +1,4 @@
-#' Jarque-Bera Test
+#' Jarque-Bera test
 #'
 #' Performs a Jarque-Bera goodness of fit test for normality.
 #'

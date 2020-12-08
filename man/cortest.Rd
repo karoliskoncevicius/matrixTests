@@ -4,7 +4,7 @@
 \alias{cortest}
 \alias{row_cor_pearson}
 \alias{col_cor_pearson}
-\title{correlation}
+\title{Correlation}
 \usage{
 row_cor_pearson(x, y, alternative = "two.sided", conf.level = 0.95)
 

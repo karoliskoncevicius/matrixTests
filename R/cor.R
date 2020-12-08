@@ -1,4 +1,4 @@
-#' correlation
+#' Correlation
 #'
 #' Performs a correlation test on each row/column of a the input matrix.
 #'

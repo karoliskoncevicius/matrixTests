@@ -71,8 +71,8 @@ row_bartlett <- function(x, g) {
   nSamples <- rowSums(nPerGroup, na.rm=TRUE)
   vtot <- rowSums(vPerGroup*(nPerGroup-1), na.rm=TRUE) / (nSamples - nGroups)
 
-  df   <- nGroups-1
-  ksq  <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
+  df  <- nGroups-1
+  ksq <- ((nSamples-nGroups) * log(vtot) - rowSums((nPerGroup-1) * log(vPerGroup), na.rm=TRUE)) /
            (1 + (rowSums(1/(nPerGroup-1), na.rm=TRUE) - 1/(nSamples-nGroups)) / (3 * df))
   p <- stats::pchisq(ksq, df, lower.tail=FALSE)
 
@@ -83,7 +83,7 @@ row_bartlett <- function(x, g) {
   w2 <- !w1 & nGroups < length(unique(g))
   showWarning(w2, 'had groups with less than 2 observations: those groups were removed')
 
-  w3 <- !w1 & vtot==0 & nGroups!=0
+  w3 <- !w1 & vtot==0
   showWarning(w3, 'had zero variance in all of the groups')
 
   w4 <- !w1 & !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0

@@ -1,4 +1,4 @@
-#' Van der Waerden Test
+#' Van der Waerden test
 #'
 #' Performs van der Waerden test on each row/column of the input matrix.
 #'

@@ -4,7 +4,7 @@
 \alias{kruskalwallis}
 \alias{row_kruskalwallis}
 \alias{col_kruskalwallis}
-\title{Kruskal-Wallis Rank Sum Test}
+\title{Kruskal-Wallis rank sum test}
 \usage{
 row_kruskalwallis(x, g)
 

@@ -8,7 +8,7 @@
 \alias{col_wilcoxon_onesample}
 \alias{row_wilcoxon_paired}
 \alias{col_wilcoxon_paired}
-\title{Wilcoxon Test}
+\title{Wilcoxon test}
 \usage{
 row_wilcoxon_twosample(
   x,

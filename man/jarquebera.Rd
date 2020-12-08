@@ -4,7 +4,7 @@
 \alias{jarquebera}
 \alias{row_jarquebera}
 \alias{col_jarquebera}
-\title{Jarque-Bera Test}
+\title{Jarque-Bera test}
 \usage{
 row_jarquebera(x)
 

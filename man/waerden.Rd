@@ -4,7 +4,7 @@
 \alias{waerden}
 \alias{row_waerden}
 \alias{col_waerden}
-\title{Van der Waerden Test}
+\title{Van der Waerden test}
 \usage{
 row_waerden(x, g)
 

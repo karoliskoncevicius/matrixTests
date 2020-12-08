@@ -6,7 +6,7 @@
 \alias{col_oneway_equalvar}
 \alias{row_oneway_welch}
 \alias{col_oneway_welch}
-\title{ONEWAY ANOVA}
+\title{Oneway ANOVA}
 \usage{
 row_oneway_equalvar(x, g)
 

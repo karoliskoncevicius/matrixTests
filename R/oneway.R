@@ -1,4 +1,4 @@
-#' ONEWAY ANOVA
+#' Oneway ANOVA
 #'
 #' Performs an analysis of variance tests on each row/column of the input matrix.
 #'
