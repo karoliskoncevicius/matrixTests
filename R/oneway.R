@@ -175,6 +175,9 @@ row_oneway_welch <- function(x, g) {
   dfr <- 1/(3*tmp)
   dft <- nGroups-1
 
+  dfr[dfr <= 0] <- NA
+  dft[dft <= 0] <- NA
+
   F <- betweenScatter / (dft * (1 + 2 * (nGroups-2) * tmp))
   p <- stats::pf(F, dft, dfr, lower.tail=FALSE)
 

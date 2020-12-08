@@ -56,7 +56,7 @@ stopifnot(all.equal(res$value$obs.groups, 1))
 x <- 1:10
 g <- letters[1:10]
 res <- capture(row_oneway_welch(x, g))
-stopifnot(all.equal(res$warning[2], wrn)) # TODO: fix the extra warning produced in this situation
+stopifnot(all.equal(res$warning, wrn))
 stopifnot(all(is.na(res$value[,nacolumns])))
 stopifnot(all.equal(res$value$obs.tot, 0))
 stopifnot(all.equal(res$value$obs.groups, 0))
