@@ -49,11 +49,11 @@ row_bartlett <- function(x, g) {
   assert_vec_length(g, ncol(x))
 
 
-  bad <- is.na(g)
-  if(any(bad)) {
+  if(anyNA(g)) {
+    bad <- is.na(g)
+    x   <- x[,!bad, drop=FALSE]
+    g   <- g[!bad]
     warning(sum(bad), ' columns dropped due to missing group information')
-    x <- x[,!bad, drop=FALSE]
-    g <- g[!bad]
   }
 
   g <- as.character(g)

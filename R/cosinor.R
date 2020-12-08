@@ -48,11 +48,11 @@ row_cosinor <- function(x, t, period=24) {
   assert_numeric_vec_length(period, 1)
   assert_all_in_open_interval(period, 0, Inf)
 
-  bad <- is.na(t)
-  if(any(bad)) {
+  if(anyNA(t)) {
+    bad <- is.na(t)
+    x   <- x[,!bad, drop=FALSE]
+    t   <- t[!bad]
     warning(sum(bad), ' columns dropped due to missing time information')
-    x <- x[,!bad, drop=FALSE]
-    t <- t[!bad]
   }
 
   period <- rep_len(period, min(1, nrow(x)))
