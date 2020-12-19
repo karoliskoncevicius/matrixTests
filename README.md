@@ -173,7 +173,7 @@ For more information please refer to the [Wiki](https://github.com/KKPMW/matrixT
 1. [Installation Instructions](https://github.com/karoliskoncevicius/matrixTests/wiki/Installation)
 2. [Design Decisions](https://github.com/karoliskoncevicius/matrixTests/wiki/Design-Decisions)
 3. [Speed Benchmarks](https://github.com/karoliskoncevicius/matrixTests/wiki/Benchmarks)
-4. [Bugs Fixes and Improvements for Base R](https://github.com/karoliskoncevicius/matrixTests/wiki/Bug-Fixes-and-Improvements-for-Base-R)
+4. [Bugs Fixes and Improvements to Base R](https://github.com/karoliskoncevicius/matrixTests/wiki/Bug-Fixes-and-Improvements-to-Base-R)
 
 ## See Also ##
 
