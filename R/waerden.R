@@ -17,7 +17,7 @@
 #' 4. statistic - van det Waerden chi-squared statistic\cr
 #' 5. pvalue - p.value
 #'
-#' @seealso \code{\link[PMCMR]{vanWaerden.test}}, \code{row_oneway_equalvar}, \code{row_kruskalwallis}
+#' @seealso \code{\link[PMCMRplus]{vanWaerdenTest}}, \code{row_oneway_equalvar}, \code{row_kruskalwallis}
 #'
 #' @examples
 #' col_waerden(iris[,1:4], iris$Species)

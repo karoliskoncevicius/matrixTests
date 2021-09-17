@@ -26,7 +26,7 @@ for(nr in nrows) {
     X <- matrix(rnorm(nr*nc), nrow=nr, ncol=nc)
     g <- factor(rep(letters[1:5], each=nc/5))
     resM[as.character(nr), as.character(nc)] <- median(replicate(nreps, system.time(row_waerden(X, g))[3]))
-    resB[as.character(nr), as.character(nc)] <- median(replicate(nreps, system.time(for(i in seq.int(nr)) PMCMR::vanWaerden.test(X[i,], g))[3]))
+    resB[as.character(nr), as.character(nc)] <- median(replicate(nreps, system.time(for(i in seq.int(nr)) PMCMRplus::vanWaerdenTest(X[i,], g))[3]))
     cat("rows:", nr, "cols:", nc, "base:", round(resB[as.character(nr),as.character(nc)],3), "(s)", "matrixTests:", round(resM[as.character(nr),as.character(nc)],3), "(s)", "\n")
   }
 }
@@ -34,6 +34,6 @@ for(nr in nrows) {
 ##################################### plot #####################################
 
 png("row_waerden.png", width=1000, height=800)
-plotBenchResults(resB, resM, "PMCMR::vanWaerden.test(x, g)", "row_waerden(x, g)")
+plotBenchResults(resB, resM, "PMCMRplus::vanWaerdenTest(x, g)", "row_waerden(x, g)")
 invisible(dev.off())
 

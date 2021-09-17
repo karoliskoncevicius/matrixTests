@@ -14,7 +14,7 @@ pmcmr_waerden <- function(mat, groups) {
     bad <- is.na(mat[i,])
     vec <- mat[i,!bad]
     grp <- factor(groups[!bad])
-    res <- PMCMR::vanWaerden.test(vec, grp)
+    res <- PMCMRplus::vanWaerdenTest(vec, grp)
 
     # if p-value is NA turn df to NA as well
     if(is.na(res$p.value)) res$parameter <- NA
