@@ -140,13 +140,13 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
   statistic <- rowSums(r[,seq_len(ncol(x)),drop=FALSE], na.rm=TRUE) - nxs * (nxs + 1)*0.5
 
   nties   <- rowTies(r)
-  hasties <- rowSums(nties>0) > 0
+  hasties <- rowSums(nties>1) > 0
 
   wres <- rep(NA_integer_, nrow(x))
   inds <- exact & !hasties
   wres[inds]  <- do_wilcox_2_exact(statistic[inds], nxs[inds], nys[inds], alternative[inds])
   wres[!inds] <- do_wilcox_2_approx(statistic[!inds], nxs[!inds], nys[!inds], alternative[!inds],
-                                  nties[!inds,,drop=FALSE], correct[!inds])
+                                    nties[!inds,,drop=FALSE], correct[!inds])
 
 
   w1 <- nxs < 1
@@ -240,7 +240,7 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
   statistic <- rowSums(rtmp, na.rm=TRUE)
 
   nties   <- rowTies(r)
-  hasties <- rowSums(nties>0) > 0
+  hasties <- rowSums(nties>1) > 0
 
   wres <- rep(NA_integer_, nrow(x))
   inds <- exact & !hasties & !haszeroes
@@ -358,7 +358,7 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
   statistic <- rowSums(rtmp, na.rm=TRUE)
 
   nties   <- rowTies(r)
-  hasties <- rowSums(nties>0) > 0
+  hasties <- rowSums(nties>1) > 0
 
   wres <- rep(NA_integer_, nrow(x))
   inds <- exact & !hasties & !haszeroes

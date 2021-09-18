@@ -84,7 +84,7 @@ row_kruskalwallis <- function(x, g) {
   w2 <- !w1 & nGroups < 2
   showWarning(w2, 'had less than 2 groups with enough observations')
 
-  w3 <- !w1 & !w2 & ties[,1]==nSamples
+  w3 <- !w1 & !w2 & matrixStats::rowMaxs(ties)==nSamples
   showWarning(w3, 'had essentially constant values')
 
   df[w1 | w2 | w3]   <- NA

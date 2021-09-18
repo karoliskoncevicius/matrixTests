@@ -23,7 +23,8 @@ CHANGES:
 
 INTERNAL:
 
- * van der Waerden test is now aligned and tested against `PMCMRplus::vanWaerdenTest()` (previously `PMCMR::vanWaerden.test()`)
+ * Improved the speed of Wilcox tests in cases with ties.
+ * van der Waerden test is now aligned and tested against `PMCMRplus::vanWaerdenTest()` (previously `PMCMR::vanWaerden.test()`).
  * matrixTests no longer depends on `testthat` for unit tests.
  * All unit tests are rewritten.
 

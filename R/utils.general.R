@@ -11,25 +11,20 @@ rowVars <- function(x, n=NULL, m=NULL, na.rm=FALSE) {
 
 rowTies <- function(x) {
   dupRows <- apply(x, 1, anyDuplicated, incomparables=NA) != 0
-  if(any(dupRows)) {
-    dups <- matrix(FALSE, nrow=nrow(x), ncol=ncol(x))
-    dups[dupRows,] <- t(apply(x[dupRows,,drop=FALSE], 1, duplicated, incomparables=NA))
-    dups <- cbind(which(dups, arr.ind=TRUE), val=x[dups])
-    dups <- dups[order(dups[,1], dups[,3]),,drop=FALSE]
+  if (any(dupRows)) {
+    # convert the values of each row to ranks
+    x <- matrixStats::rowRanks(x[dupRows,, drop=FALSE], ties.method="dense")
 
-    sp <- split(dups[,3], dups[,1])
-    sp <- lapply(sp, function(x) rle(x)$length+1)
-    cl <- lapply(sp, seq_along)
+    # construct a matrix where ranks are treated as columns
+    # in this way column counts will track the number of repeated values[
+    inds  <- nrow(x) * (x - 1) + row(x)
+    msize <- nrow(x) * (ncol(x) - 1) + nrow(x)
+    t <- tabulate(inds, msize)
 
-    dups <- cbind(rep(unique(dups[,1]), lengths(sp)),
-                  unlist(cl),
-                  unlist(sp)
-                  )
-
-    res <- matrix(0L, nrow=nrow(x), ncol=max(dups[,2]))
-    res[dups[,1:2,drop=FALSE]] <- dups[,3]
+    res <- matrix(1L, nrow=length(dupRows), ncol=ncol(x))
+    res[dupRows,][1:msize] <- t
   } else {
-    res <- matrix(0L, nrow=nrow(x), ncol=1)
+    res <- matrix(1L, nrow=length(dupRows), ncol=1)
   }
   res
 }
