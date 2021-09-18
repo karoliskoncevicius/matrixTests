@@ -139,7 +139,7 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
 
   statistic <- rowSums(r[,seq_len(ncol(x)),drop=FALSE], na.rm=TRUE) - nxs * (nxs + 1)*0.5
 
-  nties   <- rowTies(r)
+  nties   <- rowRankTies(r)
   hasties <- rowSums(nties>1) > 0
 
   wres <- rep(NA_integer_, nrow(x))
@@ -239,7 +239,7 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
   rtmp[x<=0] <- NA
   statistic <- rowSums(rtmp, na.rm=TRUE)
 
-  nties   <- rowTies(r)
+  nties   <- rowRankTies(r)
   hasties <- rowSums(nties>1) > 0
 
   wres <- rep(NA_integer_, nrow(x))
@@ -357,7 +357,7 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
   rtmp[xy<=0] <- NA
   statistic <- rowSums(rtmp, na.rm=TRUE)
 
-  nties   <- rowTies(r)
+  nties   <- rowRankTies(r)
   hasties <- rowSums(nties>1) > 0
 
   wres <- rep(NA_integer_, nrow(x))

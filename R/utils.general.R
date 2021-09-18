@@ -9,19 +9,22 @@ rowVars <- function(x, n=NULL, m=NULL, na.rm=FALSE) {
   res
 }
 
-rowTies <- function(x) {
-  dupRows <- apply(x, 1, anyDuplicated, incomparables=NA) != 0
+# NOTE: assumes that the input is a matrix with ranks in each row
+#       the behaviour of this function is quite trikcy
+#       it converts the matrix of ranks into an index-form representation of a different matrix,
+#       where rows represent the original rows but columns correspond to ranks (values of r).
+#       then it counts the occurance of each such index to get table of ranks for each row
+rowRankTies <- function(r) {
+  dupRows <- apply(r, 1, anyDuplicated, incomparables=NA) != 0
   if (any(dupRows)) {
-    # convert the values of each row to ranks
-    x <- matrixStats::rowRanks(x[dupRows,, drop=FALSE], ties.method="dense")
+    r <- r[dupRows,, drop=FALSE]
+    storage.mode(r) <- "integer"
 
-    # construct a matrix where ranks are treated as columns
-    # in this way column counts will track the number of repeated values[
-    inds  <- nrow(x) * (x - 1) + row(x)
-    msize <- nrow(x) * (ncol(x) - 1) + nrow(x)
+    inds  <- nrow(r) * (r - 1) + row(r)
+    msize <- nrow(r) * (ncol(r) - 1) + nrow(r)
     t <- tabulate(inds, msize)
 
-    res <- matrix(1L, nrow=length(dupRows), ncol=ncol(x))
+    res <- matrix(1L, nrow=length(dupRows), ncol=ncol(r))
     res[dupRows,][1:msize] <- t
   } else {
     res <- matrix(1L, nrow=length(dupRows), ncol=1)

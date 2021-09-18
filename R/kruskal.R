@@ -54,7 +54,7 @@ row_kruskalwallis <- function(x, g) {
 
   ranks <- matrixStats::rowRanks(x, ties.method="average")
 
-  ties <- rowTies(ranks)
+  ties <- rowRankTies(ranks)
 
   nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
   rPerGroup <- nPerGroup
