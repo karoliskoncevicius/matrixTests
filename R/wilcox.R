@@ -142,7 +142,7 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
   nties   <- rowRankTies(r)
   hasties <- rowSums(nties>1) > 0
 
-  wres <- rep(NA_integer_, nrow(x))
+  wres <- rep.int(NA_real_, nrow(x))
   inds <- exact & !hasties
   wres[inds]  <- do_wilcox_2_exact(statistic[inds], nxs[inds], nys[inds], alternative[inds])
   wres[!inds] <- do_wilcox_2_approx(statistic[!inds], nxs[!inds], nys[!inds], alternative[!inds],
@@ -242,7 +242,7 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
   nties   <- rowRankTies(r)
   hasties <- rowSums(nties>1) > 0
 
-  wres <- rep(NA_integer_, nrow(x))
+  wres <- rep.int(NA_real_, nrow(x))
   inds <- exact & !hasties & !haszeroes
   wres[inds]  <- do_wilcox_1_exact(statistic[inds], nxs[inds], alternative[inds])
   wres[!inds] <- do_wilcox_1_approx(statistic[!inds], nxs[!inds], alternative[!inds],
@@ -360,7 +360,7 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
   nties   <- rowRankTies(r)
   hasties <- rowSums(nties>1) > 0
 
-  wres <- rep(NA_integer_, nrow(x))
+  wres <- rep.int(NA_real_, nrow(x))
   inds <- exact & !hasties & !haszeroes
   wres[inds]  <- do_wilcox_1_exact(statistic[inds], nxys[inds], alternative[inds])
   wres[!inds] <- do_wilcox_1_approx(statistic[!inds], nxys[!inds], alternative[!inds],

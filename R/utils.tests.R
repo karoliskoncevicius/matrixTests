@@ -10,7 +10,7 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   inds <- alt=="less"
   if(any(inds)) {
     res[inds,2] <- stats::pt(res[inds,1], df[inds])
-    res[inds,3] <- rep(-Inf, sum(inds))
+    res[inds,3] <- rep.int(-Inf, sum(inds))
     res[inds,4] <- res[inds,1] + stats::qt(conf[inds], df[inds])
   }
 
@@ -18,7 +18,7 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   if(any(inds)) {
     res[inds,2] <- stats::pt(res[inds,1], df[inds], lower.tail=FALSE)
     res[inds,3] <- res[inds,1] - stats::qt(conf[inds], df[inds])
-    res[inds,4] <- rep(Inf, sum(inds))
+    res[inds,4] <- rep.int(Inf, sum(inds))
   }
 
   inds <- alt=="two.sided"
@@ -72,7 +72,7 @@ do_ftest <- function(est, rat, alt, df1, df2, conf) {
 
 
 do_wilcox_1_exact <- function(stat, n, alt) {
-  res <- rep(NA_integer_, length(stat))
+  res <- rep.int(NA_real_, length(stat))
 
   case <- stat > (n * (n+1)*0.25)
 
@@ -103,10 +103,10 @@ do_wilcox_1_exact <- function(stat, n, alt) {
 }
 
 do_wilcox_1_approx <- function(stat, n, alt, nties, correct) {
-  res <- rep(NA_integer_, length(stat))
+  res <- rep.int(NA_real_, length(stat))
 
   z <- stat - n * (n+1)*0.25
-  correction <- rep(0, length(stat))
+  correction <- rep.int(0, length(stat))
   correction[correct & alt=="two.sided"] <- sign(z[correct & alt=="two.sided"]) * 0.5
   correction[correct & alt=="greater"]   <- 0.5
   correction[correct & alt=="less"   ]   <- -0.5
@@ -135,7 +135,7 @@ do_wilcox_1_approx <- function(stat, n, alt, nties, correct) {
 }
 
 do_wilcox_2_exact <- function(stat, nx, ny, alt) {
-  res <- rep(NA_integer_, length(stat))
+  res <- rep.int(NA_real_, length(stat))
 
   case <- stat > (nx*ny*0.5)
 
@@ -167,10 +167,10 @@ do_wilcox_2_exact <- function(stat, nx, ny, alt) {
 }
 
 do_wilcox_2_approx <- function(stat, nx, ny, alt, nties, correct) {
-  res <- rep(NA_integer_, length(stat))
+  res <- rep.int(NA_real_, length(stat))
 
   z <- stat - nx*ny*0.5
-  correction <- rep(0, length(stat))
+  correction <- rep.int(0, length(stat))
   correction[correct & alt=="two.sided"] <- sign(z[correct & alt=="two.sided"]) * 0.5
   correction[correct & alt=="greater"]   <- 0.5
   correction[correct & alt=="less"   ]   <- -0.5
@@ -212,7 +212,7 @@ do_pearson <- function(r, df, alt, conf) {
   inds <- alt=="less"
   if(any(inds)) {
     res[inds,2] <- stats::pt(res[inds,1], df[inds])
-    res[inds,3] <- rep(-Inf, sum(inds))
+    res[inds,3] <- rep.int(-Inf, sum(inds))
     res[inds,4] <- z[inds] + sigma[inds] * stats::qnorm(conf[inds])
   }
 
@@ -220,7 +220,7 @@ do_pearson <- function(r, df, alt, conf) {
   if(any(inds)) {
     res[inds,2] <- stats::pt(res[inds,1], df[inds], lower.tail=FALSE)
     res[inds,3] <- z[inds] - sigma[inds] * stats::qnorm(conf[inds])
-    res[inds,4] <- rep(Inf, sum(inds))
+    res[inds,4] <- rep.int(Inf, sum(inds))
   }
 
   inds <- alt=="two.sided"

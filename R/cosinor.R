@@ -55,7 +55,7 @@ row_cosinor <- function(x, t, period=24) {
     warning(sum(bad), ' columns dropped due to missing time information')
   }
 
-  period <- rep_len(period, min(1, nrow(x)))
+  period <- rep.int(period, min(1, nrow(x)))
 
   hasinfx <- is.infinite(x)
   x[hasinfx] <- NA
@@ -64,7 +64,7 @@ row_cosinor <- function(x, t, period=24) {
 
   nobs  <- rowSums(!is.na(x))
 
-  b0 <- rep(1, ncol(x))
+  b0 <- rep.int(1, ncol(x))
   b1 <- sinpi(2*t/period)
   b2 <- cospi(2*t/period)
   B  <- cbind(b0, b1, b2)
