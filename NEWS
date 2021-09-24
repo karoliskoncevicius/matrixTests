@@ -23,7 +23,7 @@ CHANGES:
 
 INTERNAL:
 
- * Improved the speed of all tests in cases with samples sizes bigger than 100.
+ * Improved the speed of all tests in cases with sample sizes bigger than 100.
  * Improved the speed of Wilcox tests in cases with ties.
  * van der Waerden test is now aligned and tested against `PMCMRplus::vanWaerdenTest()` (previously `PMCMR::vanWaerden.test()`).
  * matrixTests no longer depends on `testthat` for unit tests.
