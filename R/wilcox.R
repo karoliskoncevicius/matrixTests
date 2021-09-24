@@ -106,7 +106,7 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
   assert_equal_nrow(x, y)
 
   if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
+    alternative <- rep.int(alternative, nrow(x))
   assert_character_vec_length(alternative, 1, nrow(x))
 
   choices <- c("two.sided", "less", "greater")
@@ -114,17 +114,17 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
   assert_all_in_set(alternative, choices)
 
   if(length(null)==1)
-    null <- rep(null, length.out=nrow(x))
+    null <- rep.int(null, nrow(x))
   assert_numeric_vec_length(null, 1, nrow(x))
   assert_all_in_open_interval(null, -Inf, Inf)
 
   if(length(exact)==1)
-    exact <- rep(exact, length.out=nrow(x))
+    exact <- rep.int(exact, nrow(x))
   assert_logical_vec_length(exact, 1, nrow(x))
   assert_all_in_set(exact, c(TRUE, FALSE, NA))
 
   if(length(correct)==1)
-    correct <- rep(correct, length.out=nrow(x))
+    correct <- rep.int(correct, nrow(x))
   assert_logical_vec_length(correct, 1, nrow(x))
   assert_all_in_set(correct, c(TRUE, FALSE))
 
@@ -200,7 +200,7 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
   assert_numeric_mat_or_vec(x)
 
   if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
+    alternative <- rep.int(alternative, nrow(x))
   assert_character_vec_length(alternative, 1, nrow(x))
 
   choices <- c("two.sided", "less", "greater")
@@ -208,17 +208,17 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
   assert_all_in_set(alternative, choices)
 
   if(length(null)==1)
-    null <- rep(null, length.out=nrow(x))
+    null <- rep.int(null, nrow(x))
   assert_numeric_vec_length(null, 1, nrow(x))
   assert_all_in_open_interval(null, -Inf, Inf)
 
   if(length(exact)==1)
-    exact <- rep(exact, length.out=nrow(x))
+    exact <- rep.int(exact, nrow(x))
   assert_logical_vec_length(exact, 1, nrow(x))
   assert_all_in_set(exact, c(TRUE, FALSE, NA))
 
   if(length(correct)==1)
-    correct <- rep(correct, length.out=nrow(x))
+    correct <- rep.int(correct, nrow(x))
   assert_logical_vec_length(correct, 1, nrow(x))
   assert_all_in_set(correct, c(TRUE, FALSE))
 
@@ -315,7 +315,7 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
   assert_equal_ncol(x, y)
 
   if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
+    alternative <- rep.int(alternative, nrow(x))
   assert_character_vec_length(alternative, 1, nrow(x))
 
   choices <- c("two.sided", "less", "greater")
@@ -323,17 +323,17 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
   assert_all_in_set(alternative, choices)
 
   if(length(null)==1)
-    null <- rep(null, length.out=nrow(x))
+    null <- rep.int(null, nrow(x))
   assert_numeric_vec_length(null, 1, nrow(x))
   assert_all_in_open_interval(null, -Inf, Inf)
 
   if(length(exact)==1)
-    exact <- rep(exact, length.out=nrow(x))
+    exact <- rep.int(exact, nrow(x))
   assert_logical_vec_length(exact, 1, nrow(x))
   assert_all_in_set(exact, c(TRUE, FALSE, NA))
 
   if(length(correct)==1)
-    correct <- rep(correct, length.out=nrow(x))
+    correct <- rep.int(correct, nrow(x))
   assert_logical_vec_length(correct, 1, nrow(x))
   assert_all_in_set(correct, c(TRUE, FALSE))
 

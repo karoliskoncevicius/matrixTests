@@ -104,7 +104,7 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
   assert_equal_nrow(x, y)
 
   if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
+    alternative <- rep.int(alternative, nrow(x))
   assert_character_vec_length(alternative, 1, nrow(x))
 
   choices <- c("two.sided", "less", "greater")
@@ -112,12 +112,12 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
   assert_all_in_set(alternative, choices)
 
   if(length(null)==1)
-    null <- rep(null, length.out=nrow(x))
+    null <- rep.int(null, nrow(x))
   assert_numeric_vec_length(null, 1, nrow(x))
   assert_all_in_closed_interval(null, -Inf, Inf)
 
   if(length(conf.level)==1)
-    conf.level <- rep(conf.level, length.out=nrow(x))
+    conf.level <- rep.int(conf.level, nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
   assert_all_in_closed_interval(conf.level, 0, 1)
 
@@ -206,7 +206,7 @@ row_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) 
   assert_equal_nrow(x, y)
 
   if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
+    alternative <- rep.int(alternative, nrow(x))
   assert_character_vec_length(alternative, 1, nrow(x))
 
   choices <- c("two.sided", "less", "greater")
@@ -214,12 +214,12 @@ row_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) 
   assert_all_in_set(alternative, choices)
 
   if(length(null)==1)
-    null <- rep(null, length.out=nrow(x))
+    null <- rep.int(null, nrow(x))
   assert_numeric_vec_length(null, 1, nrow(x))
   assert_all_in_closed_interval(null, -Inf, Inf)
 
   if(length(conf.level)==1)
-    conf.level <- rep(conf.level, length.out=nrow(x))
+    conf.level <- rep.int(conf.level, nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
   assert_all_in_closed_interval(conf.level, 0, 1)
 
@@ -289,7 +289,7 @@ row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95)
 
 
   if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
+    alternative <- rep.int(alternative, nrow(x))
   assert_character_vec_length(alternative, 1, nrow(x))
 
   choices <- c("two.sided", "less", "greater")
@@ -297,12 +297,12 @@ row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95)
   assert_all_in_set(alternative, choices)
 
   if(length(null)==1)
-    null <- rep(null, length.out=nrow(x))
+    null <- rep.int(null, nrow(x))
   assert_numeric_vec_length(null, 1, nrow(x))
   assert_all_in_closed_interval(null, -Inf, Inf)
 
   if(length(conf.level)==1)
-    conf.level <- rep(conf.level, length.out=nrow(x))
+    conf.level <- rep.int(conf.level, nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
   assert_all_in_closed_interval(conf.level, 0, 1)
 
@@ -372,7 +372,7 @@ row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95)
   assert_equal_ncol(x, y)
 
   if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
+    alternative <- rep.int(alternative, nrow(x))
   assert_character_vec_length(alternative, 1, nrow(x))
 
   choices <- c("two.sided", "less", "greater")
@@ -380,12 +380,12 @@ row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95)
   assert_all_in_set(alternative, choices)
 
   if(length(null)==1)
-    null <- rep(null, length.out=nrow(x))
+    null <- rep.int(null, nrow(x))
   assert_numeric_vec_length(null, 1, nrow(x))
   assert_all_in_closed_interval(null, -Inf, Inf)
 
   if(length(conf.level)==1)
-    conf.level <- rep(conf.level, length.out=nrow(x))
+    conf.level <- rep.int(conf.level, nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
   assert_all_in_closed_interval(conf.level, 0, 1)
 

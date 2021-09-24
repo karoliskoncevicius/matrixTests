@@ -71,7 +71,7 @@ row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   assert_equal_ncol(x, y)
 
   if(length(alternative)==1)
-    alternative <- rep(alternative, length.out=nrow(x))
+    alternative <- rep.int(alternative, nrow(x))
   assert_character_vec_length(alternative, 1, nrow(x))
 
   choices <- c("two.sided", "less", "greater")
@@ -79,11 +79,11 @@ row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   assert_all_in_set(alternative, choices)
 
   if(length(conf.level)==1)
-    conf.level <- rep(conf.level, length.out=nrow(x))
+    conf.level <- rep.int(conf.level, nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
   assert_all_in_closed_interval(conf.level, 0, 1)
 
-  mu <- rep(0, length.out=nrow(x)) # can't be changed because different test should be used in that case.
+  mu <- rep.int(0, nrow(x)) # can't be changed because different test should be used in that case.
 
   isna <- is.na(x+y)
   x[isna] <- NA
@@ -91,10 +91,8 @@ row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
 
   ns <- ncol(x) - matrixStats::rowCounts(isna)
 
-  mx <- rowMeans(x, na.rm=TRUE)
-  my <- rowMeans(y, na.rm=TRUE)
-  x  <- x - mx
-  y  <- y - my
+  x  <- x - rowMeans(x, na.rm=TRUE)
+  y  <- y - rowMeans(y, na.rm=TRUE)
   sx <- sqrt(rowSums(x * x, na.rm=TRUE) / (ns-1))
   sy <- sqrt(rowSums(y * y, na.rm=TRUE) / (ns-1))
 
