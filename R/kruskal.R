@@ -61,7 +61,7 @@ row_kruskalwallis <- function(x, g) {
   for(i in seq_along(unique(g))) {
     inds <- g == unique(g)[i]
     tmpx <- x[,inds, drop=FALSE]
-    nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
+    nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     rPerGroup[,i] <- rowSums(ranks[,inds, drop=FALSE], na.rm=TRUE)
   }
 

@@ -51,7 +51,7 @@ row_waerden <- function(x, g) {
   g <- as.character(g)
 
   r <- matrixStats::rowRanks(x, ties.method="average")
-  n <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
+  n <- ncol(x) - matrixStats::rowCounts(x, value=NA)
   z <- stats::qnorm(r/(n+1))
   z <- matrix(z, nrow=nrow(x), ncol=ncol(x))
 
@@ -59,7 +59,7 @@ row_waerden <- function(x, g) {
   sPerGroup <- nPerGroup
   for(i in seq_along(unique(g))) {
     tmpx <- z[,g==unique(g)[i], drop=FALSE]
-    nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
+    nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     sPerGroup[,i] <- rowSums(tmpx, na.rm=TRUE)
   }
 

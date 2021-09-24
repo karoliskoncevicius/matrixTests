@@ -72,7 +72,7 @@ row_levene <- function(x, g) {
     tmpx <- x[,g==unique(g)[i], drop=FALSE]
     tmpx <- abs(tmpx - rowMeans(tmpx, na.rm=TRUE))
     x[,g==unique(g)[i]] <- tmpx
-    nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
+    nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowVars(tmpx, n=nPerGroup[,i], m=mPerGroup[,i], na.rm=TRUE)
   }
@@ -164,7 +164,7 @@ row_brownforsythe <- function(x, g) {
     tmpx <- x[,g==unique(g)[i], drop=FALSE]
     tmpx <- abs(tmpx - matrixStats::rowMedians(tmpx, na.rm=TRUE))
     x[,g==unique(g)[i]] <- tmpx
-    nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
+    nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowVars(tmpx, n=nPerGroup[,i], m=mPerGroup[,i], na.rm=TRUE)
   }

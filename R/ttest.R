@@ -126,8 +126,8 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
   mys  <- rowMeans(y, na.rm=TRUE)
   mxys <- mxs - mys
 
-  nxs  <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
-  nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
+  nxs  <- ncol(x) - matrixStats::rowCounts(x, value=NA)
+  nys  <- ncol(y) - matrixStats::rowCounts(y, value=NA)
   nxys <- nxs + nys
 
   vxs <- rowVars(x, n=nxs, m=mxs, na.rm=TRUE)
@@ -228,8 +228,8 @@ row_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) 
   mys  <- rowMeans(y, na.rm=TRUE)
   mxys <- mxs - mys
 
-  nxs  <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
-  nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
+  nxs  <- ncol(x) - matrixStats::rowCounts(x, value=NA)
+  nys  <- ncol(y) - matrixStats::rowCounts(y, value=NA)
   nxys <- nxs + nys
 
   vxs <- rowVars(x, n=nxs, m=mxs, na.rm=TRUE)
@@ -307,7 +307,7 @@ row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95)
   assert_all_in_closed_interval(conf.level, 0, 1)
 
 
-  nxs <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
+  nxs <- ncol(x) - matrixStats::rowCounts(x, value=NA)
   mxs <- rowMeans(x, na.rm=TRUE)
   vxs <- rowVars(x, n=nxs, m=mxs, na.rm=TRUE)
 
@@ -396,9 +396,9 @@ row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95)
   mys  <- rowMeans(y, na.rm=TRUE)
   mxys <- rowMeans(xy, na.rm=TRUE)
 
-  nxs  <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
-  nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
-  nxys <- rep.int(ncol(xy), nrow(xy)) - matrixStats::rowCounts(is.na(xy))
+  nxs  <- ncol(x)  - matrixStats::rowCounts(x, value=NA)
+  nys  <- ncol(y)  - matrixStats::rowCounts(y, value=NA)
+  nxys <- ncol(xy) - matrixStats::rowCounts(xy, value=NA)
 
   vxs  <- rowVars(x, n=nxs, m=mxs, na.rm=TRUE)
   vys  <- rowVars(y, n=nys, m=mys, na.rm=TRUE)

@@ -62,7 +62,7 @@ row_flignerkilleen <- function(x, g) {
   for(i in seq_along(unique(g))) {
     inds <- g==unique(g)[i]
     tmpx <- x[,inds, drop=FALSE]
-    nPerGroup[,i] <- rep.int(ncol(tmpx), nrow(tmpx)) - matrixStats::rowCounts(is.na(tmpx))
+    nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     x[,inds] <- tmpx - matrixStats::rowMedians(tmpx, na.rm=TRUE)
   }
 

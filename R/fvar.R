@@ -101,8 +101,8 @@ row_f_var <- function(x, y, null=1, alternative="two.sided", conf.level=0.95) {
   y[hasinfy] <- NA
   hasinfy <- rowSums(hasinfy) > 0
 
-  nxs  <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(is.na(x))
-  nys  <- rep.int(ncol(y), nrow(y)) - matrixStats::rowCounts(is.na(y))
+  nxs  <- ncol(x) - matrixStats::rowCounts(x, value=NA)
+  nys  <- ncol(y) - matrixStats::rowCounts(y, value=NA)
   nxys <- nxs + nys
 
   vxs <- rowVars(x, n=nxs, na.rm=TRUE)
