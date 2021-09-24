@@ -1,6 +1,6 @@
 rowVars <- function(x, n=NULL, m=NULL, na.rm=FALSE) {
   if(is.null(n))
-    n <- rep.int(ncol(x), nrow(x)) - rowSums(is.na(x))
+    n <- ncol(x) - matrixStats::rowCounts(x, value=NA)
   if(is.null(m))
     m <- rowMeans(x, na.rm=na.rm)
   res <- rowSums((x-m)^2, na.rm=na.rm) / (n-1)

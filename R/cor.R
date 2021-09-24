@@ -89,7 +89,7 @@ row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   x[isna] <- NA
   y[isna] <- NA
 
-  ns <- rep.int(ncol(x), nrow(x)) - matrixStats::rowCounts(isna)
+  ns <- ncol(x) - matrixStats::rowCounts(isna)
 
   mx <- rowMeans(x, na.rm=TRUE)
   my <- rowMeans(y, na.rm=TRUE)
