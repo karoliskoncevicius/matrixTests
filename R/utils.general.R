@@ -13,11 +13,15 @@ rowRankTies <- function(r) {
   if(storage.mode(r) != "integer") {
     storage.mode(r) <- "integer"
   }
-  t <- apply(r, 1, tabulate, ncol(r), simplify=FALSE)
-  if(!is.list(t)) {
-    t <- list(t)
+  r <- t(r)
+  res <- vector("list", ncol(r))
+  for(i in seq_len(ncol(r))) {
+    res[[i]] <- tabulate(r[,i], nrow(r))
   }
-  do.call(rbind, t)
+  if(length(res) == 0) {  # needed to work with zero-row inputs
+    res <- list(integer())
+  }
+  do.call(rbind, res)
 }
 
 showWarning <- function(isWarning, err) {
