@@ -194,3 +194,4 @@ GitHub:
 
 1. `rowWilcoxonTests()` in the [**sanssouci**](https://github.com/pneuvial/sanssouci) package.
 2. `matrix.t.test()` in the [**pi0**](https://github.com/gitlongor/pi0) package.
+3. `wilcoxauc()` in the [**presto**](https://github.com/immunogenomics/presto) package.
