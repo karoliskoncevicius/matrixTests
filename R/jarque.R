@@ -9,7 +9,7 @@
 #' on every row (or column) of \code{x}
 #'
 #' @param x numeric matrix.
-
+#'
 #' @return a data.frame where each row contains the results of a Jarque-Bera
 #' test performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr

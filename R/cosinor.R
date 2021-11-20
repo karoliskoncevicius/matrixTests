@@ -8,7 +8,7 @@
 #' @param x numeric matrix.
 #' @param t a vector specifying time variable for each observation of x.
 #' @param period oscillation period in the units of \code{t} (default = 24, suitable when inspecting diurnal rhythms with hourly data).
-
+#'
 #' @return a data.frame where each row contains the results of a cosinor test
 #' performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr

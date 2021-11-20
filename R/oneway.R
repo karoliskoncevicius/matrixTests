@@ -18,7 +18,7 @@
 #'
 #' @param x numeric matrix.
 #' @param g a vector specifying group membership for each observation of x.
-
+#'
 #' @return a data.frame where each row contains the results of an oneway anova
 #' test performed on the corresponding row/column of x.
 #' The columns will vary depending on the type of test performed.\cr\cr
