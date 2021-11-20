@@ -1,6 +1,6 @@
 Package: matrixTests
 Title: Fast Statistical Hypothesis Tests on Rows and Columns of Matrices
-Version: 0.1.9
+Version: 0.1.9.1
 Authors@R: person("Karolis", "Koncevičius", email = "karolis.koncevicius@gmail.com", role = c("aut", "cre"))
 Maintainer: Karolis Koncevičius <karolis.koncevicius@gmail.com>
 Description: Functions to perform fast statistical hypothesis tests on rows/columns of matrices.
@@ -8,10 +8,10 @@ Description: Functions to perform fast statistical hypothesis tests on rows/colu
   3) compatibility with tests implemented in R (like those available in the 'stats' package).
 Depends: R (>= 3.2.2)
 Imports: matrixStats
-Suggests: testthat, moments, car, cosinor, cosinor2, PMCMR
+Suggests: testthat, moments, car, cosinor, cosinor2, PMCMRplus
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/KKPMW/matrixTests
-BugReports: https://github.com/KKPMW/matrixTests/issues
-RoxygenNote: 7.0.2
+URL: https://github.com/karoliskoncevicius/matrixTests
+BugReports: https://github.com/karoliskoncevicius/matrixTests/issues
+RoxygenNote: 7.1.2

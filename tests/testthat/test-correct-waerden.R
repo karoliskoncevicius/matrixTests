@@ -16,7 +16,7 @@ pmcmr_waerden <- function(mat, groups) {
     bad <- is.na(mat[i,])
     vec <- mat[i,!bad]
     grp <- factor(groups[!bad])
-    res <- PMCMR::vanWaerden.test(vec, grp)
+    res <- PMCMRplus::vanWaerdenTest(vec, grp)
 
     df[i]   <- res$parameter
     stat[i] <- res$statistic

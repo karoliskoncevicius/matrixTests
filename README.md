@@ -81,7 +81,7 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 | equal variance oneway anova | row_oneway_equalvar(x, g)     | oneway.test(x ~ g, var.equal=TRUE)    |
 | welch oneway anova          | row_oneway_welch(x, g)        | oneway.test(x ~ g)                    |
 | kruskal-wallis test         | row_kruskalwallis(x, g)       | kruskal.test(x, g)                    |
-| van der waerden test        | row_waerden(x, g)             | PMCMR::vanWaerden.test(x, g)          |
+| van der waerden test        | row_waerden(x, g)             | PMCMRplus::vanWaerdenTEST(x, g)       |
 |-----------------------------|-------------------------------|---------------------------------------|
 ```
 
