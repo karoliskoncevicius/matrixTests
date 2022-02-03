@@ -8,7 +8,7 @@ Description: Functions to perform fast statistical hypothesis tests on rows/colu
   3) compatibility with tests implemented in R (like those available in the 'stats' package).
 Depends: R (>= 3.2.2)
 Imports: matrixStats
-Suggests: moments, car, cosinor, cosinor2, PMCMRplus
+Suggests: PMCMRplus, car, cosinor, cosinor2, moments, nortest
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
