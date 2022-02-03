@@ -43,7 +43,7 @@ row_andersondarling <- function(x) {
   n <- ncol(xi) - matrixStats::rowCounts(x, value=NA)
 
   m  <- rowMeans(x, na.rm=TRUE) # means and sds are the same for x, xi, and xd
-  s  <- rowSds(x, na.rm=TRUE)
+  s  <- sqrt(rowVars(x, na.rm=TRUE))
   lg <- pnorm((xi-m)/s, log.p=TRUE) + pnorm(-(xd-m)/s, log.p=TRUE)
 
   h <- (2 * col(x) - 1) * lg
@@ -53,16 +53,16 @@ row_andersondarling <- function(x) {
   p <- rep(3.7e-24, nrow(x))
   inds <- AA < 0.2
   p[inds] <- 1 - exp(-13.436 + 101.14 * AA[inds] - 223.73 * AA[inds]^2)
-  inds <- AA >=0.2 && AA < 0.34
+  inds <- AA >=0.2 & AA < 0.34
   p[inds] <- 1 - exp(-8.318 + 42.796 * AA[inds] - 59.938 * AA[inds]^2)
-  inds <- AA >=0.34 && AA < 0.6
+  inds <- AA >=0.34 & AA < 0.6
   p[inds] <- exp(0.9177 - 4.279 * AA[inds] - 1.38 * AA[inds]^2)
-  inds <- AA >=0.6 && AA < 10
+  inds <- AA >=0.6 & AA < 10
   p[inds] <- exp(1.2937 - 5.709 * AA[inds] + 0.0186 * AA[inds]^2)
 
 
   w1 <- n < 8
-  showWarning(w1, 'had less than 8 total observations: sample size must be greater than 7')
+  showWarning(w1, 'had less than 8 total observations')
 
   w2 <- !w1 & s <= 0
   showWarning(w2, 'had essentially constant values')
