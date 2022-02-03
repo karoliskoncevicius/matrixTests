@@ -1,6 +1,6 @@
 #' Jarque-Bera test
 #'
-#' Performs a Jarque-Bera goodness of fit test for normality.
+#' Performs Jarque-Bera goodness of fit test for normality.
 #'
 #' \code{row_jarquebera(x)} - Jarque-Bera test on rows.
 #' \code{col_jarquebera(x)} - Jarque-Bera test on columns.
@@ -10,7 +10,7 @@
 #'
 #' @param x numeric matrix.
 #'
-#' @return a data.frame where each row contains the results of a Jarque-Bera
+#' @return a data.frame where each row contains the results of Jarque-Bera
 #' test performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr
 #' 1. obs - number of observations\cr
