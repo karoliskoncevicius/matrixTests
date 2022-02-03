@@ -14,7 +14,7 @@ col_jarquebera(x)
 \item{x}{numeric matrix.}
 }
 \value{
-a data.frame where each row contains the results of a Jarque-Bera
+a data.frame where each row contains the results of Jarque-Bera
 test performed on the corresponding row/column of x.\cr\cr
 Each row contains the following information (in order):\cr
 1. obs - number of observations\cr
@@ -25,7 +25,7 @@ Each row contains the following information (in order):\cr
 6. pvalue - p-value
 }
 \description{
-Performs a Jarque-Bera goodness of fit test for normality.
+Performs Jarque-Bera goodness of fit test for normality.
 }
 \details{
 \code{row_jarquebera(x)} - Jarque-Bera test on rows.
