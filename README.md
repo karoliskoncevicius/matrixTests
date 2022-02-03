@@ -151,6 +151,7 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 |           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | jarque-bera test            | row_jarquebera(x)             | moments::jarque.test(x)               |
+| anderson-darling test       | row_andersondarling(x)        | nortest::ad.test(x)                   |
 |-----------------------------|-------------------------------|---------------------------------------|
 ```
 

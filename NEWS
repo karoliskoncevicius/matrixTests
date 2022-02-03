@@ -3,6 +3,10 @@ Package: matrixTests
 
 Version 0.2 [TBD]
 
+NEW FEATURES:
+
+ * Added Anderson Darling test: `row_andersondarling` and `col_andersondarling`.
+
 BUG FIXES:
 
  * Waerden and Flinger-Killeen tests no longer produce NA results when a whole group has only NA values in x.
