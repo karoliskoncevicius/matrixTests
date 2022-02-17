@@ -18,8 +18,8 @@ a data.frame where each row contains the results of Anderson-Darling
 test performed on the corresponding row/column of x.\cr\cr
 Each row contains the following information (in order):\cr
 1. obs - number of observations\cr
-5. statistic - test statistic\cr
-6. pvalue - p-value
+2. statistic - test statistic\cr
+3. pvalue - p-value
 }
 \description{
 Performs Anderson-Darling goodness of fit test for normality.
