@@ -64,10 +64,10 @@ row_cosinor <- function(x, t, period=24) {
 
   nobs  <- rowSums(!is.na(x))
 
-  b0 <- rep.int(1, ncol(x))
-  b1 <- sinpi(2*t/period)
-  b2 <- cospi(2*t/period)
-  B  <- cbind(b0, b1, b2)
+  B <- matrix(nrow = ncol(x), ncol = 3)
+  B[,1] <- rep.int(1, ncol(x))
+  B[,2] <- if(length(period) > 0) sinpi(2*t/period) else NA
+  B[,3] <- if(length(period) > 0) cospi(2*t/period) else NA
 
   res <- do_regression(x, B)
 

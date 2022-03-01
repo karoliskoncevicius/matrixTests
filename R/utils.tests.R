@@ -239,7 +239,7 @@ do_pearson <- function(r, df, alt, conf) {
 
 # Obtain statistics for linear regression
 do_regression <- function(Y, X) {
-  betas <- matrix(NA, nrow=3, ncol=nrow(Y))
+  betas <- matrix(NA, nrow=ncol(X), ncol=nrow(Y))
   dfmod <- numeric(nrow(Y))
   dfres <- numeric(nrow(Y))
   sstot <- numeric(nrow(Y))

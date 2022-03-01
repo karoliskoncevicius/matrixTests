@@ -4,6 +4,12 @@ assert_numeric_mat_or_vec <- function(x) {
     stop('"', name, '"', ' must be a numeric matrix or vector')
 }
 
+assert_numeric_mat <- function(x) {
+  name <- as.character(substitute(x))
+  if(is.null(x) || !is.numeric(x) | !is.matrix(x))
+    stop('"', name, '"', ' must be a numeric matrix')
+}
+
 assert_vec_length <- function(x, ...) {
   name   <- as.character(substitute(x))
   lens   <- unlist(list(...))
@@ -59,7 +65,6 @@ assert_all_in_closed_interval <- function(x, min, max) {
     stop('all "', name, '" values must be between: ', min, ' and ', max)
 }
 
-
 assert_equal_nrow <- function(x, y) {
   namex <- as.character(substitute(x))
   namey <- as.character(substitute(y))
@@ -74,8 +79,27 @@ assert_equal_ncol <- function(x, y) {
     stop('"', namex, '" and "', namey, '" must have the same number of columns')
 }
 
+assert_ncol_equal_nrow <- function(x, y) {
+  namex <- as.character(substitute(x))
+  namey <- as.character(substitute(y))
+  if(ncol(x) != nrow(y))
+    stop('number of "', namex, '" columns must be equal to the number of "', namey, '" rows')
+}
+
 assert_max_number_of_levels <- function(x, mlevels) {
   name <- as.character(substitute(x))
   if(is.null(x) || length(stats::na.omit(unique(x))) > mlevels)
     stop('"', name, '"', ' must have no more than ', mlevels, ' unique elements')
+}
+
+assert_unique_colnames <- function(x) {
+  name <- as.character(substitute(x))
+  if(is.null(colnames(x)) || any(duplicated(colnames(x))))
+    stop('column names of "', name, '"', ' must be unique')
+}
+
+assert_nested_model <- function(m0, m1) {
+  if(!all(colnames(m0) %in% colnames(m1)) || !all.equal(m0, m1[,colnames(m0),drop=FALSE], check.attributes=FALSE)) {
+    stop('null model must be nested (subset of the full model)')
+  }
 }
