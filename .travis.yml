@@ -1,6 +1,10 @@
 language: r
 cache: packages
 
+before_install:
+  - sudo apt-get -y install libmpfr-dev
+  - sudo apt-get -y install libnlopt-dev
+
 r_packages:
   - covr
 
