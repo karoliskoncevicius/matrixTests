@@ -1,6 +1,9 @@
 language: r
 cache: packages
 
+before_install:
+  - sudo apt-get -y install libmpfr-dev
+
 r_packages:
   - covr
   - PMCMRplus
