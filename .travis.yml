@@ -3,10 +3,11 @@ cache: packages
 
 before_install:
   - sudo apt-get -y install libmpfr-dev
+  - sudo apt-get -y install libnlopt-dev
+
 
 r_packages:
   - covr
-  - PMCMRplus
 
 after_success:
   - Rscript -e 'covr::codecov()'
