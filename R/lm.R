@@ -72,7 +72,7 @@ row_lm_f <- function(x, m, null=stats::model.matrix(~ 1, data=data.frame(seq_len
 
   statistic <- (res0$stats$ssres - res1$stats$ssres) / df
   statistic <- statistic / (res1$stats$ssres / dfres)
-  p <- 1 - stats::pf(statistic, df, dfres)
+  p <- stats::pf(statistic, df, dfres, lower.tail=FALSE)
 
 
   # TODO: gather all the warnings
