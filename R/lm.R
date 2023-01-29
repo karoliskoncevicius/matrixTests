@@ -13,7 +13,7 @@
 #' performed on the corresponding row/column of x.\cr\cr
 #' Each row contains the following information (in order):\cr
 #' 1. obs - total number of observations\cr
-#' 2. betaN - estimated coefficients (as many as there are column in m)\cr
+#' 2. beta.N - estimated coefficients (as many as there are column in m)\cr
 #' 3. rsquared.model - R-squared of the full model\cr
 #' 4. rsquared.null - R-squared of the null model\cr
 #' 5. df.model - model terms degrees of freedom\cr
