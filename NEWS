@@ -9,6 +9,7 @@ NEW FEATURES:
 
 BUG FIXES:
 
+ * Wilcoxon two-sample test no longer causes integer overflow on large sample sizes.
  * Waerden and Flinger-Killeen tests no longer produce NA results when a whole group has only NA values in x.
  * Wilcoxon tests no longer produce double warning messages when some rows have no remaining observations.
  * Paired t-test no longer returns var.diff = 0 when all paired observations are missing.

@@ -59,6 +59,12 @@ res1 <- moments_jarquebera(x)
 res2 <- row_jarquebera(x)
 stopifnot(all.equal(res1, res2))
 
+# large sample
+x <- rnorm(10^6)
+res1 <- moments_jarquebera(x)
+res2 <- row_jarquebera(x)
+stopifnot(all.equal(res1, res2))
+
 # TODO: add tests for Inf and -Inf values once decided how to handle them.
 
 

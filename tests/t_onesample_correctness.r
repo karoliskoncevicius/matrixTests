@@ -77,6 +77,12 @@ res1 <- base_t_onesample(x)
 res2 <- row_t_onesample(x)
 stopifnot(all.equal(res1, res2))
 
+# large sample
+x <- rnorm(10^6)
+res1 <- base_t_onesample(x)
+res2 <- row_t_onesample(x)
+stopifnot(all.equal(res1, res2))
+
 # TODO: add tests for Inf and -Inf values once decided how to handle them.
 
 
