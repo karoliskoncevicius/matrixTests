@@ -49,14 +49,10 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 
 #### Location tests (1 group) ####
 
-```
-|-----------------------------|-------------------------------|---------------------------------------|
 |           Name              |           Function            |             R equivalent              |
 |-----------------------------|-------------------------------|---------------------------------------|
 | single sample t.test        | row_t_onesample(x)            | t.test(x)                             |
 | single sample wilcoxon test | row_wilcoxon_onesample(x)     | wilcox.test(x)                        |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
 
 
 #### Location tests (2 groups) ####
