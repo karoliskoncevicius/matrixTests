@@ -127,6 +127,15 @@ res1 <- base_cor_pearson(x1, x2, pars[,1], pars[,2])
 res2 <- suppressWarnings(row_cor_pearson(x1, x2, pars[,1], pars[,2]))
 stopifnot(all.equal(res1, res2))
 
+# NAs in confidence intervals
+x <- matrix(rnorm(40), ncol=10)
+y <- matrix(rnorm(40), ncol=10)
+cnf <- c(0.95, NA, 0.5, NA)
+res1 <- base_cor_pearson(x, y, conf=ifelse(is.na(cnf), 0.95, cnf))
+res1[is.na(cnf), c("conf.level", "conf.low", "conf.high")] <- NA
+res2 <- row_cor_pearson(x, y, conf.level=cnf)
+stopifnot(all.equal(res1, res2))
+
 
 #--- constant values -----------------------------------------------------------
 

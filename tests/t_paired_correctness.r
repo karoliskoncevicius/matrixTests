@@ -136,6 +136,15 @@ res1 <- base_t_paired(x, y, pars[,1], pars[,2], pars[,3])
 res2 <- row_t_paired(x, y, pars[,1], pars[,2], pars[,3])
 stopifnot(all.equal(res1, res2))
 
+# NAs in confidence intervals
+x <- matrix(rnorm(40), ncol=10)
+y <- matrix(rnorm(40), ncol=10)
+cnf <- c(0.95, NA, 0.5, NA)
+res1 <- base_t_paired(x, y, conf=ifelse(is.na(cnf), 0.95, cnf))
+res1[is.na(cnf), c("conf.level", "conf.low", "conf.high")] <- NA
+res2 <- row_t_paired(x, y, conf.level=cnf)
+stopifnot(all.equal(res1, res2))
+
 # null exactly equal to the mean
 res1 <- base_t_paired(c(1,2,3), c(0,0,0), null=2)
 res2 <- row_t_paired(c(1,2,3), c(0,0,0), null=2)
