@@ -44,7 +44,7 @@ row_andersondarling <- function(x) {
 
   m  <- rowMeans(x, na.rm=TRUE) # means and sds are the same for x, xi, and xd
   s  <- sqrt(rowVars(x, na.rm=TRUE))
-  lg <- pnorm((xi-m)/s, log.p=TRUE) + pnorm(-(xd-m)/s, log.p=TRUE)
+  lg <- stats::pnorm((xi-m)/s, log.p=TRUE) + stats::pnorm(-(xd-m)/s, log.p=TRUE)
 
   h <- (2 * col(x) - 1) * lg
   A <- -n - rowMeans(h, na.rm=TRUE)
