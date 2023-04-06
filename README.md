@@ -13,9 +13,9 @@ A package dedicated to running multiple statistical hypothesis tests on rows and
 ## Goals ##
 
 1. Fast execution via vectorization.
-2. Handling of edge cases (NA values, 0 row inputs).
-3. Output that is detailed and easy to use.
-4. Result compatibility with tests that are implemented in R.
+2. Convenient and detailed output format.
+3. Compatibility with tests implemented in base R.
+4. Careful handling of missing values and edge cases.
 
 ## Examples ##
 
@@ -36,17 +36,22 @@ Petal.Width      150          3 0.04188163  2 39.213114 0.0000000030547839322
 
 #### 2. Welch t-test on rows ####
 
-Welch t-test on each row of 2 large (million row) matrices:
+Welch t-test performed on each row of 2 large (million row) matrices:
 
 ```r
-X <- matrix(rnorm(10000000), ncol=10)
-Y <- matrix(rnorm(10000000), ncol=10)
+X <- matrix(rnorm(10000000), ncol = 10)
+Y <- matrix(rnorm(10000000), ncol = 10)
 
 row_t_welch(X, Y)  # running time: 2.4 seconds
 ```
 
-## Available Tests ##
+Confidence interval computations can be turned of for further increase in speed:
 
+```r
+row_t_welch(X, Y, conf.level = NA)  # running time: 1 second
+```
+
+## Available Tests ##
 
 |           Variant                |           Name                        |           Function              |
 |----------------------------------|---------------------------------------|---------------------------------|
@@ -80,6 +85,7 @@ For more information please refer to the [Wiki](https://github.com/karoliskoncev
 2. [Design Decisions](https://github.com/karoliskoncevicius/matrixTests/wiki/Design-Decisions)
 3. [Speed Benchmarks](https://github.com/karoliskoncevicius/matrixTests/wiki/Benchmarks)
 4. [Bug Fixes and Improvements to Base R](https://github.com/karoliskoncevicius/matrixTests/wiki/Bug-Fixes-and-Improvements-to-Base-R)
+
 
 ## See Also ##
 
