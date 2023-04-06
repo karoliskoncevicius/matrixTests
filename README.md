@@ -48,28 +48,28 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 ## Available Tests ##
 
 
-|           Variant            |           Name              |           Function              |
-|------------------------------|-----------------------------|---------------------------------|
-| Location tests (1 group)     | Single sample t.test        | `row_t_onesample(x)`            |
-|                              | Single sample wilcoxon test | `row_wilcoxon_onesample(x)`     |
-| Location tests (2 groups)    | Equal variance t.test       | `row_t_equalvar(x, y)`          |
-|                              | Welch t.test                | `row_t_welch(x, y)`             |
-|                              | Two sample Wilcoxon test    | `row_wilcoxon_twosample(x, y)`  |
-| Location tests (paired)      | Paired t.test               | `row_t_paired(x, y)`            |
-|                              | Paired wilcoxon test        | `row_wilcoxon_paired(x, y)`     |
-| Location tests (2+ groups)   | Equal variance oneway anova | `row_oneway_equalvar(x, g)`     |
-|                              | Welch oneway anova          | `row_oneway_welch(x, g)`        |
-|                              | Kruskal-Wallis test         | `row_kruskalwallis(x, g)`       |
-|                              | van der Waerden test        | `row_waerden(x, g)`             |
-| Scale tests (2 groups)       | F variance test             | `row_f_var(x, y)`               |
-| Scale tests (2+ groups)      | Bartlett's test             | `row_bartlett(x, g)`            |
-|                              | Fligner-Killeen test        | `row_flignerkilleen(x, g)`      |
-|                              | Levene's test               | `row_levene(x, g)`              |
-|                              | Brown-Forsythe test         | `row_brownforsythe(x, g)`       |
-| Association tests            | Pearson's correlation test  | `row_cor_pearson(x, y)`         |
-| Periodicity tests            | Cosinor                     | `row_cosinor(x, t, period)`     |
-| Distribution tests           | Jarque-Bera test            | `row_jarquebera(x)`             |
-|                              | Anderson-Darling test       | `row_andersondarling(x)`        |
+|           Variant                |           Name                        |           Function              |
+|----------------------------------|---------------------------------------|---------------------------------|
+| **Location tests (1 group)**     | Single sample Student's t.test        | `row_t_onesample(x)`            |
+|                                  | Single sample Wilcoxon's test         | `row_wilcoxon_onesample(x)`     |
+| **Location tests (2 groups)**    | Equal variance Student's t.test       | `row_t_equalvar(x, y)`          |
+|                                  | Welch adjusted Student's t.test       | `row_t_welch(x, y)`             |
+|                                  | Two sample Wilcoxon's test            | `row_wilcoxon_twosample(x, y)`  |
+| **Location tests (paired)**      | Paired Student's t.test               | `row_t_paired(x, y)`            |
+|                                  | Paired Wilcoxon's test                | `row_wilcoxon_paired(x, y)`     |
+| **Location tests (2+ groups)**   | Equal variance oneway anova           | `row_oneway_equalvar(x, g)`     |
+|                                  | Welch's oneway anova                  | `row_oneway_welch(x, g)`        |
+|                                  | Kruskal-Wallis test                   | `row_kruskalwallis(x, g)`       |
+|                                  | van der Waerden's test                | `row_waerden(x, g)`             |
+| **Scale tests (2 groups)**       | F variance test                       | `row_f_var(x, y)`               |
+| **Scale tests (2+ groups)**      | Bartlett's test                       | `row_bartlett(x, g)`            |
+|                                  | Fligner-Killeen test                  | `row_flignerkilleen(x, g)`      |
+|                                  | Levene's test                         | `row_levene(x, g)`              |
+|                                  | Brown-Forsythe test                   | `row_brownforsythe(x, g)`       |
+| **Association tests**            | Pearson's correlation test            | `row_cor_pearson(x, y)`         |
+| **Periodicity tests**            | Cosinor                               | `row_cosinor(x, t, period)`     |
+| **Distribution tests**           | Jarque-Bera test                      | `row_jarquebera(x)`             |
+|                                  | Anderson-Darling test                 | `row_andersondarling(x)`        |
 
 
 ## Further Information ##
