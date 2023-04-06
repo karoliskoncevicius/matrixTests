@@ -6,6 +6,7 @@ Version 0.2 [TBD]
 NEW FEATURES:
 
  * Added Anderson Darling test: `row_andersondarling` and `col_andersondarling`.
+ * Setting conf.level to NA now turns off confidence intervals and improves computation speed.
 
 BUG FIXES:
 
