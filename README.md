@@ -48,28 +48,28 @@ row_t_welch(X, Y)  # running time: 2.4 seconds
 ## Available Tests ##
 
 
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| single sample t.test        | row_t_onesample(x)            | t.test(x)                             |
-| single sample wilcoxon test | row_wilcoxon_onesample(x)     | wilcox.test(x)                        |
-| equal variance t.test       | row_t_equalvar(x, y)          | t.test(x, y, var.equal=TRUE)          |
-| welch t.test                | row_t_welch(x, y)             | t.test(x, y)                          |
-| two sample wilcoxon test    | row_wilcoxon_twosample(x, y)  | wilcox.test(x, y)                     |
-| equal variance oneway anova | row_oneway_equalvar(x, g)     | oneway.test(x ~ g, var.equal=TRUE)    |
-| welch oneway anova          | row_oneway_welch(x, g)        | oneway.test(x ~ g)                    |
-| kruskal-wallis test         | row_kruskalwallis(x, g)       | kruskal.test(x, g)                    |
-| van der waerden test        | row_waerden(x, g)             | PMCMRplus::vanWaerdenTEST(x, g)       |
-| paired t.test               | row_t_paired(x, y)            | t.test(x, y, paired=TRUE)             |
-| paired wilcoxon test        | row_wilcoxon_paired(x, y)     | wilcox.test(x, y, paired=TRUE)        |
-| f variance test             | row_f_var(x, y)               | var.test(x, y)                        |
-| bartlett's test             | row_bartlett(x, g)            | bartlett.test(x, g)                   |
-| fligner-killeen test        | row_flignerkilleen(x, g)      | fligner.test(x, g)                    |
-| levene's test               | row_levene(x, g)              | car::leveneTest(x, g, "mean")         |
-| brown-forsythe test         | row_brownforsythe(x, g)       | car::leveneTest(x, g, "median")       |
-| pearson's correlation test  | row_cor_pearson(x, y)         | cor.test(x, y)                        |
-| cosinor                     | row_cosinor(x, t, period)     | cosinor::cosinor.lm(x ~ t, period)    |
-| jarque-bera test            | row_jarquebera(x)             | moments::jarque.test(x)               |
-| anderson-darling test       | row_andersondarling(x)        | nortest::ad.test(x)                   |
+|           Name              |           Function              |             R equivalent              |
+|-----------------------------|---------------------------------|---------------------------------------|
+| Single sample t.test        | `row_t_onesample(x)`            | t.test(x)                             |
+| Single sample wilcoxon test | `row_wilcoxon_onesample(x)`     | wilcox.test(x)                        |
+| Equal variance t.test       | `row_t_equalvar(x, y)`          | t.test(x, y, var.equal=TRUE)          |
+| Welch t.test                | `row_t_welch(x, y)`             | t.test(x, y)                          |
+| Two sample Wilcoxon test    | `row_wilcoxon_twosample(x, y)`  | wilcox.test(x, y)                     |
+| Equal variance oneway anova | `row_oneway_equalvar(x, g)`     | oneway.test(x ~ g, var.equal=TRUE)    |
+| Welch oneway anova          | `row_oneway_welch(x, g)`        | oneway.test(x ~ g)                    |
+| Kruskal-Wallis test         | `row_kruskalwallis(x, g)`       | kruskal.test(x, g)                    |
+| van der Waerden test        | `row_waerden(x, g)`             | PMCMRplus::vanWaerdenTEST(x, g)       |
+| Paired t.test               | `row_t_paired(x, y)`            | t.test(x, y, paired=TRUE)             |
+| Paired wilcoxon test        | `row_wilcoxon_paired(x, y)`     | wilcox.test(x, y, paired=TRUE)        |
+| F variance test             | `row_f_var(x, y)`               | var.test(x, y)                        |
+| Bartlett's test             | `row_bartlett(x, g)`            | bartlett.test(x, g)                   |
+| Fligner-Killeen test        | `row_flignerkilleen(x, g)`      | fligner.test(x, g)                    |
+| Levene's test               | `row_levene(x, g)`              | car::leveneTest(x, g, "mean")         |
+| Brown-Forsythe test         | `row_brownforsythe(x, g)`       | car::leveneTest(x, g, "median")       |
+| Pearson's correlation test  | `row_cor_pearson(x, y)`         | cor.test(x, y)                        |
+| Cosinor                     | `row_cosinor(x, t, period)`     | cosinor::cosinor.lm(x ~ t, period)    |
+| Jarque-Bera test            | `row_jarquebera(x)`             | moments::jarque.test(x)               |
+| Anderson-Darling test       | `row_andersondarling(x)`        | nortest::ad.test(x)                   |
 
 
 ## Further Information ##
