@@ -21,7 +21,7 @@ Must be one of "two.sided" (default), "greater" or "less".}
 
 \item{conf.level}{confidence levels used for the confidence intervals.
 A single number or a numeric vector with value for each observation.
-All values must be in the range of [0;1].}
+All values must be in the range of [0;1] or NA.}
 }
 \value{
 a data.frame where each row contains the results of a correlation
@@ -51,6 +51,10 @@ function from default stats package.
 
 Results should be the same as running \code{cor.test(x, y, method="pearson")}
 on every row (or column) of \code{x} and \code{y}.
+}
+\note{
+For a marked increase in computation speed turn off the calculation of
+confidence interval by setting \code{conf.level} to NA.
 }
 \examples{
 X <- iris[iris$Species=="setosa",1:4]

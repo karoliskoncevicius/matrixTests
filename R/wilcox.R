@@ -129,8 +129,8 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
   assert_all_in_set(correct, c(TRUE, FALSE))
 
 
-  nxs  <- ncol(x) - matrixStats::rowCounts(x, value=NA)
-  nys  <- ncol(y) - matrixStats::rowCounts(y, value=NA)
+  nxs  <- as.numeric(ncol(x) - matrixStats::rowCounts(x, value=NA))
+  nys  <- as.numeric(ncol(y) - matrixStats::rowCounts(y, value=NA))
 
   naexact <- is.na(exact)
   exact[naexact] <- (nxs[naexact] < 50) & (nys[naexact] < 50)
@@ -229,7 +229,7 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
   x[haszeroes] <- NA
   haszeroes <- rowSums(haszeroes, na.rm=TRUE) > 0
 
-  nxs <- ncol(x) - matrixStats::rowCounts(x, value=NA)
+  nxs <- as.numeric(ncol(x) - matrixStats::rowCounts(x, value=NA))
 
   naexact <- is.na(exact)
   exact[naexact] <- nxs[naexact] < 50
@@ -345,9 +345,9 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
   xy[haszeroes] <- NA
   haszeroes <- rowSums(haszeroes, na.rm=TRUE) > 0
 
-  nxs  <- ncol(x)  - matrixStats::rowCounts(x, value=NA)
-  nys  <- ncol(y)  - matrixStats::rowCounts(y, value=NA)
-  nxys <- ncol(xy) - matrixStats::rowCounts(xy, value=NA)
+  nxs  <- as.numeric(ncol(x)  - matrixStats::rowCounts(x, value=NA))
+  nys  <- as.numeric(ncol(y)  - matrixStats::rowCounts(y, value=NA))
+  nxys <- as.numeric(ncol(xy) - matrixStats::rowCounts(xy, value=NA))
 
   naexact <- is.na(exact)
   exact[naexact] <- nxys[naexact] < 50

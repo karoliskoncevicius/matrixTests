@@ -10,6 +10,8 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   inds <- alt=="less"
   if(any(inds)) {
     res[inds,2] <- stats::pt(res[inds,1], df[inds])
+
+    inds <- inds & !is.na(conf)
     res[inds,3] <- rep.int(-Inf, sum(inds))
     res[inds,4] <- res[inds,1] + stats::qt(conf[inds], df[inds])
   }
@@ -17,6 +19,8 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   inds <- alt=="greater"
   if(any(inds)) {
     res[inds,2] <- stats::pt(res[inds,1], df[inds], lower.tail=FALSE)
+
+    inds <- inds & !is.na(conf)
     res[inds,3] <- res[inds,1] - stats::qt(conf[inds], df[inds])
     res[inds,4] <- rep.int(Inf, sum(inds))
   }
@@ -24,6 +28,8 @@ do_ttest <- function(mx, mu, stder, alt, df, conf) {
   inds <- alt=="two.sided"
   if(any(inds)) {
     res[inds,2] <- 2 * stats::pt(-abs(res[inds,1]), df[inds])
+
+    inds <- inds & !is.na(conf)
     intrange    <- stats::qt(1 - (1-conf[inds])*0.5, df[inds])
     res[inds,3] <- res[inds,1] - intrange
     res[inds,4] <- res[inds,1] + intrange
@@ -47,6 +53,8 @@ do_ftest <- function(est, rat, alt, df1, df2, conf) {
   inds <- alt=="less"
   if(any(inds)) {
     res[inds,2] <- stats::pf(res[inds,1], df1[inds], df2[inds])
+
+    inds <- inds & !is.na(conf)
     res[inds,3] <- 0
     res[inds,4] <- est[inds] / stats::qf(1 - conf[inds], df1[inds], df2[inds])
   }
@@ -54,6 +62,8 @@ do_ftest <- function(est, rat, alt, df1, df2, conf) {
   inds <- alt=="greater"
   if(any(inds)) {
     res[inds,2] <- 1 - stats::pf(res[inds,1], df1[inds], df2[inds])
+
+    inds <- inds & !is.na(conf)
     res[inds,3] <- est[inds] / stats::qf(conf[inds], df1[inds], df2[inds])
     res[inds,4] <- Inf
   }
@@ -61,8 +71,10 @@ do_ftest <- function(est, rat, alt, df1, df2, conf) {
   inds <- alt=="two.sided"
   if(any(inds)) {
     pval <- stats::pf(res[inds,1], df1[inds], df2[inds])
-    beta <- (1 - conf[inds]) * 0.5
     res[inds,2] <- 2 * pmin(pval, 1 - pval)
+
+    inds <- inds & !is.na(conf)
+    beta <- (1 - conf[inds]) * 0.5
     res[inds,3] <- est[inds] / stats::qf(1-beta, df1[inds], df2[inds])
     res[inds,4] <- est[inds] / stats::qf(beta, df1[inds], df2[inds])
   }
@@ -212,6 +224,8 @@ do_pearson <- function(r, df, alt, conf) {
   inds <- alt=="less"
   if(any(inds)) {
     res[inds,2] <- stats::pt(res[inds,1], df[inds])
+
+    inds <- inds & !is.na(conf)
     res[inds,3] <- rep.int(-Inf, sum(inds))
     res[inds,4] <- z[inds] + sigma[inds] * stats::qnorm(conf[inds])
   }
@@ -219,6 +233,8 @@ do_pearson <- function(r, df, alt, conf) {
   inds <- alt=="greater"
   if(any(inds)) {
     res[inds,2] <- stats::pt(res[inds,1], df[inds], lower.tail=FALSE)
+
+    inds <- inds & !is.na(conf)
     res[inds,3] <- z[inds] - sigma[inds] * stats::qnorm(conf[inds])
     res[inds,4] <- rep.int(Inf, sum(inds))
   }
@@ -226,6 +242,8 @@ do_pearson <- function(r, df, alt, conf) {
   inds <- alt=="two.sided"
   if(any(inds)) {
     res[inds,2] <- 2 * pmin(stats::pt(res[inds,1], df[inds]), stats::pt(res[inds,1], df[inds], lower.tail=FALSE))
+
+    inds <- inds & !is.na(conf)
     res[inds,3] <- z[inds] + -sigma[inds] * stats::qnorm((1 + conf[inds])*0.5)
     res[inds,4] <- z[inds] + sigma[inds] * stats::qnorm((1 + conf[inds])*0.5)
   }

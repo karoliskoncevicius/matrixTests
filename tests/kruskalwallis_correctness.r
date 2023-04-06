@@ -68,6 +68,13 @@ res1 <- base_kruskal(x, g)
 res2 <- row_kruskalwallis(x, g)
 stopifnot(all.equal(res1, res2))
 
+# large sample
+x <- rnorm(3 * 10^6)
+g <- rep(letters[1:3], each=10^6)
+res1 <- base_kruskal(x, g)
+res2 <- row_kruskalwallis(x, g)
+stopifnot(all.equal(res1, res2))
+
 # infinities in one group
 x <- c(Inf, -Inf, 3, 4, 2, 3)
 g <- rep(letters[1:2], each=3)

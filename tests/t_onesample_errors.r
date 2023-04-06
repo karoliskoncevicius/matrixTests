@@ -135,14 +135,6 @@ stopifnot(all.equal(res$error, err))
 
 err <- 'all "conf.level" values must be between: 0 and 1'
 
-# cannot be NA
-res <- capture(row_t_onesample(x=1:3, conf.level=NA_integer_))
-stopifnot(all.equal(res$error, err))
-
-# cannot be NaN
-res <- capture(row_t_onesample(x=1:3, conf.level=NaN))
-stopifnot(all.equal(res$error, err))
-
 # cannot be below 0
 res <- capture(row_t_onesample(x=1:3, conf.level=-0.0001))
 stopifnot(all.equal(res$error, err))

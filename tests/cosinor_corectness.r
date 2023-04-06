@@ -81,6 +81,13 @@ stopifnot(all.equal(res1, res2))
 
 # NOTE: extreme number test is skipped because cosinor_cosinor implementation is not robust against them
 
+# large sample
+x <- rnorm(10^6)
+t <- runif(10^6, 0, 24)
+res1 <- cosinor_cosinor(x, t, 24)
+res2 <- row_cosinor(x, t, 24)
+stopifnot(all.equal(res1, res2))
+
 # TODO: add tests for Inf and -Inf values once decided how to handle them.
 
 

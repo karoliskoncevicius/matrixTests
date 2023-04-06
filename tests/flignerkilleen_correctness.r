@@ -73,7 +73,14 @@ x <- c(1.00000000000004, 1.00000000000002, 1.00000000000003, 1.00000000000000,
        )
 g <- c(rep("a", 4), rep("b", 4))
 res1 <- base_fligner(x, g)
-res2 <- suppressWarnings(row_flignerkilleen(x, g))
+res2 <- row_flignerkilleen(x, g)
+stopifnot(all.equal(res1, res2))
+
+# large sample
+x <- rnorm(3*10^6)
+g <- rep(letters[1:3], each=10^6)
+res1 <- base_fligner(x, g)
+res2 <- row_flignerkilleen(x, g)
 stopifnot(all.equal(res1, res2))
 
 # TODO: add tests for Inf and -Inf values once decided how to handle them.

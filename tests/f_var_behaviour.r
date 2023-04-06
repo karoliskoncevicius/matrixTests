@@ -44,6 +44,14 @@ res <- row_f_var(x, y, conf.level=1)
 stopifnot(all.equal(res$conf.low, 0))
 stopifnot(all.equal(res$conf.high, Inf))
 
+# conf.level can be NA
+x <- rnorm(5)
+y <- rnorm(5)
+res <- row_f_var(x, y, conf.level=NA)
+stopifnot(all.equal(res$conf.level, NA_real_))
+stopifnot(all.equal(res$conf.low, NA_real_))
+stopifnot(all.equal(res$conf.high, NA_real_))
+
 
 #--- recycling -----------------------------------------------------------------
 

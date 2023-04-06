@@ -9,16 +9,13 @@ base_t_equalvar <- function(mat1, mat2, null=0, alternative="two.sided", conf=0.
   if(length(null)==1) null <- rep(null, nrow(mat1))
   if(length(conf)==1) conf <- rep(conf, nrow(mat1))
 
-  mx <- my <- md <- vx <- vy <- vp <- nx <- ny <- nt <- tst <- p <- cl <- ch <-
-    se <- df <- m0 <- cnf <- numeric(nrow(mat1))
+  mx <- my <- md <- vx <- vy <- vp <- nx <- ny <- nt <- tst <- p <- cl <- ch <- se <- df <- m0 <- cnf <- numeric(nrow(mat1))
   al <- character(nrow(mat1))
   for(i in 1:nrow(mat1)) {
     vec1 <- na.omit(mat1[i,])
     vec2 <- na.omit(mat2[i,])
 
-    res <- t.test(vec1, vec2, alternative=alternative[i], mu=null[i], conf.level=conf[i],
-                  var.equal=TRUE
-                  )
+    res <- t.test(vec1, vec2, alternative=alternative[i], mu=null[i], conf.level=conf[i], var.equal=TRUE)
 
     # if p-value is NA turn stderr and df to NA as well
     if(is.na(res$p.value)) {
@@ -97,6 +94,13 @@ res1 <- base_t_equalvar(x, y)
 res2 <- row_t_equalvar(x, y)
 stopifnot(all.equal(res1, res2))
 
+# large sample
+x <- rnorm(10^6)
+y <- rnorm(10^6)
+res1 <- base_t_equalvar(x, y)
+res2 <- row_t_equalvar(x, y)
+stopifnot(all.equal(res1, res2))
+
 # TODO: add tests for Inf and -Inf values once decided how to handle them.
 
 
@@ -138,6 +142,15 @@ x <- matrix(rnorm(10*nrow(pars)), ncol=10)
 y <- matrix(rnorm(10*nrow(pars)), ncol=10)
 res1 <- base_t_equalvar(x, y, pars[,1], pars[,2], pars[,3])
 res2 <- row_t_equalvar(x, y, pars[,1], pars[,2], pars[,3])
+stopifnot(all.equal(res1, res2))
+
+# NAs in confidence intervals
+x <- matrix(rnorm(40), ncol=10)
+y <- matrix(rnorm(40), ncol=10)
+cnf <- c(0.95, NA, 0.5, NA)
+res1 <- base_t_equalvar(x, y, conf=ifelse(is.na(cnf), 0.95, cnf))
+res1[is.na(cnf), c("conf.level", "conf.low", "conf.high")] <- NA
+res2 <- row_t_equalvar(x, y, conf.level=cnf)
 stopifnot(all.equal(res1, res2))
 
 # null exactly equal to the mean
