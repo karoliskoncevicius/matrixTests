@@ -47,15 +47,15 @@ assert_all_in_set <- function(x, vals) {
     stop('all "', name, '" values must be in: ', vnames)
 }
 
-assert_all_in_open_interval <- function(x, min, max) {
+assert_all_in_open_interval <- function(x, min, max, na.allow=FALSE) {
   name <- as.character(substitute(x))
-  if(is.null(x) | any(anyNA(x) | x<=min | x>=max))
+  if(is.null(x) || anyNA(x) & !na.allow || any(x<=min, na.rm=TRUE) || any(x>=max, na.rm=TRUE))
     stop('all "', name, '" values must be greater than ', min, ' and lower than ', max)
 }
 
-assert_all_in_closed_interval <- function(x, min, max) {
+assert_all_in_closed_interval <- function(x, min, max, na.allow=FALSE) {
   name <- as.character(substitute(x))
-  if(is.null(x) | any(anyNA(x) | x<min | x>max))
+  if(is.null(x) || anyNA(x) & !na.allow || any(x<min, na.rm=TRUE) || any(x>max, na.rm=TRUE))
     stop('all "', name, '" values must be between: ', min, ' and ', max)
 }
 

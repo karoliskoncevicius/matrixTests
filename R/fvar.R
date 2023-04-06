@@ -20,7 +20,7 @@
 #' Values must be one of "two.sided" (default), "greater" or "less".
 #' @param conf.level confidence levels used for the confidence intervals.
 #' A single number or a numeric vector with values for each observation.
-#' All values must be in the range of [0:1].
+#' All values must be in the range of [0:1] or NA.
 #'
 #' @return a data.frame where each row contains the results of the F variance
 #' test performed on the corresponding row/column of x and y.\cr\cr
@@ -40,6 +40,10 @@
 #' 13. ratio.null - variance ratio of the null hypothesis\cr
 #' 14. alternative - chosen alternative hypothesis\cr
 #' 15. conf.level - chosen confidence level
+#'
+#' @note
+#' For a marked increase in computation speed turn off the calculation of
+#' confidence interval by setting \code{conf.level} to NA.
 #'
 #' @seealso \code{var.test()}
 #'
@@ -87,10 +91,12 @@ row_f_var <- function(x, y, null=1, alternative="two.sided", conf.level=0.95) {
   assert_numeric_vec_length(null, 1, nrow(x))
   assert_all_in_open_interval(null, 0, Inf)
 
+  if(all(is.na(conf.level)))
+    conf.level[] <- NA_real_
   if(length(conf.level)==1)
     conf.level <- rep.int(conf.level, nrow(x))
   assert_numeric_vec_length(conf.level, 1, nrow(x))
-  assert_all_in_closed_interval(conf.level, 0, 1)
+  assert_all_in_closed_interval(conf.level, 0, 1, na.allow=TRUE)
 
 
   hasinfx <- is.infinite(x)
