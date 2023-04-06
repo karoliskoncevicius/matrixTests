@@ -45,7 +45,7 @@ Y <- matrix(rnorm(10000000), ncol = 10)
 row_t_welch(X, Y)  # running time: 2.4 seconds
 ```
 
-Confidence interval computations can be turned of for further increase in speed:
+Confidence interval computations can be turned-off for further increase in speed:
 
 ```r
 row_t_welch(X, Y, conf.level = NA)  # running time: 1 second
