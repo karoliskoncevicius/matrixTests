@@ -27,9 +27,13 @@ rowRankTies <- function(r) {
 showWarning <- function(w, fname, msg) {
   if(any(w, na.rm=TRUE)) {
     callstack <- paste(deparse(sys.calls()), collapse="")
-    prefix    <- ifelse(grepl(paste0("col_", fname), callstack), "col", "row")
-    fname     <- paste0(prefix, "_", fname)
-    prefix    <- ifelse(prefix == "col", "column", "row")
+    if(grepl(paste0("col_", fname), callstack)) {
+      fname  <- paste0("col_", fname)
+      prefix <- "column"
+    } else {
+      fname  <- paste0("row_", fname)
+      prefix <- "row"
+    }
     n <- sum(w, na.rm=TRUE)
     i <- match(TRUE, w)
     msg <- paste0(fname, ": ", n, ' of the ', prefix, 's ', msg, ".",
