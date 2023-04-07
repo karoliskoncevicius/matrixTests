@@ -1,7 +1,7 @@
 Package: matrixTests
 ====================
 
-Version 0.2 [TBD]
+Version 0.2.0 [2023 Apr 07]
 
 NEW FEATURES:
 
@@ -14,6 +14,7 @@ BUG FIXES:
  * Waerden and Flinger-Killeen tests no longer produce NA results when a whole group has only NA values in x.
  * Wilcoxon tests no longer produce double warning messages when some rows have no remaining observations.
  * Paired t-test no longer returns var.diff = 0 when all paired observations are missing.
+ * Warnings are now more robust in correctly deciding between row and column messages.
 
 CHANGES:
 
@@ -36,7 +37,7 @@ INTERNAL:
  * All unit tests are rewritten.
 
 
-Version 0.1.9 [2020 April 30]
+Version 0.1.9 [2020 Apr 30]
 
 NEW FEATURES:
 
