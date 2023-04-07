@@ -150,13 +150,13 @@ row_wilcoxon_twosample <- function(x, y, null=0, alternative="two.sided",
 
 
   w1 <- nxs < 1
-  showWarning(w1, 'had less than 1 "x" observation')
+  showWarning(w1, 'wilcoxon_twosample', 'had less than 1 "x" observation')
 
   w2 <- nys < 1
-  showWarning(w2, 'had less than 1 "y" observation')
+  showWarning(w2, 'wilcoxon_twosample', 'had less than 1 "y" observation')
 
   w3 <- exact & hasties
-  showWarning(w3, 'had ties: cannot compute exact p-values with ties')
+  showWarning(w3, 'wilcoxon_twosample', 'had ties: cannot compute exact p-values with ties')
 
   statistic[w1 | w2] <- NA
   wres[w1 | w2]      <- NA
@@ -250,16 +250,16 @@ row_wilcoxon_onesample <- function(x, null=0, alternative="two.sided",
 
 
   w1 <- haszeroes
-  showWarning(w1, 'had observations with "x" equal "null" that were removed')
+  showWarning(w1, 'wilcoxon_onesample', 'had observations with "x" equal "null" that were removed')
 
   w2 <- nxs < 1
-  showWarning(w2, 'had less than 1 "x" observation')
+  showWarning(w2, 'wilcoxon_onesample', 'had less than 1 "x" observation')
 
   w3 <- exact & haszeroes
-  showWarning(w3, 'had zeroes: cannot compute exact p-values with zeroes')
+  showWarning(w3, 'wilcoxon_onesample', 'had zeroes: cannot compute exact p-values with zeroes')
 
   w4 <- !w3 & exact & hasties
-  showWarning(w4, 'had ties: cannot compute exact p-values with ties')
+  showWarning(w4, 'wilcoxon_onesample', 'had ties: cannot compute exact p-values with ties')
 
   statistic[w2] <- NA
   wres[w2]      <- NA
@@ -368,16 +368,16 @@ row_wilcoxon_paired <- function(x, y, null=0, alternative="two.sided",
 
 
   w1 <- haszeroes
-  showWarning(w1, 'had observations with "x-y" equal "null" that were removed')
+  showWarning(w1, 'wilcoxon_paired', 'had observations with "x-y" equal "null" that were removed')
 
   w2 <- nxys < 1
-  showWarning(w2, 'had less than 1 paired observation')
+  showWarning(w2, 'wilcoxon_paired', 'had less than 1 paired observation')
 
   w3 <- exact & haszeroes
-  showWarning(w3, 'had zeroes: cannot compute exact p-values with zeroes')
+  showWarning(w3, 'wilcoxon_paired', 'had zeroes: cannot compute exact p-values with zeroes')
 
   w4 <- !w3 & exact & hasties
-  showWarning(w4, 'had ties: cannot compute exact p-values with ties')
+  showWarning(w4, 'wilcoxon_paired', 'had ties: cannot compute exact p-values with ties')
 
   statistic[w2] <- NA
   wres[w2]      <- NA

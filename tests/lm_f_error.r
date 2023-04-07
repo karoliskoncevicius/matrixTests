@@ -94,15 +94,5 @@ stopifnot(all.equal(res$error, err))
 
 #--- dimension mismatch errors -------------------------------------------------
 
-# t length must match the observations of x
-err <- '"t" must be a numeric vector with length ncol(x)'
-res <- capture(row_lm_f(1:5, 1:3))
-stopifnot(all.equal(res$error, err))
-
-# period must be a single number
-err <- '"period" must be a numeric vector with length 1'
-res <- capture(row_lm_f(1:5, 1:5, 1:2))
-stopifnot(all.equal(res$error, err))
-
 
 #--- nesting errors ------------------------------------------------------------

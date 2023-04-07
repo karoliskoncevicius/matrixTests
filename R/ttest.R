@@ -152,16 +152,16 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
 
 
   w1 <- nxys < 3
-  showWarning(w1, 'had less than 3 total observations')
+  showWarning(w1, 't_equalvar', 'had less than 3 total observations')
 
   w2 <- !w1 & nxs < 1
-  showWarning(w2, 'had zero "x" observations')
+  showWarning(w2, 't_equalvar', 'had zero "x" observations')
 
   w3 <- !w1 & nys < 1
-  showWarning(w3, 'had zero "y" observations')
+  showWarning(w3, 't_equalvar', 'had zero "y" observations')
 
   w4 <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
-  showWarning(w4, 'had essentially constant values')
+  showWarning(w4, 't_equalvar', 'had essentially constant values')
 
 
   stders[w1 | w2 | w3 | w4] <- NA
@@ -253,13 +253,13 @@ row_t_welch <- function(x, y, null=0, alternative="two.sided", conf.level=0.95) 
 
 
   w1 <- nxs < 2
-  showWarning(w1, 'had less than 2 "x" observations')
+  showWarning(w1, 't_welch', 'had less than 2 "x" observations')
 
   w2 <- !w1 & nys < 2
-  showWarning(w2, 'had less than 2 "y" observations')
+  showWarning(w2, 't_welch', 'had less than 2 "y" observations')
 
   w3 <- stders <= 10 * .Machine$double.eps * pmax(abs(mxs), abs(mys))
-  showWarning(w3, 'had essentially constant values')
+  showWarning(w3, 't_welch', 'had essentially constant values')
 
   stders[w1 | w2 | w3] <- NA
   dfs[w1 | w2 | w3]     <- NA
@@ -328,10 +328,10 @@ row_t_onesample <- function(x, null=0, alternative="two.sided", conf.level=0.95)
 
 
   w1 <- nxs < 2
-  showWarning(w1, 'had less than 2 "x" observations')
+  showWarning(w1, 't_onesample', 'had less than 2 "x" observations')
 
   w2 <- !w1 & stders <= 10 * .Machine$double.eps * abs(mxs)
-  showWarning(w2, 'had essentially constant values')
+  showWarning(w2, 't_onesample', 'had essentially constant values')
 
 
   stders[w1 | w2]  <- NA
@@ -423,10 +423,10 @@ row_t_paired <- function(x, y, null=0, alternative="two.sided", conf.level=0.95)
 
 
   w1 <- nxys < 2
-  showWarning(w1, 'had less than 2 paired observations')
+  showWarning(w1, 't_paired', 'had less than 2 paired observations')
 
   w2 <- stders <= 10 * .Machine$double.eps * abs(mxys)
-  showWarning(w2, 'had essentially constant values')
+  showWarning(w2, 't_paired', 'had essentially constant values')
 
   stders[w1 | w2] <- NA
   dfs[w1 | w2]    <- NA

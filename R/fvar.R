@@ -123,22 +123,22 @@ row_f_var <- function(x, y, null=1, alternative="two.sided", conf.level=0.95) {
 
 
   w1 <- hasinfx
-  showWarning(w1, 'had infinite "x" observations that were removed')
+  showWarning(w1, 'f_var', 'had infinite "x" observations that were removed')
 
   w2 <- hasinfy
-  showWarning(w2, 'had infinite "y" observations that were removed')
+  showWarning(w2, 'f_var', 'had infinite "y" observations that were removed')
 
   w3 <- nxs <= 1
-  showWarning(w3, 'had less than 1 "x" observation')
+  showWarning(w3, 'f_var', 'had less than 1 "x" observation')
 
   w4 <- nys <= 1
-  showWarning(w4, 'had less than 1 "y" observation')
+  showWarning(w4, 'f_var', 'had less than 1 "y" observation')
 
   w5 <- vxs == 0
-  showWarning(w5, 'had zero variance in "x"')
+  showWarning(w5, 'f_var', 'had zero variance in "x"')
 
   w6 <- vys == 0
-  showWarning(w6, 'had zero variance in "y"')
+  showWarning(w6, 'f_var', 'had zero variance in "y"')
 
 
   dfx[w3 | w4 | (w5 & w6)]   <- NA

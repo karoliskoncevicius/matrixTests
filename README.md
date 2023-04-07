@@ -13,9 +13,9 @@ A package dedicated to running multiple statistical hypothesis tests on rows and
 ## Goals ##
 
 1. Fast execution via vectorization.
-2. Handling of edge cases (NA values, 0 row inputs).
-3. Output that is detailed and easy to use.
-4. Result compatibility with tests that are implemented in R.
+2. Convenient and detailed output format.
+3. Compatibility with tests implemented in base R.
+4. Careful handling of missing values and edge cases.
 
 ## Examples ##
 
@@ -36,124 +36,45 @@ Petal.Width      150          3 0.04188163  2 39.213114 0.0000000030547839322
 
 #### 2. Welch t-test on rows ####
 
-Welch t-test on each row of 2 large (million row) matrices:
+Welch t-test performed on each row of 2 large (million row) matrices:
 
 ```r
-X <- matrix(rnorm(10000000), ncol=10)
-Y <- matrix(rnorm(10000000), ncol=10)
+X <- matrix(rnorm(10000000), ncol = 10)
+Y <- matrix(rnorm(10000000), ncol = 10)
 
 row_t_welch(X, Y)  # running time: 2.4 seconds
 ```
 
+Confidence interval computations can be turned-off for further increase in speed:
+
+```r
+row_t_welch(X, Y, conf.level = NA)  # running time: 1 second
+```
+
 ## Available Tests ##
 
-#### Location tests (1 group) ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| single sample t.test        | row_t_onesample(x)            | t.test(x)                             |
-| single sample wilcoxon test | row_wilcoxon_onesample(x)     | wilcox.test(x)                        |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-
-#### Location tests (2 groups) ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| equal variance t.test       | row_t_equalvar(x, y)          | t.test(x, y, var.equal=TRUE)          |
-| welch t.test                | row_t_welch(x, y)             | t.test(x, y)                          |
-| two sample wilcoxon test    | row_wilcoxon_twosample(x, y)  | wilcox.test(x, y)                     |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-
-#### Location tests (2+ groups) ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| equal variance oneway anova | row_oneway_equalvar(x, g)     | oneway.test(x ~ g, var.equal=TRUE)    |
-| welch oneway anova          | row_oneway_welch(x, g)        | oneway.test(x ~ g)                    |
-| kruskal-wallis test         | row_kruskalwallis(x, g)       | kruskal.test(x, g)                    |
-| van der waerden test        | row_waerden(x, g)             | PMCMRplus::vanWaerdenTEST(x, g)       |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-
-#### Location tests (paired) ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| paired t.test               | row_t_paired(x, y)            | t.test(x, y, paired=TRUE)             |
-| paired wilcoxon test        | row_wilcoxon_paired(x, y)     | wilcox.test(x, y, paired=TRUE)        |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-
-#### Scale tests (2 groups) ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| f variance test             | row_f_var(x, y)               | var.test(x, y)                        |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-
-#### Scale tests (2+ groups) ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| bartlett's test             | row_bartlett(x, g)            | bartlett.test(x, g)                   |
-| fligner-killeen test        | row_flignerkilleen(x, g)      | fligner.test(x, g)                    |
-| levene's test               | row_levene(x, g)              | car::leveneTest(x, g, "mean")         |
-| brown-forsythe test         | row_brownforsythe(x, g)       | car::leveneTest(x, g, "median")       |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-
-#### Assosiation tests ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| pearson's correlation test  | row_cor_pearson(x, y)         | cor.test(x, y)                        |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-#### Periodicity tests ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| cosinor                     | row_cosinor(x, t, period)     | cosinor::cosinor.lm(x ~ t, period)    |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
-
-
-#### Distribution tests ####
-
-```
-|-----------------------------|-------------------------------|---------------------------------------|
-|           Name              |           Function            |             R equivalent              |
-|-----------------------------|-------------------------------|---------------------------------------|
-| jarque-bera test            | row_jarquebera(x)             | moments::jarque.test(x)               |
-| anderson-darling test       | row_andersondarling(x)        | nortest::ad.test(x)                   |
-|-----------------------------|-------------------------------|---------------------------------------|
-```
+|           Variant                |           Name                        |           Function              |
+|----------------------------------|---------------------------------------|---------------------------------|
+| **Location tests (1 group)**     | Single sample Student's t.test        | `row_t_onesample(x)`            |
+|                                  | Single sample Wilcoxon's test         | `row_wilcoxon_onesample(x)`     |
+| **Location tests (2 groups)**    | Equal variance Student's t.test       | `row_t_equalvar(x, y)`          |
+|                                  | Welch adjusted Student's t.test       | `row_t_welch(x, y)`             |
+|                                  | Two sample Wilcoxon's test            | `row_wilcoxon_twosample(x, y)`  |
+| **Location tests (paired)**      | Paired Student's t.test               | `row_t_paired(x, y)`            |
+|                                  | Paired Wilcoxon's test                | `row_wilcoxon_paired(x, y)`     |
+| **Location tests (2+ groups)**   | Equal variance oneway anova           | `row_oneway_equalvar(x, g)`     |
+|                                  | Welch's oneway anova                  | `row_oneway_welch(x, g)`        |
+|                                  | Kruskal-Wallis test                   | `row_kruskalwallis(x, g)`       |
+|                                  | van der Waerden's test                | `row_waerden(x, g)`             |
+| **Scale tests (2 groups)**       | F variance test                       | `row_f_var(x, y)`               |
+| **Scale tests (2+ groups)**      | Bartlett's test                       | `row_bartlett(x, g)`            |
+|                                  | Fligner-Killeen test                  | `row_flignerkilleen(x, g)`      |
+|                                  | Levene's test                         | `row_levene(x, g)`              |
+|                                  | Brown-Forsythe test                   | `row_brownforsythe(x, g)`       |
+| **Association tests**            | Pearson's correlation test            | `row_cor_pearson(x, y)`         |
+| **Periodicity tests**            | Cosinor                               | `row_cosinor(x, t, period)`     |
+| **Distribution tests**           | Jarque-Bera test                      | `row_jarquebera(x)`             |
+|                                  | Anderson-Darling test                 | `row_andersondarling(x)`        |
 
 
 ## Further Information ##
@@ -164,6 +85,7 @@ For more information please refer to the [Wiki](https://github.com/karoliskoncev
 2. [Design Decisions](https://github.com/karoliskoncevicius/matrixTests/wiki/Design-Decisions)
 3. [Speed Benchmarks](https://github.com/karoliskoncevicius/matrixTests/wiki/Benchmarks)
 4. [Bug Fixes and Improvements to Base R](https://github.com/karoliskoncevicius/matrixTests/wiki/Bug-Fixes-and-Improvements-to-Base-R)
+
 
 ## See Also ##
 

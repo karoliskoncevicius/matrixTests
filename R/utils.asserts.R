@@ -86,12 +86,6 @@ assert_ncol_equal_nrow <- function(x, y) {
     stop('number of "', namex, '" columns must be equal to the number of "', namey, '" rows')
 }
 
-assert_max_number_of_levels <- function(x, mlevels) {
-  name <- as.character(substitute(x))
-  if(is.null(x) || length(stats::na.omit(unique(x))) > mlevels)
-    stop('"', name, '"', ' must have no more than ', mlevels, ' unique elements')
-}
-
 assert_unique_colnames <- function(x) {
   name <- as.character(substitute(x))
   if(is.null(colnames(x)) || any(duplicated(colnames(x))))

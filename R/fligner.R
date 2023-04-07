@@ -84,13 +84,13 @@ row_flignerkilleen <- function(x, g) {
 
 
   w1 <- nGroups < 2
-  showWarning(w1, 'had less than 2 groups with enough observations')
+  showWarning(w1, 'flignerkilleen', 'had less than 2 groups with enough observations')
 
   w2 <- !w1 & matrixStats::rowAlls(nPerGroup < 2)
-  showWarning(w2, 'had one observation per group')
+  showWarning(w2, 'flignerkilleen', 'had one observation per group')
 
   w3 <- !w1 & !w2 & matrixStats::rowAlls(x==0 | is.na(x))
-  showWarning(w3, 'had zero variance in all of the groups')
+  showWarning(w3, 'flignerkilleen', 'had zero variance in all of the groups')
 
   df[w1 | w2 | w3]   <- NA
   stat[w1 | w2 | w3] <- NA

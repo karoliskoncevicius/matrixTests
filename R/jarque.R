@@ -55,10 +55,10 @@ row_jarquebera <- function(x) {
 
 
   w1 <- n < 2
-  showWarning(w1, 'had less than 2 total observations')
+  showWarning(w1, 'jarquebera', 'had less than 2 total observations')
 
   w2 <- !w1 & matrixStats::rowAlls(m0, value=0, na.rm=TRUE)
-  showWarning(w2, 'had essentially constant values')
+  showWarning(w2, 'jarquebera', 'had essentially constant values')
 
   df[w1 | w2]  <- NA
   ksq[w1 | w2] <- NA

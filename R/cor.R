@@ -111,19 +111,19 @@ row_cor_pearson <- function(x, y, alternative="two.sided", conf.level=0.95) {
   pres <- do_pearson(rs, df, alternative, conf.level)
 
   w1 <- ns < 3
-  showWarning(w1, 'had less than 3 complete observations')
+  showWarning(w1, 'cor_pearson', 'had less than 3 complete observations')
 
   w2 <- !w1 & sx==0
-  showWarning(w2, 'had zero standard deviation in x')
+  showWarning(w2, 'cor_pearson', 'had zero standard deviation in x')
 
   w3 <- !w1 & sy==0
-  showWarning(w3, 'had zero standard deviation in y')
+  showWarning(w3, 'cor_pearson', 'had zero standard deviation in y')
 
   w4 <- !w2 & !w3 & ns == 3
-  showWarning(w4, 'had exactly 3 complete observations: no confidence intervals produced')
+  showWarning(w4, 'cor_pearson', 'had exactly 3 complete observations: no confidence intervals produced')
 
   w5 <- !w1 & abs(rs)==1
-  showWarning(w5, 'had essentially perfect fit: results might be unreliable for small sample sizes')
+  showWarning(w5, 'cor_pearson', 'had essentially perfect fit: results might be unreliable for small sample sizes')
 
   pres[w4, 3:4]       <- NA
   df[w1 | w2 | w3]    <- NA

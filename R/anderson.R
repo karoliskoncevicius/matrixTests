@@ -62,10 +62,10 @@ row_andersondarling <- function(x) {
 
 
   w1 <- n < 8
-  showWarning(w1, 'had less than 8 total observations')
+  showWarning(w1, 'andersondarling', 'had less than 8 total observations')
 
   w2 <- !w1 & s <= 0
-  showWarning(w2, 'had essentially constant values')
+  showWarning(w2, 'andersondarling', 'had essentially constant values')
 
   A[w1 | w2] <- NA
   p[w1 | w2] <- NA

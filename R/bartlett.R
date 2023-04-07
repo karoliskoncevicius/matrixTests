@@ -78,16 +78,16 @@ row_bartlett <- function(x, g) {
 
 
   w1 <- nGroups < 2
-  showWarning(w1, 'had less than 2 groups with enough observations')
+  showWarning(w1, 'bartlett', 'had less than 2 groups with enough observations')
 
   w2 <- !w1 & nGroups < length(unique(g))
-  showWarning(w2, 'had groups with less than 2 observations: those groups were removed')
+  showWarning(w2, 'bartlett', 'had groups with less than 2 observations: those groups were removed')
 
   w3 <- !w1 & vtot==0
-  showWarning(w3, 'had zero variance in all of the groups')
+  showWarning(w3, 'bartlett', 'had zero variance in all of the groups')
 
   w4 <- !w1 & !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0
-  showWarning(w4, 'had groups with zero variance: result might be unreliable')
+  showWarning(w4, 'bartlett', 'had groups with zero variance: result might be unreliable')
 
   df[w1 | w3]  <- NA
   ksq[w1 | w3] <- NA

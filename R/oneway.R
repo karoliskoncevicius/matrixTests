@@ -93,16 +93,16 @@ row_oneway_equalvar <- function(x, g) {
   msqw <- withinScatter/dfr
 
   w1 <- nGroups < 2
-  showWarning(w1, 'had less than 2 groups with enough observations')
+  showWarning(w1, 'oneway_equalvar', 'had less than 2 groups with enough observations')
 
   w2 <- !w1 & nGroups==nSamples
-  showWarning(w2, 'had one observation per group')
+  showWarning(w2, 'oneway_equalvar', 'had one observation per group')
 
   w3 <- !w1 & !w2 & withinScatter==0 & betweenScatter==0
-  showWarning(w3, 'had essentially constant values')
+  showWarning(w3, 'oneway_equalvar', 'had essentially constant values')
 
   w4 <- !w1 & !w2 & withinScatter==0 & betweenScatter!=0
-  showWarning(w4, 'had zero within group variance: result might be unreliable')
+  showWarning(w4, 'oneway_equalvar', 'had zero within group variance: result might be unreliable')
 
   dft[w1 | w2 | w3] <- NA
   dfr[w1 | w2 | w3] <- NA
@@ -184,16 +184,16 @@ row_oneway_welch <- function(x, g) {
 
 
   w1 <- nGroups < 2
-  showWarning(w1, 'had less than 2 groups with enough observations')
+  showWarning(w1, 'oneway_welch', 'had less than 2 groups with enough observations')
 
   w2 <- !w1 & nGroups < length(unique(g))
-  showWarning(w2, 'had groups with less than 2 observations: those groups were removed')
+  showWarning(w2, 'oneway_welch', 'had groups with less than 2 observations: those groups were removed')
 
   w3 <- !w1 & rowSums(vPerGroup!=0, na.rm=TRUE)==0
-  showWarning(w3, 'had zero variance in all of the groups')
+  showWarning(w3, 'oneway_welch', 'had zero variance in all of the groups')
 
   w4 <- !w1 & !w3 & rowSums(vPerGroup==0, na.rm=TRUE) > 0
-  showWarning(w4, 'had groups with zero variance: result might be unreliable')
+  showWarning(w4, 'oneway_welch', 'had groups with zero variance: result might be unreliable')
 
 
   dft[w1 | w3] <- NA
