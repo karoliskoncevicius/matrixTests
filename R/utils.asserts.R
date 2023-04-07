@@ -73,9 +73,3 @@ assert_equal_ncol <- function(x, y) {
   if(ncol(x) != ncol(y))
     stop('"', namex, '" and "', namey, '" must have the same number of columns')
 }
-
-assert_max_number_of_levels <- function(x, mlevels) {
-  name <- as.character(substitute(x))
-  if(is.null(x) || length(stats::na.omit(unique(x))) > mlevels)
-    stop('"', name, '"', ' must have no more than ', mlevels, ' unique elements')
-}
