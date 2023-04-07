@@ -24,23 +24,17 @@ rowRankTies <- function(r) {
   do.call(rbind, res)
 }
 
-showWarning <- function(isWarning, err) {
-  if(any(isWarning, na.rm=TRUE)) {
-    parentFun <- deparse(as.list(sys.call(-1))[[1]])
-    grandFun  <- as.list(sys.call(-2))
-    if(length(grandFun) > 0) {
-      grandFun <- deparse(grandFun[[1]])
-      if(grandFun %in% getNamespaceExports("matrixTests")) {
-        parentFun <- grandFun
-      }
-    }
-    pref <- "row"
-    if(grepl("^col_", parentFun)) pref <- "column"
-    n <- sum(isWarning, na.rm=TRUE)
-    i <- match(TRUE, isWarning)
-    err <- paste0(parentFun, ": ", n, ' of the ', pref, 's ', err, ".",
-                  '\nFirst occurrence at ', pref, ' ', i
+showWarning <- function(w, fname, msg) {
+  if(any(w, na.rm=TRUE)) {
+    callstack <- paste(deparse(sys.calls()), collapse="")
+    prefix    <- ifelse(grepl(paste0("col_", fname), callstack), "col", "row")
+    fname     <- paste0(prefix, "_", fname)
+    prefix    <- ifelse(prefix == "col", "column", "row")
+    n <- sum(w, na.rm=TRUE)
+    i <- match(TRUE, w)
+    msg <- paste0(fname, ": ", n, ' of the ', prefix, 's ', msg, ".",
+                  '\nFirst occurrence at ', prefix, ' ', i
                   )
-    warning(err, call.=FALSE)
+    warning(msg, call.=FALSE)
   }
 }

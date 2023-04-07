@@ -73,13 +73,13 @@ row_waerden <- function(x, g) {
 
 
   w1 <- n < 2
-  showWarning(w1, 'had less than 2 total observations')
+  showWarning(w1, 'waerden', 'had less than 2 total observations')
 
   w2 <- !w1 & nGroups < 2
-  showWarning(w2, 'had less than 2 groups with enough observations')
+  showWarning(w2, 'waerden', 'had less than 2 groups with enough observations')
 
   w3 <- !w1 & !w2 & s2==0
-  showWarning(w3, 'had essentially constant values')
+  showWarning(w3, 'waerden', 'had essentially constant values')
 
   df[w1 | w2 | w3]   <- NA
   stat[w1 | w2 | w3] <- NA

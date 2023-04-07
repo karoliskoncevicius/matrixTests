@@ -78,25 +78,25 @@ row_cosinor <- function(x, t, period=24) {
 
 
   w1 <- hasinfx
-  showWarning(w1, 'had infinite observations that were removed')
+  showWarning(w1, 'cosinor', 'had infinite observations that were removed')
 
   w2 <- nobs < 3
-  showWarning(w2, 'had less than 3 complete observations: no p-values produced, amplitude and acrophase will be unreliable')
+  showWarning(w2, 'cosinor', 'had less than 3 complete observations: no p-values produced, amplitude and acrophase will be unreliable')
 
   w3 <- nobs == 3
-  showWarning(w3, 'had exactly 3 complete observations: no p-values produced')
+  showWarning(w3, 'cosinor', 'had exactly 3 complete observations: no p-values produced')
 
   w4 <- !w2 & !w3 & res$stats$sstot == 0
-  showWarning(w4, 'had essentially constant values')
+  showWarning(w4, 'cosinor', 'had essentially constant values')
 
   w5 <- !w2 & res$stats$dfmod == 0
-  showWarning(w5, 'had only 1 unique timepoint within the specified period: no p-values produced, amplitude and acrophase will be unreliable')
+  showWarning(w5, 'cosinor', 'had only 1 unique timepoint within the specified period: no p-values produced, amplitude and acrophase will be unreliable')
 
   w6 <- !w2 & res$stats$dfmod == 1
-  showWarning(w6, 'had only 2 unique timepoints within the specified period: amplitude and acrophase will be unreliable')
+  showWarning(w6, 'cosinor', 'had only 2 unique timepoints within the specified period: amplitude and acrophase will be unreliable')
 
   w7 <- !w2 & !w3 & !w4 & res$stats$rsq == 1
-  showWarning(w7, 'had essentially perfect fit')
+  showWarning(w7, 'cosinor', 'had essentially perfect fit')
 
   res$stats[w2 | w3 | w4 | w5, c("dfmod","dfres","f","p")] <- NA
 

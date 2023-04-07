@@ -92,19 +92,19 @@ row_levene <- function(x, g) {
 
 
   w1 <- hasinfx
-  showWarning(w1, 'had infinite observations that were removed')
+  showWarning(w1, 'levene', 'had infinite observations that were removed')
 
   w2 <- nGroups < 2
-  showWarning(w2, 'had less than 2 groups with enough observations')
+  showWarning(w2, 'levene', 'had less than 2 groups with enough observations')
 
   w3 <- !w2 & all(nPerGroup < 3)
-  showWarning(w3, 'had no groups with at least 3 observations')
+  showWarning(w3, 'levene', 'had no groups with at least 3 observations')
 
   w4 <- !w2 & !w3 & withinScatter==0
-  showWarning(w4, 'had zero within group variance of absolute residuals from the mean')
+  showWarning(w4, 'levene', 'had zero within group variance of absolute residuals from the mean')
 
   w5 <- !w2 & !w3 & !w4 & withinScatter <= .Machine$double.eps
-  showWarning(w5, 'had essentially constant absolute residuals from the mean: results might be unreliable')
+  showWarning(w5, 'levene', 'had essentially constant absolute residuals from the mean: results might be unreliable')
 
   dft[w2 | w3 | w4] <- NA
   dfr[w2 | w3 | w4] <- NA
@@ -183,19 +183,19 @@ row_brownforsythe <- function(x, g) {
   p <- stats::pf(F, dft, dfr, lower.tail=FALSE)
 
   w1 <- hasinfx
-  showWarning(w1, 'had infinite observations that were removed')
+  showWarning(w1, 'brownforsythe', 'had infinite observations that were removed')
 
   w2 <- nGroups < 2
-  showWarning(w2, 'had less than 2 groups with enough observations')
+  showWarning(w2, 'brownforsythe', 'had less than 2 groups with enough observations')
 
   w3 <- !w2 & all(nPerGroup < 3)
-  showWarning(w3, 'had no groups with at least 3 observations')
+  showWarning(w3, 'brownforsythe', 'had no groups with at least 3 observations')
 
   w4 <- !w2 & !w3 & withinScatter==0
-  showWarning(w4, 'had zero within group variance of absolute residuals from the median')
+  showWarning(w4, 'brownforsythe', 'had zero within group variance of absolute residuals from the median')
 
   w5 <- !w2 & !w3 & !w4 & withinScatter <= .Machine$double.eps
-  showWarning(w5, 'had essentially constant absolute residuals from the median: results might be unreliable')
+  showWarning(w5, 'brownforsythe', 'had essentially constant absolute residuals from the median: results might be unreliable')
 
   dft[w2 | w3 | w4] <- NA
   dfr[w2 | w3 | w4] <- NA
