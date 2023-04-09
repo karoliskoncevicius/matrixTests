@@ -6,8 +6,7 @@ Version 0.2.1 [TBD]
 
 INTERNAL:
 
- * Minor speed improvement Anderson-Darling test.
- * Turned off consistency checks for large sample sizes.
+ * Minor speed improvements to Anderson-Darling and Flinger-Killeen tests.
 
 
 Version 0.2.0 [2023 Apr 07]
