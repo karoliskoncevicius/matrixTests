@@ -1,11 +1,20 @@
 Package: matrixTests
 ====================
 
+Version 0.2.1 [TBD]
+
+
+INTERNAL:
+
+ * Minor speed improvement Anderson-Darling test.
+ * Turned off consistency checks for large sample sizes.
+
+
 Version 0.2.0 [2023 Apr 07]
 
 NEW FEATURES:
 
- * Added Anderson Darling test: `row_andersondarling` and `col_andersondarling`.
+ * Added Anderson-Darling test: `row_andersondarling` and `col_andersondarling`.
  * Setting conf.level to NA now turns off confidence intervals and improves computation speed.
 
 BUG FIXES:
