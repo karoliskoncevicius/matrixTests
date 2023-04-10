@@ -6,7 +6,7 @@ Version 0.2.1 [TBD]
 
 INTERNAL:
 
- * Minor speed improvements to Anderson-Darling and Flinger-Killeen tests.
+ * Minor speed improvements to Anderson-Darling, Flinger-Killeen, Student's equal variance t tests.
 
 
 Version 0.2.0 [2023 Apr 07]
