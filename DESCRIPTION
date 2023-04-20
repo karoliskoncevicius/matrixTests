@@ -1,6 +1,6 @@
 Package: matrixTests
 Title: Fast Statistical Hypothesis Tests on Rows and Columns of Matrices
-Version: 0.2
+Version: 0.2.1
 Authors@R: person("Karolis", "Koncevičius", email = "karolis.koncevicius@gmail.com", role = c("aut", "cre"))
 Maintainer: Karolis Koncevičius <karolis.koncevicius@gmail.com>
 Description: Functions to perform fast statistical hypothesis tests on rows/columns of matrices.
