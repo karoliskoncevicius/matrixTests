@@ -50,16 +50,17 @@ row_kruskalwallis <- function(x, g) {
     warning(sum(bad), ' columns dropped due to missing group information')
   }
 
-  g <- as.character(g)
+  g  <- as.character(g)
+  gs <- unique(g)
 
   ranks <- matrixStats::rowRanks(x, ties.method="average")
 
   ties <- rowRankTies(ranks)
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(gs))
   rPerGroup <- nPerGroup
-  for(i in seq_along(unique(g))) {
-    inds <- g == unique(g)[i]
+  for(i in seq_along(gs)) {
+    inds <- g == gs[i]
     tmpx <- x[,inds, drop=FALSE]
     nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     rPerGroup[,i] <- rowSums(ranks[,inds, drop=FALSE], na.rm=TRUE)

@@ -48,17 +48,18 @@ row_waerden <- function(x, g) {
     warning(sum(bad), ' columns dropped due to missing group information')
   }
 
-  g <- as.character(g)
+  g  <- as.character(g)
+  gs <- unique(g)
 
   r <- matrixStats::rowRanks(x, ties.method="average")
   n <- ncol(x) - matrixStats::rowCounts(x, value=NA)
   z <- stats::qnorm(r/(n+1))
   z <- matrix(z, nrow=nrow(x), ncol=ncol(x))
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(z), ncol=length(unique(g)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(z), ncol=length(gs))
   sPerGroup <- nPerGroup
-  for(i in seq_along(unique(g))) {
-    tmpx <- z[,g==unique(g)[i], drop=FALSE]
+  for(i in seq_along(gs)) {
+    tmpx <- z[,g==gs[i], drop=FALSE]
     nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     sPerGroup[,i] <- rowSums(tmpx, na.rm=TRUE)
   }

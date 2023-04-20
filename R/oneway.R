@@ -65,12 +65,13 @@ row_oneway_equalvar <- function(x, g) {
     warning(sum(bad), ' columns dropped due to missing group information')
   }
 
-  g <- as.character(g)
+  g  <- as.character(g)
+  gs <- unique(g)
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(gs))
   mPerGroup <- vPerGroup <- nPerGroup
-  for(i in seq_along(unique(g))) {
-    tmpx <- x[,g==unique(g)[i], drop=FALSE]
+  for(i in seq_along(gs)) {
+    tmpx <- x[,g==gs[i], drop=FALSE]
     nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowVars(tmpx, n=nPerGroup[,i], m=mPerGroup[,i], na.rm=TRUE)
@@ -150,12 +151,13 @@ row_oneway_welch <- function(x, g) {
     warning(sum(bad), ' columns dropped due to missing group information')
   }
 
-  g <- as.character(g)
+  g  <- as.character(g)
+  gs <- unique(g)
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(gs))
   mPerGroup <- vPerGroup <- nPerGroup
-  for(i in seq_along(unique(g))) {
-    tmpx <- x[,g==unique(g)[i], drop=FALSE]
+  for(i in seq_along(gs)) {
+    tmpx <- x[,g==gs[i], drop=FALSE]
     nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowVars(tmpx, n=nPerGroup[,i], m=mPerGroup[,i], na.rm=TRUE)
@@ -186,7 +188,7 @@ row_oneway_welch <- function(x, g) {
   w1 <- nGroups < 2
   showWarning(w1, 'oneway_welch', 'had less than 2 groups with enough observations')
 
-  w2 <- !w1 & nGroups < length(unique(g))
+  w2 <- !w1 & nGroups < length(gs)
   showWarning(w2, 'oneway_welch', 'had groups with less than 2 observations: those groups were removed')
 
   w3 <- !w1 & rowSums(vPerGroup!=0, na.rm=TRUE)==0

@@ -56,12 +56,13 @@ row_bartlett <- function(x, g) {
     warning(sum(bad), ' columns dropped due to missing group information')
   }
 
-  g <- as.character(g)
+  g  <- as.character(g)
+  gs <- unique(g)
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(gs))
   vPerGroup <- nPerGroup
-  for(i in seq_along(unique(g))) {
-    tmpx <- x[,g==unique(g)[i], drop=FALSE]
+  for(i in seq_along(gs)) {
+    tmpx <- x[,g==gs[i], drop=FALSE]
     nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     vPerGroup[,i] <- rowVars(tmpx, n=nPerGroup[,i], na.rm=TRUE)
   }
@@ -80,7 +81,7 @@ row_bartlett <- function(x, g) {
   w1 <- nGroups < 2
   showWarning(w1, 'bartlett', 'had less than 2 groups with enough observations')
 
-  w2 <- !w1 & nGroups < length(unique(g))
+  w2 <- !w1 & nGroups < length(gs)
   showWarning(w2, 'bartlett', 'had groups with less than 2 observations: those groups were removed')
 
   w3 <- !w1 & vtot==0
