@@ -107,7 +107,8 @@ row_kolmogorovsmirnov_twosample <- function(x, y, alternative="two.sided", exact
   inds <- z <= ncol(x)
   z[which(inds)]  <- rep(1/nxs, ncol(inds))[which(inds)]    # replace values by row
   z[which(!inds)] <- rep(-1/nys, ncol(inds))[which(!inds)]  # replace values by row
-  # z <- rowCumsums(z)  # NOTE: precision problems which cause bugs
+  # z <- matrixStats::rowCumsums(z)  # NOTE: precision problems which cause bugs
+  # TODO: improve this
   z <- t(apply(z, 1, cumsum))
 
   w[is.nan(w)] <- NA  # so that NaNs will not show ties error
