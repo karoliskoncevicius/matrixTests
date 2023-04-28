@@ -48,7 +48,7 @@ If values are missing for a whole group - that group is discarded.
 }
 \note{
 Difference between Levene's test and Brown-Forsythe test is that
-the Brown–Forsythe test uses the median instead of the mean in computing the
+the Brown-Forsythe test uses the median instead of the mean in computing the
 spread within each group. Many software implementations use the name
 "Levene's test" for both variants.
 }

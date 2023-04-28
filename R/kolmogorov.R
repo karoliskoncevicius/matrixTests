@@ -9,7 +9,7 @@
 #' Results should be the same as running \code{ks.test(x, y)} on every row (or
 #' column) of \code{x} and \code{y}.
 #'
-#' By default if ‘exact’ argument is set to 'NA', exact p-values are computed
+#' By default if 'exact' argument is set to 'NA', exact p-values are computed
 #' if the product of 'x' and 'y' sample sizes is less than 10000. Otherwise,
 #' asymptotic distributions are used.
 #'

@@ -1,6 +1,13 @@
 Package: matrixTests
 ====================
 
+Version 0.2.2 [TBD]
+
+NEW FEATURES:
+
+ * Added twosample Kolmogorov-Smirnov test: `row_kolmogorovsmirnov_twosample` and `col_kolmogorovsmirnov_twosample`.
+
+
 Version 0.2.1 [2023 Apr 20]
 
 INTERNAL:

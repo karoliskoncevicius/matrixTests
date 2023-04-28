@@ -125,7 +125,7 @@ on every row (or column) of \code{x} and \code{y}.
 Results should be the same as running \code{wilcox.test(x, y, paired=TRUE)}
 on every row (or column) of \code{x} and \code{y}.
 
-By default if ‘exact’ argument is set to 'NA', exact p-values are computed
+By default if 'exact' argument is set to 'NA', exact p-values are computed
 only if both 'x' and 'y' contain less than 50 values and there are no
 ties. Single sample and paired tests have additional requirement of not
 having zeroe values (values equal to null hypothesis location argument 'mu').
