@@ -13,7 +13,7 @@
 #' \code{col_brownforsythe(x, g)} - Brown-Forsythe test on columns.
 #'
 #' @note Difference between Levene's test and Brown-Forsythe test is that
-#' the Brown–Forsythe test uses the median instead of the mean in computing the
+#' the Brown-Forsythe test uses the median instead of the mean in computing the
 #' spread within each group. Many software implementations use the name
 #' "Levene's test" for both variants.
 #'
@@ -60,18 +60,19 @@ row_levene <- function(x, g) {
     warning(sum(bad), ' columns dropped due to missing group information')
   }
 
-  g <- as.character(g)
+  g  <- as.character(g)
+  gs <- unique(g)
 
   hasinfx <- is.infinite(x)
   x[hasinfx] <- NA
   hasinfx <- rowSums(hasinfx) > 0
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(gs))
   mPerGroup <- vPerGroup <- nPerGroup
-  for(i in seq_along(unique(g))) {
-    tmpx <- x[,g==unique(g)[i], drop=FALSE]
+  for(i in seq_along(gs)) {
+    tmpx <- x[,g==gs[i], drop=FALSE]
     tmpx <- abs(tmpx - rowMeans(tmpx, na.rm=TRUE))
-    x[,g==unique(g)[i]] <- tmpx
+    x[,g==gs[i]] <- tmpx
     nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowVars(tmpx, n=nPerGroup[,i], m=mPerGroup[,i], na.rm=TRUE)
@@ -152,18 +153,19 @@ row_brownforsythe <- function(x, g) {
     warning(sum(bad), ' columns dropped due to missing group information')
   }
 
-  g <- as.character(g)
+  g  <- as.character(g)
+  gs <- unique(g)
 
   hasinfx <- is.infinite(x)
   x[hasinfx] <- NA
   hasinfx <- rowSums(hasinfx) > 0
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(gs))
   mPerGroup <- vPerGroup <- nPerGroup
-  for(i in seq_along(unique(g))) {
-    tmpx <- x[,g==unique(g)[i], drop=FALSE]
+  for(i in seq_along(gs)) {
+    tmpx <- x[,g==gs[i], drop=FALSE]
     tmpx <- abs(tmpx - matrixStats::rowMedians(tmpx, na.rm=TRUE))
-    x[,g==unique(g)[i]] <- tmpx
+    x[,g==gs[i]] <- tmpx
     nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     mPerGroup[,i] <- rowMeans(tmpx, na.rm=TRUE)
     vPerGroup[,i] <- rowVars(tmpx, n=nPerGroup[,i], m=mPerGroup[,i], na.rm=TRUE)

@@ -38,13 +38,13 @@ row_andersondarling <- function(x) {
   assert_numeric_mat_or_vec(x)
 
 
+  n <- ncol(x) - matrixStats::rowCounts(x, value=NA)
+  m <- rowMeans(x, na.rm=TRUE) # means and sds are the same for x, xi, and xd
+  s <- sqrt(rowVars(x, na.rm=TRUE))
+
   xi <- matrix(x[order(row(x), x)], ncol=ncol(x), byrow=TRUE)  # order by row (increasing)
   xd <- matrix(x[order(row(x), -x)], ncol=ncol(x), byrow=TRUE) # order by row (decreasing)
-  n <- ncol(xi) - matrixStats::rowCounts(x, value=NA)
-
-  m  <- rowMeans(x, na.rm=TRUE) # means and sds are the same for x, xi, and xd
-  s  <- sqrt(rowVars(x, na.rm=TRUE))
-  lg <- stats::pnorm((xi-m)/s, log.p=TRUE) + stats::pnorm(-(xd-m)/s, log.p=TRUE)
+  lg <- stats::pnorm(xi, m, s, log.p=TRUE) + stats::pnorm(-xd, -m, s, log.p=TRUE)
 
   h <- (2 * col(x) - 1) * lg
   A <- -n - rowMeans(h, na.rm=TRUE)

@@ -142,8 +142,10 @@ row_t_equalvar <- function(x, y, null=0, alternative="two.sided", conf.level=0.9
   dfs  <- nxs + nys - 2
 
   vs <- rep.int(0, nrow(x))
-  vs <- ifelse(nxs > 1, vs + (nxs-1) * vxs, vs)
-  vs <- ifelse(nys > 1, vs + (nys-1) * vys, vs)
+  inds <- nxs > 1
+  vs[inds] <- vs[inds] + (nxs[inds]-1) * vxs[inds]
+  inds <- nys > 1
+  vs[inds] <- vs[inds] + (nys[inds]-1) * vys[inds]
   vs <- vs/dfs
 
   stders <- sqrt(vs * (1/nxs + 1/nys))

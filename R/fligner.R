@@ -55,12 +55,13 @@ row_flignerkilleen <- function(x, g) {
     warning(sum(bad), ' columns dropped due to missing group information')
   }
 
-  g <- as.character(g)
+  g  <- as.character(g)
+  gs <- unique(g)
 
 
-  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
-  for(i in seq_along(unique(g))) {
-    inds <- g==unique(g)[i]
+  nPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(gs))
+  for(i in seq_along(gs)) {
+    inds <- g==gs[i]
     tmpx <- x[,inds, drop=FALSE]
     nPerGroup[,i] <- ncol(tmpx) - matrixStats::rowCounts(tmpx, value=NA)
     x[,inds] <- tmpx - matrixStats::rowMedians(tmpx, na.rm=TRUE)
@@ -71,15 +72,17 @@ row_flignerkilleen <- function(x, g) {
 
   a <- stats::qnorm((1 + matrixStats::rowRanks(abs(x), ties.method="average") / (nSamples+1)) / 2)
   a <- matrix(a, nrow=nrow(x), ncol=ncol(x))
+  a <- a - rowMeans(a, na.rm=TRUE)
 
-  mPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(unique(g)))
-  for(i in seq_along(unique(g))) {
-    mPerGroup[,i] <- rowSums(a[,g==unique(g)[i], drop=FALSE], na.rm=TRUE)
+  mPerGroup <- matrix(numeric(), nrow=nrow(x), ncol=length(gs))
+  for(i in seq_along(gs)) {
+    mPerGroup[,i] <- rowMeans(a[,g==gs[i], drop=FALSE], na.rm=TRUE)
   }
 
+  v <- rowSums(a^2, na.rm=TRUE)/(nSamples - 1)
+
   df   <- nGroups-1
-  stat <- rowSums(mPerGroup*mPerGroup / nPerGroup, na.rm=TRUE)
-  stat <- (stat - nSamples * rowMeans(a, na.rm=TRUE)^2) / rowVars(a, na.rm=TRUE)
+  stat <- rowSums(nPerGroup * mPerGroup^2, na.rm=TRUE)/v
   p    <- stats::pchisq(stat, df, lower.tail=FALSE)
 
 
