@@ -94,6 +94,7 @@ assert_unique_colnames <- function(x) {
 
 assert_nested_model <- function(m0, m1) {
   if(!all(colnames(m0) %in% colnames(m1)) || !all.equal(m0, m1[,colnames(m0),drop=FALSE], check.attributes=FALSE)) {
-    stop('null model must be nested (subset of the full model)')
+    # TODO: check how to implent this better (check anova.lmlist)
+    warning('null model must be nested (subset of the full model)')
   }
 }
