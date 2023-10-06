@@ -123,22 +123,41 @@ row_kolmogorovsmirnov_twosample <- function(x, y, alternative="two.sided", exact
   inds <- alternative == "two.sided" & nxs > 0 & nys > 0  # NOTE: because psmirnove gives an error otherwise
   if(any(inds)) {
     statistic[inds] <- matrixStats::rowMaxs(abs(z[inds,,drop=FALSE]), na.rm=TRUE)
-    p[inds]         <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
-                              asplit(w[inds,,drop=FALSE], 1), exact[inds], two.sided = TRUE, lower.tail = FALSE)
+    # NOTE: this is a fix for a change of argument names in psmirnov() @ R 4.4.0
+    #       it is repeated across all 3 cases below
+    #       in the future when I have more time for this - good idea to change
+    #       one possibility is to create a wrapper for stats::psmirnov that does this automatically
+    if(!"two.sided" %in% names(formals(stats::psmirnov))) {
+      p[inds] <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
+                        asplit(w[inds,,drop=FALSE], 1), exact[inds], alternative = "two.sided", lower.tail = FALSE)
+    } else {
+      p[inds] <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
+                        asplit(w[inds,,drop=FALSE], 1), exact[inds], two.sided = TRUE, lower.tail = FALSE)
+    }
   }
 
   inds <- alternative == "greater" & nxs > 0 & nys > 0
   if(any(inds)) {
     statistic[inds] <- matrixStats::rowMaxs(z[inds,,drop=FALSE], na.rm=TRUE)
-    p[inds]         <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
-                              asplit(w[inds,,drop=FALSE], 1), exact[inds], two.sided = FALSE, lower.tail = FALSE)
+    if(!"two.sided" %in% names(formals(stats::psmirnov))) {
+      p[inds] <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
+                        asplit(w[inds,,drop=FALSE], 1), exact[inds], alternative = "greater", lower.tail = FALSE)
+    } else {
+      p[inds] <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
+                        asplit(w[inds,,drop=FALSE], 1), exact[inds], two.sided = FALSE, lower.tail = FALSE)
+    }
   }
 
   inds <- alternative == "less" & nxs > 0 & nys > 0
   if(any(inds)) {
     statistic[inds] <- -matrixStats::rowMins(z[inds,,drop=FALSE], na.rm=TRUE)
-    p[inds]         <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
-                              asplit(w[inds,,drop=FALSE], 1), exact[inds], two.sided = FALSE, lower.tail = FALSE)
+    if(!"two.sided" %in% names(formals(stats::psmirnov))) {
+      p[inds] <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
+                        asplit(w[inds,,drop=FALSE], 1), exact[inds], alternative = "less", lower.tail = FALSE)
+    } else {
+      p[inds] <- mapply(stats::psmirnov, statistic[inds], asplit(cbind(nxs[inds], nys[inds]), 1),
+                        asplit(w[inds,,drop=FALSE], 1), exact[inds], two.sided = FALSE, lower.tail = FALSE)
+    }
   }
 
   # NOTE: not sure if necessary

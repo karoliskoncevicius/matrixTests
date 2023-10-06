@@ -1,6 +1,13 @@
 Package: matrixTests
 ====================
 
+Version 0.2.3 [2023 Oct 05]
+
+INTERNAL:
+
+ * Kolmogorov-Smirnov test now works on R-devel: fix requested by CRAN after a change of argument names in `psmirnov`.
+
+
 Version 0.2.2 [2023 May 1]
 
 NEW FEATURES:
